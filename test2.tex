@@ -1,0 +1,31 @@
+%&pdflatex
+\documentclass{article}
+
+\usepackage{tikz-overpic}
+\usepackage{adjustbox}
+
+
+\fboxsep=0pt
+\makeatletter
+\begin{document}
+
+\def\A{.5\wd\@tempboxa}
+\def\A{.5\width}
+\clipbox{{.333\width} 1 {.333\width} 1}{A}
+
+
+\fbox{%
+\begin{adjustbox}{angle=0,width=\textwidth}
+   A
+\end{adjustbox}
+}%
+
+\fbox{\adjustbox{width=.5\textwidth,totalheight=11cm}{\input{a}}}
+
+\makeatletter
+\fbox{\adjustbox{width=\wd\@tempboxa,height=2\ht\@tempboxa}{\input{a}}}
+
+\fbox{\adjustbox{width=\width,height=\dimexpr2\totalheight-10pt\relax}{\input{a}}}
+
+\end{document}
+
