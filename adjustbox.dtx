@@ -1,0 +1,361 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2011 by Martin Scharrer <martin@scharrer-online.de>
+% -----------------------------------------------------------------
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3c
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%
+%   http://www.latex-project.org/lppl.txt
+%
+% and version 1.3c or later is part of all distributions of LaTeX
+% version 2008/05/04 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is Martin Scharrer.
+%
+% This work consists of the files adjustbox.dtx, adjustbox.ins
+% and the derived file adjustbox.sty.
+%
+% $Id: skeleton.dtx 1057 2009-05-04 11:11:37Z martin $
+% \fi
+%
+% \iffalse
+%<package>\ProvidesPackage{adjustbox}
+%<*driver>
+\ProvidesFile{adjustbox.dtx}
+%</driver>
+  [2011/01/24 v0.1 Adjusting TeX boxes]
+%<*driver>
+\documentclass{ydoc}
+\GetFileInfo{\jobname.dtx}
+\usepackage{adjustbox}[\filedate]
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{xcolor}
+
+%\EnableCrossrefs
+%\CodelineIndex
+%\RecordChanges
+%\OnlyDescription
+\begin{document}
+  \DocInput{\jobname.dtx}
+  \PrintChanges
+  %\newpage\PrintIndex
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{0}
+%
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+%
+% \changes{v0.1}{2011/01/24}{First released version}
+%
+% \GetFileInfo{\jobname.dtx}
+%
+% \DoNotIndex{\newcommand,\newenvironment,\def,\edef,\xdef,\gdef,\let}
+%
+% \ifpdf
+% \hypersetup{%
+%   pdfauthor   = {Martin Scharrer <martin@scharrer-online.de>},
+%   pdftitle    = {The adjustbox package},
+%   pdfsubject  = {Documentation of LaTeX package adjustbox},
+%   pdfkeywords = {adjustbox, LaTeX, TeX}
+% }%
+% \fi
+% \clearpage
+% \null
+% \vspace*{-2em}
+% \begin{center}
+%   {\LARGE\sffamily The \emph{adjustbox} Class and Package\\[\medskipamount]}
+%   {\large Martin Scharrer \\[\medskipamount]\normalsize
+%   \url{martin@scharrer-online.de}\\[.8ex]
+%   \url{http://www.ctan.org/pkg/adjustbox/}\\[\bigskipamount]}
+%   {\large Version \fileversion\ -- \filedate}\\
+% \end{center}
+% \vspace{1.2em}%
+% \def\optstar{\textcolor{optional}{*}}
+%
+% \makeatletter
+% \def\LATeX{(L\kern -.36em{\sbox \z@ T\vbox to\ht \z@ {\hbox {\check@mathfonts
+%  \fontsize \sf@size \z@ \math@fontsfalse \selectfont A}\vss }}\kern -.15em)\TeX}
+% \makeatother
+%
+% \section{Introduction}
+% The standard \LaTeX{} package \pkg{graphicx} provides the macro \Macro\includegraphics[<options>]{<file name>} which can
+% be used to include graphic files. Several options can be used to scale, resize, rotate, trim and/or clip the graphic.
+% The macros \Macro\scalebox, \Macro\resizebox and \Macro\rotatebox are also provided to apply the corresponding 
+% operation on \LATeX{} material, which is subsequently placed inside a \Macro\hbox.
+% However no macros are provided to trim or clip \LATeX{} material, most likely because this operations
+% are not done by \TeX{} but by the output format, i.e. using PostScript (PS) or PDF operations.
+% 
+% This package provides the missing macros \Macro\clipbox and \Macro\trimbox
+% as well as the general \Macro\adjustbox macro. The clipping and trimming operations are implemented using
+% a \env{pgfpicture} environment from the \pkg{pgf} package which supports both PS and PDF output.
+%
+% \section{Usage}
+% This section describes the usage of the provided macros.
+% It is recommended to also read the \emph{Graphics Guide} (|grfguide|, i.e.~the manual of the |graphics|/|graphicx| packages),
+% to understand the existing options for \Macro\includegraphics. See the example section for examples of this macros.
+%
+% \subsection*{Trim Box Content}
+% \DescribeMacro\trimbox*{<llx>~<lly>~<urx>~<ury>}{<box content>}
+% The macro \Macro\trimbox trims the given amount from the lower left (ll) and the upper right (ur) corner of
+% the box. This means that the amount \meta{llx} is trimmed from the left side, \meta{lly} from the bottom and
+% \meta{urx} and \meta{ury} from the right and top of the box, respectively.
+% Trimming means that the official size of the box is reduced, but no material
+% is actual removed. The material in the trimmed areas simply swaps over the official border.
+% The internal code of \pkg{graphicx} is used to parse the coordinates and therefore 
+% they default to \emph{big points} (bp, $72\,\text{bp}=1\,\text{inch}=72.27\,\text{pt}$) if no unit is provided,
+% the same way as for the \Macro\includegraphics macro.
+% Independent of a provided unit all values are converted to bp which can cause rounding errors.
+%
+% If the starred version is used the four coordinates are taken as the |viewport| instead, i.e. the box
+% is trimmed to the rectangle described by the coordinates.
+% 
+% Note that like other \LaTeX{} box macros the \meta{box content} is read as an macro argument and therefore
+% can not include verbatim material.
+%
+% \DescribeEnv[<box content, incl.~verbatim material>]{trimbox}{<llx>~<lly>~<urx>~<ury>}
+% \vspace{-\baselineskip}
+% \DescribeEnv[<box content, incl.~verbatim material>]{trimbox*}{<llx>~<lly>~<urx>~<ury>}
+% The \env{trimbox} and \env{trimbox*} environments do the same as the corresponding macros
+% but do not read the \meta{box content} as an macro argument and therefore correctly handle 
+% catcode changes required by verbatim and other special material.
+%
+% Note that \LaTeX{} environments, e.g.~\env{example}, are implemented using the two macros
+% |\example| and |\endexample| which are used by \Macro\begin and \Macro\end.
+% Therefore there can normally not be a macro and an environment with the same name.
+% This package defines \Macro\trimbox in a special way to first recognise if it was used 
+% by itself as a macro or by \Macro\begin as an environment.
+% As an result the \MacroArgs* can also be written as an argument for the \env{trimbox} environment.
+% The plain\TeX{} syntax for environments (|\trimbox ... \endtrimbox|) can not be used
+% because it will trigger \Macro\trimbox in macro mode. 
+%
+% \subsection*{Clip Box Content}
+% \DescribeMacro\clipbox*{<llx>~<lly>~<urx>~<ury>}{<box content>}
+% The \Macro\clipbox macro works like the \Macro\trimbox and trims the given amounts from the box content.
+% However, in addition the trimmed material is also clipped, i.e. it is not shown in the final document.
+% Note that the material will still be part of the output file but is simply not shown.
+% It might be exported using special tools, so using \Macro\clipbox\relax (or \Macro\includegraphics[clip,trim=...])
+% to censor classified information would be a bad idea.
+% The starred version will again use the given coordinates as |viewport|.
+% All other information mentioned for \Macro\trimbox also applies for \Macro\clipbox.
+%
+% \DescribeEnv[<box content, incl.~verbatim material>]{clipbox}{<llx>~<lly>~<urx>~<ury>}
+% \vspace{-\baselineskip}
+% \DescribeEnv[<box content, incl.~verbatim material>]{clipbox*}{<llx>~<lly>~<urx>~<ury>}
+% The environment versions of \Macro\clipbox and \Macro\clipbox*.
+%
+%
+% \subsection*{Adjust Box Content}
+% \DescribeMacro\adjustbox{<includegraphics options>}{<box content>}
+% The \Macro\adjustbox macro is the general form of all box modifying macros mentioned in the introduction.
+% It can be thought as an \Macro\includegraphics for \LATeX{} material.
+% It supports the same set of \meta{options}, however they are provided as a mandatory not as an optional argument.
+% An \Macro\adjustbox without options would not make sense and can be replaced by a simple \Macro\mbox.
+% There is no
+% 
+% The macros \Macro\trimbox{\ldots} and \Macro\clipbox{\ldots} can also be written as
+% \Macro\adjustbox{trim=\ldots} and \Macro\adjustbox{clip,trim=\ldots}, respectively.
+% For the starred versions the |trim| must be replaced by |viewport|.
+% Similar the macros \Macro\resizebox{<width>}{<height>}, \Macro\rotatebox{<angle>} and \Macro\scalebox{<factor>} can now be written
+% in the form \Macro\adjustbox{'width='<width>',height='<height>}, \Macro\adjustbox{'angle='<angle>} and
+% \Macro\adjustbox{'scale='<factor>}, respectively.
+% The options can be combined and are applied in the order they are given, i.e.~from left to right.
+%
+% \DescribeEnv[<box content, incl.~verbatim material>]{adjustbox}{<includegraphics options>}
+% The environment version of \Macro\adjustbox which allows the 
+%
+% \clearpage
+% \section{Examples}
+%
+% \def\examplecontent{\begin{tabular}{@{}|c|c|@{}}
+%       \hline
+%       A & B \\
+%       \hline
+%       C & D \\
+%       \hline
+%   \end{tabular}}
+% The following examples show the application of the package macros on an example box content.
+% The result is placed in a tight, colored frame box to show the resulting dimensions.
+%
+% \par\bigskip\noindent{%
+% \fboxsep=0pt%
+% \def\Fbox{\fcolorbox{red}{white}}%
+% \def\X{\vspace*{20pt}}%
+% \begin{tabular}{@{}lc}
+%   \X\Macro\example      & \Fbox{\examplecontent} \\
+%   \X\Macro\trimbox{10 5 10 5}{\AlsoMacro\example} & \Fbox{\trimbox{10 5 10 5}{\examplecontent}} \\
+%   \X\Macro\clipbox{10 5 10 5}{\AlsoMacro\example} & \Fbox{\clipbox{10 5 10 5}{\examplecontent}} \\
+%   \X\Macro\trimbox*{5 5 25 30}{\AlsoMacro\example} & \Fbox{\trimbox*{5 5 25 30}{\examplecontent}} \\
+%   \X\Macro\clipbox*{5 5 25 30}{\AlsoMacro\example} & \Fbox{\clipbox*{5 5 25 30}{\examplecontent}} \\
+%   \X\Macro\adjustbox{trim=10 5 10 5,angle=45}{\AlsoMacro\example} & \Fbox{\adjustbox{trim=10 5 10 5,angle=45}{\examplecontent}} \\
+%   \X\Macro\adjustbox{scale=1.5}{\AlsoMacro\example} & \Fbox{\adjustbox{scale=1.5}{\examplecontent}} \\
+%   \X\Macro\adjustbox{width=80pt,height=20pt}{\AlsoMacro\example} & \Fbox{\adjustbox{width=40pt,height=10pt}{\examplecontent}} \\
+%   \X\Macro\adjustbox{width=80pt,height=20pt,keepaspectratio}{\AlsoMacro\example} & \Fbox{\adjustbox{width=40pt,height=10pt,keepaspectratio}{\examplecontent}} \\
+% \end{tabular}
+% }
+%
+% \StopEventually{}
+% \clearpage
+% \iffalse
+%<*package>
+% \fi
+% \section{Implementation}
+%
+%    \begin{macrocode}
+\ProvidesPackage{clipbox}[2011/01/22 v1.0 clipbox macro]
+\RequirePackage{graphicx}[1999/02/16]
+\RequirePackage{pgf}
+%    \end{macrocode}
+%
+% \begin{environment}{clipbox}
+% \begin{macro}{\clipbox}
+%    \begin{macrocode}
+\newcommand\clipbox{%
+    \begingroup
+    \def\adjustbox@name{clipbox}%
+    \@ifstar
+        {\adjustbox@{clip,viewport=}}%
+        {\adjustbox@{clip,trim=}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
+\def\endclipbox{%
+    \endgroup
+    \color@endgroup
+    \egroup
+    \adjustbox@@
+}
+%    \end{macrocode}
+% \end{environment}
+%
+% \begin{environment}{clipbox*}
+%    \begin{macrocode}
+\newenvironment{clipbox*}
+    {\begin{clipbox}*}
+    {\end{clipbox}}
+%    \end{macrocode}
+% \end{environment}
+%
+% \begin{environment}{trimbox}
+% \begin{macro}{\trimbox}
+%    \begin{macrocode}
+\newcommand\trimbox{%
+    \begingroup
+    \def\adjustbox@name{trimbox}%
+    \@ifstar
+        {\adjustbox@{viewport=}}%
+        {\adjustbox@{trim=}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
+\let\endtrimbox\endclipbox
+%    \end{macrocode}
+% \end{environment}
+%
+% \begin{environment}{trimbox*}
+%    \begin{macrocode}
+\newenvironment{trimbox*}
+    {\begin{trimbox}*}
+    {\end{trimbox}}
+%    \end{macrocode}
+% \end{environment}
+%
+% \begin{environment}{adjustbox}
+% \begin{macro}{\adjustbox}
+%    \begin{macrocode}
+\newcommand\adjustbox{%
+    \begingroup
+    \def\adjustbox@name{adjustbox}%
+    \adjustbox@{}%
+}
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
+\let\endadjustbox\endclipbox
+%    \end{macrocode}
+% \end{environment}
+%
+%
+% \begin{macro}{\adjustbox@}
+%    \begin{macrocode}
+\def\adjustbox@#1#2{
+    \def\adjustbox@setkeys{\setkeys{Gin}{#1#2}}%
+    \ifx\@currenvir\adjustbox@name
+        \expandafter\def\expandafter\@currenvir\expandafter{\@currenvir\empty}%
+        \def\next{%
+            \setbox\@tempboxa\hbox\bgroup
+            \color@setgroup\begingroup
+        }%
+    \else
+        \def\next##1{%
+            \sbox\@tempboxa{##1}%
+            \adjustbox@@
+        }%
+    \fi
+    \next
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjustbox@@}
+%    \begin{macrocode}
+\def\adjustbox@@{%
+    \@tempswatrue
+    \toks@{{\adjustbox@@@}}%
+    \adjustbox@setkeys
+    \the\toks@
+    \endgroup
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjustbox@@@}
+%    \begin{macrocode}
+\def\adjustbox@@@{%
+    \def\Gin@llx{0}%
+    \Gin@defaultbp\Gin@lly{-\dp\@tempboxa}%
+    \Gin@defaultbp\Gin@urx{\wd\@tempboxa}%
+    \Gin@defaultbp\Gin@ury{\ht\@tempboxa}%
+    \Gin@viewport@code
+    \begin{pgfpicture}%
+        \pgfpathmoveto{\pgfqpoint{\Gin@llx bp}{\Gin@lly bp}}%
+        \pgfpathlineto{\pgfqpoint{\Gin@urx bp}{\Gin@lly bp}}%
+        \pgfpathlineto{\pgfqpoint{\Gin@urx bp}{\Gin@ury bp}}%
+        \pgfpathlineto{\pgfqpoint{\Gin@llx bp}{\Gin@ury bp}}%
+        \pgfpathclose
+        \expandafter\pgfusepath\ifGin@clip{clip}\else{use as bounding box}\fi\relax
+        \pgfset{inner sep=\z@,outer sep=\z@}%
+        \pgfnode{rectangle}{base west}{\usebox\@tempboxa}{}{}%
+    \end{pgfpicture}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \Finale
+% \iffalse
+%</package>
+% \fi
