@@ -302,7 +302,7 @@
 %
 % \begin{macro}{\adjustbox@}
 %    \begin{macrocode}
-\def\adjustbox@#1#2{
+\def\adjustbox@#1#2{%
     \def\adjustbox@setkeys{\setkeys{Gin}{#1#2}}%
     \ifx\@currenvir\adjustbox@name
         \expandafter\def\expandafter\@currenvir\expandafter{\@currenvir\empty}%
@@ -349,7 +349,7 @@
         \pgfpathclose
         \expandafter\pgfusepath\ifGin@clip{clip}\else{use as bounding box}\fi\relax
         \pgfset{inner sep=\z@,outer sep=\z@}%
-        \pgfnode{rectangle}{base west}{\usebox\@tempboxa}{}{}%
+        \pgfnode{rectangle}{base west}{\box\@tempboxa}{}{}%
     \end{pgfpicture}%
 }
 %    \end{macrocode}
