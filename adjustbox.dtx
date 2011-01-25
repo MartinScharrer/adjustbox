@@ -86,7 +86,7 @@
 % \null
 % \vspace*{-2em}
 % \begin{center}
-%   {\LARGE\sffamily The \emph{adjustbox} Class and Package\\[\medskipamount]}
+%   {\huge The \textsf{adjustbox} Package\\[\medskipamount]}
 %   {\large Martin Scharrer \\[\medskipamount]\normalsize
 %   \url{martin@scharrer-online.de}\\[.8ex]
 %   \url{http://www.ctan.org/pkg/adjustbox/}\\[\bigskipamount]}
@@ -101,7 +101,7 @@
 % \makeatother
 %
 % \section{Introduction}
-% The standard \LaTeX{} package \pkg{graphicx} provides the macro \Macro\includegraphics[<options>]{<file name>} which can
+% The standard \LaTeX{} package \pkg{graphicx} (the extended version of \pkg{graphics}) provides the macro \Macro\includegraphics[<options>]{<file name>} which can
 % be used to include graphic files. Several options can be used to scale, resize, rotate, trim and/or clip the graphic.
 % The macros \Macro\scalebox, \Macro\resizebox and \Macro\rotatebox are also provided to apply the corresponding 
 % operation on \LATeX{} material, which is subsequently placed inside a \Macro\hbox.
@@ -198,23 +198,29 @@
 %   \end{tabular}}
 % The following examples show the application of the package macros on an example box content.
 % The result is placed in a tight, colored frame box to show the resulting dimensions.
-%
-% \par\bigskip\noindent{%
+% \begingroup
 % \fboxsep=0pt%
 % \def\Fbox{\fcolorbox{red}{white}}%
 % \def\X{\vspace*{20pt}}%
+% \par\bigskip\noindent
 % \begin{tabular}{@{}lc}
 %   \X\Macro\example      & \Fbox{\examplecontent} \\
 %   \X\Macro\trimbox{10 5 10 5}{\AlsoMacro\example} & \Fbox{\trimbox{10 5 10 5}{\examplecontent}} \\
 %   \X\Macro\clipbox{10 5 10 5}{\AlsoMacro\example} & \Fbox{\clipbox{10 5 10 5}{\examplecontent}} \\
-%   \X\Macro\trimbox*{5 5 25 30}{\AlsoMacro\example} & \Fbox{\trimbox*{5 5 25 30}{\examplecontent}} \\
-%   \X\Macro\clipbox*{5 5 25 30}{\AlsoMacro\example} & \Fbox{\clipbox*{5 5 25 30}{\examplecontent}} \\
+%   \X\Macro\trimbox*{15 5 25 30}{\AlsoMacro\example} & \Fbox{\trimbox*{15 5 25 30}{\examplecontent}} \\
+%   \X\Macro\clipbox*{15 5 25 30}{\AlsoMacro\example} & \Fbox{\clipbox*{15 5 25 30}{\examplecontent}} \\
 %   \X\Macro\adjustbox{trim=10 5 10 5,angle=45}{\AlsoMacro\example} & \Fbox{\adjustbox{trim=10 5 10 5,angle=45}{\examplecontent}} \\
 %   \X\Macro\adjustbox{scale=1.5}{\AlsoMacro\example} & \Fbox{\adjustbox{scale=1.5}{\examplecontent}} \\
-%   \X\Macro\adjustbox{width=80pt,height=20pt}{\AlsoMacro\example} & \Fbox{\adjustbox{width=40pt,height=10pt}{\examplecontent}} \\
-%   \X\Macro\adjustbox{width=80pt,height=20pt,keepaspectratio}{\AlsoMacro\example} & \Fbox{\adjustbox{width=40pt,height=10pt,keepaspectratio}{\examplecontent}} \\
+%   \X\Macro\adjustbox{width=180pt,height=20pt}{\AlsoMacro\example} & \Fbox{\adjustbox{width=40pt,height=10pt}{\examplecontent}} \\
+%   \X\Macro\adjustbox{width=180pt,height=20pt,keepaspectratio}{\AlsoMacro\example} & \Fbox{\adjustbox{width=40pt,height=10pt,keepaspectratio}{\examplecontent}} \\
 % \end{tabular}
-% }
+%
+% \noindent
+% \Macro\begin{adjustbox}{angle=2}:\\
+% \begin{adjustbox}{angle=2}
+%    | verbatim inside \begin{adjustbox}{angle=2} ... \end{adjustbox} |
+% \end{adjustbox}
+% \endgroup
 %
 % \StopEventually{}
 % \clearpage
