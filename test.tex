@@ -1,0 +1,45 @@
+\documentclass{article}
+\usepackage{adjustbox}
+\listfiles
+\fboxsep=0pt
+\begin{document}
+{
+trim:~~\fbox{\trimbox {10pt 1pt 1pt 1pt}{\Huge A}}
+
+trim*:~\fbox{\trimbox*{10pt 1pt 1pt 1pt}{\Huge A}}
+
+clip:~~\fbox{\clipbox{10pt 1pt 1pt 1pt}{\Huge A}}
+
+clip*:~\fbox{\clipbox*{10pt 1pt 1pt 1pt}{\Huge A}}
+
+adjust:\fbox{\adjustbox{trim=10pt 1pt 1pt 1pt,angle=10}{\Huge A}}
+
+\fbox{{%
+\begin{clipbox}{1 1 1 1}
+    CLIP ME! \clipbox{4 0 0 0}{A}
+    \begin{clipbox}{0 0 0 2}
+        B
+    \end{clipbox}
+\end{clipbox}
+}}
+
+\fbox{{%
+\begin{trimbox}{1 1 1 1}
+    TRIM ME! \trimbox{4 0 0 0}{A}
+    \begin{trimbox}{0 0 3 2}%
+        B%
+    \end{trimbox}C
+\end{trimbox}
+}}
+
+\fbox{{%
+\begin{clipbox}{1 1 1 1}
+    CLIP ME! \clipbox{4 0 0 0}{A}
+    \begin{trimbox}{0 0 3 2}%
+        B%
+    \end{trimbox}C
+\end{clipbox}
+}}
+}
+\end{document}
+
