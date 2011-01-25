@@ -334,6 +334,12 @@
     \@tempswatrue
     \toks@{{\adjustbox@@@}}%
     \adjustbox@setkeys
+    \def\width{\wd\@tempboxa}%
+    \def\height{\ht\@tempboxa}%
+    \def\depth{\dp\@tempboxa}%
+    \@tempdimc=\ht\@tempboxa
+    \advance\@tempdimc by \dp\@tempboxa\relax
+    \def\totalheight{\@tempdimc}%
     \Gin@esetsize
     \the\toks@
     \endgroup
