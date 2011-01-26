@@ -261,10 +261,7 @@
 % \end{macro}
 %    \begin{macrocode}
 \def\endclipbox{%
-    \egroup
-    \color@endgroup
-    \egroup
-    \adjustbox@@
+    \endadjustbox
 }
 %    \end{macrocode}
 % \end{environment}
@@ -290,7 +287,9 @@
 %    \end{macrocode}
 % \end{macro}
 %    \begin{macrocode}
-\let\endtrimbox\endclipbox
+\def\endtrimbox{%
+    \endadjustbox
+}
 %    \end{macrocode}
 % \end{environment}
 %
@@ -314,7 +313,13 @@
 %    \end{macrocode}
 % \end{macro}
 %    \begin{macrocode}
-\let\endadjustbox\endclipbox
+\def\endadjustbox{%
+    \unskip
+    \egroup
+    \color@endgroup
+    \egroup
+    \adjustbox@@
+}
 %    \end{macrocode}
 % \end{environment}
 %
@@ -328,6 +333,7 @@
         \def\next{%
             \setbox\@tempboxa\hbox\bgroup
                 \color@setgroup\bgroup
+                \ignorespaces
         }%
     \else
         \def\next{%
