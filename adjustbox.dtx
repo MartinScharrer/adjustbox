@@ -336,10 +336,20 @@
                 \aftergroup\color@endgroup
                 \aftergroup\egroup%
                 \aftergroup\adjustbox@@
-                \let\@let@token=%
+                \@ifnextchar\bgroup
+                    {\let\@let@token=}%
+                    {\adjust@box}%
         }%
     \fi
     \next
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjustbox@@@}
+%    \begin{macrocode}
+\def\adjust@box#1{%
+    #1\egroup
 }
 %    \end{macrocode}
 % \end{macro}
