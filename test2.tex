@@ -4,6 +4,8 @@
 \usepackage{tikz-overpic}
 \usepackage{adjustbox}
 
+\usepackage{shortvrb}
+\MakeShortVerb\|
 
 \fboxsep=0pt
 \makeatletter
@@ -13,6 +15,11 @@
 \def\A{.5\width}
 \clipbox{{.333\width} 1 {.333\width} 1}{A}
 
+\def\test{TEST}
+
+\trimbox{{.333\width} 1 {.333\width} 1}{%
+    |\test|
+}
 
 \fbox{%
 \begin{adjustbox}{angle=0,width=\textwidth}
@@ -25,7 +32,7 @@
 \makeatletter
 \fbox{\adjustbox{width=\wd\@tempboxa,height=2\ht\@tempboxa}{\input{a}}}
 
-\fbox{\adjustbox{width=\width,height=\dimexpr2\totalheight-10pt\relax}{\input{a}}}
+\fbox{\adjustbox{width=\width,height=2*\totalheight-10pt}{\input{a}}}
 
 \end{document}
 

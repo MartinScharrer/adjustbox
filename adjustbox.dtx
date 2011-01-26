@@ -243,7 +243,6 @@
 % \section{Implementation}
 %
 %    \begin{macrocode}
-\ProvidesPackage{clipbox}[2011/01/22 v1.0 clipbox macro]
 \RequirePackage{graphicx}[1999/02/16]
 \RequirePackage{pgf}
 %    \end{macrocode}
@@ -262,7 +261,7 @@
 % \end{macro}
 %    \begin{macrocode}
 \def\endclipbox{%
-    \endgroup
+    \egroup
     \color@endgroup
     \egroup
     \adjustbox@@
@@ -308,6 +307,7 @@
 %    \begin{macrocode}
 \newcommand\adjustbox{%
     \begingroup
+    \tracinggroups=1%
     \def\adjustbox@name{adjustbox}%
     \adjustbox@{}%
 }
@@ -327,12 +327,16 @@
         \expandafter\def\expandafter\@currenvir\expandafter{\@currenvir\empty}%
         \def\next{%
             \setbox\@tempboxa\hbox\bgroup
-            \color@setgroup\begingroup
+                \color@setgroup\bgroup
         }%
     \else
-        \def\next##1{%
-            \sbox\@tempboxa{##1}%
-            \adjustbox@@
+        \def\next{%
+            \setbox\@tempboxa\hbox\bgroup%0
+                \color@setgroup\bgroup%
+                \aftergroup\color@endgroup
+                \aftergroup\egroup%
+                \aftergroup\adjustbox@@
+                \let\@let@token=%
         }%
     \fi
     \next
