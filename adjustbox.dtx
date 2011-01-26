@@ -143,17 +143,17 @@
 %
 % If the starred version is used the four coordinates are taken as the |viewport| instead, i.e. the box
 % is trimmed to the rectangle described by the coordinates.
-% 
-% Note that like other \LaTeX{} box macros the \meta{box content} is read as an macro argument and therefore
-% can not include verbatim material.
 %
-% \DescribeEnv[<box content, incl.~verbatim material>]{trimbox}{<llx>~<lly>~<urx>~<ury>}
+% The \meta{box content} is read as \TeX{} \Macro\hbox and not as an macro argument in order to support verbatim content.
+% This means that the braces around the content can also be written as \Macro\bgroup and \Macro\egroup:
+% \Macro\trimbox{1 2 3 4}'\bgroup '<content>' \egroup'.
+% Special care is taken to allow the \meta{box content} to be a single macro (which is not \Macro\bgroup):
+% \Macro\trimbox{1 2 3 4}'\somemacro'.
+%
+% \DescribeEnv[<box content>]{trimbox}*{<llx>~<lly>~<urx>~<ury>}
 % \vspace{-\baselineskip}
-% \DescribeEnv[<box content, incl.~verbatim material>]{trimbox*}{<llx>~<lly>~<urx>~<ury>}
-% The \env{trimbox} and \env{trimbox*} environments do the same as the corresponding macros
-% but do not read the \meta{box content} as an macro argument and therefore correctly handle 
-% catcode changes required by verbatim and other special material.
-%
+% \DescribeEnv[<box content>]{trimbox*}{<llx>~<lly>~<urx>~<ury>}
+% The \env{trimbox} and \env{trimbox*} environments do the same as the corresponding macros.
 % Note that \LaTeX{} environments, e.g.~\env{example}, are implemented using the two macros
 % |\example| and |\endexample| which are used by \Macro\begin and \Macro\end.
 % Therefore there can normally not be a macro and an environment with the same name.
@@ -173,9 +173,9 @@
 % The starred version will again use the given coordinates as |viewport|.
 % All other information mentioned for \Macro\trimbox also applies for \Macro\clipbox.
 %
-% \DescribeEnv[<box content, incl.~verbatim material>]{clipbox}{<llx>~<lly>~<urx>~<ury>}
+% \DescribeEnv[<box content>]{clipbox}{<llx>~<lly>~<urx>~<ury>}
 % \vspace{-\baselineskip}
-% \DescribeEnv[<box content, incl.~verbatim material>]{clipbox*}{<llx>~<lly>~<urx>~<ury>}
+% \DescribeEnv[<box content>]{clipbox*}{<llx>~<lly>~<urx>~<ury>}
 % The environment versions of \Macro\clipbox and \Macro\clipbox*.
 %
 %
@@ -195,7 +195,7 @@
 % \Macro\adjustbox{'scale='<factor>}, respectively.
 % The options can be combined and are applied in the order they are given, i.e.~from left to right.
 %
-% \DescribeEnv[<box content, incl.~verbatim material>]{adjustbox}{<includegraphics options>}
+% \DescribeEnv[<box content>]{adjustbox}{<includegraphics options>}
 % The environment version of \Macro\adjustbox.
 %
 % \clearpage
