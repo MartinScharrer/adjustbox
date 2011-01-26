@@ -124,10 +124,20 @@
 % \meta{urx} and \meta{ury} from the right and top of the box, respectively.
 % Trimming means that the official size of the box is reduced, but no material
 % is actual removed. The material in the trimmed areas simply swaps over the official border.
-% The internal code of \pkg{graphicx} is used to parse the coordinates and therefore 
-% they default to \emph{big points} (bp, $72\,\text{bp}=1\,\text{inch}=72.27\,\text{pt}$) if no unit is provided,
-% the same way as for the \Macro\includegraphics macro.
-% Independent of a provided unit all values are converted to bp which can cause rounding errors.
+%
+% If no unit is provided for any trim amount then PostScript points (\emph{big points}, bp, $72\,\text{bp}=1\,\text{inch}$) are used, as it is the default behaviour
+% of the |trim| option of \pkg{graphicx}'s \Macro\includegraphics. Note that \pkg{graphicx} converts all values, independent if a unit is provided or not,
+% internally to bp, because graphics where traditionally stored in Encapsulated PostScript (EPS) files. The more modern PDF files also use bp instead of pt.
+% Because the |adjustbox| package macros target \LATeX{} material and users will mostly use pt values this internal conversion to bp got disabled for them to 
+% avoid unnecessary rounding errors. Instead the values are parsed using the \Macro\pgfmathparse macro from \pkg{pgf} which permits the usage of all
+% arithmetic operations supported by it. See the |pgfmanual| for more details on this.
+%
+% In addition the dimension macros \Macro\width, \Macro\height, \Macro\depth and \Macro\totalheight (=height+depth) can be used as part of the trim amounts.
+% The stand for the original dimensions of the \meta{box content}.
+% Because a space acts as separator of the amounts any expression which contains a space or ends with an macro must be wrapped into braces `|{ }|'.
+% For example \Macro\trimbox{'{.5\width} 10 {log10(10)/sin(45) + 1} 10pt'}{<content>} will trim half the original amount from the left and 
+% 2.42328\,bp from the right (bp, because no unit was used in the formula; change e.g. |+ 1| to |+ 1pt| to get 2.42328\,pt),
+% as well as 10\,bp from the bottom and 10\,pt from the top.
 %
 % If the starred version is used the four coordinates are taken as the |viewport| instead, i.e. the box
 % is trimmed to the rectangle described by the coordinates.
@@ -350,6 +360,7 @@
     \def\pgfmathresultunitscale{1bp}%
     \let\pgfmathpostparse\pgfmathscaleresult
     \let\Gin@defaultbp\pgfmathsetmacro
+    \let\setlength\pgfmathsetlength
 %    \end{macrocode}
 % The rest of the code was adapted from the \Macro\Gin@ii macro from the |graphicx| package.
 % The \emph{temp switch a} is set to |true| to indicate to |graphicx| that the
