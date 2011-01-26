@@ -331,14 +331,35 @@
 % \begin{macro}{\adjustbox@@}
 %    \begin{macrocode}
 \def\adjustbox@@{%
-    \@tempswatrue
-    \toks@{{\adjustbox@@@}}%
+%    \end{macrocode}
+% Set the box dimension macros.
+%    \begin{macrocode}
     \def\width{\wd\@tempboxa}%
     \def\height{\ht\@tempboxa}%
     \def\depth{\dp\@tempboxa}%
     \@tempdimc=\ht\@tempboxa
     \advance\@tempdimc by \dp\@tempboxa\relax
     \def\totalheight{\@tempdimc}%
+%    \end{macrocode}
+% Locally redefine \Macro\Gin@defaultbp to use \Macro\pgfmathsetmacro
+% with |bp| as the default unit.
+% This should yield the same results (apart of smaller rounding errors) if values
+% are given without unit but avoids the internal conversion to |bp| of values with
+% units.
+%    \begin{macrocode}
+    \def\pgfmathresultunitscale{1bp}%
+    \let\pgfmathpostparse\pgfmathscaleresult
+    \let\Gin@defaultbp\pgfmathsetmacro
+%    \end{macrocode}
+% The rest of the code was adapted from the \Macro\Gin@ii macro from the |graphicx| package.
+% The \emph{temp switch a} is set to |true| to indicate to |graphicx| that the
+% scaling should be done internal, so this package doesn't have to do it.
+% The content including macro \Macro\adjustbox@@@ is but into place,
+% the saved options are activated and the final size is set.
+% The typesetting of the content is finally done by executing the token register.
+%    \begin{macrocode}
+    \@tempswatrue
+    \toks@{{\adjustbox@@@}}%
     \adjustbox@setkeys
     \Gin@esetsize
     \the\toks@
@@ -351,15 +372,15 @@
 %    \begin{macrocode}
 \def\adjustbox@@@{%
     \def\Gin@llx{0}%
-    \Gin@defaultbp\Gin@lly{-\dp\@tempboxa}%
-    \Gin@defaultbp\Gin@urx{\wd\@tempboxa}%
-    \Gin@defaultbp\Gin@ury{\ht\@tempboxa}%
+    \Gin@defaultbp\Gin@lly{+-\dp\@tempboxa}%
+    \Gin@defaultbp\Gin@urx{+\wd\@tempboxa}%
+    \Gin@defaultbp\Gin@ury{+\ht\@tempboxa}%
     \Gin@viewport@code
     \begin{pgfpicture}%
-        \pgfpathmoveto{\pgfqpoint{\Gin@llx bp}{\Gin@lly bp}}%
-        \pgfpathlineto{\pgfqpoint{\Gin@urx bp}{\Gin@lly bp}}%
-        \pgfpathlineto{\pgfqpoint{\Gin@urx bp}{\Gin@ury bp}}%
-        \pgfpathlineto{\pgfqpoint{\Gin@llx bp}{\Gin@ury bp}}%
+        \pgfpathmoveto{\pgfqpoint{\Gin@llx pt}{\Gin@lly pt}}%
+        \pgfpathlineto{\pgfqpoint{\Gin@urx pt}{\Gin@lly pt}}%
+        \pgfpathlineto{\pgfqpoint{\Gin@urx pt}{\Gin@ury pt}}%
+        \pgfpathlineto{\pgfqpoint{\Gin@llx pt}{\Gin@ury pt}}%
         \pgfpathclose
         \expandafter\pgfusepath\ifGin@clip{clip}\else{use as bounding box}\fi\relax
         \pgfset{inner sep=\z@,outer sep=\z@}%
