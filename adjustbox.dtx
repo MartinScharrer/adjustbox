@@ -132,10 +132,12 @@
 % avoid unnecessary rounding errors. Instead the values are parsed using the \Macro\pgfmathparse macro from \pkg{pgf} which permits the usage of all
 % arithmetic operations supported by it. See the |pgfmanual| for more details on this.
 %
-% In addition the dimension macros \Macro\width, \Macro\height, \Macro\depth and \Macro\totalheight (=height+depth) can be used as part of the trim amounts.
+% In addition the dimension macros \Macro\width, \Macro\height, \Macro\depth and \Macro\totalheight\relax (=height+depth) can be used as part of the trim amounts.
 % The stand for the original dimensions of the \meta{box content}.
 % Because a space acts as separator of the amounts any expression which contains a space or ends with an macro must be wrapped into braces `|{ }|'.
-% For example \Macro\trimbox{'{.5\width} 10 {log10(10)/sin(45) + 1} 10pt'}{<content>} will trim half the original amount from the left and 
+% For example
+% \\\hbox to \linewidth{\hss\Macro\trimbox{'{.5\width} 10 {log10(10)/sin(45) + 1} 10pt'}{<content>}\hss}
+% will trim half the original amount from the left and 
 % 2.42328\,bp from the right (bp, because no unit was used in the formula; change e.g. |+ 1| to |+ 1pt| to get 2.42328\,pt),
 % as well as 10\,bp from the bottom and 10\,pt from the top.
 %
