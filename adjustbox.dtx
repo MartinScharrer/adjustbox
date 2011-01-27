@@ -107,6 +107,8 @@
 %  This package provides macros missing in \pkg{graphics/x} to trim, clip and generally adjust boxed \LaTeX{} material.
 %  The macros allow for verbatim content. Equivalent environments are also provided. The trim and clip operation
 %  are implemented using the \pkg{pgf} package, which supports both DVI/PS and PDF output.
+%  \\
+%  \textcolor{red}{This package is new and the implementation might change in upcoming releases!}
 % \end{abstract}
 %
 % \section{Introduction}
@@ -194,6 +196,12 @@
 % Note\marginpar{Space=Separator} that the four values for \Macro\trimbox and \Macro\clipbox as well as for the |trim| and |viewport| option of \Macro\adjustbox
 % are separated by spaces. If the expression of any of this values holds a space or ends with a macro (eats trailing spaces!) it must be wrapped into braces `|{ }|'.
 %
+% \DescribeMacros
+%    \hbox{\Macro\width~~~\Macro\height~~~\Macro\depth~~~\Macro\totalheight}%
+% \endDescribeMacros
+% This \LaTeX{} lengths hold the original dimension of \meta{text} and can be used as part of the arguments to \Macro\adjustbox, \Macro\trimbox and \Macro\clipbox.
+% The totalheight is the height plus depth.
+%
 % If\marginpar{Default unit} no unit is provided for of the bounding box coordinates (llx, lly, urx, ury) then PostScript points
 % (\emph{big points}, bp, $72\,\text{bp}=1\,\text{inch}$) are used, as it is the default behaviour
 % of the |trim| and |viewport| ptions of \pkg{graphicx}'s \Macro\includegraphics. Note that \pkg{graphicx} converts all values, independent if a unit is provided or not,
@@ -201,13 +209,6 @@
 % Because the |adjustbox| package macros target \LATeX{} material and users will mostly use pt values this internal conversion to bp got disabled for them to 
 % avoid unnecessary rounding errors.
 %
-% \pagebreak
-% \DescribeMacros
-%    \hbox{\Macro\width~~~\Macro\height~~~\Macro\depth~~~\Macro\totalheight}%
-% \endDescribeMacros
-% \nopagebreak
-% This \LaTeX{} lengths hold the original dimension of \meta{text} and can be used as part of the arguments to \Macro\adjustbox, \Macro\trimbox and \Macro\clipbox.
-% The totalheight is the height plus depth.
 %
 % \subsubsection*{Examples for Argument Values}
 % \hbox to \linewidth{\hss\Macro\trimbox{'{.5\width} 10 {log10(10)/sin(45) + 1} 10pt'}{<content>}\hss}
@@ -218,9 +219,9 @@
 % \subsection{Verbatim Support}\label{sec:verbatim}
 % The macros read the \meta{text} as \TeX{} \Macro\hbox and not as an macro argument in order to support verbatim content.
 % This means that the braces around the content can also be written as \Macro\bgroup and \Macro\egroup:\\[\smallskipamount]
-% \hspace*{2\parindent}\Macro\trimbox{1 2 3 4}'\bgroup '<content>'\egroup'\\[\smallskipamount]
-% Special care is taken to allow the \meta{text} to be a single macro (except \Macro\bgroup) without any braces:
-% \hspace*{2\parindent}\Macro\clipbox{1 2 3 4}'\somemacro'\\[\smallskipamount]
+% \hspace*{2\parindent}\Macro\trimbox{1 2 3 4}\AlsoMacro\bgroup~<content>\AlsoMacro\egroup\\[\smallskipamount]
+% Special care is taken to allow the \meta{text} to be a single macro (except \Macro\bgroup) without any braces:\\[\smallskipamount]
+% \hspace*{2\parindent}\Macro\clipbox{1 2 3 4}\AlsoMacro\somemacro\\[\smallskipamount]
 % This is to support the questionable habit of some \LaTeX{} users to drop the braces for single token arguments.
 % All environments support verbatim content.
 %
