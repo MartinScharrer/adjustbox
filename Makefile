@@ -7,7 +7,7 @@ PDFLATEX=pdflatex -interaction=batchmode
 LATEXMK=latexmk -pdf -silent
 
 PACKEDFILES=adjustbox.sty
-DOCFILES=adjustbox.pdf
+DOCFILES=adjustbox.pdf adjustbox-de.pdf
 SRCFILES=adjustbox.dtx adjustbox.ins README Makefile
 
 all: unpack doc
@@ -20,24 +20,19 @@ ${PACKEDFILES}: adjustbox.dtx adjustbox.ins
 
 unpack: ${PACKEDFILES}
 
-# 'doc' and 'adjustbox.pdf' call itself until everything is stable
-doc: adjustbox.pdf
-	@${MAKE} --no-print-directory adjustbox.pdf
+doc: ${DOCFILES}
 
 pdfopt: doc
 	@-pdfopt adjustbox.pdf .temp.pdf && mv .temp.pdf adjustbox.pdf
+	@-pdfopt adjustbox-de.pdf .temp.pdf && mv .temp.pdf adjustbox-de.pdf
 
-adjustbox.pdf: adjustbox.dtx adjustbox.gls adjustbox.ind
-	${LATEXMK} adjustbox.dtx
+adjustbox.pdf: adjustbox.dtx
+	${LATEXMK} $<
 
-adjustbox.idx adjustbox.glo: adjustbox.dtx
-	${LATEXMK} adjustbox.dtx
+adjustbox-de.pdf: adjustbox-de.tex adjustbox.dtx
+	${LATEXMK} $<
 
-adjustbox.ind: adjustbox.idx
-	-makeindex -s gind.ist -o "$@" "$<"
-
-adjustbox.gls: adjustbox.glo
-	-makeindex -s gglo.ist -o "$@" "$<"
+adjustbox.tex: unpack
 
 .PHONY: test
 
