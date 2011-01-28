@@ -135,11 +135,21 @@
 %
 % \ifenglish
 % \begin{abstract}
-%  This package provides macros missing in \pkg{graphics/x} to trim, clip and generally adjust boxed \LaTeX{} material.
+%  This package provides macros missing in \pkg{graphics} to trim, clip and generally adjust boxed \LaTeX{} material.
 %  The macros allow for verbatim content. Equivalent environments are also provided. The trim and clip operation
 %  are implemented using the \pkg{pgf} package, which supports both DVI/PS and PDF output.
 %  \\
 %  \textcolor{red}{This package is new and the implementation might change in upcoming releases!}
+% \end{abstract}
+% \else
+% \begin{abstract}
+%  Dieses Paket stellt einige Makros zur Verfügung die im \pkg{graphics} Paket vermisst werden
+%  und \LaTeX{} Material zu beschneiden (\emph{trim}, \emph{clip}) oder allgemein zu modifizieren.
+%  Die Makros erlauben Inhalt das im \emph{verbatim} Modus gesetzt ist.
+%  Ebenfalls werden passende Umgebungen für die Makros bereitgestellt.
+%  Das Beschneiden wird durch eine \env{pgfpicture} Umgebung des Pakets \pkg{pgf} verwirklicht,
+%  dass sowohl das PS und PDF Ausgabeformat unterstützt.\\
+%  \textcolor{red}{Dieses Paket ist noch neu und seine Implementieren kann sich in zukünftigen Versionen noch ändern!}
 % \end{abstract}
 % \fi
 %
@@ -157,12 +167,12 @@
 % a \env{pgfpicture} environment from the \pkg{pgf} package which supports both PS and PDF output.
 % \else
 % \section{Einleitung}
-% Das standard \LaTeX{} Paket \pkg{graphicx} (die erweiterte Version von \pkg{graphics}) stellt das Macro \Macro\includegraphics[<Optionen>]{<Dateiname>} zur Verfügung
+% Das \LaTeX{} Paket \pkg{graphicx} (die erweiterte Version von \pkg{graphics}) stellt das Macro \Macro\includegraphics[<Optionen>]{<Dateiname>} zur Verfügung
 % mit dem Bilddateien eingebunden werden können. Zahlreiche Optionen können benutzt werden um das Bild zu skalieren, an eine vorgegebene Größe anzupassen, es zu rotieren 
 % oder den Rand zu beschneiden.
 % Ebenfalls stellt das Paket die Makros \Macro\scalebox\relax (skalieren), \Macro\resizebox\relax (Größe ändern) und \Macro\rotatebox\relax (rotieren) zur Verfügung um \LATeX{} Material,
-% z.B. normalen Text, entsprechend anzupassen. Dies wird dazu in eine horizontale Box (\Macro\hbox) gesetzt.
-% Allerdings fehlen Makros um \LATeX{} Material zu beschneiden, wobei der abgeschnittende Rand entweder sichtbar bleibt (engl.: \emph{trim}) oder ausgeblendet wird (engl. \emph{clip}).
+% z.B.\ normalen Text, entsprechend anzupassen. Dies wird dazu in eine horizontale Box (\Macro\hbox) gesetzt.
+% Allerdings fehlen Makros um \LATeX{} Material zu beschneiden, wobei der abgeschnittenen Rand entweder sichtbar bleibt (engl.: \emph{trim}) oder ausgeblendet wird (engl. \emph{clip}).
 % Dies ist wahrscheinlich der Fall, weil diese Operationen nicht von \TeX{} selbst vorgenommen werden, sondern von dem verwendeten Ausgabeformat, z.B.\ durch PostScript (PS)
 % oder PDF Operationen.
 %
