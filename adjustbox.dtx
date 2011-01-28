@@ -166,7 +166,7 @@
 % Dies ist wahrscheinlich der Fall, weil diese Operationen nicht von \TeX{} selbst vorgenommen werden, sondern von dem verwendeten Ausgabeformat, z.B.\ durch PostScript (PS)
 % oder PDF Operationen.
 %
-% Das \textsf{adjustbox} \LaTeX{} Paket definiert die Makros \Macro\clipbox und \Macro\trimbox, sowie das allgemeine \Macro\adjustbox Macro (engl.: \emph{adjust} = anpassen).
+% Das \textsf{adjustbox} Paket definiert die Makros \Macro\clipbox und \Macro\trimbox, sowie das allgemeine \Macro\adjustbox Macro (engl.: \emph{adjust} = anpassen).
 % Das Beschneiden wird durch eine \env{pgfpicture} Umgebung des Pakets \pkg{pgf} verwirklicht, dass sowohl das PS und PDF Ausgabeformat unterstützt.
 % \fi
 %
@@ -364,7 +364,7 @@
 %       \hline
 %       C & D \\
 %       \hline
-%   \end{tabular}%
+%   \end{tabular}^^A
 % }
 % \fboxsep=0pt%
 % \def\Fbox{\fcolorbox{red}{white}}%
@@ -382,7 +382,11 @@
 %   \X\Macro\adjustbox{width=180pt,height=20pt,keepaspectratio}{\AlsoMacro\example} & \Fbox{\adjustbox{width=40pt,height=10pt,keepaspectratio}{\examplecontent}} \\
 % \end{tabular}
 %
+% \ifenglish
 % \subsubsection*{Environment example:}
+% \else
+% \subsubsection*{Beispiel mit Umgebung:}
+% \fi
 % \noindent
 % \Macro\begin{adjustbox}{angle=2}:\\
 % \begin{adjustbox}{angle=2}
