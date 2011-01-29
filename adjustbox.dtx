@@ -244,9 +244,8 @@
 % \ifenglish
 % \subsubsection*{Trim Box Content}
 % \else
-% \subsubsection*{Rand beschneiden ohne Überhang abzuschneiden}
+% \subsubsection*{Rand beschneiden ohne Überhang auszublenden}
 % \fi
-%
 % \vskip-\lastskip
 % \DescribeMacro\trimbox*{<\llx>~<\lly>~<\urx>~<\ury>}{<\text>}
 % \ifenglish
@@ -289,7 +288,11 @@
 % \fi
 %
 %
+% \ifenglish
 % \subsubsection*{Clip Box Content}
+% \else
+% \subsubsection*{Rand beschneiden und Überhang ausblenden}
+% \fi
 % \vskip-\lastskip
 % \DescribeMacro\clipbox*{<\llx>~<\lly>~<\urx>~<\ury>}{<\text>}
 % \ifenglish
@@ -332,15 +335,22 @@
 %
 % \iffalse
 % \subsection{Argument Values}\label{sec:argval}
-% \else
-% \newpage
-% \subsection{Argument Values}\label{sec:argval}
-% \fi
-%
-% The\marginpar{Parsing} argument values are parsed by versatile \Macro\pgfmathparse of the already used |pgf| package. See the |pgfmanual| for detailed information.
+% The\marginpar{Parsing} argument values are parsed by versatile \Macro\pgfmathparse of the already used |pgf| package.
 % This allows very complex arithmetic expressions as any of the trim/clip coordinates or other numeric options.
+% See the |pgfmanual| for detailed information.
 % Note\marginpar{Space=Separator} that the four values for \Macro\trimbox and \Macro\clipbox as well as for the |trim| and |viewport| option of \Macro\adjustbox
 % are separated by spaces. If the expression of any of this values holds a space or ends with a macro (eats trailing spaces!) it must be wrapped into braces `|{ }|'.
+% \else
+% \newpage
+% \subsection{Erlaubte Werte für Makroargumente}\label{sec:argval}
+% Die numerischen Werte für die Makros werden durch das vielseitige \Macro\pgfmathparse Makro des sowieso schon verwendeten \pkg{pgf} Paketes
+% eingelesen. Dies erlaubt die Verwendung von einfachen oder komplizierten Formeln.
+% Eine genaue Beschreibung der unterstützten mathematischen Operationen befindet sich im Handbuch des \pkg{pgf} Paketes.
+% Dabei muss beachtet werden das die vier Werte für die \Macro\trimbox und \Macro\clipbox Makros sowie für die |trim| und |viewport| Optionen von \Macro\adjustbox
+% durch Leerzeichen getrennt werden müssen. Komplizierte Angaben die ein Leerzeichen enthalten oder auf ein Makro enden (entfernt nachfolgende Leerzeichen) müssen
+% deswegen in geschweifte Klammern `|{ }|' gesetzt werden.
+% \fi
+%
 %
 % \DescribeMacros
 %    \hbox{\Macro\width~~~\Macro\height~~~\Macro\depth~~~\Macro\totalheight}%
