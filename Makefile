@@ -41,6 +41,7 @@ test: unpack
 
 clean:
 	-latexmk -C adjustbox.dtx
+	-latexmk -C adjustbox-de.tex
 	${RM} ${PACKEDFILES} *.zip *.log *.aux *.toc *.vrb *.nav *.pdf *.snm *.out *.fdb_latexmk *.glo *.gls *.hd *.sta *.stp *.cod
 	${RMDIR} tds
 

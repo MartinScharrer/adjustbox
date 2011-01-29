@@ -31,6 +31,18 @@
 %</driver>
   [2011/01/27 v0.2 Adjusting TeX boxes (trim, clip, ...)]
 %<*driver>
+\expandafter\ifx\csname ifenglish\endcsname\relax
+    \expandafter\newif\csname ifenglish\endcsname
+    \englishtrue
+\fi
+\ifenglish
+    \RequirePackage[english]{babel}
+\else
+    \RequirePackage[ngerman]{babel}
+\fi
+
+%\PassOptionsToPackage{ngerman}{hyperref}
+%\RequirePackage[ngerman]{babel}
 \documentclass{ydoc}[2011/01/26]
 \GetFileInfo{adjustbox.dtx}
 \usepackage{adjustbox}[\filedate]
@@ -53,16 +65,6 @@
     \today
     \endgroup
 }
-
-\expandafter\ifx\csname ifenglish\endcsname\relax
-    \expandafter\newif\csname ifenglish\endcsname
-    \englishtrue
-\fi
-\ifenglish
-    \usepackage[english]{babel}
-\else
-    \usepackage[ngerman]{babel}
-\fi
 
 %\EnableCrossrefs
 %\CodelineIndex
@@ -129,8 +131,8 @@
 % \def\optstar{\textcolor{optional}{*}}
 %
 % \makeatletter
-% \def\LATeX{(L\kern -.36em{\sbox \z@ T\vbox to\ht \z@ {\hbox {\check@mathfonts
-%  \fontsize \sf@size \z@ \math@fontsfalse \selectfont A}\vss }}\kern -.15em)\TeX}
+% \def\LATeX{\texorpdfstring{(L\kern -.36em{\sbox \z@ T\vbox to\ht \z@ {\hbox {\check@mathfonts
+%  \fontsize \sf@size \z@ \math@fontsfalse \selectfont A}\vss }}\kern -.15em)\TeX}{(La)TeX}}
 % \makeatother
 %
 % \ifenglish
@@ -210,55 +212,109 @@
 % \def\Angle{Winkel}
 % \fi
 %
+% \ifenglish
 % \section{Usage}
-% This section describes the usage of the provided macros, which are outlined in section~\ref{sec:boxmacros}.
-% Possible advanced values for the macro arguments are mentioned in section~\ref{sec:argval}. The existing verbatim support
-% is explained in section~\ref{sec:verbatim}. Finally section~\ref{sec:alternatives} compares the existing macros with the 
+% This section describes the usage of the provided macros, which are outlined in \autoref{sec:boxmacros}.
+% Possible advanced values for the macro arguments are mentioned in \autoref{sec:argval}. The existing verbatim support
+% is explained in \autoref{sec:verbatim}. Finally \autoref{sec:alternatives} compares the existing macros with the 
 % corresponding options of \Macro\adjustbox.
+% See the example \autoref{sec:example} for examples of this macros.
+%
 % It is recommended to also read the \emph{Graphics Guide} (|grfguide|, i.e.~the manual of the |graphics|/|x| packages),
-% to understand the existing options for \Macro\includegraphics. See the example section for examples of this macros.
+% to understand the existing options for \Macro\includegraphics. 
+% \else
+% \newpage
+% \section{Anleitung}
+% Dieser Abschnitt beschreibt die Verwendung der Makros dieses Pakets. Diese werden zuerst im \autoref{sec:boxmacros} beschrieben.
+% \autoref{sec:argval} erklärt welche Werte in den Makroargumenten verwendet werden können. Die Makros unterstützen sogenannten
+% \emph{verbatim} (engl.: wortgetreu) Inhalt was im \autoref{sec:verbatim} erleutert wird.
+% Schlussendlich wird im \autoref{sec:alternatives} die exisitierenden Makros mit den entsprechendem Optionen von \Macro\adjustbox
+% verglichen. Beispiele für die beschriebenen Makros befinden sich im folgendem \autoref{sec:example}.
 %
+% Dem Leser wird darüberhinaus die Lektüre der Anleitung der |graphic|/|x| Pakete, der \emph{Graphics Guide}, empfohlen wo
+% die möglichen Optionen für das Makro \Macro\includegraphics gelistet sind, die auch für \Macro\adjustbox verwendet werden.
+% \fi
+%
+% \ifenglish
 % \subsection{Box Modification Macros}\label{sec:boxmacros}
+% \else
+% \subsection{Makros zur Modifikation von {\LaTeX} Material}\label{sec:boxmacros}
+% \fi
 %
+% \ifenglish
 % \subsubsection*{Trim Box Content}
+% \else
+% \subsubsection*{Rand beschneiden ohne Überhang abzuschneiden}
+% \fi
 %
 % \vskip-\lastskip
 % \DescribeMacro\trimbox*{<\llx>~<\lly>~<\urx>~<\ury>}{<\text>}
+% \ifenglish
+% \subsubsection*{Trim Box Content}
 % The macro \Macro\trimbox trims the given amount from the lower left (ll) and the upper right (ur) corner of
-% the box. This means that the amount \meta{\llx} is trimmed from the left side, \meta{\lly} from the bottom and
-% \meta{\urx} and \meta{\ury} from the right and top of the box, respectively.
+% the box. This means that the amount \meta{llx} is trimmed from the left side, \meta{lly} from the bottom and
+% \meta{urx} and \meta{ury} from the right and top of the box, respectively.
 % Trimming means that the official size of the box is reduced, but no material
 % is actual removed. The material in the trimmed areas simply swaps over the official border.
 %
 % If the starred version is used the four coordinates are taken as the |viewport| instead, i.e. the box
 % is trimmed to the rectangle described by the coordinates.
-%
+% \else
+% Das Makro \Macro\trimbox setzt den \meta{Text} in eine \TeX{} Box und reduziert dessen offizielle Größe
+% (\emph{bounding box}, engl.: begrenzende Box), so dass \TeX{} annimmt es wäre entsprechend kleiner. Überstehendes Material
+% ragt deswegen in den umgebenden Text hinein.
+% Die angegebenen Werte im ersten Argument stehen für die Beträge die von der unteren linken (lu) und der oberen rechten (or)
+% Ecke entfernt werden. Das heisst, dass der Wert \meta{lux} vom linken Rand, \meta{lly} vom unterem Rand und \meta{orx} und \meta{ory}
+% von rechten bzw. oberen Rand abgezogen werden.
+% Wird das Makro allerdings in der Sternvariante aufgerufen, stehen die vier Werte für den Darstellungsbereich (\emph{viewport}) und 
+% alles ausserhalb wird von der offiziellen Größe abgeschnitten.
+% \fi
 %
 %
 % \DescribeEnv[<\text>]{trimbox}*{<\llx>~<\lly>~<\urx>~<\ury>}
 % \vspace{-\baselineskip}
 % \DescribeEnv[<\text>]{trimbox*}{<\llx>~<\lly>~<\urx>~<\ury>}
+% \ifenglish
 % The \env{trimbox} and \env{trimbox*} environments do the same as the corresponding macros.
 % Special care is taken so that the macros and the environments can have the same name.
 % Because of this the star can be either part of the name or an optional argument.
 % Also the plain\TeX{} syntax for environments (|\trimbox ... \endtrimbox|) can not be used
-% because it will trigger \Macro\trimbox in macro mode. 
+% because it will trigger \Macro\trimbox as a macro. 
+% \else
+% Die Umgebungen \env{trimbox} und \env{trimbox*} erzeugen den selben Effekt wie die gleichnamigen Makros.
+% Ein spezieller Trick wird verwendet, damit der selbe Name für ein Makro und für eine Umgebung verwendet werden kann,
+% was normallerweise nicht der Fall ist. Aufgrund dessen akzeptier die \env{trimbox} Umgebung auch einen optionallen Stern.
+% Die plain\TeX{} Schreibweise für Umgebungen (|\trimbox ... \endtrimbox|) kann allerdings nicht verwendet werden,
+% da es \Macro\trimbox als Makro aufrufen würde.
+% \fi
 %
 %
 % \subsubsection*{Clip Box Content}
 % \vskip-\lastskip
 % \DescribeMacro\clipbox*{<\llx>~<\lly>~<\urx>~<\ury>}{<\text>}
+% \ifenglish
 % The \Macro\clipbox macro works like the \Macro\trimbox and trims the given amounts from the \meta{text}.
 % However, in addition the trimmed material is also clipped, i.e. it is not shown in the final document.
 % Note that the material will still be part of the output file but is simply not shown.
 % It might be exported using special tools, so using \Macro\clipbox\relax (or \Macro\includegraphics[clip,trim=...])
 % to censor classified information would be a bad idea.
-% The starred version will again use the given coordinates as |viewport|.
+% The starred version will again use the given coordinates as |viewport|. 
+% \else
+% Das \Macro\clipbox Makro arbeiten ähnlich wie \Macro\trimbox nur, dass der entfernte Rand auch wirklich
+% ausgeblendet wird. Allerdings bleibt dieses Material Teil der Ausgabedatei und könnte durch spezielle Software exportiert werden.
+% Von der Verwendung von \Macro\clipbox\relax (oder \Macro\includegraphics'[clip,trim=...]') um vertrauliche Informationen zu zensieren
+% kann deswegen nur abgeraten werden.
+% Die Sternvariante verwendet die angegebenen Werte als den zu darstellenden Bereich wie bei \Macro\trimbox'*'.
+% \fi
 %
 % \DescribeEnv[<\text>]{clipbox}*{<\llx>~<\lly>~<\urx>~<\ury>}
 % \vspace{-\baselineskip}
 % \DescribeEnv[<\text>]{clipbox*}{<\llx>~<\lly>~<\urx>~<\ury>}
-% The environment versions of \Macro\clipbox and \Macro\clipbox*.
+% \iffalse
+% The environment versions of \Macro\clipbox and \Macro\clipbox*. The same rules as for the trimming environments apply.
+% \else
+% Die obigen Makros als Umgebungen. Es gelten die gleichen Regeln wie bei den \env{trimbox} Umgebungen.
+% \fi
 %
 %
 % \subsubsection*{Adjust Box Content}
@@ -274,8 +330,12 @@
 % \DescribeEnv[<\text>]{adjustbox}{<includegraphics options>}
 % The environment version of \Macro\adjustbox.
 %
-%
+% \iffalse
 % \subsection{Argument Values}\label{sec:argval}
+% \else
+% \newpage
+% \subsection{Argument Values}\label{sec:argval}
+% \fi
 %
 % The\marginpar{Parsing} argument values are parsed by versatile \Macro\pgfmathparse of the already used |pgf| package. See the |pgfmanual| for detailed information.
 % This allows very complex arithmetic expressions as any of the trim/clip coordinates or other numeric options.
@@ -323,7 +383,11 @@
 % oder wenn der entsprechende Text im \emph{verbatim} Modus eingelesen werden soll.
 % \fi
 %
+% \ifenglish
 % \begin{table}[b]
+% \else
+% \begin{table}[h]
+% \fi
 % \belowcaptionskip\abovecaptionskip
 % \colorlet{optional}{black}
 % \ifenglish
@@ -358,11 +422,11 @@
 %
 % \clearpage
 % \ifenglish
-% \section{Examples}
+% \section{Examples}\label{sec:example}
 % The following examples show the application of the package macros on an example text.
 % The result is placed in a tight, colored frame box to show the resulting dimensions.
 % \else
-% \section{Beispiele}
+% \section{Beispiele}\label{sec:example}
 % Die folgenden Beispiele zeigen die Anwendung der Makros dieses Packets auf einen Beispieltext (\Macro\example).
 % Das Ergebnis wird mit einer engen, farbigen Umrandung dargestellt um die entgültigen Dimensionen sichtbar zu machen.
 % \fi
