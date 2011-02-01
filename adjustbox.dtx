@@ -552,7 +552,6 @@
 %    \begin{macrocode}
 \newcommand\adjustbox{%
     \begingroup
-    \tracinggroups=1%
     \def\adjustbox@name{adjustbox}%
     \adjustbox@{}%
 }
@@ -575,7 +574,7 @@
 \def\adjustbox@#1#2{%
     \def\adjustbox@setkeys{\setkeys{Gin}{#1#2}}%
     \ifx\@currenvir\adjustbox@name
-        \expandafter\def\expandafter\@currenvir\expandafter{\@currenvir\empty}%
+        \edef\@currenvir{\@currenvir\noexpand\empty}%
         \def\next{%
             \setbox\@tempboxa\hbox\bgroup
                 \color@setgroup\bgroup
