@@ -79,7 +79,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{185}
+% \CheckSum{182}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -133,6 +133,7 @@
 % \makeatletter
 % \def\LATeX{\texorpdfstring{(L\kern -.36em{\sbox \z@ T\vbox to\ht \z@ {\hbox {\check@mathfonts
 %  \fontsize \sf@size \z@ \math@fontsfalse \selectfont A}\vss }}\kern -.15em)\TeX}{(La)TeX}}
+% \let\LATeX\LaTeX
 % \makeatother
 %
 % \ifenglish
@@ -196,6 +197,7 @@
 % \def\xfactor{x-factor}
 % \def\yfactor{y-factor}
 % \def\Angle{angle}
+% \def\options{options}
 % \else
 % \def\llx{lux}
 % \def\lly{luy}
@@ -210,6 +212,7 @@
 % \def\xfactor{X-Faktor}
 % \def\yfactor{Y-Faktor}
 % \def\Angle{Winkel}
+% \def\options{Optionen}
 % \fi
 %
 % \ifenglish
@@ -217,7 +220,7 @@
 % This section describes the usage of the provided macros, which are outlined in \autoref{sec:boxmacros}.
 % Possible advanced values for the macro arguments are mentioned in \autoref{sec:argval}. The existing verbatim support
 % is explained in \autoref{sec:verbatim}. Finally \autoref{sec:alternatives} compares the existing macros with the 
-% corresponding options of \Macro\adjustbox.
+% corresponding options of \Macro\djustbox.
 % See the example \autoref{sec:example} for examples of this macros.
 %
 % It is recommended to also read the \emph{Graphics Guide} (|grfguide|, i.e.~the manual of the |graphics|/|x| packages),
@@ -320,18 +323,34 @@
 % \fi
 %
 %
+% \ifenglish
 % \subsubsection*{Adjust Box Content}
+% \else
+% \subsubsection*{Allgemeine Manipulationen von \LaTeX{} Material}
+% \fi
 % \vskip-\lastskip
-% \DescribeMacro\adjustbox{<includegraphics options>}{<\text>}
+% \DescribeMacro\adjustbox{<includegraphics \options>}{<\text>}
+% \ifenglish
 % The \Macro\adjustbox macro is the general form of all box modifying macros mentioned in the introduction.
 % It can be thought as an \Macro\includegraphics for \LATeX{} material.
 % It supports the same set of \meta{options}, however they are provided as a mandatory not as an optional argument.
 % An \Macro\adjustbox without options would not make sense and can be replaced by a simple \Macro\mbox.
-% There is no starred version of this macro. See also Table~\ref{tab:alternatives} for a comparison of \Macro\adjustbox
+% There is no starred version of this macro. See also \autoref{tab:alternatives} for a comparison of \Macro\adjustbox
 % with the other macros.
+% \else
+% Mit Hilfe des \Macro\adjustbox Makros (engl.\ \emph{adjust} = anpassen, justieren) ist es möglich die selben Optionen
+% die \Macro\inludegraphics für Bilder zur Verfügung stellt auch auf beliebiges \LATeX{} Material anzuwenden.
+% Die \meta{Optionen} sind dabei allerdings nicht optional, da \Macro\adjustbox ohne jegliche Optionen einem \Macro\mbox
+% gleich käme. Eine Sternvariante existiert für dieses Makro nicht.
+% Es kann dazu verwendet werden Kombinationen von anderen ähnlichen Makros zu ersetzen, was in \autoref{tab:alternatives} dargestellt wird.
+% \fi
 %
-% \DescribeEnv[<\text>]{adjustbox}{<includegraphics options>}
+% \DescribeEnv[<\text>]{adjustbox}{<includegraphics \options>}
+% \ifenglish
 % The environment version of \Macro\adjustbox.
+% \else
+% Wie für die anderen Makros gibt es auch für \Macro\adjustbox eine passende Umgebung.
+% \fi
 %
 % \iffalse
 % \subsection{Argument Values}\label{sec:argval}
@@ -355,8 +374,13 @@
 % \DescribeMacros
 %    \hbox{\Macro\width~~~\Macro\height~~~\Macro\depth~~~\Macro\totalheight}%
 % \endDescribeMacros
+% \ifenglish
 % This \LaTeX{} lengths hold the original dimension of \meta{text} and can be used as part of the arguments to \Macro\adjustbox, \Macro\trimbox and \Macro\clipbox.
 % The totalheight is the height plus depth.
+% \else
+% Diese \LaTeX{} Längen enthalten die Weite, Höhe, Tiefe bzw.\ die totale Höhe (Höhe + Tiefe) des \meta{\text} Arguments bzw.\ des Inhalts der Umgebung.
+% Diese Längen können in den ersten Argument von \Macro\adjustbox, \Macro\trimbox und \Macro\clipbox verwendet werden um relative Änderungen vorzunehmen.
+% \fi
 %
 % If\marginpar{Default unit} no unit is provided for of the bounding box coordinates (\llx, \lly, \urx, \ury) then PostScript points
 % (\emph{big points}, bp, $72\,\text{bp}=1\,\text{inch}$) are used, as it is the default behaviour
@@ -485,7 +509,7 @@
 % \fi
 % \section{Implementation}
 % \ifenglish\else
-% Die Codedokumentation ist nur auf englisch verfügbar.
+% Die Dokumentation des Quellcodes ist nur auf Englisch verfügbar.
 % \fi
 %
 %    \begin{macrocode}
