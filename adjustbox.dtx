@@ -44,12 +44,12 @@
 %\PassOptionsToPackage{ngerman}{hyperref}
 %\RequirePackage[ngerman]{babel}
 \documentclass{ydoc}[2011/01/26]
+\csname optionaloff\endcsname
 \GetFileInfo{adjustbox.dtx}
 \usepackage{adjustbox}[\filedate]
 \usepackage{array}
 \usepackage{amsmath}
 \usepackage{xcolor}
-\usepackage{lmodern}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{booktabs}
@@ -417,9 +417,9 @@
 % \fi
 %
 % \ifenglish
-% \begin{table}[b]
+% \begin{table}[!hb]
 % \else
-% \begin{table}[h]
+% \begin{table}[!hb]
 % \fi
 % \belowcaptionskip\abovecaptionskip
 % \colorlet{optional}{black}
