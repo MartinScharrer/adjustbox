@@ -43,7 +43,7 @@
 
 %\PassOptionsToPackage{ngerman}{hyperref}
 %\RequirePackage[ngerman]{babel}
-\documentclass{ydoc}[2011/03/17]
+\documentclass{ydoc}[2011/03/19]
 \GetFileInfo{adjustbox.dtx}
 \usepackage[utf8]{inputenc}
 \usepackage{adjustbox}[\filedate]
@@ -100,30 +100,13 @@
 %
 % \DoNotIndex{\newcommand,\newenvironment,\def,\edef,\xdef,\gdef,\let}
 %
-% \ifpdf
-% \hypersetup{%
-%   pdfauthor   = {Martin Scharrer <martin@scharrer-online.de>},
-%   pdftitle    = {The adjustbox package},
-%   pdfsubject  = {Documentation of LaTeX package adjustbox},
-%   pdfkeywords = {adjustbox, LaTeX, TeX}
-% }%
+% \ifenglish\else
+%   \title{Das \pkgtitle{adjustbox} Paket}
 % \fi
-% \clearpage
-% \null
-% \vspace*{-2em}
-% \begin{center}
-% \ifenglish
-%   {\huge The \textsf{adjustbox} Package\\[\medskipamount]}
-% \else
-%   {\huge Das \textsf{adjustbox} Paket\\[\medskipamount]}
-% \fi
-%   {\large Martin Scharrer \\[\medskipamount]\normalsize
-%   \url{martin@scharrer-online.de}\\[.8ex]
-%   \url{http://www.ctan.org/pkg/adjustbox/}\\[\bigskipamount]}
-%   {\large Version \fileversion\ -- \babelfiledate}\\
-% \end{center}
-% \vspace{1.2em}%
-% \def\optstar{\textcolor{optional}{*}}
+% \author{Martin Scharrer}
+% \email{martin@scharrer-online.de}
+% \ydocpdfsettings
+% \maketitle
 %
 % \makeatletter
 % \def\LATeX{\texorpdfstring{(L\kern -.36em{\sbox \z@ T\vbox to\ht \z@ {\hbox {\check@mathfonts
