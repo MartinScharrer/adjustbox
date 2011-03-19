@@ -43,16 +43,11 @@
 
 %\PassOptionsToPackage{ngerman}{hyperref}
 %\RequirePackage[ngerman]{babel}
-\documentclass{ydoc}[2011/01/26]
-\csname optionaloff\endcsname
+\documentclass{ydoc}[2011/03/17]
 \GetFileInfo{adjustbox.dtx}
-\usepackage{adjustbox}[\filedate]
-\usepackage{array}
-\usepackage{amsmath}
-\usepackage{xcolor}
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{booktabs}
+\usepackage{adjustbox}[\filedate]
+\normalmarginpar
 
 \newcommand\babelfiledate{%
     \expandafter\babelfileDate\filedate\relax
@@ -181,6 +176,7 @@
 % Das \textsf{adjustbox} Paket definiert die Makros \Macro\clipbox und \Macro\trimbox, sowie das allgemeine \Macro\adjustbox Macro (engl.: \emph{adjust} = anpassen).
 % Das Beschneiden wird durch eine \env{pgfpicture} Umgebung des Pakets \pkg{pgf} verwirklicht, dass sowohl das PS und PDF Ausgabeformat unterstützt.
 % \fi
+% \optionaloff
 %
 % \ifenglish
 % \def\llx{llx}
@@ -238,6 +234,7 @@
 % \fi
 %
 % \ifenglish
+% \Needspace*{7\baselineskip}
 % \subsection{Box Modification Macros}\label{sec:boxmacros}
 % \else
 % \subsection{Makros zur Modifikation von {\LaTeX} Material}\label{sec:boxmacros}
@@ -351,7 +348,7 @@
 % Wie für die anderen Makros gibt es auch für \Macro\adjustbox eine passende Umgebung.
 % \fi
 %
-% \iffalse
+% \ifenglish
 % \subsection{Argument Values}\label{sec:argval}
 % The\marginpar{Parsing} argument values are parsed by versatile \Macro\pgfmathparse of the already used |pgf| package.
 % This allows very complex arithmetic expressions as any of the trim/clip coordinates or other numeric options.
@@ -390,17 +387,21 @@
 %
 %
 % \subsubsection*{Examples for Argument Values}
-% \hbox to \linewidth{\hss\Macro\trimbox{'{.5\width} 10 {log10(10)/sin(45) + 1} 10pt'}{<\text>}\hss}
+% \codeline{\AlsoMacro\trimbox{'{.5\width} 10 {log10(10)/sin(45) + 1} 10pt'}{<\text>}}
 % will trim half the original amount from the left, 10\,bp from the bottom and 
 % 2.42328\,bp from the right (bp, because no unit was used in the formula; change e.g. `|+ 1|' to `|+ 1pt|' to get 2.42328\,pt),
 % as well as 10\,pt from the top.
 %
 % \subsection{Verbatim Support}\label{sec:verbatim}
 % The macros read the \meta{text} as \TeX{} \Macro\hbox and not as an macro argument in order to support verbatim content.
-% This means that the braces around the content can also be written as \Macro\bgroup and \Macro\egroup:\\[\smallskipamount]
-% \hspace*{2\parindent}\Macro\trimbox{1 2 3 4}\AlsoMacro\bgroup~<\text>\AlsoMacro\egroup\\[\smallskipamount]
-% Special care is taken to allow the \meta{text} to be a single macro (except \Macro\bgroup) without any braces:\\[\smallskipamount]
-% \hspace*{2\parindent}\Macro\clipbox{1 2 3 4}\AlsoMacro\somemacro\\[\smallskipamount]
+% This means that the braces around the content can also be written as \Macro\bgroup and \Macro\egroup:
+% \begin{macroquote}
+%   \trimbox{1 2 3 4}\AlsoMacro\bgroup~<\text>\AlsoMacro\egroup
+% \end{macroquote}
+% Special care is taken to allow the \meta{text} to be a single macro (except \Macro\bgroup) without any braces:
+% \begin{macroquote}
+%   \clipbox{1 2 3 4}\AlsoMacro\somemacro
+% \end{macroquote}
 % This is to support the questionable habit of some \LaTeX{} users to drop the braces for single token arguments.
 % All environments support verbatim content.
 %
