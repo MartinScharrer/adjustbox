@@ -7,7 +7,8 @@ PDFLATEX=pdflatex -interaction=batchmode
 LATEXMK=latexmk -pdf -silent
 
 PACKEDFILES=adjustbox.sty
-DOCFILES=adjustbox.pdf adjustbox-de.pdf
+DOCFILES=adjustbox.pdf 
+#adjustbox-de.pdf
 SRCFILES=adjustbox.dtx adjustbox.ins README Makefile
 
 all: unpack doc
