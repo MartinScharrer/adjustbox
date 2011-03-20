@@ -669,7 +669,8 @@
         \pgfpathclose
         \expandafter\pgfusepath\ifGin@clip{clip}\else{use as bounding box}\fi\relax
         \pgfset{inner sep=\z@,outer sep=\z@}%
-        \pgfnode{rectangle}{base west}{\box\@tempboxa}{}{}%
+        \pgfnode{rectangle}{base west}{\box\@tempboxa}{ADJUSTBOX@NODE}{}%
+        \pgfsetbaselinepointnow{\pgfpointanchor{ADJUSTBOX@NODE}{base}}%
     \end{pgfpicture}%
 }
 %    \end{macrocode}
