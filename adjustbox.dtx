@@ -677,6 +677,50 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%
+% \begin{macro}{\collbox}
+%    \begin{macrocode}
+\newsavebox\collbox
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\collectbox}
+%    \begin{macrocode}
+\def\collectbox#1{%
+    \begingroup
+    \leavevmode
+    \@temptokena{#1}%
+    \setbox\collbox\hbox\bgroup%0
+       \color@setgroup\bgroup%
+       \aftergroup\color@endgroup
+       \aftergroup\egroup%
+       \aftergroup\@collectbox
+       \@ifnextchar\bgroup
+           {\let\@let@token=}%
+           {\adjust@box}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@collectbox}
+%    \begin{macrocode}
+\def\@collectbox{%
+    \def\BODY{\usebox\collbox}%
+    \def\width{\wd\collbox}%
+    \def\height{\ht\collbox}%
+    \def\depth{\dp\collbox}%
+    \let\totalheight\@ovri
+    \totalheight\height
+    \advance\totalheight\depth
+    \the\@temptokena
+    \endgroup
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
 % \Finale
 % \iffalse
 %</package>
