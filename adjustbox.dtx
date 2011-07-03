@@ -730,10 +730,49 @@
 }
 %    \end{macrocode}
 %
-%
-% \begin{macro}{\Gin@adj@setdim}
 %    \begin{macrocode}
-\def\Gin@adj@setdim{%
+\newcommand*\Gin@adj@setdim[3]{%
+    \begingroup
+    \def\@tempa##1{#3}%
+    \expandafter\endgroup
+    \expandafter\def\expandafter#2\expandafter{\@tempa{#1}}%
+}
+\newcommand*\Gin@adj@insdim[1]{%
+    \expandafter\Gin@adj@setdim\expandafter{#1}{#1}%
+}
+\define@key{Gin}{min width}{%
+    \ifx\Gin@ewidth\Gin@exclamation
+        \def\Gin@ewidth{\ifdim#1>\Gin@nat@width #1\else\Gin@nat@width\fi}%
+    \else
+        \Gin@adj@insdim\Gin@ewidth{\ifdim#1>\Gin@nat@width #1\else##1\fi}%
+    \fi
+}
+\define@key{Gin}{max width}{%
+    \ifx\Gin@ewidth\Gin@exclamation
+        \def\Gin@ewidth{\ifdim#1<\Gin@nat@width #1\else\Gin@nat@width\fi}%
+    \else
+        \Gin@adj@insdim\Gin@ewidth{\ifdim#1<\Gin@nat@width #1\else##1\fi}%
+    \fi
+}
+\define@key{Gin}{min height}{%
+    \ifx\Gin@eheight\Gin@exclamation
+        \def\Gin@eheight{\ifdim#1>\Gin@nat@height #1\else\Gin@nat@height\fi}%
+    \else
+        \Gin@adj@insdim\Gin@eheight{\ifdim#1>\Gin@nat@height #1\else##1\fi}%
+    \fi
+}
+\define@key{Gin}{max height}{%
+    \ifx\Gin@eheight\Gin@exclamation
+        \def\Gin@eheight{\ifdim#1<\Gin@nat@height #1\else\Gin@nat@height\fi}%
+    \else
+        \Gin@adj@insdim\Gin@eheight{\ifdim#1<\Gin@nat@height #1\else##1\fi}%
+    \fi
+}
+%    \end{macrocode}
+%
+% \begin{macro}{\Gin@adj@adddim}
+%    \begin{macrocode}
+\newcommand*\Gin@adj@adddim{%
     \let\height\Gin@nat@height
     \let\width\Gin@nat@width
     \let\totalheight\height
@@ -744,7 +783,7 @@
 %
 %
 % \begin{macro}{\Gin@ii}
-% Taken from package \pkg{graphicx}. This simply adds \Macro\Gin@adj@setdim.
+% Taken from package \pkg{graphicx}. This simply adds \Macro\Gin@adj@adddim.
 %    \begin{macrocode}
 \def\Gin@ii[#1]#2{%
     \def\@tempa{[}\def\@tempb{#2}%
@@ -753,7 +792,7 @@
       \expandafter\@tempa
     \else
      \begingroup
-       \Gin@adj@setdim
+       \Gin@adj@adddim
        \@tempswafalse
        \toks@{\Ginclude@graphics{#2}}%
        \setkeys{Gin}{#1}%
@@ -766,11 +805,11 @@
 %
 %
 % \begin{macro}{\Gin@iii}
-% Taken from package \pkg{graphics}. This simply adds \Macro\Gin@adj@setdim.
+% Taken from package \pkg{graphics}. This simply adds \Macro\Gin@adj@adddim.
 %    \begin{macrocode}
 \def\Gin@iii[#1,#2][#3,#4]#5{%
   \begingroup
-  \Gin@adj@setdim
+  \Gin@adj@adddim
   \Gin@bboxtrue
   \Gin@defaultbp\Gin@llx{#1}%
   \Gin@defaultbp\Gin@lly{#2}%
