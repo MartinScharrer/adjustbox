@@ -721,6 +721,67 @@
 % \end{macro}
 %
 %
+%    \begin{macrocode}
+\define@key{Gin}{raise}{%
+    \Gin@esetsize
+    \@tempswatrue
+    \def\@tempa{\@irsbox{#1}[]}%
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
+}
+%    \end{macrocode}
+%
+%
+% \begin{macro}{\Gin@adj@setdim}
+%    \begin{macrocode}
+\def\Gin@adj@setdim{%
+    \let\height\Gin@nat@height
+    \let\width\Gin@nat@width
+    \let\totalheight\height
+    \let\depth\z@
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\Gin@ii}
+% Taken from package \pkg{graphicx}. This simply adds \Macro\Gin@adj@setdim.
+%    \begin{macrocode}
+\def\Gin@ii[#1]#2{%
+    \def\@tempa{[}\def\@tempb{#2}%
+    \ifx\@tempa\@tempb
+      \def\@tempa{\Gin@iii[#1][}%
+      \expandafter\@tempa
+    \else
+     \begingroup
+       \Gin@adj@setdim
+       \@tempswafalse
+       \toks@{\Ginclude@graphics{#2}}%
+       \setkeys{Gin}{#1}%
+       \Gin@esetsize
+       \the\toks@
+     \endgroup
+     \fi}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\Gin@iii}
+% Taken from package \pkg{graphics}. This simply adds \Macro\Gin@adj@setdim.
+%    \begin{macrocode}
+\def\Gin@iii[#1,#2][#3,#4]#5{%
+  \begingroup
+  \Gin@adj@setdim
+  \Gin@bboxtrue
+  \Gin@defaultbp\Gin@llx{#1}%
+  \Gin@defaultbp\Gin@lly{#2}%
+  \Gin@defaultbp\Gin@urx{#3}%
+  \Gin@defaultbp\Gin@ury{#4}%
+  \Ginclude@graphics{#5}%
+  \endgroup}
+%    \end{macrocode}
+% \end{macro}
+%
+%
 % \Finale
 % \iffalse
 %</package>
