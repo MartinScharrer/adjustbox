@@ -725,7 +725,46 @@
 \define@key{Gin}{raise}{%
     \Gin@esetsize
     \@tempswatrue
-    \def\@tempa{\@irsbox{#1}[]}%
+    \@ifnextchar\bgroup{%
+        \def\@tempa{\raisebox#1}%
+        \remove@to@nnil
+    }{%
+        \def\@tempa{\@irsbox{#1}[]}%
+        \remove@to@nnil
+    }#1\@nnil
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
+}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\define@key{Gin}{set height}{%
+    \Gin@esetsize
+    \@tempswatrue
+    \def\@tempa{\@irsbox\z@[{#1}]}%
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
+}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\define@key{Gin}{set depth}{%
+    \Gin@esetsize
+    \@tempswatrue
+    \def\@tempa{\@iirsbox\z@[\height][{#1}]}%
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
+}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\define@key{Gin}{raise}{%
+    \Gin@esetsize
+    \@tempswatrue
+    \@ifnextchar\bgroup{%
+        \def\@tempa{\raisebox#1}%
+        \remove@to@nnil
+    }{%
+        \def\@tempa{\@irsbox{#1}[]}%
+        \remove@to@nnil
+    }#1\@nnil
     \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
 }
 %    \end{macrocode}
