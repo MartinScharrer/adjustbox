@@ -681,45 +681,69 @@
 % \begin{macro}{\minsizebox}
 %    \begin{macrocode}
 \newcommand*\minsizebox{%
-    \leavevmode
     \@ifstar{\@minsizebox\totalheight}{\@minsizebox\height}%
 }
 \newcommand*\@minsizebox[3]{%
-    \collectbox{%
-        \edef\@tempa{#2}% width
-        \edef\@tempb{#3}% height
-        \ifx\@tempa\Gin@exclamation
-            \ifx\@tempb\Gin@exclamation
-                \mbox\BOXCONTENT
-            \else
-                \ifdim\@tempb>#1\relax
-                    \expandafter\Gscale@@box
-                    \expandafter#1\expandafter!\expandafter
-                    {\@tempb}\BOXCONTENT
-                \else
-                    \mbox\BOXCONTENT
-                \fi
-            \fi
-        \else
-            \ifx\@tempb\Gin@exclamation
-                \ifdim\@tempa>\width\relax
-                    \expandafter\Gscale@@box
-                    \expandafter#1\expandafter{\@tempa}!%
-                \else
-                    \mbox\BOXCONTENT
-                \fi
-            \else
-                \ifdim\@tempa>\width\else
-                    \let\@tempa\Gin@exclamation
-                \fi
-                \ifdim\@tempb>#1\else
-                    \let\@tempb\Gin@exclamation
-                \fi
-                \edef\@tempa{{\@tempa}{\@tempb}}%
-                \expandafter\Gscale@@box\expandafter#1\@tempa\BOXCONTENT
+    \collectbox{\@minmaxsizebox>#1{#2}{#3}}%
+}
+\newcommand*\maxsizebox{%
+    \@ifstar{\@maxsizebox\totalheight}{\@maxsizebox\height}%
+}
+\newcommand*\@maxsizebox[3]{%
+    \collectbox{\@minmaxsizebox<#1{#2}{#3}}%
+}
+\newcommand*\@minmaxsizebox[4]{%
+    \edef\@tempa{#3}% width
+    \edef\@tempb{#4}% height
+    \message{^^J [\@tempa,\@tempb] }%
+    \ifcase0%
+    \ifx\@tempa\Gin@exclamation
+        \ifx\@tempb\Gin@exclamation\else
+            \ifdim\@tempb#1#2%
+                1%
             \fi
         \fi
-    }%
+    \else
+        \ifx\@tempb\Gin@exclamation
+            \ifdim\@tempa#1\width
+                2%
+            \fi
+        \else
+            \ifdim\@tempa#1\width
+                \ifdim\@tempb#1#2%
+                    3%
+                \else
+                    2%
+                \fi
+            \else
+                \ifdim\@tempb#1#2%
+                    1%
+                \fi
+            \fi
+        \fi
+    \fi
+    \relax% 0
+        \BOXCONTENT
+    \or% 1
+        \setlength\@tempdima\@tempb
+        \Gscale@div\@tempa\@tempdima#2%
+        \Gscale@box\@tempa[\@tempa]\BOXCONTENT
+    \or% 2
+        \setlength\@tempdima\@tempa
+        \Gscale@div\@tempa\@tempdima\width%
+        \Gscale@box\@tempa[\@tempa]\BOXCONTENT
+    \or% 3
+        \setlength\@tempdima\@tempa
+        \Gscale@div\@tempa\@tempdima\width
+        \setlength\@tempdima\@tempb
+        \Gscale@div\@tempb\@tempdima#2%
+        \ifdim\@tempa\p@#1\@tempb\p@
+            \let\@tempb\@tempa
+        \else
+            \let\@tempa\@tempb
+        \fi
+        \Gscale@box\@tempa[\@tempb]\BOXCONTENT
+    \fi
 }
 %    \end{macrocode}
 % \end{macro}
