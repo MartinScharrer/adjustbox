@@ -678,6 +678,53 @@
 % \end{macro}
 %
 %
+% \begin{macro}{\minsizebox}
+%    \begin{macrocode}
+\newcommand*\minsizebox{%
+    \leavevmode
+    \@ifstar{\@minsizebox\totalheight}{\@minsizebox\height}%
+}
+\newcommand*\@minsizebox[3]{%
+    \collectbox{%
+        \edef\@tempa{#2}% width
+        \edef\@tempb{#3}% height
+        \ifx\@tempa\Gin@exclamation
+            \ifx\@tempb\Gin@exclamation
+                \mbox\BOXCONTENT
+            \else
+                \ifdim\@tempb>#1\relax
+                    \expandafter\Gscale@@box
+                    \expandafter#1\expandafter!\expandafter
+                    {\@tempb}\BOXCONTENT
+                \else
+                    \mbox\BOXCONTENT
+                \fi
+            \fi
+        \else
+            \ifx\@tempb\Gin@exclamation
+                \ifdim\@tempa>\width\relax
+                    \expandafter\Gscale@@box
+                    \expandafter#1\expandafter{\@tempa}!%
+                \else
+                    \mbox\BOXCONTENT
+                \fi
+            \else
+                \ifdim\@tempa>\width\else
+                    \let\@tempa\Gin@exclamation
+                \fi
+                \ifdim\@tempb>#1\else
+                    \let\@tempb\Gin@exclamation
+                \fi
+                \edef\@tempa{{\@tempa}{\@tempb}}%
+                \expandafter\Gscale@@box\expandafter#1\@tempa\BOXCONTENT
+            \fi
+        \fi
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
 % \begin{macro}{\collbox}
 %    \begin{macrocode}
 \newsavebox\collbox
@@ -707,7 +754,7 @@
 % \begin{macro}{\@collectbox}
 %    \begin{macrocode}
 \def\@collectbox{%
-    \def\BODY{\usebox\collbox}%
+    \def\BOXCONTENT{\usebox\collbox}%
     \def\width{\wd\collbox}%
     \def\height{\ht\collbox}%
     \def\depth{\dp\collbox}%
@@ -780,11 +827,8 @@
     \expandafter\Gin@adj@setdim\expandafter{#1}{#1}%
 }
 \define@key{Gin}{min width}{%
-    \ifx\Gin@ewidth\Gin@exclamation
-        \def\Gin@ewidth{\ifdim#1>\Gin@nat@width #1\else\Gin@nat@width\fi}%
-    \else
-        \Gin@adj@insdim\Gin@ewidth{\ifdim#1>\Gin@nat@width #1\else##1\fi}%
-    \fi
+    \def\@tempa{\resizebox{\ifdim#1>\width #1\else !\fi}{!}}%
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
 }
 \define@key{Gin}{max width}{%
     \ifx\Gin@ewidth\Gin@exclamation
