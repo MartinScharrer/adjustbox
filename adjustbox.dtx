@@ -797,12 +797,17 @@
     \Gin@esetsize
     \@tempswatrue
     \@ifnextchar\bgroup{%
-        \def\@tempa{\raisebox#1}%
-        \remove@to@nnil
+        \adjbox@raisebox
     }{%
-        \def\@tempa{\@irsbox{#1}[]}%
-        \remove@to@nnil
-    }#1\@nnil
+        \adjbox@raisebox{#1}{}{}%
+    }#1{}{}{}\@nnil
+}
+\def\adjbox@raisebox#1#2#3#4\@nnil{%
+    \ifx\relax#3\relax
+        \def\@tempa{\@irsbox{#1}[{#2}]}%
+    \else
+        \def\@tempa{\@iirsbox{#1}[{#2}][{#3}]}%
+    \fi
     \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
 }
 %    \end{macrocode}
