@@ -831,21 +831,6 @@
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\define@key{Gin}{raise}{%
-    \Gin@esetsize
-    \@tempswatrue
-    \@ifnextchar\bgroup{%
-        \def\@tempa{\raisebox#1}%
-        \remove@to@nnil
-    }{%
-        \def\@tempa{\@irsbox{#1}[]}%
-        \remove@to@nnil
-    }#1\@nnil
-    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
-}
-%    \end{macrocode}
-%
-%    \begin{macrocode}
 \newcommand*\Gin@adj@setdim[3]{%
     \begingroup
     \def\@tempa##1{#3}%
