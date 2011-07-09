@@ -684,13 +684,13 @@
     \@ifstar{\@minsizebox\totalheight}{\@minsizebox\height}%
 }
 \newcommand*\@minsizebox[3]{%
-    \collectbox{\@minmaxsizebox>#1{#2}{#3}}%
+    \@collectbox{}{\@minmaxsizebox>#1{#2}{#3}}%
 }
 \newcommand*\maxsizebox{%
     \@ifstar{\@maxsizebox\totalheight}{\@maxsizebox\height}%
 }
 \newcommand*\@maxsizebox[3]{%
-    \collectbox{\@minmaxsizebox<#1{#2}{#3}}%
+    \@collectbox{}{\@minmaxsizebox<#1{#2}{#3}}%
 }
 \newcommand*\@minmaxsizebox[4]{%
     \edef\@tempa{#3}% width
@@ -962,21 +962,27 @@
 %
 % \begin{macro}{\@lapbox}
 %    \begin{macrocode}
-\long\def\@lapbox#1#2#3{%
-    \@begin@tempboxa\hbox{#3}%
-    \setlength\@tempdima{#2}%
+\def\@lapbox#1#2{%
+    \@collectbox{}{\@@lapbox{#2}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@lapbox}
+%    \begin{macrocode}
+\def\@@lapbox#1{%
+    \setlength\@tempdima{#1}%
     \@tempdimb\width
     \advance\@tempdimb by \ifdim\@tempdima>\z@-\fi\@tempdima
     \hb@xt@\@tempdimb{%
         \ifdim\@tempdima<\z@
             \hss
         \fi
-        \box\@tempboxa
+        \BOXCONTENT
         \ifdim\@tempdima>\z@
             \hss
         \fi
     }%
-    \@end@tempboxa
 }
 %    \end{macrocode}
 % \end{macro}
@@ -984,22 +990,28 @@
 %
 % \begin{macro}{\i@lapbox}
 %    \begin{macrocode}
-\long\def\i@lapbox#1#2#3{%
-    \@begin@tempboxa\hbox{#3}%
+\def\i@lapbox#1#2{%
+    \@collectbox{}{\i@@lapbox{#1}{#2}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\i@@lapbox}
+%    \begin{macrocode}
+\def\i@@lapbox#1#2{%
     \setlength\@tempdima{#2}%
     \setlength\@tempdimb{#1}%
     \hb@xt@\@tempdimb{%
         \ifdim\@tempdima<\z@
             \hss
-            \hb@xt@-\@tempdima{\box\@tempboxa\hss}%
+            \hb@xt@-\@tempdima{\BOXCONTENT\hss}%
             \hskip\@tempdimb
         \else
             \hskip\@tempdimb
-            \hb@xt@\@tempdima{\hss\box\@tempboxa}%
+            \hb@xt@\@tempdima{\hss\BOXCONTENT}%
             \hss
         \fi
     }%
-    \@end@tempboxa
 }
 %    \end{macrocode}
 % \end{macro}
