@@ -946,6 +946,66 @@
 % \end{macro}
 %
 %
+% \begin{macro}{\lapbox}
+%    \begin{macrocode}
+\newcommand*{\lapbox}[1][]{%
+    \ifx\relax#1\relax
+        \expandafter\@lapbox
+    \else
+        \expandafter\i@lapbox
+    \fi
+    {#1}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@lapbox}
+%    \begin{macrocode}
+\long\def\@lapbox#1#2#3{%
+    \@begin@tempboxa\hbox{#3}%
+    \setlength\@tempdima{#2}%
+    \@tempdimb\width
+    \advance\@tempdimb by \ifdim\@tempdima>\z@-\fi\@tempdima
+    \hb@xt@\@tempdimb{%
+        \ifdim\@tempdima<\z@
+            \hss
+        \fi
+        \box\@tempboxa
+        \ifdim\@tempdima>\z@
+            \hss
+        \fi
+    }%
+    \@end@tempboxa
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\i@lapbox}
+%    \begin{macrocode}
+\long\def\i@lapbox#1#2#3{%
+    \@begin@tempboxa\hbox{#3}%
+    \setlength\@tempdima{#2}%
+    \setlength\@tempdimb{#1}%
+    \hb@xt@\@tempdimb{%
+        \ifdim\@tempdima<\z@
+            \hss
+            \hb@xt@-\@tempdima{\box\@tempboxa\hss}%
+            \hskip\@tempdimb
+        \else
+            \hskip\@tempdimb
+            \hb@xt@\@tempdima{\hss\box\@tempboxa}%
+            \hss
+        \fi
+    }%
+    \@end@tempboxa
+}
+%    \end{macrocode}
+% \end{macro}
+%
+
+%
 % \Finale
 % \iffalse
 %</package>
