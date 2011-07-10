@@ -806,6 +806,26 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%    \begin{macrocode}
+\define@key{Gin}{lap}{%
+    \Gin@esetsize
+    \@tempswatrue
+    \@ifnextchar\bgroup{%
+        \adjbox@lapbox
+    }{%
+        \adjbox@lapbox{#1}{}%
+    }#1{}{}\@nnil
+}
+\def\adjbox@lapbox#1#2#3\@nnil{%
+    \ifx\relax#2\relax
+        \def\@tempa{\@lapbox{}{#1}}%
+    \else
+        \def\@tempa{\i@lapbox{#1}{#2}}%
+    \fi
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
+}
+%    \end{macrocode}
+%
 %
 %    \begin{macrocode}
 \define@key{Gin}{raise}{%
@@ -849,7 +869,6 @@
 \def\adjbox@Gin@add#1{%
     \def\@tempa{#1}%
     \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
-    \showthe\toks@
 }
 %    \end{macrocode}
 %
@@ -902,6 +921,51 @@
     \let\width\Gin@nat@width
     \let\totalheight\height
     \let\depth\z@
+    \let\adjbox@HEIGHT\HEIGHT
+    \let\adjbox@WIDTH\WIDTH
+    \let\adjbox@TOTALHEIGHT\TOTALHEIGHT
+    \let\adjbox@DEPTH\DEPTH
+    \global\let\HEIGHT\Gin@nat@height
+    \global\let\WIDTH\Gin@nat@width
+    \global\let\TOTALHEIGHT\height
+    \global\let\DEPTH\z@
+    \edef\adjbox@nat@sizes{%
+        \global\adjbox@nat@height\the\adjbox@nat@height\relax
+        \global\adjbox@nat@width \the\adjbox@nat@width\relax
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Gin@adj@remdim}
+%    \begin{macrocode}
+\newcommand*\Gin@adj@remdim{%
+    \global\let\HEIGHT\adjbox@HEIGHT
+    \global\let\WIDTH\adjbox@WIDTH
+    \global\let\TOTALHEIGHT\adjbox@TOTALHEIGHT
+    \global\let\DEPTH\adjbox@DEPTH
+    \adjbox@nat@sizes
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\Gin@adj@keepdim}
+%    \begin{macrocode}
+\newdimen\adjbox@nat@width
+\newdimen\adjbox@nat@height
+\message{^^J%
+    \meaning\adjbox@nat@width\space
+    \meaning\adjbox@nat@height
+    ^^J%
+}
+\newcommand*\Gin@adj@keepdim{%
+    \global\adjbox@nat@height\Gin@req@height
+    \global\adjbox@nat@width \Gin@req@width
+    \global\let\HEIGHT\adjbox@nat@height
+    \global\let\WIDTH\adjbox@nat@width
+    \global\let\TOTALHEIGHT\adjbox@nat@height
+    \global\let\DEPTH\z@
 }
 %    \end{macrocode}
 % \end{macro}
@@ -923,6 +987,7 @@
        \setkeys{Gin}{#1}%
        \Gin@esetsize
        \the\toks@
+       \Gin@adj@remdim
      \endgroup
      \fi}
 %    \end{macrocode}
@@ -941,7 +1006,64 @@
   \Gin@defaultbp\Gin@urx{#3}%
   \Gin@defaultbp\Gin@ury{#4}%
   \Ginclude@graphics{#5}%
+  \Gin@adj@remdim
   \endgroup}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\Gin@setfile}
+%    \begin{macrocode}
+\def\Gin@setfile#1#2#3{%
+  \ifx\\#2\\\Gread@false\fi
+  \ifGin@bbox\else
+    \ifGread@
+      \csname Gread@%
+         \expandafter\ifx\csname Gread@#1\endcsname\relax
+           eps%
+         \else
+           #1%
+         \fi
+      \endcsname{\Gin@base#2}%
+    \else
+      \Gin@nosize{#3}%
+    \fi
+  \fi
+  \Gin@viewport@code
+  \Gin@nat@height\Gin@ury bp%
+  \advance\Gin@nat@height-\Gin@lly bp%
+  \Gin@nat@width\Gin@urx bp%
+  \advance\Gin@nat@width-\Gin@llx bp%
+  \Gin@req@sizes
+  \Gin@adj@keepdim
+  \expandafter\ifx\csname Ginclude@#1\endcsname\relax
+    \Gin@drafttrue
+    \expandafter\ifx\csname Gread@#1\endcsname\relax
+      \@latex@error{Can not include graphics of type: #1}\@ehc
+      \global\expandafter\let\csname Gread@#1\endcsname\@empty
+    \fi
+  \fi
+  \leavevmode
+  \ifGin@draft
+      \hb@xt@\Gin@req@width{%
+        \vrule\hss
+        \vbox to \Gin@req@height{%
+           \hrule \@width \Gin@req@width
+           \vss
+           \edef\@tempa{#3}%
+           \rlap{ \ttfamily\expandafter\strip@prefix\meaning\@tempa}%
+           \vss
+           \hrule}%
+        \hss\vrule}%
+  \else
+    \@addtofilelist{#3}%
+    \ProvidesFile{#3}[Graphic file (type #1)]%
+    \setbox\z@\hbox{\csname Ginclude@#1\endcsname{#3}}%
+    \dp\z@\z@
+    \ht\z@\Gin@req@height
+    \wd\z@\Gin@req@width
+  \box\z@
+  \fi}
 %    \end{macrocode}
 % \end{macro}
 %
