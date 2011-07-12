@@ -670,8 +670,14 @@
         \pgfpathclose
         \expandafter\pgfusepath\ifGin@clip{clip}\else{use as bounding box}\fi\relax
         \pgfset{inner sep=\z@,outer sep=\z@}%
-        \pgfnode{rectangle}{base west}{\box\@tempboxa}{ADJUSTBOX@NODE}{}%
-        \pgfsetbaselinepointnow{\pgfpointanchor{ADJUSTBOX@NODE}{base}}%
+        \pgfnode{rectangle}{base west}{\usebox\@tempboxa}{ADJUSTBOX@NODE}{}%
+        \ifdim\Gin@lly\p@<\z@
+            \ifdim\Gin@ury\p@<\z@
+                \pgfsetbaselinepointnow{\pgfpoint{0pt}{\Gin@ury\p@}}%
+            \else
+                \pgfsetbaselinepointnow{\pgfpoint{0pt}{0pt}}%
+            \fi
+        \fi
     \end{pgfpicture}%
 }
 %    \end{macrocode}
