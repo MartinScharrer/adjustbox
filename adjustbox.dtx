@@ -499,6 +499,48 @@
 %    \begin{macrocode}
 \RequirePackage{graphicx}[1999/02/16]
 \RequirePackage{pgf}
+
+
+\define@key{Gin}{viewport}
+           {\let\Gin@viewport@code\adjbox@viewport\adjbox@parse@vp#1 \\}
+\define@key{Gin}{trim}
+           {\let\Gin@viewport@code\adjbox@trim\adjbox@parse@vp#1 \\}
+\def\adjbox@parse@vp#1 #2 #3 #4 #5\\{%
+  \adjbox@defaultbp\adjbox@vllx{#1}%
+  \adjbox@defaultbp\adjbox@vlly{#2}%
+  \adjbox@defaultbp\adjbox@vurx{#3}%
+  \adjbox@defaultbp\adjbox@vury{#4}%
+}%
+
+\newdimen\adjbox@llx
+\newdimen\adjbox@lly
+\newdimen\adjbox@urx
+\newdimen\adjbox@ury
+
+\newdimen\adjbox@vllx
+\newdimen\adjbox@vlly
+\newdimen\adjbox@vurx
+\newdimen\adjbox@vury
+
+\def\adjbox@defaultbp#1#2{%
+    \@defaultunits#1=#2 bp\relax\@nnil
+}
+
+\def\adjbox@viewport{%
+  \adjbox@llx=\adjbox@vllx
+  \adjbox@lly=\adjbox@vlly
+  \adjbox@urx=\adjbox@vurx
+  \adjbox@ury=\adjbox@vury
+}
+
+\def\adjbox@trim{%
+  \advance\adjbox@llx by  \adjbox@vllx
+  \advance\adjbox@lly by  \adjbox@vlly
+  \advance\adjbox@urx by -\adjbox@vurx
+  \advance\adjbox@ury by -\adjbox@vury
+}
+
+
 %    \end{macrocode}
 %
 % \begin{environment}{clipbox}
@@ -657,27 +699,37 @@
 % \begin{macro}{\adjustbox@@@}
 %    \begin{macrocode}
 \def\adjustbox@@@{%
-    \def\Gin@llx{0}%
-    \Gin@defaultbp\Gin@lly{+-\dp\@tempboxa}%
-    \Gin@defaultbp\Gin@urx{+\wd\@tempboxa}%
-    \Gin@defaultbp\Gin@ury{+\ht\@tempboxa}%
+    \adjbox@llx\z@
+    \adjbox@lly-\dp\@tempboxa
+    \adjbox@urx\wd\@tempboxa
+    \adjbox@ury\ht\@tempboxa
     \Gin@viewport@code
+    \let\pgfmathpostparse\relax
+    \ifdim\adjbox@lly>\adjbox@ury
+        \adjbox@ury\adjbox@lly
+    \fi
+    \ifdim\adjbox@llx>\adjbox@urx
+        \adjbox@urx\adjbox@llx
+    \fi
     \begin{pgfpicture}%
-        \pgfpathmoveto{\pgfqpoint{\Gin@llx pt}{\Gin@lly pt}}%
-        \pgfpathlineto{\pgfqpoint{\Gin@urx pt}{\Gin@lly pt}}%
-        \pgfpathlineto{\pgfqpoint{\Gin@urx pt}{\Gin@ury pt}}%
-        \pgfpathlineto{\pgfqpoint{\Gin@llx pt}{\Gin@ury pt}}%
+        \pgfpathmoveto{\pgfqpoint\adjbox@llx\adjbox@lly}%
+        \pgfpathlineto{\pgfqpoint\adjbox@urx\adjbox@lly}%
+        \pgfpathlineto{\pgfqpoint\adjbox@urx\adjbox@ury}%
+        \pgfpathlineto{\pgfqpoint\adjbox@llx\adjbox@ury}%
         \pgfpathclose
         \expandafter\pgfusepath\ifGin@clip{clip}\else{use as bounding box}\fi\relax
         \pgfset{inner sep=\z@,outer sep=\z@}%
         \pgfnode{rectangle}{base west}{\usebox\@tempboxa}{ADJUSTBOX@NODE}{}%
-        \ifdim\Gin@lly\p@<\z@
-            \ifdim\Gin@ury\p@<\z@
-                \pgfsetbaselinepointnow{\pgfpoint{0pt}{\Gin@ury\p@}}%
-            \else
-                \pgfsetbaselinepointnow{\pgfpoint{0pt}{0pt}}%
-            \fi
-        \fi
+        \dimen@=\ifdim\adjbox@lly<\z@
+                    \ifdim\adjbox@ury<\z@
+                        \adjbox@ury
+                    \else
+                        \z@
+                    \fi
+                \else
+                    \adjbox@lly
+                \fi
+        \pgfsetbaselinepointnow{\pgfpoint\z@\dimen@}%
     \end{pgfpicture}%
 }
 %    \end{macrocode}
@@ -935,9 +987,19 @@
     \global\let\WIDTH\Gin@nat@width
     \global\let\TOTALHEIGHT\height
     \global\let\DEPTH\z@
-    \edef\adjbox@nat@sizes{%
+    \let\adjbox@Height\Height
+    \let\adjbox@Width\Width
+    \let\adjbox@Totalheight\Totalheight
+    \let\adjbox@Depth\Depth
+    \global\let\Height\Gin@nat@height
+    \global\let\Width\Gin@nat@width
+    \global\let\Totalheight\height
+    \global\let\Depth\z@
+    \edef\adjbox@restore@dims{%
         \global\adjbox@nat@height\the\adjbox@nat@height\relax
         \global\adjbox@nat@width \the\adjbox@nat@width\relax
+        \global\adjbox@req@height\the\adjbox@req@height\relax
+        \global\adjbox@req@width \the\adjbox@req@width\relax
     }%
 }
 %    \end{macrocode}
@@ -950,7 +1012,11 @@
     \global\let\WIDTH\adjbox@WIDTH
     \global\let\TOTALHEIGHT\adjbox@TOTALHEIGHT
     \global\let\DEPTH\adjbox@DEPTH
-    \adjbox@nat@sizes
+    \global\let\Height\adjbox@Height
+    \global\let\Width\adjbox@Width
+    \global\let\Totalheight\adjbox@Totalheight
+    \global\let\Depth\adjbox@Depth
+    \adjbox@restore@dims
 }
 %    \end{macrocode}
 % \end{macro}
@@ -960,18 +1026,22 @@
 %    \begin{macrocode}
 \newdimen\adjbox@nat@width
 \newdimen\adjbox@nat@height
-\message{^^J%
-    \meaning\adjbox@nat@width\space
-    \meaning\adjbox@nat@height
-    ^^J%
-}
+\newdimen\adjbox@req@width
+\newdimen\adjbox@req@height
+
 \newcommand*\Gin@adj@keepdim{%
-    \global\adjbox@nat@height\Gin@req@height
-    \global\adjbox@nat@width \Gin@req@width
+    \global\adjbox@nat@height\Gin@nat@height
+    \global\adjbox@nat@width \Gin@nat@width
+    \global\adjbox@req@height\Gin@req@height
+    \global\adjbox@req@width \Gin@req@width
     \global\let\HEIGHT\adjbox@nat@height
     \global\let\WIDTH\adjbox@nat@width
     \global\let\TOTALHEIGHT\adjbox@nat@height
     \global\let\DEPTH\z@
+    \global\let\Height\adjbox@req@height
+    \global\let\Width\adjbox@req@width
+    \global\let\Totalheight\adjbox@req@height
+    \global\let\Depth\z@
 }
 %    \end{macrocode}
 % \end{macro}
