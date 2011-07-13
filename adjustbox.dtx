@@ -883,19 +883,14 @@
 
 
 \define@key{Gin}{frame}[{{\fboxrule}}]{%
-    \adjbox@frame#1 {\z@} {} none \relax\relax\@nnil
+    \adjbox@frame#1 {\z@} \relax\relax\@nnil
 }
 
-\def\adjbox@frame#1 #2 #3 #4 #5\relax{%
-    \def\@tempa{#3}%
+\def\adjbox@frame#1 #2 #3\relax{%
     \edef\@tempa{\toks@{{%
         \noexpand\setlength\noexpand\fboxrule{#1}%
         \noexpand\setlength\noexpand\fboxsep{#2}%
-        \ifx\@tempa\empty
-            \noexpand\fbox{\the\toks@}%
-        \else
-            \noexpand\fcolorbox{#3}{#4}{\the\toks@}%
-        \fi
+        \noexpand\fbox{\the\toks@}%
     }}}%
     \@tempa
     \remove@to@nnil
