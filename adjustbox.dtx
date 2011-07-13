@@ -880,6 +880,40 @@
 % \end{macro}
 %
 %    \begin{macrocode}
+
+
+\define@key{Gin}{frame}[{{\fboxrule}}]{%
+    \adjbox@frame#1 {\z@} {} none \relax\relax\@nnil
+}
+
+\def\adjbox@frame#1 #2 #3 #4 #5\relax{%
+    \def\@tempa{#3}%
+    \edef\@tempa{\toks@{{%
+        \noexpand\setlength\noexpand\fboxrule{#1}%
+        \noexpand\setlength\noexpand\fboxsep{#2}%
+        \ifx\@tempa\empty
+            \noexpand\fbox{\the\toks@}%
+        \else
+            \noexpand\fcolorbox{#3}{#4}{\the\toks@}%
+        \fi
+    }}}%
+    \@tempa
+    \remove@to@nnil
+}
+
+\define@key{Gin}{reflect}[]{%
+  \if@tempswa
+    \edef\@tempa{\toks@{\noexpand\Gscale@box-1[1]{\the\toks@}}}%
+    \@tempa
+  \else
+    \def\Gin@req@sizes{%
+      \def\Gin@scalex{-1}\def\Gin@scaley{1}%
+      \Gin@req@height\Gin@nat@height
+      \Gin@req@width\Gin@nat@width
+    }%
+  \fi
+  \@tempswatrue}
+
 \define@key{Gin}{lap}{%
     \Gin@esetsize
     \@tempswatrue
