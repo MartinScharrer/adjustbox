@@ -500,11 +500,16 @@
 \RequirePackage{graphicx}[1999/02/16]
 \RequirePackage{pgf}
 
-
-\define@key{Gin}{viewport}
-           {\let\Gin@viewport@code\adjbox@viewport\adjbox@parse@vp#1 \\}
-\define@key{Gin}{trim}
-           {\let\Gin@viewport@code\adjbox@trim\adjbox@parse@vp#1 \\}
+\def\adjbox@viewport#1{%
+    \let\Gin@viewport@code\adjbox@@viewport
+    \let\adjustbox@@@\adjustbox@@@cliptrim
+    \adjbox@parse@vp#1 \\%
+}
+\def\adjbox@trim#1{%
+    \let\Gin@viewport@code\adjbox@@trim
+    \let\adjustbox@@@\adjustbox@@@cliptrim
+    \adjbox@parse@vp#1 \\%
+}
 \def\adjbox@parse@vp#1 #2 #3 #4 #5\\{%
   \adjbox@defaultbp\adjbox@vllx{#1}%
   \adjbox@defaultbp\adjbox@vlly{#2}%
@@ -526,14 +531,14 @@
     \@defaultunits#1=#2 bp\relax\@nnil
 }
 
-\def\adjbox@viewport{%
+\def\adjbox@@viewport{%
   \adjbox@llx=\adjbox@vllx
   \adjbox@lly=\adjbox@vlly
   \adjbox@urx=\adjbox@vurx
   \adjbox@ury=\adjbox@vury
 }
 
-\def\adjbox@trim{%
+\def\adjbox@@trim{%
   \advance\adjbox@llx by  \adjbox@vllx
   \advance\adjbox@lly by  \adjbox@vlly
   \advance\adjbox@urx by -\adjbox@vurx
@@ -622,6 +627,8 @@
 % \begin{macro}{\adjustbox@}
 %    \begin{macrocode}
 \def\adjustbox@#1#2{%
+    \let\KV@Gin@viewport\adjbox@viewport
+    \let\KV@Gin@trim\adjbox@trim
     \def\adjustbox@setkeys{\setkeys{Gin}{#1#2}}%
     \ifx\@currenvir\adjustbox@name
         \edef\@currenvir{\@currenvir\noexpand\empty}%
@@ -699,6 +706,14 @@
 % \begin{macro}{\adjustbox@@@}
 %    \begin{macrocode}
 \def\adjustbox@@@{%
+    \box\@tempboxa
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjustbox@@@cliptrim}
+%    \begin{macrocode}
+\def\adjustbox@@@cliptrim{%
     \adjbox@llx\z@
     \adjbox@lly-\dp\@tempboxa
     \adjbox@urx\wd\@tempboxa
@@ -719,7 +734,7 @@
         \pgfpathclose
         \expandafter\pgfusepath\ifGin@clip{clip}\else{use as bounding box}\fi\relax
         \pgfset{inner sep=\z@,outer sep=\z@}%
-        \pgfnode{rectangle}{base west}{\usebox\@tempboxa}{ADJUSTBOX@NODE}{}%
+        \pgfnode{rectangle}{base west}{\box\@tempboxa}{ADJUSTBOX@NODE}{}%
         \dimen@=\ifdim\adjbox@lly<\z@
                     \ifdim\adjbox@ury<\z@
                         \adjbox@ury
