@@ -646,18 +646,10 @@
                 \aftergroup\adjustbox@@
                 \@ifnextchar\bgroup
                     {\let\@let@token=}%
-                    {\adjust@box}%
+                    {\@collect@box}%
         }%
     \fi
     \next
-}
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\adjust@box}
-%    \begin{macrocode}
-\def\adjust@box#1{%
-    #1\egroup
 }
 %    \end{macrocode}
 % \end{macro}
@@ -757,13 +749,13 @@
     \@ifstar{\@minsizebox\totalheight}{\@minsizebox\height}%
 }
 \newcommand*\@minsizebox[3]{%
-    \@collectbox{}{\@minmaxsizebox>#1{#2}{#3}}%
+    \collectbox@{}{\@minmaxsizebox>#1{#2}{#3}}%
 }
 \newcommand*\maxsizebox{%
     \@ifstar{\@maxsizebox\totalheight}{\@maxsizebox\height}%
 }
 \newcommand*\@maxsizebox[3]{%
-    \@collectbox{}{\@minmaxsizebox<#1{#2}{#3}}%
+    \collectbox@{}{\@minmaxsizebox<#1{#2}{#3}}%
 }
 \newcommand*\@minmaxsizebox[4]{%
     \edef\@tempa{#3}% width
@@ -822,9 +814,9 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\collbox}
+% \begin{macro}{\collectedbox}
 %    \begin{macrocode}
-\newsavebox\collbox
+\newsavebox\collectedbox
 %    \end{macrocode}
 % \end{macro}
 %
@@ -833,8 +825,20 @@
 %    \begin{macrocode}
 \def\collectbox{%
     \@ifstar
-        {\@collectbox{{\BOXCONTENT}}}%
-        {\@collectbox{}}%
+        {\collectbox@{{\BOXCONTENT}}}%
+        {\collectbox@{}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\collectbox@}
+%    \begin{macrocode}
+\def\collectbox@#1#2{%
+    \begingroup
+    \leavevmode
+    \@temptokena{#2#1}%
+    \@collectbox\collectbox@@
 }
 %    \end{macrocode}
 % \end{macro}
@@ -842,18 +846,23 @@
 %
 % \begin{macro}{\@collectbox}
 %    \begin{macrocode}
-\def\@collectbox#1#2{%
-    \begingroup
-    \leavevmode
-    \@temptokena{#2#1}%
-    \setbox\collbox\hbox\bgroup%0
-       \color@setgroup\bgroup%
+\def\@collectbox#1{%
+    \setbox\collectedbox\hbox\bgroup
+       \color@setgroup\bgroup
        \aftergroup\color@endgroup
-       \aftergroup\egroup%
-       \aftergroup\@@collectbox
+       \aftergroup\egroup
+       \aftergroup#1\relax
        \@ifnextchar\bgroup
            {\let\@let@token=}%
-           {\adjust@box}%
+           {\@collect@box}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@collect@box}
+%    \begin{macrocode}
+\def\@collect@box#1{%
+    #1\egroup
 }
 %    \end{macrocode}
 % \end{macro}
@@ -861,11 +870,11 @@
 %
 % \begin{macro}{\@@collectbox}
 %    \begin{macrocode}
-\def\@@collectbox{%
-    \def\BOXCONTENT{\usebox\collbox}%
-    \def\width{\wd\collbox}%
-    \def\height{\ht\collbox}%
-    \def\depth{\dp\collbox}%
+\def\collectbox@@{%
+    \def\BOXCONTENT{\usebox\collectedbox}%
+    \def\width{\wd\collectedbox}%
+    \def\height{\ht\collectedbox}%
+    \def\depth{\dp\collectedbox}%
     \let\totalheight\@ovri
     \totalheight\height
     \advance\totalheight\depth
@@ -1205,7 +1214,7 @@
 % \begin{macro}{\@lapbox}
 %    \begin{macrocode}
 \def\@lapbox#1#2{%
-    \@collectbox{}{\@@lapbox{#2}}%
+    \collectbox@{}{\@@lapbox{#2}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1233,7 +1242,7 @@
 % \begin{macro}{\i@lapbox}
 %    \begin{macrocode}
 \def\i@lapbox#1#2{%
-    \@collectbox{}{\i@@lapbox{#1}{#2}}%
+    \collectbox@{}{\i@@lapbox{#1}{#2}}%
 }
 %    \end{macrocode}
 % \end{macro}
