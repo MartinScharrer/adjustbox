@@ -1232,7 +1232,6 @@
 % \end{macro}
 %
 % \begin{macro}{\i@@lapbox}
-%    \begin{macrocode}
 \def\i@@lapbox#1#2{%
     \setlength\@tempdima{#2}%
     \setlength\@tempdimb{#1}%
@@ -1251,7 +1250,40 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%    \begin{macrocode}
 
+\def\@trimbox#1#2#3#4#5{%
+    \setbox#5=\hbox\bgroup
+        \setlength\@tempdimb{#3}%
+        \advance\@tempdimb by -\wd#5%
+        \wd#5=-\@tempdimb
+        \setlength\@tempdimc{#4}%
+        \advance\@tempdimc by -\ht#5%
+        \ht#5=-\@tempdimc
+        \setlength\@tempdima{#2}%
+        \setlength\@tempdimb{#1}%
+        \hskip-\@tempdimb
+        \ifdim\@tempdima<\dp#5%
+            \advance\@tempdima by -\dp#5%
+            \dp#5=-\@tempdima
+            \box#5%
+            \egroup
+        \else
+            \lower\@tempdima\box#5%
+            \egroup
+            \dp#5=\z@
+        \fi
+}
+
+\def\@clipbox#1#2#3#4#5{%
+    \@trimbox{#1}{#2}{#3}{#4}{#5}%
+    \pdfxform#5%
+    \setbox#5=\hbox{%
+        \pdfrefxform\pdflastxform
+    }%
+}
+
+%    \end{macrocode}
 %
 % \Finale
 % \iffalse
