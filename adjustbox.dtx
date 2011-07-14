@@ -633,20 +633,13 @@
     \ifx\@currenvir\adjustbox@name
         \edef\@currenvir{\@currenvir\noexpand\empty}%
         \def\next{%
-            \setbox\@tempboxa\hbox\bgroup
+            \setbox\collectedbox\hbox\bgroup
                 \color@setgroup\bgroup
                 \ignorespaces
         }%
     \else
         \def\next{%
-            \setbox\@tempboxa\hbox\bgroup%0
-                \color@setgroup\bgroup%
-                \aftergroup\color@endgroup
-                \aftergroup\egroup%
-                \aftergroup\adjustbox@@
-                \@ifnextchar\bgroup
-                    {\let\@let@token=}%
-                    {\@collect@box}%
+            \@collectbox\adjustbox@@
         }%
     \fi
     \next
@@ -657,15 +650,6 @@
 % \begin{macro}{\adjustbox@@}
 %    \begin{macrocode}
 \def\adjustbox@@{%
-%    \end{macrocode}
-% Set the box dimension macros.
-%    \begin{macrocode}
-    \def\width{\wd\@tempboxa}%
-    \def\height{\ht\@tempboxa}%
-    \def\depth{\dp\@tempboxa}%
-    \@tempdimc=\ht\@tempboxa
-    \advance\@tempdimc by \dp\@tempboxa\relax
-    \def\totalheight{\@tempdimc}%
 %    \end{macrocode}
 % Locally redefine \Macro\Gin@defaultbp to use \Macro\pgfmathsetmacro
 % with |bp| as the default unit.
@@ -698,7 +682,7 @@
 % \begin{macro}{\adjustbox@@@}
 %    \begin{macrocode}
 \def\adjustbox@@@{%
-    \box\@tempboxa
+    \box\collectedbox
 }
 %    \end{macrocode}
 % \end{macro}
@@ -707,9 +691,9 @@
 %    \begin{macrocode}
 \def\adjustbox@@@cliptrim{%
     \adjbox@llx\z@
-    \adjbox@lly-\dp\@tempboxa
-    \adjbox@urx\wd\@tempboxa
-    \adjbox@ury\ht\@tempboxa
+    \adjbox@lly-\dp\collectedbox
+    \adjbox@urx\wd\collectedbox
+    \adjbox@ury\ht\collectedbox
     \Gin@viewport@code
     \let\pgfmathpostparse\relax
     \ifdim\adjbox@lly>\adjbox@ury
@@ -726,7 +710,7 @@
         \pgfpathclose
         \expandafter\pgfusepath\ifGin@clip{clip}\else{use as bounding box}\fi\relax
         \pgfset{inner sep=\z@,outer sep=\z@}%
-        \pgfnode{rectangle}{base west}{\box\@tempboxa}{ADJUSTBOX@NODE}{}%
+        \pgfnode{rectangle}{base west}{\box\collectedbox}{ADJUSTBOX@NODE}{}%
         \dimen@=\ifdim\adjbox@lly<\z@
                     \ifdim\adjbox@ury<\z@
                         \adjbox@ury
