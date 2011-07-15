@@ -13,57 +13,57 @@
 % \end{macro}
 %
 %
-%% \collectbox {<code>}{<box content>}
-%% \collectbox*{<code>}{<box content>}
-%% \collectbox [<code before>]{<code>}[<code after>]{<box content>}
 %% \collectbox*[<code before>]{<code>}[<code after>]{<box content>}
+%% \collectbox@{<code before>}{<code>}{<code after>}{<box content>}
+%% \@collectbox{<code>}{<box content>}
+%% \@Collectbox<token>{<box content>}
 %
 % \begin{macro}{\collectbox}
 %    \begin{macrocode}
 \def\collectbox{%
     \@ifstar
-        {\collectbox@{{\BOXCONTENT}}}%
-        {\collectbox@{}}%
+        {\collectbox@a{{\BOXCONTENT}}}%
+        {\collectbox@a{}}%
 }
 %    \end{macrocode}
 % \end{macro}
+%
+%
+% \begin{macro}{\collectbox@a}
+%    \begin{macrocode}
+\def\collectbox@a#1{%
+    \@ifnextchar[%
+        {\collectbox@b{#1}}%
+        {\collectbox@a{#1}[]}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\collectbox@b}
+%    \begin{macrocode}
+\def\collectbox@b#1[#2]#3{%
+    \@ifnextchar[%
+        {\collectbox@c{#2}{#3#1}}%
+        {\collectbox@c{#2}{#3#1}[]}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\collectbox@c}
+%    \begin{macrocode}
+\def\collectbox@c#1#2[#3]{%
+    \collectbox@{#1}{#2}{#3}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
 %
 %
 % \begin{macro}{\collectbox@}
 %    \begin{macrocode}
-\def\collectbox@#1{%
-    \@ifnextchar[%
-        {\collectbox@@{#1}}%
-        {\collectbox@@{#1}[]}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\collectbox@@}
-%    \begin{macrocode}
-\def\collectbox@@#1[#2]#3{%
-    \@ifnextchar[%
-        {\collectbox@@@{#2}{#3#1}}%
-        {\collectbox@@@{#2}{#3#1}[]}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\collectbox@@@}
-%    \begin{macrocode}
-\def\collectbox@@@#1#2[#3]{%
-    \collectbox@begin{#1}{#2}{#3}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-%
-% \begin{macro}{\collect@box}
-%    \begin{macrocode}
-\def\collectbox@begin#1#2#3{%
+\def\collectbox@#1#2#3{%
     \begingroup
     \leavevmode
     \@temptokena{#3\collectbox@end#2\endgroup}%
