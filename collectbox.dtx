@@ -16,7 +16,6 @@
 %% \collectbox*[<code before>]{<code>}[<code after>]{<box content>}
 %% \collectbox@{<code before>}{<code>}{<code after>}{<box content>}
 %% \@collectbox{<code>}{<box content>}
-%% \@Collectbox<token>{<box content>}
 %
 % \begin{macro}{\collectbox}
 %    \begin{macrocode}
@@ -79,7 +78,26 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@collect@box}
+%
+% \begin{macro}{\@collectbox}
+%    \begin{macrocode}
+\def\@collectbox#1{%
+    \begingroup
+    \leavevmode
+    \@temptokena{\collectbox@end#1\endgroup}%
+    \setbox\collectedbox\hbox\bgroup
+       \color@setgroup\bgroup
+       \aftergroup\the
+       \aftergroup\@temptokena
+       \@ifnextchar\bgroup
+           {\let\@let@token=}%
+           {\collectbox@arg}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\collectbox@arg}
 %    \begin{macrocode}
 \def\collectbox@arg#1{%
     #1\egroup
@@ -88,7 +106,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@@collectbox}
+% \begin{macro}{\collectbox@end}
 %    \begin{macrocode}
 \def\collectbox@end{%
     \color@endgroup
