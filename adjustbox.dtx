@@ -923,6 +923,14 @@
 %
 %
 %    \begin{macrocode}
+\define@key{Gin}{margin}{%
+    \def\@tempa{\marginbox{#1}}%
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
+}
+%    \end{macrocode}
+%
+%
+%    \begin{macrocode}
 \define@key{Gin}{raise}{%
     \Gin@esetsize
     \@tempswatrue
@@ -1282,6 +1290,39 @@
         \pdfrefxform\pdflastxform
     }%
 }
+
+\newcommand\marginbox[1]{%
+    \collectbox@{}{\marginbox@{#1}}%
+}
+
+\def\marginbox@#1{%
+    \adjbox@parse@vp#1 \\%
+    \@marginbox
+        \adjbox@vllx
+        \adjbox@vlly
+        \adjbox@vurx
+        \adjbox@vury
+        \collectedbox
+    \box\collectedbox
+}
+
+\def\@marginbox#1#2#3#4#5{%
+    \setbox#5=\hbox{%
+        \setlength\@tempdima{#3}%
+        \advance\@tempdima by \wd#5%
+        \wd#5=\@tempdima
+        \setlength\@tempdima{#4}%
+        \advance\@tempdima by \ht#5%
+        \ht#5=\@tempdima
+        \setlength\@tempdima{#2}%
+        \advance\@tempdima by \dp#5%
+        \dp#5=\@tempdima
+        \setlength\@tempdima{#1}%
+        \hskip\@tempdima
+        \box#5%
+    }%
+}
+
 
 %    \end{macrocode}
 %
