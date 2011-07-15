@@ -1,0 +1,77 @@
+%
+% \begin{macro}{\collectedbox}
+%    \begin{macrocode}
+\newsavebox\collectedbox
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\collectbox}
+%    \begin{macrocode}
+\def\collectbox{%
+    \@ifstar
+        {\collectbox@{{\BOXCONTENT}}}%
+        {\collectbox@{}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\collectbox@}
+%    \begin{macrocode}
+\def\collectbox@#1#2{%
+    \begingroup
+    \leavevmode
+    \@temptokena{#2#1}%
+    \@collectbox\collectbox@@
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@collectbox}
+%    \begin{macrocode}
+\def\@collectbox#1{%
+    \setbox\collectedbox\hbox\bgroup
+       \color@setgroup\bgroup
+       \aftergroup\color@endgroup
+       \aftergroup\egroup
+       \aftergroup#1\relax
+       \@ifnextchar\bgroup
+           {\let\@let@token=}%
+           {\@collect@box}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@collect@box}
+%    \begin{macrocode}
+\def\@collect@box#1{%
+    #1\egroup
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@@collectbox}
+%    \begin{macrocode}
+\def\collectbox@@{%
+    \def\BOXCONTENT{\usebox\collectedbox}%
+    \def\width{\wd\collectedbox}%
+    \def\height{\ht\collectedbox}%
+    \def\depth{\dp\collectedbox}%
+    \let\totalheight\@ovri
+    \totalheight\height
+    \advance\totalheight\depth
+    \@collectbox@begincode
+    \the\@temptokena
+    \@collectbox@endcode
+    \endgroup
+}
+%    \begin{macrocode}
+\let\@collectbox@begincode\empty
+\let\@collectbox@endcode\empty
+%    \end{macrocode}
+% \end{macro}
+%
+
