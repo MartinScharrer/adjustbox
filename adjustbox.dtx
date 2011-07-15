@@ -880,19 +880,18 @@
 }
 
 \def\adjbox@frame#1 #2 #3\relax{%
-    \edef\@tempa{\toks@{{%
-        \noexpand\setlength\noexpand\fboxrule{#1}%
-        \noexpand\setlength\noexpand\fboxsep{#2}%
-        \noexpand\fbox{\the\toks@}%
-    }}}%
-    \@tempa
+    \adjbox@Gin@add{%
+        \setlength\fboxrule{#1}%
+        \setlength\fboxsep{#2}%
+        \fbox
+    }%
+    \adjbox@Gin@add{}% add group around code
     \remove@to@nnil
 }
 
 \define@key{Gin}{reflect}[]{%
   \if@tempswa
-    \edef\@tempa{\toks@{\noexpand\Gscale@box-1[1]{\the\toks@}}}%
-    \@tempa
+    \adjbox@Gin@add{\Gscale@box-1[1]}%
   \else
     \def\Gin@req@sizes{%
       \def\Gin@scalex{-1}\def\Gin@scaley{1}%
@@ -913,19 +912,17 @@
 }
 \def\adjbox@lapbox#1#2#3\@nnil{%
     \ifx\relax#2\relax
-        \def\@tempa{\@lapbox{}{#1}}%
+        \adjbox@Gin@add{\@lapbox{}{#1}}%
     \else
-        \def\@tempa{\i@lapbox{#1}{#2}}%
+        \adjbox@Gin@add{\i@lapbox{#1}{#2}}%
     \fi
-    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
 }
 %    \end{macrocode}
 %
 %
 %    \begin{macrocode}
 \define@key{Gin}{margin}{%
-    \def\@tempa{\marginbox{#1}}%
-    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
+    \adjbox@Gin@add{\marginbox{#1}}%
 }
 %    \end{macrocode}
 %
@@ -942,11 +939,10 @@
 }
 \def\adjbox@raisebox#1#2#3#4\@nnil{%
     \ifx\relax#3\relax
-        \def\@tempa{\@irsbox{#1}[{#2}]}%
+        \adjbox@Gin@add{\@irsbox{#1}[{#2}]}%
     \else
-        \def\@tempa{\@iirsbox{#1}[{#2}][{#3}]}%
+        \adjbox@Gin@add{\@iirsbox{#1}[{#2}][{#3}]}%
     \fi
-    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
 }
 %    \end{macrocode}
 %
@@ -954,8 +950,7 @@
 \define@key{Gin}{set height}{%
     \Gin@esetsize
     \@tempswatrue
-    \def\@tempa{\@irsbox\z@[{#1}]}%
-    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
+    \adjbox@Gin@add{\@irsbox\z@[{#1}]}%
 }
 %    \end{macrocode}
 %
@@ -963,8 +958,7 @@
 \define@key{Gin}{set depth}{%
     \Gin@esetsize
     \@tempswatrue
-    \def\@tempa{\@iirsbox\z@[\height][{#1}]}%
-    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
+    \adjbox@Gin@add{\@iirsbox\z@[\height][{#1}]}%
 }
 %    \end{macrocode}
 %
@@ -1258,8 +1252,9 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%
+% \begin{macro}{\@trimbox}
 %    \begin{macrocode}
-
 \def\@trimbox#1#2#3#4#5{%
     \setbox#5=\hbox\bgroup
         \setlength\@tempdimb{#3}%
@@ -1282,7 +1277,12 @@
             \dp#5=\z@
         \fi
 }
-
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@clipbox}
+%    \begin{macrocode}
 \def\@clipbox#1#2#3#4#5{%
     \@trimbox{#1}{#2}{#3}{#4}{#5}%
     \pdfxform#5%
@@ -1290,11 +1290,21 @@
         \pdfrefxform\pdflastxform
     }%
 }
-
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\marginbox}
+%    \begin{macrocode}
 \newcommand\marginbox[1]{%
     \collectbox@{}{\marginbox@{#1}}%
 }
-
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\marginbox@}
+%    \begin{macrocode}
 \def\marginbox@#1{%
     \adjbox@parse@vp#1 \\%
     \@marginbox
@@ -1305,7 +1315,12 @@
         \collectedbox
     \box\collectedbox
 }
-
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@marginbox}
+%    \begin{macrocode}
 \def\@marginbox#1#2#3#4#5{%
     \setbox#5=\hbox{%
         \setlength\@tempdima{#3}%
@@ -1322,9 +1337,8 @@
         \box#5%
     }%
 }
-
-
 %    \end{macrocode}
+% \end{macro}
 %
 % \Finale
 % \iffalse
