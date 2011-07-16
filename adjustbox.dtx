@@ -735,13 +735,13 @@
     \@ifstar{\@minsizebox\totalheight}{\@minsizebox\height}%
 }
 \newcommand*\@minsizebox[3]{%
-    \collectbox@{}{\@minmaxsizebox>#1{#2}{#3}}%
+    \@collectbox{\@minmaxsizebox>#1{#2}{#3}}%
 }
 \newcommand*\maxsizebox{%
     \@ifstar{\@maxsizebox\totalheight}{\@maxsizebox\height}%
 }
 \newcommand*\@maxsizebox[3]{%
-    \collectbox@{}{\@minmaxsizebox<#1{#2}{#3}}%
+    \@collectbox{\@minmaxsizebox<#1{#2}{#3}}%
 }
 \newcommand*\@minmaxsizebox[4]{%
     \edef\@tempa{#3}% width
@@ -1126,7 +1126,7 @@
 % \begin{macro}{\@lapbox}
 %    \begin{macrocode}
 \def\@lapbox#1#2{%
-    \collectbox@{}{\@@lapbox{#2}}%
+    \@collectbox{\@@lapbox{#2}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1154,7 +1154,7 @@
 % \begin{macro}{\i@lapbox}
 %    \begin{macrocode}
 \def\i@lapbox#1#2{%
-    \collectbox@{}{\i@@lapbox{#1}{#2}}%
+    \@collectbox{\i@@lapbox{#1}{#2}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1223,7 +1223,7 @@
 % \begin{macro}{\marginbox}
 %    \begin{macrocode}
 \newcommand\marginbox[1]{%
-    \collectbox@{}{\marginbox@{#1}}%
+    \@collectbox{\marginbox@{#1}}%
 }
 %    \end{macrocode}
 % \end{macro}
