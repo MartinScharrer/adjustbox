@@ -722,26 +722,25 @@
 % \begin{macro}{\@trimbox}
 %    \begin{macrocode}
 \def\@trimbox#1#2#3#4#5{%
-    \setbox#5=\hbox\bgroup
-        \setlength\@tempdimb{#3}%
-        \advance\@tempdimb by -\wd#5%
-        \wd#5=-\@tempdimb
-        \setlength\@tempdimc{#4}%
-        \advance\@tempdimc by -\ht#5%
-        \ht#5=-\@tempdimc
-        \setlength\@tempdima{#2}%
-        \setlength\@tempdimb{#1}%
-        \hskip-\@tempdimb
-        \ifdim\@tempdima<\dp#5%
-            \advance\@tempdima by -\dp#5%
-            \dp#5=-\@tempdima
-            \box#5%
-            \egroup
+    \setbox#5=\hbox{%
+        \hskip-\dimexpr#1\relax
+        \@tempdima=\dimexpr\dp#5 - (#2)\relax
+        \@tempdimb=\dimexpr\wd#5 - (#3)\relax
+        \@tempdimc=\dimexpr\ht#5 - (#4)\relax
+        \dp#5=\@tempdima
+        \wd#5=\@tempdimb
+        \ht#5=\@tempdimc
+        \ifdim\dp#5<\z@
+            \raise\dp#5%
         \else
-            \lower\@tempdima\box#5%
-            \egroup
-            \dp#5=\z@
-        \fi
+        \ifdim\ht#5<\z@
+            \lower\ht#5%
+        \fi\fi
+        \box#5%
+    }%
+    \ifdim\dp#5<\z@ \dp#5=\z@ \fi
+    \ifdim\wd#5<\z@ \wd#5=\z@ \fi
+    \ifdim\ht#5<\z@ \ht#5=\z@ \fi
 }
 %    \end{macrocode}
 % \end{macro}
@@ -789,17 +788,13 @@
 %    \begin{macrocode}
 \def\@marginbox#1#2#3#4#5{%
     \setbox#5=\hbox{%
-        \setlength\@tempdima{#3}%
-        \advance\@tempdima by \wd#5%
-        \wd#5=\@tempdima
-        \setlength\@tempdima{#4}%
-        \advance\@tempdima by \ht#5%
-        \ht#5=\@tempdima
-        \setlength\@tempdima{#2}%
-        \advance\@tempdima by \dp#5%
+        \hskip\dimexpr#1\relax
+        \@tempdima=\dimexpr\dp#5 + (#2)\relax
+        \@tempdimb=\dimexpr\wd#5 + (#3)\relax
+        \@tempdimc=\dimexpr\ht#5 + (#4)\relax
         \dp#5=\@tempdima
-        \setlength\@tempdima{#1}%
-        \hskip\@tempdima
+        \wd#5=\@tempdimb
+        \ht#5=\@tempdimc
         \box#5%
     }%
 }
