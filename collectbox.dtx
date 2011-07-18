@@ -12,7 +12,7 @@
 %
 % This work has the LPPL maintenance status `maintained'.
 %
-% The Current Maintainer of this work is <+maintainer+>.
+% The Current Maintainer of this work is Martin Scharrer.
 %
 % This work consists of the files collectbox.dtx and collectbox.ins
 % and the derived filebase collectbox.sty.
@@ -26,7 +26,7 @@
 %<package>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
 %<package>\ProvidesPackage{collectbox}
 %<*package>
-    [2011/07/18 <+version+> <+description+>]
+    [2011/07/18 v0.1 Collect macro arguments as boxes]
 %</package>
 %
 %<*driver>
@@ -62,7 +62,7 @@
 %   Right brace   \}     Tilde         \~}
 %
 %
-% \changes{<+version+>}{2011/07/18}{Converted to DTX file}
+% \changes{v0.1}{2011/07/18}{First release.}
 %
 % \DoNotIndex{\newcommand,\newenvironment}
 %
@@ -83,7 +83,26 @@
 % and \Macro\egroup are supported. This allows to split the begin and end over different macros or to place them
 % in the begin and end code of an environment.
 % The provided macro are mainly intended to be used inside other macros or environments.
+%
+% {\bfseries\color{red}Disclaimer: This is the very first release of this package and the code might still change in future releases.}
 % \end{abstract}
+%
+%
+% \section{Dependencies, Compatibility and Installation}
+% This package does not depend on any other \LaTeX\ package or class.
+% It should be compatible with all versions of \LaTeX (DVI-\LaTeX, pdf\LaTeX, Xe\LaTeX\ and Lua\LaTeX).
+% Colored content will be correctly handled.
+%
+% This package should be (soon) part of the standard distributions TeXLive and MikTeX and can be installed over the 
+% provided package manager (i.e.\ TeXLive: |tlmgr install collectcell|).
+% This package can be also manually unpacked from |collectbox.dtx| by compiling the file |collectbox.ins| with \LaTeX\ or \TeX.
+% This documentation can be created by compiling |collectbox.dtx| using pdf\LaTeX\ in DVI or PDF mode.
+% The unpackaged package file |collectbox.sty| should be copied to a newly created directory |$TEXMF/tex/latex/collectbox/| under Linux
+% or |%TEXMF%\tex\latex\collectbox\| under MS Windows where |$TEXMF| and |%TEXMF%| represents the local \TeX\ tree.
+% The documentation and README file can be copied to |$TEXMF/doc/latex/collectbox/|.
+% Some \TeX\ distributions require to update the list of files in the \TeX\ tree, e.g.\ by running |texmf $TEXMF| afterwards.
+% MikTeX users can use the graphical interface of the package manager.
+%
 %
 % \section{User Interface}
 % The following macros are provided on the user level.
@@ -94,6 +113,7 @@
 % as box (here represented as \MacroArgs{<box content>}). Afterwards the user provided \MacroArgs<code> is executed. This code is processed inside an internal group
 % and has access to the just collected content using \Macro\BOXCONTENT and other macros described further below. Usually the code does some calculations and/or modifications
 % on the collected box and then typesets it using \Macro\BOXCONTENT.
+% In addition to the \DescribeMacro\collectbox{<code>}{<box content>}
 %
 % An example is
 % \codeline{\Macro\collectbox{\AlsoMacro\fbox{\AlsoMacro\BOXCONTENT}}'{\verb+verbatim stuff \space\empty+}'}
@@ -180,6 +200,8 @@
 %
 %
 % \DescribeMacro\@collectbox{<code>}{<box content>}
+% This macro is a short version of \Macro\collectbox and only accepts one argument \MacroArgs<code> besides the later \Macro<box content>.
+% It is intended for quick version for macros which do not need to insert code before or after the box content.
 %
 %
 % \StopEventually{}
@@ -190,19 +212,16 @@
 %<*package>
 % \fi
 %
-%% Collectbox
-%% ~~~~~~~~~~
-%% (C) Copyright 2011 by Martin Scharrer <martin@scharrer-online.de>
-%% This is free Software under the LPPL v1.3c or later.
-%%
 %
-%
+% \begin{macro}{\collectedbox}
 % Box register used to store collected box.
 %    \begin{macrocode}
 \newsavebox\collectedbox
 %    \end{macrocode}
+% \end{macro}
 %
 % \begin{macro}{\collectbox}
+% User level interface. Scans for potential star and optional arguments.
 %    \begin{macrocode}
 \def\collectbox{%
     \@ifstar
@@ -245,6 +264,11 @@
 %
 %
 % \begin{macro}{\collectbox@}
+% The box is saved using |\setbox|. Color is supported by using |\color@setgroup|.
+% A brace group is then opened using |\bgroup| which will replace the opening brace of the 
+% ``argument''. The end code is installed in this group using |\aftergroup|.
+% The opening brace written by the user is then removed by assigning it as token to a dummy variable.
+% If no |{| or |\bgroup| follows the next token is taken as sole content.
 %    \begin{macrocode}
 \def\collectbox@#1#2#3{%
     \begingroup
@@ -264,6 +288,7 @@
 %
 %
 % \begin{macro}{\@collectbox}
+% Simpler and quicker version.
 %    \begin{macrocode}
 \def\@collectbox#1{%
     \begingroup
@@ -282,6 +307,9 @@
 %
 %
 % \begin{macro}{\collectbox@arg}
+% Supports |\collectbox{<code>}\somemacro| in addition to
+% |\collectbox{<code>}{\somemacro}|. The first following token is read and the inner brace group is closed
+% to trigger the |\aftergroup| code.
 %    \begin{macrocode}
 \def\collectbox@arg#1{%
     #1\egroup
@@ -291,6 +319,9 @@
 %
 %
 % \begin{macro}{\collectbox@end}
+% The color group is first closed, followed by the closing brace of the |\setbox| command.
+% The user dimension macros are then defined. 
+% Direct after this code the users code is processed and concluded with a |\endgroup|.
 %    \begin{macrocode}
 \def\collectbox@end{%
     \color@endgroup
