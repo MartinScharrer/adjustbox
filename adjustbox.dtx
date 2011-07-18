@@ -499,63 +499,88 @@
 % \ifenglish\else
 % Die Dokumentation des Quellcodes ist nur auf Englisch verfügbar.
 % \fi
-%
 %    \begin{macrocode}
 \RequirePackage{graphicx}[1999/02/16]
 \RequirePackage{collectbox}
 \RequirePackage{adjgrfx}
-
 \RequirePackage{pgf}
-
+%    \end{macrocode}
+%
+% \begin{macro}{\adjbox@viewport}
+%    \begin{macrocode}
 \def\adjbox@viewport#1{%
     \let\Gin@viewport@code\adjbox@@viewport
     \let\adjustbox@@@\adjustbox@@@cliptrim
     \adjbox@parse@vp#1 \\%
 }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@trim}
+%    \begin{macrocode}
 \def\adjbox@trim#1{%
     \let\Gin@viewport@code\adjbox@@trim
     \let\adjustbox@@@\adjustbox@@@cliptrim
     \adjbox@parse@vp#1 \\%
 }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@parse@vp}
+%    \begin{macrocode}
 \def\adjbox@parse@vp#1 #2 #3 #4 #5\\{%
   \adjbox@defaultbp\adjbox@vllx{#1}%
   \adjbox@defaultbp\adjbox@vlly{#2}%
   \adjbox@defaultbp\adjbox@vurx{#3}%
   \adjbox@defaultbp\adjbox@vury{#4}%
 }%
-
 \newdimen\adjbox@llx
 \newdimen\adjbox@lly
 \newdimen\adjbox@urx
 \newdimen\adjbox@ury
-
 \newdimen\adjbox@vllx
 \newdimen\adjbox@vlly
 \newdimen\adjbox@vurx
 \newdimen\adjbox@vury
-
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@defaultbp}
+%    \begin{macrocode}
 \def\adjbox@defaultbp#1#2{%
     \@defaultunits#1=#2 bp\relax\@nnil
 }
-
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@@viewport}
+%    \begin{macrocode}
 \def\adjbox@@viewport{%
   \adjbox@llx=\adjbox@vllx
   \adjbox@lly=\adjbox@vlly
   \adjbox@urx=\adjbox@vurx
   \adjbox@ury=\adjbox@vury
 }
-
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@@trim}
+%    \begin{macrocode}
 \def\adjbox@@trim{%
   \advance\adjbox@llx by  \adjbox@vllx
   \advance\adjbox@lly by  \adjbox@vlly
   \advance\adjbox@urx by -\adjbox@vurx
   \advance\adjbox@ury by -\adjbox@vury
 }
-
-
 %    \end{macrocode}
+% \end{macro}
 %
-% \begin{environment}{clipbox}
+%
 % \begin{macro}{\clipbox}
 %    \begin{macrocode}
 \newcommand\clipbox{%
@@ -567,22 +592,22 @@
 }
 %    \end{macrocode}
 % \end{macro}
+%
+%
+% \begin{macro}{\endclipbox}
 %    \begin{macrocode}
 \def\endclipbox{%
     \endadjustbox
 }
 %    \end{macrocode}
-% \end{environment}
+% \end{macro}
 %
-% \begin{environment}{clipbox*}
 %    \begin{macrocode}
 \newenvironment{clipbox*}
     {\begin{clipbox}*}
     {\end{clipbox}}
 %    \end{macrocode}
-% \end{environment}
 %
-% \begin{environment}{trimbox}
 % \begin{macro}{\trimbox}
 %    \begin{macrocode}
 \newcommand\trimbox{%
@@ -594,22 +619,22 @@
 }
 %    \end{macrocode}
 % \end{macro}
+%
+%
+% \begin{macro}{\endtrimbox}
 %    \begin{macrocode}
 \def\endtrimbox{%
     \endadjustbox
 }
 %    \end{macrocode}
-% \end{environment}
+% \end{macro}
 %
-% \begin{environment}{trimbox*}
 %    \begin{macrocode}
 \newenvironment{trimbox*}
     {\begin{trimbox}*}
     {\end{trimbox}}
 %    \end{macrocode}
-% \end{environment}
 %
-% \begin{environment}{adjustbox}
 % \begin{macro}{\adjustbox}
 %    \begin{macrocode}
 \newcommand\adjustbox{%
@@ -619,6 +644,9 @@
 }
 %    \end{macrocode}
 % \end{macro}
+%
+%
+% \begin{macro}{\endadjustbox}
 %    \begin{macrocode}
 \def\endadjustbox{%
     \unskip
@@ -628,7 +656,7 @@
     \adjustbox@@
 }
 %    \end{macrocode}
-% \end{environment}
+% \end{macro}
 %
 %
 % \begin{macro}{\adjustbox@}
@@ -653,6 +681,7 @@
 }
 %    \end{macrocode}
 % \end{macro}
+%
 %
 % \begin{macro}{\adjustbox@@}
 %    \begin{macrocode}
@@ -686,6 +715,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%
 % \begin{macro}{\adjustbox@@@}
 %    \begin{macrocode}
 \def\adjustbox@@@{%
@@ -693,6 +723,7 @@
 }
 %    \end{macrocode}
 % \end{macro}
+%
 %
 % \begin{macro}{\adjustbox@@@cliptrim}
 %    \begin{macrocode}
@@ -739,15 +770,39 @@
 \newcommand*\minsizebox{%
     \@ifstar{\@minsizebox\totalheight}{\@minsizebox\height}%
 }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@minsizebox}
+%    \begin{macrocode}
 \newcommand*\@minsizebox[3]{%
     \@collectbox{\@minmaxsizebox>#1{#2}{#3}}%
 }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\maxsizebox}
+%    \begin{macrocode}
 \newcommand*\maxsizebox{%
     \@ifstar{\@maxsizebox\totalheight}{\@maxsizebox\height}%
 }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@maxsizebox}
+%    \begin{macrocode}
 \newcommand*\@maxsizebox[3]{%
     \@collectbox{\@minmaxsizebox<#1{#2}{#3}}%
 }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@minmaxsizebox}
+%    \begin{macrocode}
 \newcommand*\@minmaxsizebox[4]{%
     \edef\@tempa{#3}% width
     \edef\@tempb{#4}% height
@@ -805,20 +860,22 @@
 % \end{macro}
 %
 %
+% \begin{key}{Gin}{debug}
 %    \begin{macrocode}
 \define@key{Gin}{debug}[]{%
     \message{^^JDEBUG: \the\toks@^^J}%
 }
 %    \end{macrocode}
-% \end{macro}
+% \end{key}
 %
+%
+% \begin{key}{Gin}{esetsize}
 %    \begin{macrocode}
 \define@key{Gin}{esetsize}[]{%
     \Gin@esetsize
 }
 %    \end{macrocode}
-% \end{macro}
-%
+% \end{key}
 %
 %
 % \begin{key}{Gin}{frame}
@@ -890,7 +947,6 @@
 % \end{macro}
 %
 %
-%
 % \begin{key}{Gin}{margin}
 %    \begin{macrocode}
 \define@key{Gin}{margin}{%
@@ -916,7 +972,6 @@
 }
 %    \end{macrocode}
 % \end{key}
-%
 %
 %
 % \begin{key}{Gin}{raise}
@@ -1083,6 +1138,7 @@
 %    \end{macrocode}
 % \end{key}
 %
+%
 % \begin{macro}{\lapbox}
 %    \begin{macrocode}
 \newcommand*{\lapbox}[1][]{%
@@ -1096,6 +1152,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%
 % \begin{macro}{\@lapbox}
 %    \begin{macrocode}
 \def\@lapbox#1#2{%
@@ -1103,6 +1160,7 @@
 }
 %    \end{macrocode}
 % \end{macro}
+%
 %
 % \begin{macro}{\@@lapbox}
 %    \begin{macrocode}
@@ -1152,6 +1210,7 @@
 }
 %    \end{macrocode}
 % \end{macro}
+%
 %
 % \begin{macro}{\@trimbox}
 %    \begin{macrocode}
@@ -1217,6 +1276,7 @@
 }
 %    \end{macrocode}
 % \end{macro}
+%
 %
 % \begin{macro}{\@marginbox}
 %    \begin{macrocode}
