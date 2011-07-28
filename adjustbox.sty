@@ -1,8 +1,24 @@
 %    \begin{macrocode}
+\ProvidesPackage{adjustbox}[2011/03/20 v0.3 Adjusting TeX boxes (trim, clip, ...)]
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\DeclareOption*{\PassOptionsToPackage\CurrentOption{graphicx}}
+
+\DeclareOption {patch}   {\AtEndPackage{\RequirePackage{adjgrfx}}}
+\DeclareOption {pgf}     {\AtEndPackage{\RequirePackage{pgf}}}
+\DeclareOption {pgfmath} {\AtEndPackage{\let\adjbox@addsetdim\adjbox@addsetdim@pgf  \let\adjbox@setdim\adjbox@setdim@pgf  \RequirePackage{pgfmath}}}
+\DeclareOption {PGF}     {\AtEndPackage{\let\adjbox@addsetdim\adjbox@addsetdim@pgf  \let\adjbox@setdim\adjbox@setdim@pgf  \RequirePackage{pgf}}}
+\DeclareOption {etex}    {\AtEndPackage{\let\adjbox@addsetdim\adjbox@addsetdim@etex \let\adjbox@setdim\adjbox@setdim@etex }}
+\DeclareOption {tex}     {\AtEndPackage{\let\adjbox@addsetdim\adjbox@addsetdim@tex  \let\adjbox@setdim\adjbox@setdim@tex  }}
+\DeclareOption {latex}   {\AtEndPackage{\let\adjbox@addsetdim\adjbox@addsetdim@latex\let\adjbox@setdim\adjbox@setdim@latex}}
+
+\ProcessOptions*
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \RequirePackage{graphicx}[1999/02/16]
 \RequirePackage{collectbox}
-\RequirePackage{adjgrfx}
-\RequirePackage{pgf}
 %    \end{macrocode}
 %
 % \begin{macro}{\adjbox@viewport}
@@ -788,16 +804,105 @@
 %    \begin{macrocode}
 \def\@marginbox#1#2#3#4#5{%
     \setbox#5=\hbox{%
-        \hskip\dimexpr#1\relax
-        \@tempdima=\dimexpr\dp#5 + (#2)\relax
-        \@tempdimb=\dimexpr\wd#5 + (#3)\relax
-        \@tempdimc=\dimexpr\ht#5 + (#4)\relax
-        \dp#5=\@tempdima
-        \wd#5=\@tempdimb
-        \ht#5=\@tempdimc
+        \adjbox@setdim\@tempdima{#1}%
+        \hskip\@tempdima
+        \adjbox@addsetdim{\dp#5}{\dp#5}{#2}%
+        \adjbox@addsetdim{\wd#5}{\wd#5}{#3}%
+        \adjbox@addsetdim{\ht#5}{\ht#5}{#4}%
         \box#5%
     }%
 }
 %    \end{macrocode}
 % \end{macro}
 %
+%
+% \begin{macro}{\adjbox@addsetdim@etex}
+%    \begin{macrocode}
+\def\adjbox@addsetdim@etex#1#2#3{%
+    #1=\dimexpr#2 + #3\relax
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@addsetdim@tex}
+%    \begin{macrocode}
+\def\adjbox@addsetdim@tex#1#2#3{%
+    \@tempdima=#2\relax
+    \advance\@tempdima by #2\relax
+    #1=\@tempdima
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@addsetdim@latex}
+%    \begin{macrocode}
+\def\adjbox@addsetdim@latex#1#2#3{%
+    \setlength\@tempdima{#2}%
+    \addtolength\@tempdima{#3}%
+    \setlength#1{\@tempdima}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@addsetdim@pgf}
+%    \begin{macrocode}
+\def\adjbox@addsetdim@pgf#1#2#3{%
+    \pgfmathsetlength\@tempdima{#2 + #3}%
+    #1=\@tempdima
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@setdim@etex}
+%    \begin{macrocode}
+\def\adjbox@setdim@etex#1#2{%
+    #1=\dimexpr#2\relax
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@setdim@tex}
+%    \begin{macrocode}
+\def\adjbox@setdim@tex#1#2{%
+    #1=#2\relax
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@setdim@latex}
+%    \begin{macrocode}
+\def\adjbox@setdim@latex#1#2{%
+    \setlength{#1}{#2}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@setdim@pgf}
+%    \begin{macrocode}
+\def\adjbox@setdim@pgf#1#2{%
+    \pgfmathsetlength{#1}{#2}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%    \begin{macrocode}
+\begingroup
+\expandafter\ifx\csname eTeXversion\endcsname\relax
+    \global\let\adjbox@addsetdim\adjbox@addsetdim@etex
+    \global\let\adjbox@setdim\adjbox@setdim@etex
+\else
+    \global\let\adjbox@addsetdim\adjbox@addsetdim@latex
+    \global\let\adjbox@setdim\adjbox@setdim@latex
+\fi
+\endgroup
+%    \end{macrocode}
+
+
