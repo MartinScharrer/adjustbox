@@ -1,0 +1,25 @@
+syntax: glob
+.hgignore
+.svn/*
+*/.svn/*
+.tds
+tds
+*.pdf
+*.aux
+*.cod
+*.dtx
+*.hd
+*.idx
+*.ilg
+*.ind
+*.ins
+*.log
+*.out
+*.pdf
+*.svt
+*.svx
+*.toc
+*.zip
+?.*
+?
+
