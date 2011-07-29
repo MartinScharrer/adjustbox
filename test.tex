@@ -2,24 +2,29 @@
 \usepackage{adjustbox}
 \listfiles
 \fboxsep=0pt
+\parskip=1cm
 \begin{document}
 \ttfamily
 {
 {\tracingall
-none:~~\fbox{\Huge A}
+none:~~\fbox{\Huge Ag}
 
-trim:~~\fbox{\trimbox {0pt 0pt 0pt 0pt}{\Huge A}}
+trim:~~\fbox{\trimbox {0pt 0pt 0pt 0pt}{\Huge Ag}}
 
-trim:~~\fbox{\trimbox {1pt 1pt 1pt 1pt}{\Huge A}}
+trim:~~\fbox{\trimbox {1pt 1pt 1pt 1pt}{\Huge Ag}}
+
+trim:~~\fbox{\trimbox {1pt {\depth+2pt} 1pt 1pt}{\Huge Ag}}
+
+trim:~~\fbox{\trimbox {1pt 12pt 1pt 1pt}{\Huge Ag}}
 }
 
-trim*:~\fbox{\trimbox*{1pt 1pt 10pt 10pt}{\Huge A}}
+trim*:~\fbox{\trimbox*{1pt 1pt 10pt 10pt}{\Huge Ag}}
 
-clip:~~\fbox{\clipbox{10pt 1pt 1pt 1pt}{\Huge A}}
+clip:~~\fbox{\clipbox{10pt 1pt 1pt 1pt}{\Huge Ag}}
 
-clip*:~\fbox{\clipbox*{1pt 1pt 10pt 10pt}{\Huge A}}
+clip*:~\fbox{\clipbox*{1pt 1pt 10pt 10pt}{\Huge Ag}}
 
-adjust:\fbox{\adjustbox{trim=10pt 1pt 1pt 1pt,angle=10}{\Huge A}}
+adjust:\fbox{\adjustbox{trim=10pt 1pt 1pt 1pt,angle=10}{\Huge Ag}}
 
 \fbox{{%
 \begin{clipbox}{1 1 1 1}

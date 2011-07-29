@@ -35,7 +35,7 @@
 %    \begin{macrocode}
 \def\adjbox@viewport#1{%
     \let\Gin@viewport@code\adjbox@@viewport
-    \let\adjustbox@@@\adjustbox@@@trim
+    \let\adjustbox@@@\adjustbox@@@trimclip
     \adjbox@parse@vp#1 \\%
 }
 %    \end{macrocode}
@@ -46,16 +46,16 @@
 %    \begin{macrocode}
 \def\adjbox@trim#1{%
     \let\Gin@viewport@code\adjbox@@trim
-    \let\adjustbox@@@\adjustbox@@@trim
+    \let\adjustbox@@@\adjustbox@@@trimclip
     \adjbox@parse@vp#1 \\%
 }
-\def\adjustbox@@@trim{%
-    \adjbox@llx\z@
-    \adjbox@lly-\dp\collectedbox
-    \adjbox@urx\wd\collectedbox
-    \adjbox@ury\ht\collectedbox
+\def\adjustbox@@@trimclip{%
     \Gin@viewport@code
-    \@trimbox
+    \ifGin@clip
+        \expandafter\@clipbox
+    \else
+        \expandafter\@trimbox
+    \fi
         \adjbox@vllx
         \adjbox@vlly
         \adjbox@vurx
@@ -106,10 +106,10 @@
 % \begin{macro}{\adjbox@@viewport}
 %    \begin{macrocode}
 \def\adjbox@@viewport{%
-  \advance\adjbox@vllx by -\adjbox@llx
-  \advance\adjbox@vlly by -\adjbox@lly
-  \advance\adjbox@vurx by -\adjbox@urx
-  \advance\adjbox@vury by -\adjbox@ury
+  %\advance\adjbox@vllx by -\z@
+  \advance\adjbox@vlly by  \dp\collectedbox
+  \advance\adjbox@vurx by -\wd\collectedbox
+  \advance\adjbox@vury by -\ht\collectedbox
   \adjbox@vurx=-\adjbox@vurx
   \adjbox@vury=-\adjbox@vury
 }
@@ -224,7 +224,7 @@
 %
 % \begin{macro}{\adjustbox@@@cliptrim}
 %    \begin{macrocode}
-\def\adjustbox@@@cliptrim{%
+\def\adjustbox@@@cliptrim@pgf@OUTDATED{%
     \adjbox@llx\z@
     \adjbox@lly-\dp\collectedbox
     \adjbox@urx\wd\collectedbox
