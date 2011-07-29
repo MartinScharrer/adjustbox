@@ -22,6 +22,8 @@
 %    \begin{macrocode}
 \RequirePackage{graphicx}[1999/02/16]
 \RequirePackage{collectbox}
+\RequirePackage{ifpdf}
+\RequirePackage{pgf}
 %    \end{macrocode}
 %
 %
@@ -104,54 +106,18 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\clipbox}
-%    \begin{macrocode}
-\newcommand\clipbox{%
-    \begingroup
-    \def\adjustbox@name{clipbox}%
-    \@ifstar
-        {\adjustbox@{clip,viewport=}}%
-        {\adjustbox@{clip,trim=}}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\endclipbox}
-%    \begin{macrocode}
-\def\endclipbox{%
-    \endadjustbox
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{environment}{clipbox*}
-%    \begin{macrocode}
-\newenvironment{clipbox*}
-    {\begin{clipbox}*}
-    {\end{clipbox}}
-%    \end{macrocode}
-% \end{environment}
-%
-%
 % \begin{macro}{\trimbox}
 %    \begin{macrocode}
 \newcommand\trimbox{%
-    \begingroup
-    \def\adjustbox@name{trimbox}%
-    \@ifstar
-        {\adjustbox@{viewport=}}%
-        {\adjustbox@{trim=}}%
+    \@ifstar\trimbox@s\trimbox@
 }
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\endtrimbox}
-%    \begin{macrocode}
-\def\endtrimbox{%
-    \endadjustbox
+\def\trimbox@#1{%
+    \collectboxcheckenv{trimbox}%
+    \collectbox{\adjustbox@{trim={#1}}}%
+}
+\def\trimbox@s#1{%
+    \collectboxcheckenv{trimbox*}%
+    \collectbox{\adjustbox@{viewport={#1}}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -159,32 +125,40 @@
 %
 % \begin{environment}{trimbox*}
 %    \begin{macrocode}
-\newenvironment{trimbox*}
-    {\begin{trimbox}*}
-    {\end{trimbox}}
+\expandafter\let\csname trimbox*\endcsname\trimbox@s
+%    \end{macrocode}
+% \end{environment}
+%
+%
+% \begin{macro}{\clipbox}
+%    \begin{macrocode}
+\newcommand\clipbox{%
+    \@ifstar\clipbox@s\clipbox@
+}
+\def\clipbox@#1{%
+    \collectboxcheckenv{clipbox}%
+    \collectbox{\adjustbox@{clip,trim={#1}}}%
+}
+\def\clipbox@s#1{%
+    \collectboxcheckenv{clipbox*}%
+    \collectbox{\adjustbox@{clip,viewport={#1}}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{environment}{clipbox*}
+%    \begin{macrocode}
+\expandafter\let\csname clipbox*\endcsname\clipbox@s
 %    \end{macrocode}
 % \end{environment}
 %
 %
 % \begin{macro}{\adjustbox}
 %    \begin{macrocode}
-\newcommand\adjustbox{%
-    \begingroup
-    \def\adjustbox@name{adjustbox}%
-    \adjustbox@{}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\endadjustbox}
-%    \begin{macrocode}
-\def\endadjustbox{%
-    \unskip
-    \egroup
-    \color@endgroup
-    \egroup
-    \adjustbox@@
+\newcommand\adjustbox[1]{%
+    \collectboxcheckenv{adjustbox}%
+    \collectbox{\adjustbox@{#1}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -192,31 +166,7 @@
 %
 % \begin{macro}{\adjustbox@}
 %    \begin{macrocode}
-\def\adjustbox@#1#2{%
-    \let\KV@Gin@viewport\adjbox@viewport
-    \let\KV@Gin@trim\adjbox@trim
-    \def\adjustbox@setkeys{\setkeys{Gin}{#1#2}}%
-    \ifx\@currenvir\adjustbox@name
-        \edef\@currenvir{\@currenvir\noexpand\empty}%
-        \def\next{%
-            \setbox\collectedbox\hbox\bgroup
-                \color@setgroup\bgroup
-                \ignorespaces
-        }%
-    \else
-        \def\next{%
-            \@collectbox\adjustbox@@
-        }%
-    \fi
-    \next
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjustbox@@}
-%    \begin{macrocode}
-\def\adjustbox@@{%
+\def\adjustbox@#1{%
 %    \end{macrocode}
 % Locally redefine \Macro\Gin@defaultbp to use \Macro\pgfmathsetmacro
 % with |bp| as the default unit.
@@ -224,10 +174,14 @@
 % are given without unit but avoids the internal conversion to |bp| of values with
 % units.
 %    \begin{macrocode}
+    \iffalse
     \def\pgfmathresultunitscale{1bp}%
     \let\pgfmathpostparse\pgfmathscaleresult
     \let\Gin@defaultbp\pgfmathsetmacro
     \let\setlength\pgfmathsetlength
+    \fi
+%    \end{macrocode}
+%    \begin{macrocode}
 %    \end{macrocode}
 % The rest of the code was adapted from the \Macro\Gin@ii macro from the |graphicx| package.
 % The \emph{temp switch a} is set to |true| to indicate to |graphicx| that the
@@ -238,10 +192,11 @@
 %    \begin{macrocode}
     \@tempswatrue
     \toks@{{\adjustbox@@@}}%
-    \adjustbox@setkeys
+    \let\KV@Gin@viewport\adjbox@viewport
+    \let\KV@Gin@trim\adjbox@trim
+    \setkeys{Gin}{#1}%
     \Gin@esetsize
     \the\toks@
-    \endgroup
 }
 %    \end{macrocode}
 % \end{macro}
@@ -291,6 +246,50 @@
                 \fi
         \pgfsetbaselinepointnow{\pgfpoint\z@\dimen@}%
     \end{pgfpicture}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsubsection{Low-level trim and clip boxes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \begin{macro}{\@trimbox}
+%    \begin{macrocode}
+\def\@trimbox#1#2#3#4#5{%
+    \setbox#5=\hbox{%
+        \hskip-\dimexpr#1\relax
+        \@tempdima=\dimexpr\dp#5 - (#2)\relax
+        \@tempdimb=\dimexpr\wd#5 - (#3)\relax
+        \@tempdimc=\dimexpr\ht#5 - (#4)\relax
+        \dp#5=\@tempdima
+        \wd#5=\@tempdimb
+        \ht#5=\@tempdimc
+        \ifdim\dp#5<\z@
+            \raise\dp#5%
+        \else
+        \ifdim\ht#5<\z@
+            \lower\ht#5%
+        \fi\fi
+        \box#5%
+    }%
+    \ifdim\dp#5<\z@ \dp#5=\z@ \fi
+    \ifdim\wd#5<\z@ \wd#5=\z@ \fi
+    \ifdim\ht#5<\z@ \ht#5=\z@ \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@clipbox}
+%    \begin{macrocode}
+\def\@clipbox#1#2#3#4#5{%
+    \@trimbox{#1}{#2}{#3}{#4}{#5}%
+    \pdfxform#5%
+    \setbox#5=\hbox{%
+        \pdfrefxform\pdflastxform
+    }%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -733,50 +732,6 @@
             \hb@xt@\@tempdima{\hss\BOXCONTENT}%
             \hss
         \fi
-    }%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsubsection{Low-level trim and clip boxes}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% \begin{macro}{\@trimbox}
-%    \begin{macrocode}
-\def\@trimbox#1#2#3#4#5{%
-    \setbox#5=\hbox{%
-        \hskip-\dimexpr#1\relax
-        \@tempdima=\dimexpr\dp#5 - (#2)\relax
-        \@tempdimb=\dimexpr\wd#5 - (#3)\relax
-        \@tempdimc=\dimexpr\ht#5 - (#4)\relax
-        \dp#5=\@tempdima
-        \wd#5=\@tempdimb
-        \ht#5=\@tempdimc
-        \ifdim\dp#5<\z@
-            \raise\dp#5%
-        \else
-        \ifdim\ht#5<\z@
-            \lower\ht#5%
-        \fi\fi
-        \box#5%
-    }%
-    \ifdim\dp#5<\z@ \dp#5=\z@ \fi
-    \ifdim\wd#5<\z@ \wd#5=\z@ \fi
-    \ifdim\ht#5<\z@ \ht#5=\z@ \fi
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\@clipbox}
-%    \begin{macrocode}
-\def\@clipbox#1#2#3#4#5{%
-    \@trimbox{#1}{#2}{#3}{#4}{#5}%
-    \pdfxform#5%
-    \setbox#5=\hbox{%
-        \pdfrefxform\pdflastxform
     }%
 }
 %    \end{macrocode}
