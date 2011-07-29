@@ -41,7 +41,8 @@
 \documentclass{ydoc}[2011/03/19]
 \GetFileInfo{adjustbox.dtx}
 \usepackage[utf8]{inputenc}
-\usepackage{adjustbox}[\filedate]
+\usepackage{adjustbox}
+\usepackage{pgf}
 \normalmarginpar
 \newenvironment{key}[2]{\expandafter\macro\expandafter{%
    \csname KV@#1@#2\endcsname}}{\endmacro}
@@ -493,14 +494,6 @@
 % \fi
 %
 % \iffalse
-%<*package>
-% \fi
-%
-% \iffalse
-%</package>
-% \fi
-%
-% \iffalse
 %<*de>
 %% Wrapper to set language to German and jobname to 'adjustbox-de'.
 %% Does not have to be included in distributions or placed on CTAN.
@@ -509,5 +502,22 @@
 \input{adjustbox.dtx}
 %</de>
 % \fi
+%
+% \iffalse
+%<*adjustbox>
+% \fi
+% \iffalse
+%</adjustbox>
+% \fi
+%
+%
+% \iffalse
+%<*adjgrfx>
+% \fi
+% \iffalse
+%</adjgrfx>
+% \fi
+%
+%
 % \Finale
 % \endinput
