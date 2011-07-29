@@ -3,8 +3,15 @@
 \listfiles
 \fboxsep=0pt
 \begin{document}
+\ttfamily
 {
-trim:~~\fbox{\trimbox {10pt 1pt 1pt 1pt}{\Huge A}}
+{\tracingall
+none:~~\fbox{\Huge A}
+
+trim:~~\fbox{\trimbox {0pt 0pt 0pt 0pt}{\Huge A}}
+
+trim:~~\fbox{\trimbox {1pt 1pt 1pt 1pt}{\Huge A}}
+}
 
 trim*:~\fbox{\trimbox*{1pt 1pt 10pt 10pt}{\Huge A}}
 

@@ -10,11 +10,11 @@
 
 \DeclareOption {patch}   {\AtEndPackage{\RequirePackage{adjgrfx}}}
 \DeclareOption {pgf}     {\AtEndPackage{\RequirePackage{pgf}}}
-\DeclareOption {pgfmath} {\AtEndPackage{\let\adjbox@addsetdim\adjbox@addsetdim@pgf  \let\adjbox@setdim\adjbox@setdim@pgf  \RequirePackage{pgfmath}}}
-\DeclareOption {PGF}     {\AtEndPackage{\let\adjbox@addsetdim\adjbox@addsetdim@pgf  \let\adjbox@setdim\adjbox@setdim@pgf  \RequirePackage{pgf}}}
-\DeclareOption {etex}    {\AtEndPackage{\let\adjbox@addsetdim\adjbox@addsetdim@etex \let\adjbox@setdim\adjbox@setdim@etex }}
-\DeclareOption {tex}     {\AtEndPackage{\let\adjbox@addsetdim\adjbox@addsetdim@tex  \let\adjbox@setdim\adjbox@setdim@tex  }}
-\DeclareOption {latex}   {\AtEndPackage{\let\adjbox@addsetdim\adjbox@addsetdim@latex\let\adjbox@setdim\adjbox@setdim@latex}}
+\DeclareOption {pgfmath} {\AtEndPackage{\let\adjbox@setadddim\adjbox@setadddim@pgf  \let\adjbox@setsubdim\adjbox@setsubdim@pgf  \let\adjbox@setdim\adjbox@setdim@pgf  \RequirePackage{pgfmath}}}
+\DeclareOption {PGF}     {\AtEndPackage{\let\adjbox@setadddim\adjbox@setadddim@pgf  \let\adjbox@setsubdim\adjbox@setsubdim@pgf  \let\adjbox@setdim\adjbox@setdim@pgf  \RequirePackage{pgf}}}
+\DeclareOption {etex}    {\AtEndPackage{\let\adjbox@setadddim\adjbox@setadddim@etex \let\adjbox@setsubdim\adjbox@setsubdim@etex \let\adjbox@setdim\adjbox@setdim@etex }}
+\DeclareOption {tex}     {\AtEndPackage{\let\adjbox@setadddim\adjbox@setadddim@tex  \let\adjbox@setsubdim\adjbox@setsubdim@tex  \let\adjbox@setdim\adjbox@setdim@tex  }}
+\DeclareOption {latex}   {\AtEndPackage{\let\adjbox@setadddim\adjbox@setadddim@latex\let\adjbox@setsubdim\adjbox@setsubdim@latex\let\adjbox@setdim\adjbox@setdim@latex}}
 
 \ProcessOptions*
 %    \end{macrocode}
@@ -35,7 +35,7 @@
 %    \begin{macrocode}
 \def\adjbox@viewport#1{%
     \let\Gin@viewport@code\adjbox@@viewport
-    \let\adjustbox@@@\adjustbox@@@cliptrim
+    \let\adjustbox@@@\adjustbox@@@trim
     \adjbox@parse@vp#1 \\%
 }
 %    \end{macrocode}
@@ -46,8 +46,22 @@
 %    \begin{macrocode}
 \def\adjbox@trim#1{%
     \let\Gin@viewport@code\adjbox@@trim
-    \let\adjustbox@@@\adjustbox@@@cliptrim
+    \let\adjustbox@@@\adjustbox@@@trim
     \adjbox@parse@vp#1 \\%
+}
+\def\adjustbox@@@trim{%
+    \adjbox@llx\z@
+    \adjbox@lly-\dp\collectedbox
+    \adjbox@urx\wd\collectedbox
+    \adjbox@ury\ht\collectedbox
+    \Gin@viewport@code
+    \@trimbox
+        \adjbox@vllx
+        \adjbox@vlly
+        \adjbox@vurx
+        \adjbox@vury
+        \collectedbox
+    \box\collectedbox
 }
 %    \end{macrocode}
 % \end{macro}
@@ -82,25 +96,22 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\adjbox@@viewport}
+% \begin{macro}{\adjbox@@trim}
 %    \begin{macrocode}
-\def\adjbox@@viewport{%
-  \adjbox@llx=\adjbox@vllx
-  \adjbox@lly=\adjbox@vlly
-  \adjbox@urx=\adjbox@vurx
-  \adjbox@ury=\adjbox@vury
-}
+\let\adjbox@@trim\relax
 %    \end{macrocode}
 % \end{macro}
 %
 %
-% \begin{macro}{\adjbox@@trim}
+% \begin{macro}{\adjbox@@viewport}
 %    \begin{macrocode}
-\def\adjbox@@trim{%
-  \advance\adjbox@llx by  \adjbox@vllx
-  \advance\adjbox@lly by  \adjbox@vlly
-  \advance\adjbox@urx by -\adjbox@vurx
-  \advance\adjbox@ury by -\adjbox@vury
+\def\adjbox@@viewport{%
+  \advance\adjbox@vllx by -\adjbox@llx
+  \advance\adjbox@vlly by -\adjbox@lly
+  \advance\adjbox@vurx by -\adjbox@urx
+  \advance\adjbox@vury by -\adjbox@ury
+  \adjbox@vurx=-\adjbox@vurx
+  \adjbox@vury=-\adjbox@vury
 }
 %    \end{macrocode}
 % \end{macro}
@@ -259,10 +270,11 @@
 %    \begin{macrocode}
 \def\@trimbox#1#2#3#4#5{%
     \setbox#5=\hbox{%
-        \hskip-\dimexpr#1\relax
-        \@tempdima=\dimexpr\dp#5 - (#2)\relax
-        \@tempdimb=\dimexpr\wd#5 - (#3)\relax
-        \@tempdimc=\dimexpr\ht#5 - (#4)\relax
+        \adjbox@setdim\@tempdima{#1}%
+        \hskip-\@tempdima
+        \adjbox@setsubdim{\@tempdima}{\dp#5}{#2}%
+        \adjbox@setsubdim{\@tempdimb}{\wd#5}{#3}%
+        \adjbox@setsubdim{\@tempdimc}{\ht#5}{#4}%
         \dp#5=\@tempdima
         \wd#5=\@tempdimb
         \ht#5=\@tempdimc
@@ -781,9 +793,12 @@
     \setbox#5=\hbox{%
         \adjbox@setdim\@tempdima{#1}%
         \hskip\@tempdima
-        \adjbox@addsetdim{\dp#5}{\dp#5}{#2}%
-        \adjbox@addsetdim{\wd#5}{\wd#5}{#3}%
-        \adjbox@addsetdim{\ht#5}{\ht#5}{#4}%
+        \adjbox@setadddim{\@tempdima}{\dp#5}{#2}%
+        \adjbox@setadddim{\@tempdimb}{\wd#5}{#3}%
+        \adjbox@setadddim{\@tempdimc}{\ht#5}{#4}%
+        \dp#5=\@tempdima
+        \wd#5=\@tempdimb
+        \ht#5=\@tempdimc
         \box#5%
     }%
 }
@@ -795,18 +810,18 @@
 % \subsection{Dimension macros}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% \begin{macro}{\adjbox@addsetdim@etex}
+% \begin{macro}{\adjbox@setadddim@etex}
 %    \begin{macrocode}
-\def\adjbox@addsetdim@etex#1#2#3{%
+\def\adjbox@setadddim@etex#1#2#3{%
     #1=\dimexpr#2 + #3\relax
 }
 %    \end{macrocode}
 % \end{macro}
 %
 %
-% \begin{macro}{\adjbox@addsetdim@tex}
+% \begin{macro}{\adjbox@setadddim@tex}
 %    \begin{macrocode}
-\def\adjbox@addsetdim@tex#1#2#3{%
+\def\adjbox@setadddim@tex#1#2#3{%
     \@tempdima=#2\relax
     \advance\@tempdima by #2\relax
     #1=\@tempdima
@@ -815,9 +830,9 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\adjbox@addsetdim@latex}
+% \begin{macro}{\adjbox@setadddim@latex}
 %    \begin{macrocode}
-\def\adjbox@addsetdim@latex#1#2#3{%
+\def\adjbox@setadddim@latex#1#2#3{%
     \setlength\@tempdima{#2}%
     \addtolength\@tempdima{#3}%
     \setlength#1{\@tempdima}%
@@ -826,10 +841,52 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\adjbox@addsetdim@pgf}
+% \begin{macro}{\adjbox@setadddim@pgf}
 %    \begin{macrocode}
-\def\adjbox@addsetdim@pgf#1#2#3{%
+\def\adjbox@setadddim@pgf#1#2#3{%
     \pgfmathsetlength\@tempdima{#2 + #3}%
+    #1=\@tempdima
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@setsubdim@etex}
+%    \begin{macrocode}
+\def\adjbox@setsubdim@etex#1#2#3{%
+    #1=\dimexpr#2 -\dimexpr#3\relax\relax
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@setsubdim@tex}
+%    \begin{macrocode}
+\def\adjbox@setsubdim@tex#1#2#3{%
+    \@tempdima=#2\relax
+    \advance\@tempdima by -#2\relax
+    #1=\@tempdima
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@setsubdim@latex}
+%    \begin{macrocode}
+\def\adjbox@setsubdim@latex#1#2#3{%
+    \setlength\@tempdima{#2}%
+    \@tempdima=-\@tempdima
+    \addtolength\@tempdima{#3}%
+    \setlength#1{-\@tempdima}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@setsubdim@pgf}
+%    \begin{macrocode}
+\def\adjbox@setsubdim@pgf#1#2#3{%
+    \pgfmathsetlength\@tempdima{#2 - (#3)}%
     #1=\@tempdima
 }
 %    \end{macrocode}
@@ -875,11 +932,13 @@
 %    \begin{macrocode}
 \begingroup
 \expandafter\ifx\csname eTeXversion\endcsname\relax
-    \global\let\adjbox@addsetdim\adjbox@addsetdim@etex
-    \global\let\adjbox@setdim\adjbox@setdim@etex
-\else
-    \global\let\adjbox@addsetdim\adjbox@addsetdim@latex
+    \global\let\adjbox@setadddim\adjbox@setadddim@latex
+    \global\let\adjbox@setsubdim\adjbox@setsubdim@latex
     \global\let\adjbox@setdim\adjbox@setdim@latex
+\else
+    \global\let\adjbox@setadddim\adjbox@setadddim@etex
+    \global\let\adjbox@setsubdim\adjbox@setsubdim@etex
+    \global\let\adjbox@setdim\adjbox@setdim@etex
 \fi
 \endgroup
 %    \end{macrocode}
