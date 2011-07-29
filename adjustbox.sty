@@ -36,7 +36,7 @@
 \def\adjbox@viewport#1{%
     \let\Gin@viewport@code\adjbox@@viewport
     \let\adjustbox@@@\adjustbox@@@trimclip
-    \adjbox@parse@vp#1 \\%
+    \adjbox@parse@v#1 \\%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -47,7 +47,7 @@
 \def\adjbox@trim#1{%
     \let\Gin@viewport@code\adjbox@@trim
     \let\adjustbox@@@\adjustbox@@@trimclip
-    \adjbox@parse@vp#1 \\%
+    \adjbox@parse@v#1 \\%
 }
 \def\adjustbox@@@trimclip{%
     \Gin@viewport@code
@@ -56,10 +56,10 @@
     \else
         \expandafter\@trimbox
     \fi
-        \adjbox@vllx
-        \adjbox@vlly
-        \adjbox@vurx
-        \adjbox@vury
+        \adjbox@tllx
+        \adjbox@tlly
+        \adjbox@turx
+        \adjbox@tury
         \collectedbox
     \box\collectedbox
 }
@@ -67,30 +67,49 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\adjbox@parse@vp}
+% \begin{macro}{\adjbox@parse@v}
 %    \begin{macrocode}
-\def\adjbox@parse@vp#1 #2 #3 #4 #5\\{%
-  \adjbox@defaultbp\adjbox@vllx{#1}%
-  \adjbox@defaultbp\adjbox@vlly{#2}%
-  \adjbox@defaultbp\adjbox@vurx{#3}%
-  \adjbox@defaultbp\adjbox@vury{#4}%
+\def\adjbox@parse@v#1 #2 #3 #4 #5\\{%
+  \adjbox@default\adjbox@tllx{#1}%
+  \adjbox@default\adjbox@tlly{#2}%
+  \adjbox@default\adjbox@turx{#3}%
+  \adjbox@default\adjbox@tury{#4}%
 }%
 \newdimen\adjbox@llx
 \newdimen\adjbox@lly
 \newdimen\adjbox@urx
 \newdimen\adjbox@ury
-\newdimen\adjbox@vllx
-\newdimen\adjbox@vlly
-\newdimen\adjbox@vurx
-\newdimen\adjbox@vury
+\newdimen\adjbox@tllx
+\newdimen\adjbox@tlly
+\newdimen\adjbox@turx
+\newdimen\adjbox@tury
 %    \end{macrocode}
 % \end{macro}
 %
 %
-% \begin{macro}{\adjbox@defaultbp}
+% \begin{macro}{\adjbox@default}
 %    \begin{macrocode}
-\def\adjbox@defaultbp#1#2{%
-    \@defaultunits#1=#2 bp\relax\@nnil
+\def\adjbox@defaultunit{bp}
+\def\adjbox@default@tex#1#2{%
+    \@defaultunits#1=#2 \adjbox@defaultunit\relax\@nnil
+}
+\def\adjbox@default@etex#1#2{%
+    \@defaultunits#1=\dimexpr#2 \adjbox@defaultunit\relax\@nnil
+}
+\def\adjbox@default@pgf#1#2{%
+    \edef\pgfmathresultunitscale{1\adjbox@defaultunit}%
+    \let\pgfmathpostparse\pgfmathscaleresult
+    \pgfmathparse{#2}%
+    #1=\pgfmathresult pt\relax
+}
+\def\adjbox@default@latex#1#2{%
+    \afterassignment\adjbox@checkdefault
+    #1=#2 \adjbox@defaultunit\relax\@nnil{#1}{#2}%
+}
+\def\adjbox@checkdefault#1\@nnil#2#3{%
+    \ifx\relax#1\relax\else
+        \setlength{#2}{#3}%
+    \fi
 }
 %    \end{macrocode}
 % \end{macro}
@@ -106,12 +125,12 @@
 % \begin{macro}{\adjbox@@viewport}
 %    \begin{macrocode}
 \def\adjbox@@viewport{%
-  %\advance\adjbox@vllx by -\z@
-  \advance\adjbox@vlly by  \dp\collectedbox
-  \advance\adjbox@vurx by -\wd\collectedbox
-  \advance\adjbox@vury by -\ht\collectedbox
-  \adjbox@vurx=-\adjbox@vurx
-  \adjbox@vury=-\adjbox@vury
+    %\advance\adjbox@tllx by -\z@
+    \advance\adjbox@tlly by  \dp\collectedbox
+    \advance\adjbox@turx by -\wd\collectedbox
+    \advance\adjbox@tury by -\ht\collectedbox
+    \adjbox@turx=-\adjbox@turx
+    \adjbox@tury=-\adjbox@tury
 }
 %    \end{macrocode}
 % \end{macro}
@@ -179,19 +198,11 @@
 %    \begin{macrocode}
 \def\adjustbox@#1{%
 %    \end{macrocode}
-% Locally redefine \Macro\Gin@defaultbp to use \Macro\pgfmathsetmacro
+% Locally redefine \Macro\Gin@default to use \Macro\pgfmathsetmacro
 % with |bp| as the default unit.
 % This should yield the same results (apart of smaller rounding errors) if values
 % are given without unit but avoids the internal conversion to |bp| of values with
 % units.
-%    \begin{macrocode}
-    \iffalse
-    \def\pgfmathresultunitscale{1bp}%
-    \let\pgfmathpostparse\pgfmathscaleresult
-    \let\Gin@defaultbp\pgfmathsetmacro
-    \let\setlength\pgfmathsetlength
-    \fi
-%    \end{macrocode}
 %    \begin{macrocode}
 %    \end{macrocode}
 % The rest of the code was adapted from the \Macro\Gin@ii macro from the |graphicx| package.
@@ -769,12 +780,12 @@
 % (2) Change box margins and (3) place the box.
 %    \begin{macrocode}
 \def\marginbox@#1{%
-    \adjbox@parse@vp#1 \\%
+    \adjbox@parse@v#1 \\%
     \@marginbox
-        \adjbox@vllx
-        \adjbox@vlly
-        \adjbox@vurx
-        \adjbox@vury
+        \adjbox@tllx
+        \adjbox@tlly
+        \adjbox@turx
+        \adjbox@tury
         \collectedbox
     \box\collectedbox
 }
@@ -932,15 +943,18 @@
 %    \begin{macrocode}
 \begingroup
 \expandafter\ifx\csname eTeXversion\endcsname\relax
-    \global\let\adjbox@setadddim\adjbox@setadddim@latex
-    \global\let\adjbox@setsubdim\adjbox@setsubdim@latex
-    \global\let\adjbox@setdim\adjbox@setdim@latex
+    \endgroup
+    \let\adjbox@setadddim\adjbox@setadddim@latex
+    \let\adjbox@setsubdim\adjbox@setsubdim@latex
+    \let\adjbox@setdim\adjbox@setdim@latex
+    \let\adjbox@default\adjbox@default@latex
 \else
-    \global\let\adjbox@setadddim\adjbox@setadddim@etex
-    \global\let\adjbox@setsubdim\adjbox@setsubdim@etex
-    \global\let\adjbox@setdim\adjbox@setdim@etex
+    \endgroup
+    \let\adjbox@setadddim\adjbox@setadddim@etex
+    \let\adjbox@setsubdim\adjbox@setsubdim@etex
+    \let\adjbox@setdim\adjbox@setdim@etex
+    \let\adjbox@default\adjbox@default@etex
 \fi
-\endgroup
 %    \end{macrocode}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
