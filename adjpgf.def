@@ -1,0 +1,39 @@
+% \begin{macro}{\adjustbox@@@cliptrim}
+%    \begin{macrocode}
+\def\adjustbox@@@cliptrim@pgf@OUTDATED{%
+    \adjbox@llx\z@
+    \adjbox@lly-\dp\collectedbox
+    \adjbox@urx\wd\collectedbox
+    \adjbox@ury\ht\collectedbox
+    \Gin@viewport@code
+    \let\pgfmathpostparse\relax
+    \ifdim\adjbox@lly>\adjbox@ury
+        \adjbox@ury\adjbox@lly
+    \fi
+    \ifdim\adjbox@llx>\adjbox@urx
+        \adjbox@urx\adjbox@llx
+    \fi
+    \begin{pgfpicture}%
+        \pgfpathmoveto{\pgfqpoint\adjbox@llx\adjbox@lly}%
+        \pgfpathlineto{\pgfqpoint\adjbox@urx\adjbox@lly}%
+        \pgfpathlineto{\pgfqpoint\adjbox@urx\adjbox@ury}%
+        \pgfpathlineto{\pgfqpoint\adjbox@llx\adjbox@ury}%
+        \pgfpathclose
+        \expandafter\pgfusepath\ifGin@clip{clip}\else{use as bounding box}\fi\relax
+        \pgfset{inner sep=\z@,outer sep=\z@}%
+        \pgfnode{rectangle}{base west}{\box\collectedbox}{ADJUSTBOX@NODE}{}%
+        \dimen@=\ifdim\adjbox@lly<\z@
+                    \ifdim\adjbox@ury<\z@
+                        \adjbox@ury
+                    \else
+                        \z@
+                    \fi
+                \else
+                    \adjbox@lly
+                \fi
+        \pgfsetbaselinepointnow{\pgfpoint\z@\dimen@}%
+    \end{pgfpicture}%
+}
+%    \end{macrocode}
+% \end{macro}
+%

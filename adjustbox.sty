@@ -6,26 +6,33 @@
 %    \end{macrocode}
 %
 %    \begin{macrocode}
+\RequirePackage{xkeyval}
+%%\RequirePackage{kvoptions}
 \DeclareOption*{\PassOptionsToPackage\CurrentOption{graphicx}}
 
+\DeclareOption {pgf}     {\def\adjbox@driver{adjpgf.def}}
 \DeclareOption {patch}   {\AtEndPackage{\RequirePackage{adjgrfx}}}
-\DeclareOption {pgf}     {\AtEndPackage{\RequirePackage{pgf}}}
 \DeclareOption {pgfmath} {\AtEndPackage{\let\adjbox@setadddim\adjbox@setadddim@pgf  \let\adjbox@setsubdim\adjbox@setsubdim@pgf  \let\adjbox@setdim\adjbox@setdim@pgf  \RequirePackage{pgfmath}}}
 \DeclareOption {PGF}     {\AtEndPackage{\let\adjbox@setadddim\adjbox@setadddim@pgf  \let\adjbox@setsubdim\adjbox@setsubdim@pgf  \let\adjbox@setdim\adjbox@setdim@pgf  \RequirePackage{pgf}}}
 \DeclareOption {etex}    {\AtEndPackage{\let\adjbox@setadddim\adjbox@setadddim@etex \let\adjbox@setsubdim\adjbox@setsubdim@etex \let\adjbox@setdim\adjbox@setdim@etex }}
 \DeclareOption {tex}     {\AtEndPackage{\let\adjbox@setadddim\adjbox@setadddim@tex  \let\adjbox@setsubdim\adjbox@setsubdim@tex  \let\adjbox@setdim\adjbox@setdim@tex  }}
 \DeclareOption {latex}   {\AtEndPackage{\let\adjbox@setadddim\adjbox@setadddim@latex\let\adjbox@setsubdim\adjbox@setsubdim@latex\let\adjbox@setdim\adjbox@setdim@latex}}
 
+%% Options:
+%%  * Driver (pdftex, all others => PGF) DONE!
+%%  * Math for Dimensions: etex, tex, latex, pgfmath
+%%  * Install keys: for adjustbox only only also for \includegraphicx
+%%  * Default unit: pt, bp, any other unit, none
+%%  * Minimal, full (additional boxes)
+
+\def\adjbox@driver{adj\Gin@driver}
 \ProcessOptions*
 %    \end{macrocode}
 %
 %    \begin{macrocode}
 \RequirePackage{graphicx}[1999/02/16]
 \RequirePackage{collectbox}
-\RequirePackage{ifpdf}
-\RequirePackage{pgf}
 %    \end{macrocode}
-%
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsection{Basic commands}
@@ -233,46 +240,6 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\adjustbox@@@cliptrim}
-%    \begin{macrocode}
-\def\adjustbox@@@cliptrim@pgf@OUTDATED{%
-    \adjbox@llx\z@
-    \adjbox@lly-\dp\collectedbox
-    \adjbox@urx\wd\collectedbox
-    \adjbox@ury\ht\collectedbox
-    \Gin@viewport@code
-    \let\pgfmathpostparse\relax
-    \ifdim\adjbox@lly>\adjbox@ury
-        \adjbox@ury\adjbox@lly
-    \fi
-    \ifdim\adjbox@llx>\adjbox@urx
-        \adjbox@urx\adjbox@llx
-    \fi
-    \begin{pgfpicture}%
-        \pgfpathmoveto{\pgfqpoint\adjbox@llx\adjbox@lly}%
-        \pgfpathlineto{\pgfqpoint\adjbox@urx\adjbox@lly}%
-        \pgfpathlineto{\pgfqpoint\adjbox@urx\adjbox@ury}%
-        \pgfpathlineto{\pgfqpoint\adjbox@llx\adjbox@ury}%
-        \pgfpathclose
-        \expandafter\pgfusepath\ifGin@clip{clip}\else{use as bounding box}\fi\relax
-        \pgfset{inner sep=\z@,outer sep=\z@}%
-        \pgfnode{rectangle}{base west}{\box\collectedbox}{ADJUSTBOX@NODE}{}%
-        \dimen@=\ifdim\adjbox@lly<\z@
-                    \ifdim\adjbox@ury<\z@
-                        \adjbox@ury
-                    \else
-                        \z@
-                    \fi
-                \else
-                    \adjbox@lly
-                \fi
-        \pgfsetbaselinepointnow{\pgfpoint\z@\dimen@}%
-    \end{pgfpicture}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsubsection{Low-level trim and clip boxes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -316,6 +283,27 @@
 }
 %    \end{macrocode}
 % \end{macro}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Driver}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The clipping support is output driver dependent. The driver selected by \pkg{graphics} is used and a definition file
+% is used if its exists. Otherwise either the default \texttt{pdftex} implementation or the \pkg{pgf} fall-back driver
+% is used.
+%    \begin{macrocode}
+\RequirePackage{ifpdf}
+\InputIfFileExists{\adjbox@driver}{%
+    \PackageInfo{adjustbox}{Using driver '\adjbox@driver'.}%
+}{%
+    \ifpdf
+        \PackageInfo{adjustbox}{Using default pdftex driver.}
+    \else
+        \input{adjpgf.def}%
+        \PackageInfo{adjustbox}{Using fall-back PGF driver.}
+    \fi
+}
+%    \end{macrocode}
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
