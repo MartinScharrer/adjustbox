@@ -39,6 +39,8 @@
 %\PassOptionsToPackage{ngerman}{hyperref}
 %\RequirePackage[ngerman]{babel}
 \documentclass{ydoc}[2011/03/19]
+\usepackage{amsmath}
+\usepackage{fourier}
 \GetFileInfo{adjustbox.dtx}
 \usepackage[utf8]{inputenc}
 \usepackage{adjustbox}
@@ -167,7 +169,7 @@
 % \def\lly{lly}
 % \def\urx{urx}
 % \def\ury{ury}
-% \def\text{text}
+% \def\TEXT{text}
 % \def\height{height}
 % \def\width{width}
 % \def\totalheight{totalheight}
@@ -182,7 +184,7 @@
 % \def\lly{luy}
 % \def\urx{orx}
 % \def\ury{ory}
-% \def\text{Text}
+% \def\TEXT{Text}
 % \def\height{Höhe}
 % \def\width{Weite}
 % \def\totalheight{Totale Höhe}
@@ -230,7 +232,7 @@
 % \subsubsection*{Rand beschneiden ohne Überhang auszublenden}
 % \fi
 % \vskip-\lastskip
-% \DescribeMacro\trimbox*{<\llx>~<\lly>~<\urx>~<\ury>}{<\text>}
+% \DescribeMacro\trimbox*{<\llx>~<\lly>~<\urx>~<\ury>}{<\TEXT>}
 % \ifenglish
 % \subsubsection*{Trim Box Content}
 % The macro \Macro\trimbox trims the given amount from the lower left (ll) and the upper right (ur) corner of
@@ -253,9 +255,9 @@
 % \fi
 %
 %
-% \DescribeEnv[<\text>]{trimbox}*{<\llx>~<\lly>~<\urx>~<\ury>}
+% \DescribeEnv[<\TEXT>]{trimbox}*{<\llx>~<\lly>~<\urx>~<\ury>}
 % \vspace{-\baselineskip}
-% \DescribeEnv[<\text>]{trimbox*}{<\llx>~<\lly>~<\urx>~<\ury>}
+% \DescribeEnv[<\TEXT>]{trimbox*}{<\llx>~<\lly>~<\urx>~<\ury>}
 % \ifenglish
 % The \env{trimbox} and \env{trimbox*} environments do the same as the corresponding macros.
 % Special care is taken so that the macros and the environments can have the same name.
@@ -277,7 +279,7 @@
 % \subsubsection*{Rand beschneiden und Überhang ausblenden}
 % \fi
 % \vskip-\lastskip
-% \DescribeMacro\clipbox*{<\llx>~<\lly>~<\urx>~<\ury>}{<\text>}
+% \DescribeMacro\clipbox*{<\llx>~<\lly>~<\urx>~<\ury>}{<\TEXT>}
 % \ifenglish
 % The \Macro\clipbox macro works like the \Macro\trimbox and trims the given amounts from the \meta{text}.
 % However, in addition the trimmed material is also clipped, i.e. it is not shown in the final document.
@@ -293,9 +295,9 @@
 % Die Sternvariante verwendet die angegebenen Werte als den zu darstellenden Bereich wie bei \Macro\trimbox'*'.
 % \fi
 %
-% \DescribeEnv[<\text>]{clipbox}*{<\llx>~<\lly>~<\urx>~<\ury>}
+% \DescribeEnv[<\TEXT>]{clipbox}*{<\llx>~<\lly>~<\urx>~<\ury>}
 % \vspace{-\baselineskip}
-% \DescribeEnv[<\text>]{clipbox*}{<\llx>~<\lly>~<\urx>~<\ury>}
+% \DescribeEnv[<\TEXT>]{clipbox*}{<\llx>~<\lly>~<\urx>~<\ury>}
 % \iffalse
 % The environment versions of \Macro\clipbox and \Macro\clipbox*. The same rules as for the trimming environments apply.
 % \else
@@ -309,7 +311,7 @@
 % \subsubsection*{Allgemeine Manipulationen von \LaTeX{} Material}
 % \fi
 % \vskip-\lastskip
-% \DescribeMacro\adjustbox{<includegraphics \options>}{<\text>}
+% \DescribeMacro\adjustbox{<includegraphics \options>}{<\TEXT>}
 % \ifenglish
 % The \Macro\adjustbox macro is the general form of all box modifying macros mentioned in the introduction.
 % It can be thought as an \Macro\includegraphics for \LATeX{} material.
@@ -325,7 +327,7 @@
 % Es kann dazu verwendet werden Kombinationen von anderen ähnlichen Makros zu ersetzen, was in \autoref{tab:alternatives} dargestellt wird.
 % \fi
 %
-% \DescribeEnv[<\text>]{adjustbox}{<includegraphics \options>}
+% \DescribeEnv[<\TEXT>]{adjustbox}{<includegraphics \options>}
 % \ifenglish
 % The environment version of \Macro\adjustbox.
 % \else
@@ -358,7 +360,7 @@
 % This \LaTeX{} lengths hold the original dimension of \meta{text} and can be used as part of the arguments to \Macro\adjustbox, \Macro\trimbox and \Macro\clipbox.
 % The totalheight is the height plus depth.
 % \else
-% Diese \LaTeX{} Längen enthalten die Weite, Höhe, Tiefe bzw.\ die totale Höhe (Höhe + Tiefe) des \meta{\text} Arguments bzw.\ des Inhalts der Umgebung.
+% Diese \LaTeX{} Längen enthalten die Weite, Höhe, Tiefe bzw.\ die totale Höhe (Höhe + Tiefe) des \meta{\TEXT} Arguments bzw.\ des Inhalts der Umgebung.
 % Diese Längen können in den ersten Argument von \Macro\adjustbox, \Macro\trimbox und \Macro\clipbox verwendet werden um relative Änderungen vorzunehmen.
 % \fi
 %
@@ -371,7 +373,7 @@
 %
 %
 % \subsubsection*{Examples for Argument Values}
-% \codeline{\AlsoMacro\trimbox{'{.5\width} 10 {log10(10)/sin(45) + 1} 10pt'}{<\text>}}
+% \codeline{\AlsoMacro\trimbox{'{.5\width} 10 {log10(10)/sin(45) + 1} 10pt'}{<\TEXT>}}
 % will trim half the original amount from the left, 10\,bp from the bottom and 
 % 2.42328\,bp from the right (bp, because no unit was used in the formula; change e.g. `|+ 1|' to `|+ 1pt|' to get 2.42328\,pt),
 % as well as 10\,pt from the top.
@@ -380,7 +382,7 @@
 % The macros read the \meta{text} as \TeX{} \Macro\hbox and not as an macro argument in order to support verbatim content.
 % This means that the braces around the content can also be written as \Macro\bgroup and \Macro\egroup:
 % \begin{macroquote}
-%   \trimbox{1 2 3 4}\AlsoMacro\bgroup~<\text>\AlsoMacro\egroup
+%   \trimbox{1 2 3 4}\AlsoMacro\bgroup~<\TEXT>\AlsoMacro\egroup
 % \end{macroquote}
 % Special care is taken to allow the \meta{text} to be a single macro (except \Macro\bgroup) without any braces:
 % \begin{macroquote}
