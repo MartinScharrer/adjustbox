@@ -1,39 +1,24 @@
-% \begin{macro}{\adjustbox@@@cliptrim}
 %    \begin{macrocode}
-\def\adjustbox@@@cliptrim@pgf@OUTDATED{%
-    \adjbox@llx\z@
-    \adjbox@lly-\dp\collectedbox
-    \adjbox@urx\wd\collectedbox
-    \adjbox@ury\ht\collectedbox
-    \Gin@viewport@code
-    \let\pgfmathpostparse\relax
-    \ifdim\adjbox@lly>\adjbox@ury
-        \adjbox@ury\adjbox@lly
-    \fi
-    \ifdim\adjbox@llx>\adjbox@urx
-        \adjbox@urx\adjbox@llx
-    \fi
+\RequirePackage{pgf}
+%    \end{macrocode}
+%
+% \begin{macro}{\@trimbox}
+%    \begin{macrocode}
+\def\@clipbox#1#2#3#4#5{%
+    \@trimbox{#1}{#2}{#3}{#4}{#5}%
     \begin{pgfpicture}%
-        \pgfpathmoveto{\pgfqpoint\adjbox@llx\adjbox@lly}%
-        \pgfpathlineto{\pgfqpoint\adjbox@urx\adjbox@lly}%
-        \pgfpathlineto{\pgfqpoint\adjbox@urx\adjbox@ury}%
-        \pgfpathlineto{\pgfqpoint\adjbox@llx\adjbox@ury}%
+        \pgfpathmoveto{\pgfqpoint\z@{-\dp#5}}%
+        \pgfpathlineto{\pgfqpoint\z@{\ht#5}}%
+        \pgfpathlineto{\pgfqpoint{\wd#5}{\ht#5}}%
+        \pgfpathlineto{\pgfqpoint{\wd#5}{-\dp#5}}%
         \pgfpathclose
-        \expandafter\pgfusepath\ifGin@clip{clip}\else{use as bounding box}\fi\relax
-        \pgfset{inner sep=\z@,outer sep=\z@}%
-        \pgfnode{rectangle}{base west}{\box\collectedbox}{ADJUSTBOX@NODE}{}%
-        \dimen@=\ifdim\adjbox@lly<\z@
-                    \ifdim\adjbox@ury<\z@
-                        \adjbox@ury
-                    \else
-                        \z@
-                    \fi
-                \else
-                    \adjbox@lly
-                \fi
-        \pgfsetbaselinepointnow{\pgfpoint\z@\dimen@}%
+        \pgfusepathqclip
+        \pgfset{inner sep=\z@,outer sep=\z@,minimum size=\z@}%
+        \pgfnode{rectangle}{base west}{\box#5}{}{}%
+        \pgfsetbaselinepointnow{\pgfpoint\z@\z@}%
     \end{pgfpicture}%
 }
 %    \end{macrocode}
 % \end{macro}
+%<VIM> vim: ft=tex
 %

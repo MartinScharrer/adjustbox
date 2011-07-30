@@ -7,26 +7,37 @@
 %
 %    \begin{macrocode}
 \RequirePackage{xkeyval}
-%%\RequirePackage{kvoptions}
-\DeclareOption*{\PassOptionsToPackage\CurrentOption{graphicx}}
+\def\adjbox@dim@pgfmath{\AtEndPackage{\RequirePackage{pgfmath}\adjbox@dim@pgfmath}}
+\def\adjbox@dim@etex{\AtEndPackage{\adjbox@dim@etex}}
+\def\adjbox@dim@tex{\AtEndPackage{\adjbox@dim@tex}}
+\def\adjbox@dim@latex{\AtEndPackage{\adjbox@dim@latex}}
 
-\DeclareOption {pgf}     {\def\adjbox@driver{adjpgf.def}}
-\DeclareOption {patch}   {\AtEndPackage{\RequirePackage{adjgrfx}}}
-\DeclareOption {pgfmath} {\AtEndPackage{\let\adjbox@setadddim\adjbox@setadddim@pgf  \let\adjbox@setsubdim\adjbox@setsubdim@pgf  \let\adjbox@setdim\adjbox@setdim@pgf  \RequirePackage{pgfmath}}}
-\DeclareOption {PGF}     {\AtEndPackage{\let\adjbox@setadddim\adjbox@setadddim@pgf  \let\adjbox@setsubdim\adjbox@setsubdim@pgf  \let\adjbox@setdim\adjbox@setdim@pgf  \RequirePackage{pgf}}}
-\DeclareOption {etex}    {\AtEndPackage{\let\adjbox@setadddim\adjbox@setadddim@etex \let\adjbox@setsubdim\adjbox@setsubdim@etex \let\adjbox@setdim\adjbox@setdim@etex }}
-\DeclareOption {tex}     {\AtEndPackage{\let\adjbox@setadddim\adjbox@setadddim@tex  \let\adjbox@setsubdim\adjbox@setsubdim@tex  \let\adjbox@setdim\adjbox@setdim@tex  }}
-\DeclareOption {latex}   {\AtEndPackage{\let\adjbox@setadddim\adjbox@setadddim@latex\let\adjbox@setsubdim\adjbox@setsubdim@latex\let\adjbox@setdim\adjbox@setdim@latex}}
+%%  * Default unit: pt, bp, any other unit, none
+\def\adjbox@defaultunit{bp}
+\DeclareOptionX<adjbox>{defaultunit}{\def\adjbox@defaultunit{#1}}
+
+%%  * Math for Dimensions: etex, tex, latex, pgfmath
+\DeclareOptionX<adjbox>{PGF}{\def\adjbox@driver{adjpgf.def}\adjbox@dim@pgfmath}
+\DeclareOptionX<adjbox>{pgfmath}{\adjbox@dim@pgfmath}
+\DeclareOptionX<adjbox>{etex}{\adjbox@dim@etex}
+\DeclareOptionX<adjbox>{tex}{\adjbox@dim@tex}
+\DeclareOptionX<adjbox>{latex}{\adjbox@dim@latex}
+
+\def\adjbox@fam{adjbox}
+\DeclareOptionX<adjbox>{graphics}{\def\adjbox@fam{Gin}}
+\DeclareOptionX<adjbox>{patch}{\AtEndPackage{\RequirePackage{adjgrfx}}}
+
+%%  * Driver (pdftex, all others => PGF) DONE!
+\def\adjbox@driver{adj\Gin@driver}
+\DeclareOptionX<adjbox>{pgf}{\def\adjbox@driver{adjpgf.def}}
+\DeclareOptionX<adjbox>*{\PassOptionsToPackage\CurrentOption{graphicx}}
 
 %% Options:
-%%  * Driver (pdftex, all others => PGF) DONE!
-%%  * Math for Dimensions: etex, tex, latex, pgfmath
-%%  * Install keys: for adjustbox only only also for \includegraphicx
-%%  * Default unit: pt, bp, any other unit, none
-%%  * Minimal, full (additional boxes)
+%%  * Install keys: for adjustbox only only also for \includegraphics
 
-\def\adjbox@driver{adj\Gin@driver}
-\ProcessOptions*
+%% Process Options:
+\ProcessOptionsX*<adjbox>
+\disable@keys{adjbox}{patch,graphics}
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -40,7 +51,7 @@
 %
 % \begin{macro}{\adjbox@viewport}
 %    \begin{macrocode}
-\def\adjbox@viewport#1{%
+\define@key{adjbox}{viewport}{%
     \let\Gin@viewport@code\adjbox@@viewport
     \let\adjustbox@@@\adjustbox@@@trimclip
     \adjbox@parse@v#1 \\%
@@ -51,11 +62,17 @@
 %
 % \begin{macro}{\adjbox@trim}
 %    \begin{macrocode}
-\def\adjbox@trim#1{%
+\define@key{adjbox}{trim}{%
     \let\Gin@viewport@code\adjbox@@trim
     \let\adjustbox@@@\adjustbox@@@trimclip
     \adjbox@parse@v#1 \\%
 }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjustbox@@@trimclip}
+%    \begin{macrocode}
 \def\adjustbox@@@trimclip{%
     \Gin@viewport@code
     \ifGin@clip
@@ -74,6 +91,7 @@
 % \end{macro}
 %
 %
+%
 % \begin{macro}{\adjbox@parse@v}
 %    \begin{macrocode}
 \def\adjbox@parse@v#1 #2 #3 #4 #5\\{%
@@ -82,10 +100,10 @@
   \adjbox@default\adjbox@turx{#3}%
   \adjbox@default\adjbox@tury{#4}%
 }%
-\newdimen\adjbox@llx
-\newdimen\adjbox@lly
-\newdimen\adjbox@urx
-\newdimen\adjbox@ury
+%%\newdimen\adjbox@llx
+%%\newdimen\adjbox@lly
+%%\newdimen\adjbox@urx
+%%\newdimen\adjbox@ury
 \newdimen\adjbox@tllx
 \newdimen\adjbox@tlly
 \newdimen\adjbox@turx
@@ -96,28 +114,6 @@
 %
 % \begin{macro}{\adjbox@default}
 %    \begin{macrocode}
-\def\adjbox@defaultunit{bp}
-\def\adjbox@default@tex#1#2{%
-    \@defaultunits#1=#2 \adjbox@defaultunit\relax\@nnil
-}
-\def\adjbox@default@etex#1#2{%
-    \@defaultunits#1=\dimexpr#2 \adjbox@defaultunit\relax\@nnil
-}
-\def\adjbox@default@pgf#1#2{%
-    \edef\pgfmathresultunitscale{1\adjbox@defaultunit}%
-    \let\pgfmathpostparse\pgfmathscaleresult
-    \pgfmathparse{#2}%
-    #1=\pgfmathresult pt\relax
-}
-\def\adjbox@default@latex#1#2{%
-    \afterassignment\adjbox@checkdefault
-    #1=#2 \adjbox@defaultunit\relax\@nnil{#1}{#2}%
-}
-\def\adjbox@checkdefault#1\@nnil#2#3{%
-    \ifx\relax#1\relax\else
-        \setlength{#2}{#3}%
-    \fi
-}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -202,28 +198,17 @@
 %
 %
 % \begin{macro}{\adjustbox@}
-%    \begin{macrocode}
-\def\adjustbox@#1{%
-%    \end{macrocode}
-% Locally redefine \Macro\Gin@default to use \Macro\pgfmathsetmacro
-% with |bp| as the default unit.
-% This should yield the same results (apart of smaller rounding errors) if values
-% are given without unit but avoids the internal conversion to |bp| of values with
-% units.
-%    \begin{macrocode}
-%    \end{macrocode}
-% The rest of the code was adapted from the \Macro\Gin@ii macro from the |graphicx| package.
+% This code was adapted from the \Macro\Gin@ii macro from the |graphicx| package.
 % The \emph{temp switch a} is set to |true| to indicate to |graphicx| that the
 % scaling should be done internal, so this package doesn't have to do it.
 % The content including macro \Macro\adjustbox@@@ is but into place,
 % the saved options are activated and the final size is set.
 % The typesetting of the content is finally done by executing the token register.
 %    \begin{macrocode}
+\def\adjustbox@#1{%
     \@tempswatrue
     \toks@{{\adjustbox@@@}}%
-    \let\KV@Gin@viewport\adjbox@viewport
-    \let\KV@Gin@trim\adjbox@trim
-    \setkeys{Gin}{#1}%
+    \setkeys{adjbox,Gin}{#1}%
     \Gin@esetsize
     \the\toks@
 }
@@ -295,6 +280,7 @@
 \RequirePackage{ifpdf}
 \InputIfFileExists{\adjbox@driver}{%
     \PackageInfo{adjustbox}{Using driver '\adjbox@driver'.}%
+    \def\
 }{%
     \ifpdf
         \PackageInfo{adjustbox}{Using default pdftex driver.}
@@ -411,9 +397,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
-% \begin{key}{Gin}{frame}
+% \begin{key}\adjbox@fam{frame}
 %    \begin{macrocode}
-\define@key{Gin}{frame}[{{\fboxrule}}]{%
+\define@key\adjbox@fam{frame}[{{\fboxrule}}]{%
     \adjbox@frame#1 {\z@} \relax\relax\@nnil
 }
 %    \end{macrocode}
@@ -435,9 +421,9 @@
 % \end{macro}
 %
 %
-% \begin{key}{Gin}{reflect}
+% \begin{key}\adjbox@fam{reflect}
 %    \begin{macrocode}
-\define@key{Gin}{reflect}[]{%
+\define@key\adjbox@fam{reflect}[]{%
   \if@tempswa
     \adjbox@Gin@add{\Gscale@box-1[1]}%
   \else
@@ -452,9 +438,9 @@
 % \end{key}
 %
 %
-% \begin{key}{Gin}{lap}
+% \begin{key}\adjbox@fam{lap}
 %    \begin{macrocode}
-\define@key{Gin}{lap}{%
+\define@key\adjbox@fam{lap}{%
     \Gin@esetsize
     \@tempswatrue
     \@ifnextchar\bgroup{%
@@ -480,36 +466,36 @@
 % \end{macro}
 %
 %
-% \begin{key}{Gin}{margin}
+% \begin{key}\adjbox@fam{margin}
 %    \begin{macrocode}
-\define@key{Gin}{margin}{%
+\define@key\adjbox@fam{margin}{%
     \adjbox@Gin@add{\marginbox{#1}}%
 }
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{key}{Gin}{dpi}
+% \begin{key}\adjbox@fam{dpi}
 %    \begin{macrocode}
-\define@key{Gin}{dpi}{%
+\define@key\adjbox@fam{dpi}{%
     \pdfpxdimen=\dimexpr 1in/(#1)\relax
 }
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{key}{Gin}{pxdim}
+% \begin{key}\adjbox@fam{pxdim}
 %    \begin{macrocode}
-\define@key{Gin}{pxdim}{%
+\define@key\adjbox@fam{pxdim}{%
     \pdfpxdimen=\dimexpr #1\relax
 }
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{key}{Gin}{raise}
+% \begin{key}\adjbox@fam{raise}
 %    \begin{macrocode}
-\define@key{Gin}{raise}{%
+\define@key\adjbox@fam{raise}{%
     \Gin@esetsize
     \@tempswatrue
     \@ifnextchar\bgroup{%
@@ -535,9 +521,9 @@
 % \end{macro}
 %
 %
-% \begin{key}{Gin}{set height}
+% \begin{key}\adjbox@fam{set height}
 %    \begin{macrocode}
-\define@key{Gin}{set height}{%
+\define@key\adjbox@fam{set height}{%
     \Gin@esetsize
     \@tempswatrue
     \adjbox@Gin@add{\@irsbox\z@[{#1}]}%
@@ -546,9 +532,9 @@
 % \end{key}
 %
 %
-% \begin{key}{Gin}{set depth}
+% \begin{key}\adjbox@fam{set depth}
 %    \begin{macrocode}
-\define@key{Gin}{set depth}{%
+\define@key\adjbox@fam{set depth}{%
     \Gin@esetsize
     \@tempswatrue
     \adjbox@Gin@add{\@iirsbox\z@[\height][{#1}]}%
@@ -582,90 +568,90 @@
 % \end{macro}
 %
 %
-% \begin{key}{Gin}{min width}
+% \begin{key}\adjbox@fam{min width}
 %    \begin{macrocode}
-\define@key{Gin}{min width}{%
+\define@key\adjbox@fam{min width}{%
     \adjbox@Gin@add{\@minsizebox\height{#1}!}%
 }
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{key}{Gin}{max width}
+% \begin{key}\adjbox@fam{max width}
 %    \begin{macrocode}
-\define@key{Gin}{max width}{%
+\define@key\adjbox@fam{max width}{%
     \adjbox@Gin@add{\@maxsizebox\height{#1}!}%
 }
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{key}{Gin}{min height}
+% \begin{key}\adjbox@fam{min height}
 %    \begin{macrocode}
-\define@key{Gin}{min height}{%
+\define@key\adjbox@fam{min height}{%
     \adjbox@Gin@add{\@minsizebox\height!{#1}}%
 }
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{key}{Gin}{max height}
+% \begin{key}\adjbox@fam{max height}
 %    \begin{macrocode}
-\define@key{Gin}{max height}{%
+\define@key\adjbox@fam{max height}{%
     \adjbox@Gin@add{\@maxsizebox\height!{#1}}%
 }
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{key}{Gin}{min totalheight}
+% \begin{key}\adjbox@fam{min totalheight}
 %    \begin{macrocode}
-\define@key{Gin}{min totalheight}{%
+\define@key\adjbox@fam{min totalheight}{%
     \adjbox@Gin@add{\@minsizebox\totalheight!{#1}}%
 }
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{key}{Gin}{max totalheight}
+% \begin{key}\adjbox@fam{max totalheight}
 %    \begin{macrocode}
-\define@key{Gin}{max totalheight}{%
+\define@key\adjbox@fam{max totalheight}{%
     \adjbox@Gin@add{\@maxsizebox\totalheight!{#1}}%
 }
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{key}{Gin}{min size}
+% \begin{key}\adjbox@fam{min size}
 %    \begin{macrocode}
-\define@key{Gin}{min size}{%
+\define@key\adjbox@fam{min size}{%
     \adjbox@Gin@sizeadd{\@minsizebox\height}#1\relax
 }
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{key}{Gin}{max size}
+% \begin{key}\adjbox@fam{max size}
 %    \begin{macrocode}
-\define@key{Gin}{max size}{%
+\define@key\adjbox@fam{max size}{%
     \adjbox@Gin@sizeadd{\@maxsizebox\height}#1\relax
 }
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{key}{Gin}{min totalsize}
+% \begin{key}\adjbox@fam{min totalsize}
 %    \begin{macrocode}
-\define@key{Gin}{min totalsize}{%
+\define@key\adjbox@fam{min totalsize}{%
     \adjbox@Gin@sizeadd{\@minsizebox\totalheight}#1\relax
 }
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{key}{Gin}{max totalsize}
+% \begin{key}\adjbox@fam{max totalsize}
 %    \begin{macrocode}
-\define@key{Gin}{max totalsize}{%
+\define@key\adjbox@fam{max totalsize}{%
     \adjbox@Gin@sizeadd{\@maxsizebox\totalheight}#1\relax
 }
 %    \end{macrocode}
@@ -809,139 +795,113 @@
 % \subsection{Dimension macros}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% \begin{macro}{\adjbox@setadddim@etex}
+% \begin{macro}{\adjbox@dim@etex}
 %    \begin{macrocode}
-\def\adjbox@setadddim@etex#1#2#3{%
-    #1=\dimexpr#2 + #3\relax
+\def\adjbox@dim@etex{%
+    \def\adjbox@setdim##1##2{%
+        ##1=\dimexpr##2\relax
+    }%
+    \def\adjbox@setadddim##1##2##3{%
+        ##1=\dimexpr##2 + ##3\relax
+    }%
+    \def\adjbox@setsubdim##1##2##3{%
+        ##1=\dimexpr##2 -\dimexpr##3\relax\relax
+    }%
+    \def\adjbox@default##1##2{%
+        \@defaultunits##1=\dimexpr##2 \adjbox@defaultunit\relax\@nnil
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjbox@dim@tex}
+%    \begin{macrocode}
+\def\adjbox@dim@tex{%
+    \def\adjbox@setdim##1##2{%
+        ##1=##2\relax
+    }%
+    \def\adjbox@setadddim##1##2##3{%
+        \@tempdima=##2\relax
+        \advance\@tempdima by ##2\relax
+        ##1=\@tempdima
+    }%
+    \def\adjbox@setsubdim##1##2##3{%
+        \@tempdima=##2\relax
+        \advance\@tempdima by -##2\relax
+        ##1=\@tempdima
+    }%
+    \def\adjbox@default##1##2{%
+        \@defaultunits##1=##2 \adjbox@defaultunit\relax\@nnil
+    }%
 }
 %    \end{macrocode}
 % \end{macro}
 %
 %
-% \begin{macro}{\adjbox@setadddim@tex}
+% \begin{macro}{\adjbox@dim@latex}
 %    \begin{macrocode}
-\def\adjbox@setadddim@tex#1#2#3{%
-    \@tempdima=#2\relax
-    \advance\@tempdima by #2\relax
-    #1=\@tempdima
+\def\adjbox@dim@latex{%
+    \def\adjbox@setdim{%
+        \setlength
+    }%
+    \def\adjbox@setadddim##1##2##3{%
+        \setlength\@tempdima{##2}%
+        \addtolength\@tempdima{##3}%
+        \setlength##1{\@tempdima}%
+    }%
+    \def\adjbox@setsubdim##1##2##3{%
+        \setlength\@tempdima{##2}%
+        \@tempdima=-\@tempdima
+        \addtolength\@tempdima{##3}%
+        \setlength##1{-\@tempdima}%
+    }%
+    \def\adjbox@default##1##2{%
+        \afterassignment\adjbox@checkdefault
+        ##1=##2 \adjbox@defaultunit\relax\@nnil{##1}{##2}%
+    }%
+    \def\adjbox@checkdefault##1\@nnil##2##3{%
+        \ifx\relax##1\relax\else
+            \setlength{##2}{##3}%
+        \fi
+    }%
 }
 %    \end{macrocode}
 % \end{macro}
 %
 %
-% \begin{macro}{\adjbox@setadddim@latex}
+% \begin{macro}{\adjbox@dim@pgfmath}
 %    \begin{macrocode}
-\def\adjbox@setadddim@latex#1#2#3{%
-    \setlength\@tempdima{#2}%
-    \addtolength\@tempdima{#3}%
-    \setlength#1{\@tempdima}%
+\def\adjbox@dim@pgfmath{%
+    \def\adjbox@setdim{%
+        \pgfmathsetlength
+    }%
+    \def\adjbox@setadddim##1##2##3{%
+        \pgfmathsetlength\@tempdima{##2 + ##3}%
+        ##1=\@tempdima
+    }%
+    \def\adjbox@setsubdim##1##2##3{%
+        \pgfmathsetlength\@tempdima{##2 - (##3)}%
+        ##1=\@tempdima
+    }%
+    \def\adjbox@default##1##2{%
+        \edef\pgfmathresultunitscale{1\adjbox@defaultunit}%
+        \let\pgfmathpostparse\pgfmathscaleresult
+        \pgfmathparse{##2}%
+        ##1=\pgfmathresult pt\relax
+    }%
 }
 %    \end{macrocode}
 % \end{macro}
 %
-%
-% \begin{macro}{\adjbox@setadddim@pgf}
-%    \begin{macrocode}
-\def\adjbox@setadddim@pgf#1#2#3{%
-    \pgfmathsetlength\@tempdima{#2 + #3}%
-    #1=\@tempdima
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjbox@setsubdim@etex}
-%    \begin{macrocode}
-\def\adjbox@setsubdim@etex#1#2#3{%
-    #1=\dimexpr#2 -\dimexpr#3\relax\relax
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjbox@setsubdim@tex}
-%    \begin{macrocode}
-\def\adjbox@setsubdim@tex#1#2#3{%
-    \@tempdima=#2\relax
-    \advance\@tempdima by -#2\relax
-    #1=\@tempdima
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjbox@setsubdim@latex}
-%    \begin{macrocode}
-\def\adjbox@setsubdim@latex#1#2#3{%
-    \setlength\@tempdima{#2}%
-    \@tempdima=-\@tempdima
-    \addtolength\@tempdima{#3}%
-    \setlength#1{-\@tempdima}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjbox@setsubdim@pgf}
-%    \begin{macrocode}
-\def\adjbox@setsubdim@pgf#1#2#3{%
-    \pgfmathsetlength\@tempdima{#2 - (#3)}%
-    #1=\@tempdima
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjbox@setdim@etex}
-%    \begin{macrocode}
-\def\adjbox@setdim@etex#1#2{%
-    #1=\dimexpr#2\relax
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjbox@setdim@tex}
-%    \begin{macrocode}
-\def\adjbox@setdim@tex#1#2{%
-    #1=#2\relax
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjbox@setdim@latex}
-%    \begin{macrocode}
-\def\adjbox@setdim@latex#1#2{%
-    \setlength{#1}{#2}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjbox@setdim@pgf}
-%    \begin{macrocode}
-\def\adjbox@setdim@pgf#1#2{%
-    \pgfmathsetlength{#1}{#2}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
+% Use e-TeX by default if available, otherwise LaTeX (maybe with \pkg{calc})
 %    \begin{macrocode}
 \begingroup
 \expandafter\ifx\csname eTeXversion\endcsname\relax
     \endgroup
-    \let\adjbox@setadddim\adjbox@setadddim@latex
-    \let\adjbox@setsubdim\adjbox@setsubdim@latex
-    \let\adjbox@setdim\adjbox@setdim@latex
-    \let\adjbox@default\adjbox@default@latex
+    \adjbox@dim@latex
 \else
     \endgroup
-    \let\adjbox@setadddim\adjbox@setadddim@etex
-    \let\adjbox@setsubdim\adjbox@setsubdim@etex
-    \let\adjbox@setdim\adjbox@setdim@etex
-    \let\adjbox@default\adjbox@default@etex
+    \adjbox@dim@etex
 \fi
 %    \end{macrocode}
 %
