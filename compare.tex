@@ -1,11 +1,12 @@
 \documentclass{article}
-\usepackage[margin=1cm,paperwidth=100cm,paperheight=100cm]{geometry}
+\usepackage[margin=1cm,paperwidth=20cm,paperheight=100cm]{geometry}
 \usepackage[]{xcolor}
 \usepackage[export]{adjustbox}
 %\listfiles
 \fboxsep=0pt
 \parskip=1cm
 
+\usepackage[tightpage]{preview}
 
 \usepackage{standalone}
 \usepackage[T1]{fontenc}
@@ -16,7 +17,7 @@
 \tikzset{xy/.style={x={#1},y={#1},unit={#1},font={\sffamily\fontsize{.2\unit}{.24\unit}\selectfont},line width=.01\unit}}
     
 \def\showdiff#1{%
-    \rlap{%
+    {%
     \diff=\dimexpr#10-#11\relax
     \pgfmathsetlength\absdiff{abs(\diff)}%
     \ifdim\diff=0pt%
@@ -57,9 +58,10 @@
 \newlength\absdiff
 \newlength\Epsilon
 \newlength\dEpsilon
-\Epsilon=0.0105pt
-\dEpsilon=0.0001pt
+\Epsilon=0.05pt
+\dEpsilon=0.001pt
 \def\test#1#2{%
+    \begin{preview}%
     \sbox0{\includegraphics[#1]{#2}}%
     \sbox1{\adjustbox{#1}{\input{#2}\unskip}}%
     \begin{tabular}{ll@{}l}
@@ -68,6 +70,7 @@
     \the\dp0 & \the\dp1 & \showdiff\dp \\
     \the\wd0 & \the\wd1 & \showdiff\wd \\
     \end{tabular}%
+    \end{preview}%
 }
 
 \begin{document}
@@ -77,19 +80,60 @@
 
 \test{}{gridpt}
 
-\test{clip,trim=100bp 0 0 0,width=177bp,frame=1pt 1pt}{gridbp}
+\test{clip,trim=10bp 20bp 0 0,width=177bp,frame=1pt 1pt}{gridbp}
 
-\test{angle=45,clip,trim=100bp 0 0 0,width=177bp,totalheight=5cm,frame}{gridbp}
+\test{clip,trim=10pt 20pt 0 0,width=177pt,frame=1pt 1pt}{gridpt}
 
-\test{clip,trim=100pt 0 0 0,angle=90,trim=50pt 0 0 0}{gridbp}
+\test{angle=45,clip,trim=10bp 0 0 0,width=177bp,totalheight=5cm,frame}{gridbp}
+
+\test{clip,trim=10pt 0 0 0,angle=90,trim=5pt 0 0 0}{gridbp}
 
 \test{angle=180,totalheight=5cm}{gridbp}
 
 \test{width=3cm,angle=0,totalheight=5cm}{gridbp}
 
-\test{width=3cm,totalheight=5cm,angle=0}{gridbp}
+\test{width=3cm,totalheight=5cm,angle=180}{gridbp}
 
 \test{width=3cm,totalheight=5cm}{gridbp}
+
+\test{margin=.5cm .5cm .5cm .5cm,frame}{gridbp}
+\end{document}
+
+\test{width=2cm,
+margin=.1cm .1cm .1cm .1cm,frame,angle=5,
+margin=.1cm .1cm .1cm .1cm,frame,angle=5,
+margin=.1cm .1cm .1cm .1cm,frame,angle=5,
+margin=.1cm .1cm .1cm .1cm,frame,angle=5,
+margin=.1cm .1cm .1cm .1cm,frame,angle=5,
+margin=.1cm .1cm .1cm .1cm,frame,angle=5,
+margin=.1cm .1cm .1cm .1cm,frame,angle=5,
+margin=.1cm .1cm .1cm .1cm,frame,angle=5,
+margin=.1cm .1cm .1cm .1cm,frame
+}{gridbp}
+
+\test{width=2cm,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+margin=1pt 1pt 1pt 1pt,frame,angle=1,
+}{gridbp}
+
 
 \end{document}
 
