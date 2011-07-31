@@ -145,17 +145,17 @@
 % \begin{macro}{\trimbox}
 %    \begin{macrocode}
 \newcommand\trimbox{%
-    \@ifstar\trimbox@s\trimbox@n
-}
-\def\trimbox@n#1{%
-    \collectboxcheckenv{trimbox}%
-    \collectbox{\trimbox@{#1}}%
-}
-\def\trimbox@s#1{%
-    \collectboxcheckenv{trimbox*}%
-    \collectbox{\viewport@{#1}}%
+    \@ifstar
+        {\collectboxcheckenv{trimbox*}\trimbox@s}%
+        {\collectboxcheckenv{trimbox}\trimbox@}%
 }
 \def\trimbox@#1{%
+    \collectbox{\trimbox@@{#1}}%
+}
+\def\trimbox@s#1{%
+    \collectbox{\viewport@@{#1}}%
+}
+\def\trimbox@@#1{%
     \adjbox@parse@v#1 \\%
     \@trimbox
         \adjbox@tllx
@@ -165,7 +165,7 @@
         \collectedbox
     \usebox\collectedbox
 }
-\def\viewport@#1{%
+\def\viewport@@#1{%
     \adjbox@parse@v#1 \\%
     \adjbox@@viewport
     \@trimbox
@@ -179,28 +179,67 @@
 %    \end{macrocode}
 % \end{macro}
 %
-%
 % \begin{environment}{trimbox*}
 %    \begin{macrocode}
 \expandafter\let\csname trimbox*\endcsname\trimbox@s
 %    \end{macrocode}
 % \end{environment}
 %
+% \begin{key}\adjbox@fam{Trim}
+%    \begin{macrocode}
+\define@key\adjbox@fam{Trim}{%
+    \Gin@esetsize
+    \@tempswatrue
+    \adjbox@Gin@add{\trimbox@{#1}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}\adjbox@fam{Viewport}
+%    \begin{macrocode}
+\define@key\adjbox@fam{Viewport}{%
+    \Gin@esetsize
+    \@tempswatrue
+    \adjbox@Gin@add{\viewport@{#1}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}\adjbox@fam{Clip}
+%    \begin{macrocode}
+\define@key\adjbox@fam{Clip}{%
+    \Gin@esetsize
+    \@tempswatrue
+    \adjbox@Gin@add{\clipbox@{#1}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}\adjbox@fam{Clip*}
+%    \begin{macrocode}
+\define@key\adjbox@fam{Clip*}{%
+    \Gin@esetsize
+    \@tempswatrue
+    \adjbox@Gin@add{\clipviewport@{#1}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
 %
 % \begin{macro}{\clipbox}
 %    \begin{macrocode}
 \newcommand\clipbox{%
-    \@ifstar\clipbox@s\clipbox@n
-}
-\def\clipbox@n#1{%
-    \collectboxcheckenv{clipbox}%
-    \collectbox{\clipbox@{#1}}%
-}
-\def\clipbox@s#1{%
-    \collectboxcheckenv{clipbox*}%
-    \collectbox{\clipviewport@{#1}}%
+    \@ifstar
+        {\collectboxcheckenv{clipbox*}\clipbox@s}%
+        {\collectboxcheckenv{clipbox}\clipbox@}%
 }
 \def\clipbox@#1{%
+    \collectbox{\clipbox@@{#1}}%
+}
+\def\clipbox@s#1{%
+    \collectbox{\clipviewport@@{#1}}%
+}
+\def\clipbox@@#1{%
     \adjbox@parse@v#1 \\%
     \@clipbox
         \adjbox@tllx
@@ -210,7 +249,7 @@
         \collectedbox
     \usebox\collectedbox
 }
-\def\clipviewport@#1{%
+\def\clipviewport@@#1{%
     \adjbox@parse@v#1 \\%
     \adjbox@@viewport
     \@clipbox
