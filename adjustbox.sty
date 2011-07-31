@@ -145,15 +145,36 @@
 % \begin{macro}{\trimbox}
 %    \begin{macrocode}
 \newcommand\trimbox{%
-    \@ifstar\trimbox@s\trimbox@
+    \@ifstar\trimbox@s\trimbox@n
 }
-\def\trimbox@#1{%
+\def\trimbox@n#1{%
     \collectboxcheckenv{trimbox}%
-    \collectbox{\adjustbox@{trim={#1}}}%
+    \collectbox{\trimbox@{#1}}%
 }
 \def\trimbox@s#1{%
     \collectboxcheckenv{trimbox*}%
-    \collectbox{\adjustbox@{viewport={#1}}}%
+    \collectbox{\viewport@{#1}}%
+}
+\def\trimbox@#1{%
+    \adjbox@parse@v#1 \\%
+    \@trimbox
+        \adjbox@tllx
+        \adjbox@tlly
+        \adjbox@turx
+        \adjbox@tury
+        \collectedbox
+    \usebox\collectedbox
+}
+\def\viewport@#1{%
+    \adjbox@parse@v#1 \\%
+    \adjbox@@viewport
+    \@trimbox
+        \adjbox@tllx
+        \adjbox@tlly
+        \adjbox@turx
+        \adjbox@tury
+        \collectedbox
+    \usebox\collectedbox
 }
 %    \end{macrocode}
 % \end{macro}
@@ -169,15 +190,36 @@
 % \begin{macro}{\clipbox}
 %    \begin{macrocode}
 \newcommand\clipbox{%
-    \@ifstar\clipbox@s\clipbox@
+    \@ifstar\clipbox@s\clipbox@n
 }
-\def\clipbox@#1{%
+\def\clipbox@n#1{%
     \collectboxcheckenv{clipbox}%
-    \collectbox{\adjustbox@{clip,trim={#1}}}%
+    \collectbox{\clipbox@{#1}}%
 }
 \def\clipbox@s#1{%
     \collectboxcheckenv{clipbox*}%
-    \collectbox{\adjustbox@{clip,viewport={#1}}}%
+    \collectbox{\clipviewport@{#1}}%
+}
+\def\clipbox@#1{%
+    \adjbox@parse@v#1 \\%
+    \@clipbox
+        \adjbox@tllx
+        \adjbox@tlly
+        \adjbox@turx
+        \adjbox@tury
+        \collectedbox
+    \usebox\collectedbox
+}
+\def\clipviewport@#1{%
+    \adjbox@parse@v#1 \\%
+    \adjbox@@viewport
+    \@clipbox
+        \adjbox@tllx
+        \adjbox@tlly
+        \adjbox@turx
+        \adjbox@tury
+        \collectedbox
+    \usebox\collectedbox
 }
 %    \end{macrocode}
 % \end{macro}
