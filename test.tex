@@ -1,27 +1,31 @@
-\documentclass{article}
-\usepackage{adjustbox}
+\documentclass[a4paper]{article}
+\usepackage[]{xcolor}
+\usepackage[]{adjustbox}
 \listfiles
 \fboxsep=0pt
 \parskip=1cm
+
+\def\tbox#1#2{%
+    \detokenize{#1}: \rlap{\hbox{\trimbox{#1}{#2}}}\hbox{\clipbox{#1}{\textcolor{green}{#2}}}%
+}
 \begin{document}
 \ttfamily
 {
 none:~~\fbox{\Huge Ag}
 
-trim:~~\fbox{\trimbox {0pt 0pt 0pt 0pt}{\Huge Ag}}
+\tbox {0 0 0 0}{\Huge Ag}
 
-trim:~~\fbox{\trimbox {1pt 1pt 1pt 1pt}{\Huge Ag}}
+\tbox {1pt 1pt 1pt 1pt}{\Huge Ag}
 
-trim:~~\fbox{\trimbox {1pt {\depth+5pt} 1pt 1pt}{\Huge Ag}}
-trim:~~\fbox{\trimbox {1pt {\depth} 1pt 1pt}{\Huge Ag}}
+\tbox {1pt {\depth+5pt} 1pt 1pt}{\Huge Ag}
 
-trim:~~\fbox{\trimbox {1pt 12pt 1pt 1pt}{\Huge Ag}}
+\tbox {1pt {\depth+5pt} 1pt 1pt}{\Huge Ag}
 
-trim*:~\fbox{\trimbox*{1pt 1pt 10pt 10pt}{\Huge Ag}}
+\tbox {1pt 12pt 1pt 01pt}{\Huge Ag}
 
-clip:~~\fbox{\clipbox{10pt 1pt 1pt 1pt}{\Huge Ag}}
+\tbox {1pt 1pt 10pt 10pt}{\Huge Ag}
 
-clip*:~\fbox{\clipbox*{1pt 1pt 10pt 10pt}{\Huge Ag}}
+
 
 adjust:\fbox{\adjustbox{trim=10pt 1pt 1pt 1pt,angle=10}{\Huge Ag}}
 
@@ -52,5 +56,6 @@ adjust:\fbox{\adjustbox{trim=10pt 1pt 1pt 1pt,angle=10}{\Huge Ag}}
 \end{clipbox}
 }}
 }
+
 \end{document}
 

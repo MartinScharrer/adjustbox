@@ -1,7 +1,6 @@
-%&pdflatex
-\documentclass{article}
+\documentclass[a4paper]{article}
 
-\usepackage{tikz-overpic}
+\usepackage{calc}
 \usepackage{adjustbox}
 
 \usepackage{shortvrb}
@@ -10,6 +9,10 @@
 \fboxsep=0pt
 \makeatletter
 \begin{document}
+{\tracingall
+\fbox{\adjustbox{width=.5\width}{FINAL}}
+}
+\end{document}
 
 \def\A{.5\wd\@tempboxa}
 \def\A{.5\width}
@@ -33,8 +36,6 @@
 
 \makeatletter
 \fbox{\adjustbox{width=\wd\@tempboxa,height=2\ht\@tempboxa}{\input{a}}}
-
-\fbox{\adjustbox{width=\width,height=2*\totalheight-10pt}{\input{a}}}
 
 \end{document}
 

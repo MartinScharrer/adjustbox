@@ -14,7 +14,7 @@
         \pgfpathclose
         \pgfusepathqclip
         \pgfset{inner sep=\z@,outer sep=\z@,minimum size=\z@}%
-        \pgfnode{rectangle}{base west}{\box#5}{}{}%
+        \pgfnode{rectangle}{base west}{\usebox#5}{}{}%
         \pgfsetbaselinepointnow{\pgfpoint\z@\z@}%
     \end{pgfpicture}%
 }
