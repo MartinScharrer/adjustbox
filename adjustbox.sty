@@ -209,13 +209,58 @@
 % The typesetting of the content is finally done by executing the token register.
 %    \begin{macrocode}
 \def\adjustbox@#1{%
-    \@tempswatrue
-    \toks@{{\adjustbox@@@}}%
+    \adjustbox@dimcmds
+    \let\Gin@esetsize\adjbox@esetsize
+    \@tempswafalse
+    \toks@{{\adjustbox@@@@}}%
     \def\setlength{\adjbox@setdim}%
     \setkeys{adjbox,Gin}{#1}%
-    \Gin@esetsize
-    \showthe\toks@
+    \adjbox@esetsize
     \the\toks@
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjustbox@@@@}
+% Content wrapper which might be redefined when the size is specified.
+%    \begin{macrocode}
+\def\adjustbox@@@@{\adjustbox@@@}%
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@esetsize}
+% Replacement of \Macro\Gin@esetsize.
+% When called in \emph{external} mode (switch is true) then the content is wrapped in
+% the internal form of \Macro\resizebox. In \emph{internal} mode, i.e.\ resizing is done by the graphic driver,
+% the same code is added around the inner macro. This ensures the same behaviour as \Macro\includegraphics.
+%    \begin{macrocode}
+\def\adjbox@esetsize{%
+  \if@tempswa
+    \edef\@tempa{\toks@{\noexpand
+             \Gscale@@box\noexpand\Gin@eresize
+              {\Gin@ewidth}{\Gin@eheight}{\the\toks@}}}%
+    \@tempa
+  \else
+    \edef\adjustbox@@@@{\noexpand
+             \Gscale@@box\noexpand\Gin@eresize
+              {\Gin@ewidth}{\Gin@eheight}{\noexpand\adjustbox@@@}}%
+  \fi
+  \let\Gin@ewidth\Gin@exclamation
+  \let\Gin@eheight\Gin@exclamation
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjustbox@dimcmds}
+%    \begin{macrocode}
+\def\adjustbox@dimcmds{%
+    \protected\edef\WIDTH {\dimexpr\the\wd\collectedbox\relax}%
+    \protected\edef\HEIGHT{\dimexpr\the\ht\collectedbox\relax}%
+    \protected\edef\DEPTH {\dimexpr\the\dp\collectedbox\relax}%
+    \protected\edef\TOTALHEIGHT{\dimexpr\the\ht\collectedbox+\the\dp\collectedbox\relax}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -501,6 +546,9 @@
 %    \begin{macrocode}
 \define@key\adjbox@fam{show}{%
     \show#1%
+}
+\define@key{Gin}{debug}[]{%
+    \showthe\toks@
 }
 \define@key\adjbox@fam{showthe}{%
     \showthe#1%

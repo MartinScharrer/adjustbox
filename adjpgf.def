@@ -6,7 +6,7 @@
 %    \begin{macrocode}
 \def\@clipbox#1#2#3#4#5{%
     \@trimbox{#1}{#2}{#3}{#4}{#5}%
-    \begin{pgfpicture}%
+    \setbox#5\hbox{\begin{pgfpicture}%
         \pgfpathmoveto{\pgfqpoint\z@{-\dp#5}}%
         \pgfpathlineto{\pgfqpoint\z@{\ht#5}}%
         \pgfpathlineto{\pgfqpoint{\wd#5}{\ht#5}}%
@@ -16,7 +16,7 @@
         \pgfset{inner sep=\z@,outer sep=\z@,minimum size=\z@}%
         \pgfnode{rectangle}{base west}{\usebox#5}{}{}%
         \pgfsetbaselinepointnow{\pgfpoint\z@\z@}%
-    \end{pgfpicture}%
+    \end{pgfpicture}}%
 }
 %    \end{macrocode}
 % \end{macro}
