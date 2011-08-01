@@ -658,13 +658,59 @@
 % \begin{key}\adjbox@fam{valign}
 %    \begin{macrocode}
 \define@key\adjbox@fam{valign}{%
-    \if t#1\relax
-        \adjbox@Gin@Add{\@irsbox{\dimexpr-\height+\ht\strutbox\relax}[]}%
-    \fi
+    \csname adjbox@valign@#1\endcsname
 }
 %    \end{macrocode}
 % \end{key}
 %
+%
+% \begin{macro}{\adjbox@valign@t}
+%    \begin{macrocode}
+\def\adjbox@valign@t{%
+    \adjbox@Gin@Add{\@irsbox{\dimexpr-\height+\ht\strutbox\relax}[]}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@valign@T}
+%    \begin{macrocode}
+\def\adjbox@valign@T{%
+    \adjbox@Gin@Add{\@irsbox{-\height}[]}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@valign@M}
+%    \begin{macrocode}
+\def\adjbox@valign@M{%
+    \adjbox@Gin@Add{\@irsbox{\dimexpr.5\depth-.5\height\relax}[]}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@valign@m}
+%    \begin{macrocode}
+\def\adjbox@valign@m{%
+    \adjbox@Gin@Add{\@irsbox{\dimexpr.5\depth-.5\height+.5\ht\strutbox\relax}[]}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@valign@b}
+%    \begin{macrocode}
+\def\adjbox@valign@b{%
+    \adjbox@Gin@Add{\@irsbox{-\depth}[]}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+\let\adjbox@valign@B\adjbox@valign@b
+%    \end{macrocode}
 %
 % \begin{macro}{\adjbox@raisebox}
 %    \begin{macrocode}
