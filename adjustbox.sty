@@ -115,11 +115,6 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\adjbox@default}
-%    \begin{macrocode}
-%    \end{macrocode}
-% \end{macro}
-%
 %
 % \begin{macro}{\adjbox@@trim}
 %    \begin{macrocode}
@@ -185,7 +180,7 @@
 %    \end{macrocode}
 % \end{environment}
 %
-% \begin{key}\adjbox@fam{Trim}
+% \begin{key}{adjbox}{Trim}
 %    \begin{macrocode}
 \define@key\adjbox@fam{Trim}{%
     \Gin@esetsize
@@ -195,7 +190,7 @@
 %    \end{macrocode}
 % \end{key}
 %
-% \begin{key}\adjbox@fam{Viewport}
+% \begin{key}{adjbox}{Viewport}
 %    \begin{macrocode}
 \define@key\adjbox@fam{Viewport}{%
     \Gin@esetsize
@@ -205,7 +200,7 @@
 %    \end{macrocode}
 % \end{key}
 %
-% \begin{key}\adjbox@fam{Clip}
+% \begin{key}{adjbox}{Clip}
 %    \begin{macrocode}
 \define@key\adjbox@fam{Clip}{%
     \Gin@esetsize
@@ -215,7 +210,7 @@
 %    \end{macrocode}
 % \end{key}
 %
-% \begin{key}\adjbox@fam{Clip*}
+% \begin{key}{adjbox}{Clip*}
 %    \begin{macrocode}
 \define@key\adjbox@fam{Clip*}{%
     \Gin@esetsize
@@ -527,7 +522,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
-% \begin{key}\adjbox@fam{frame}
+% \begin{key}{adjbox}{frame}
 %    \begin{macrocode}
 \define@key\adjbox@fam{frame}[{{\fboxrule}}]{%
     \Gin@esetsize
@@ -553,7 +548,7 @@
 % \end{macro}
 %
 %
-% \begin{key}\adjbox@fam{reflect}
+% \begin{key}{adjbox}{reflect}
 %    \begin{macrocode}
 \define@key\adjbox@fam{reflect}[]{%
   \if@tempswa
@@ -570,7 +565,7 @@
 % \end{key}
 %
 %
-% \begin{key}\adjbox@fam{lap}
+% \begin{key}{adjbox}{lap}
 %    \begin{macrocode}
 \define@key\adjbox@fam{lap}{%
     \Gin@esetsize
@@ -598,7 +593,7 @@
 % \end{macro}
 %
 %
-% \begin{key}\adjbox@fam{margin}
+% \begin{key}{adjbox}{margin}
 %    \begin{macrocode}
 \define@key\adjbox@fam{margin}{%
     \Gin@esetsize
@@ -609,7 +604,7 @@
 % \end{key}
 %
 %
-% \begin{key}\adjbox@fam{dpi}
+% \begin{key}{adjbox}{dpi}
 %    \begin{macrocode}
 \define@key\adjbox@fam{dpi}{%
     \adjbox@setdim\pdfpxdimen{1in/(#1)}%
@@ -618,7 +613,7 @@
 % \end{key}
 %
 %
-% \begin{key}\adjbox@fam{pxdim}
+% \begin{key}{adjbox}{pxdim}
 %    \begin{macrocode}
 \define@key\adjbox@fam{pxdim}{%
     \adjbox@setdim\pdfpxdimen{#1}%
@@ -640,7 +635,7 @@
 %    \end{macrocode}
 %
 %
-% \begin{key}\adjbox@fam{raise}
+% \begin{key}{adjbox}{raise}
 %    \begin{macrocode}
 \define@key\adjbox@fam{raise}{%
     \Gin@esetsize
@@ -655,7 +650,7 @@
 % \end{key}
 %
 %
-% \begin{key}\adjbox@fam{valign}
+% \begin{key}{adjbox}{valign}
 %    \begin{macrocode}
 \define@key\adjbox@fam{valign}{%
     \csname adjbox@valign@#1\endcsname
@@ -725,7 +720,7 @@
 % \end{macro}
 %
 %
-% \begin{key}\adjbox@fam{set height}
+% \begin{key}{adjbox}{set height}
 %    \begin{macrocode}
 \define@key\adjbox@fam{set height}{%
     \Gin@esetsize
@@ -736,7 +731,7 @@
 % \end{key}
 %
 %
-% \begin{key}\adjbox@fam{set depth}
+% \begin{key}{adjbox}{set depth}
 %    \begin{macrocode}
 \define@key\adjbox@fam{set depth}{%
     \adjbox@Gin@add{\@iirsbox\z@[\height][{#1}]}%
@@ -775,7 +770,7 @@
 % \end{macro}
 %
 %
-% \begin{key}\adjbox@fam{min width}
+% \begin{key}{adjbox}{min width}
 %    \begin{macrocode}
 \define@key\adjbox@fam{min width}{%
     \adjbox@Gin@Add{\@minsizebox\height{#1}!}%
@@ -784,7 +779,7 @@
 % \end{key}
 %
 %
-% \begin{key}\adjbox@fam{max width}
+% \begin{key}{adjbox}{max width}
 %    \begin{macrocode}
 \define@key\adjbox@fam{max width}{%
     \adjbox@Gin@Add{\@maxsizebox\height{#1}!}%
@@ -793,7 +788,7 @@
 % \end{key}
 %
 %
-% \begin{key}\adjbox@fam{min height}
+% \begin{key}{adjbox}{min height}
 %    \begin{macrocode}
 \define@key\adjbox@fam{min height}{%
     \adjbox@Gin@Add{\@minsizebox\height!{#1}}%
@@ -802,7 +797,7 @@
 % \end{key}
 %
 %
-% \begin{key}\adjbox@fam{max height}
+% \begin{key}{adjbox}{max height}
 %    \begin{macrocode}
 \define@key\adjbox@fam{max height}{%
     \adjbox@Gin@Add{\@maxsizebox\height!{#1}}%
@@ -811,7 +806,7 @@
 % \end{key}
 %
 %
-% \begin{key}\adjbox@fam{min totalheight}
+% \begin{key}{adjbox}{min totalheight}
 %    \begin{macrocode}
 \define@key\adjbox@fam{min totalheight}{%
     \adjbox@Gin@Add{\@minsizebox\totalheight!{#1}}%
@@ -820,7 +815,7 @@
 % \end{key}
 %
 %
-% \begin{key}\adjbox@fam{max totalheight}
+% \begin{key}{adjbox}{max totalheight}
 %    \begin{macrocode}
 \define@key\adjbox@fam{max totalheight}{%
     \adjbox@Gin@Add{\@maxsizebox\totalheight!{#1}}%
@@ -829,7 +824,7 @@
 % \end{key}
 %
 %
-% \begin{key}\adjbox@fam{min size}
+% \begin{key}{adjbox}{min size}
 %    \begin{macrocode}
 \define@key\adjbox@fam{min size}{%
     \adjbox@Gin@sizeadd{\@minsizebox\height}#1\relax
@@ -838,7 +833,7 @@
 % \end{key}
 %
 %
-% \begin{key}\adjbox@fam{max size}
+% \begin{key}{adjbox}{max size}
 %    \begin{macrocode}
 \define@key\adjbox@fam{max size}{%
     \adjbox@Gin@sizeadd{\@maxsizebox\height}#1\relax
@@ -847,7 +842,7 @@
 % \end{key}
 %
 %
-% \begin{key}\adjbox@fam{min totalsize}
+% \begin{key}{adjbox}{min totalsize}
 %    \begin{macrocode}
 \define@key\adjbox@fam{min totalsize}{%
     \adjbox@Gin@sizeadd{\@minsizebox\totalheight}#1\relax
@@ -856,7 +851,7 @@
 % \end{key}
 %
 %
-% \begin{key}\adjbox@fam{max totalsize}
+% \begin{key}{adjbox}{max totalsize}
 %    \begin{macrocode}
 \define@key\adjbox@fam{max totalsize}{%
     \adjbox@Gin@sizeadd{\@maxsizebox\totalheight}#1\relax

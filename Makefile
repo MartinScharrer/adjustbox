@@ -57,27 +57,15 @@ ${INSTALLDIR}:
 ${DOCINSTALLDIR}:
 	mkdir -p $@
 
-ctanify: ${SRCFILES} ${DOCFILES} adjustbox.tds.zip
-	${RM} adjustbox.zip
-	zip adjustbox.zip $^ 
-	unzip -t adjustbox.zip
-	unzip -t adjustbox.tds.zip
+build: adjustbox.dtx adjustbox.ins README
+	rm -rf build/
+	mkdir build
+	perl dtx.pl adjustbox.dtx build/adjustbox.dtx
+	${CP} adjustbox.ins README build/
+	cd build && yes | tex adjustbox.ins
+	cd build && latexmk -pdf adjustbox.dtx
+	cd build && pdfopt adjustbox.pdf opt.pdf && mv opt.pdf adjustbox.pdf
+	cd build && ctanify adjustbox.dtx adjustbox.ins README
+	cd build && ${CP} adjustbox.tar.gz /tmp
 
-zip: adjustbox.zip
-
-tdszip: adjustbox.tds.zip
-
-adjustbox.zip: ${SRCFILES} ${DOCFILES} | pdfopt
-	${RM} $@
-	zip $@ $^ 
-
-adjustbox.tds.zip: ${SRCFILES} ${PACKEDFILES} ${DOCFILES} | pdfopt
-	${RMDIR} tds
-	mkdir -p tds/tex/latex/adjustbox
-	mkdir -p tds/doc/latex/adjustbox
-	mkdir -p tds/source/latex/adjustbox
-	${CP} ${DOCFILES}    tds/doc/latex/adjustbox
-	${CP} ${PACKEDFILES} tds/tex/latex/adjustbox
-	${CP} ${SRCFILES}    tds/source/latex/adjustbox
-	cd tds; zip -r ../$@ .
 
