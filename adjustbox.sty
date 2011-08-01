@@ -770,6 +770,22 @@
 % \end{macro}
 %
 %
+%    \begin{macrocode}
+\define@key\adjbox@fam{center}[]{%
+    \toks@\expandafter{\expandafter\hb@xt@\expandafter\linewidth\expandafter{\expandafter\hss\the\toks@\hss}}%
+}
+%    \end{macrocode}
+%    \begin{macrocode}
+\define@key\adjbox@fam{left}[]{%
+    \toks@\expandafter{\expandafter\hb@xt@\expandafter\linewidth\expandafter{\expandafter\hss\the\toks@}}%
+}
+%    \end{macrocode}
+%    \begin{macrocode}
+\define@key\adjbox@fam{right}[]{%
+    \toks@\expandafter{\expandafter\hb@xt@\expandafter\linewidth\expandafter{\the\toks@\hss}}%
+}
+%    \end{macrocode}
+%
 % \begin{key}{adjbox}{min width}
 %    \begin{macrocode}
 \define@key\adjbox@fam{min width}{%
