@@ -418,6 +418,83 @@
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Storebox}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+% \begin{macro}{\storebox}
+%    \begin{macrocode}
+\newcommand*\storebox{%
+    \collectboxcheckenv{storebox}%
+    \ifcollectboxenv
+        \expandafter\@storebox@env
+    \else
+        \expandafter\@storebox
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@storebox}
+% Macro version:
+%    \begin{macrocode}
+\def\@storebox#1{%
+    \@collectboxto\collectedbox{\pdfxform\collectedbox\mathchardef#1=\pdflastxform}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@storebox@env}
+% Environment version. Code adapted from \env{lrbox} environment. The group added by \Macro\begin and \Macro\end must
+% be specially handled to allow for a local assignment.
+%    \begin{macrocode}
+\def\@storebox@env#1{%
+    \endgroup
+    \edef\@tempa{%
+        \endgroup
+        \setbox\collectedbox\hbox\bgroup%
+            \def\noexpand\@tempa{\noexpand#1}%
+            \begingroup\aftergroup\noexpand\@storebox@env@end
+            \def\noexpand\@currenvir{\@currenvir}%
+            \def\noexpand\@currenvline{\on@line}%
+    }%
+    \@tempa
+    \@endpefalse
+    \color@setgroup
+    \ignorespaces
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+\let\endstorebox\endlrbox
+%    \end{macrocode}
+%
+% \begin{macro}{\@storebox@env@end}
+% This ends the box assignment and stores the box as PDF xform.
+% Then the given control sequence is set to the xform number.
+%    \begin{macrocode}
+\def\@storebox@env@end{%
+    \expandafter\egroup
+    \expandafter\pdfxform\expandafter\collectedbox
+    \expandafter\mathchardef\@tempa=\pdflastxform
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\usestorebox}
+%    \begin{macrocode}
+\newcommand*\usestorebox[1]{%
+    \mbox{\pdfrefxform#1}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsection{More box commands}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
