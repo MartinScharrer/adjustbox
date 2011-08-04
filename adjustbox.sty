@@ -440,7 +440,8 @@
 % Macro version:
 %    \begin{macrocode}
 \def\@storebox#1{%
-    \@collectboxto\collectedbox{\pdfxform\collectedbox\mathchardef#1=\pdflastxform}%
+    \begingroup
+    \@collectboxto\collectedbox{\pdfxform\collectedbox\endgroup\mathchardef#1=\pdflastxform}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -451,14 +452,11 @@
 % be specially handled to allow for a local assignment.
 %    \begin{macrocode}
 \def\@storebox@env#1{%
-    \endgroup
     \edef\@tempa{%
         \endgroup
         \setbox\collectedbox\hbox\bgroup%
             \def\noexpand\@tempa{\noexpand#1}%
             \begingroup\aftergroup\noexpand\@storebox@env@end
-            \def\noexpand\@currenvir{\@currenvir}%
-            \def\noexpand\@currenvline{\on@line}%
     }%
     \@tempa
     \@endpefalse
@@ -477,9 +475,13 @@
 % Then the given control sequence is set to the xform number.
 %    \begin{macrocode}
 \def\@storebox@env@end{%
-    \expandafter\egroup
-    \expandafter\pdfxform\expandafter\collectedbox
-    \expandafter\mathchardef\@tempa=\pdflastxform
+    \edef\@tempa{%
+        \egroup
+        \pdfxform\collectedbox
+        \endgroup
+        \mathchardef\expandafter\noexpand\@tempa=\pdflastxform
+    }%
+    \@tempa
 }
 %    \end{macrocode}
 % \end{macro}
