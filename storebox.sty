@@ -1,8 +1,7 @@
 %    \begin{macrocode}
 \ProvidesPackage{storebox}[2011/08/05 v0.99 Store and reuse boxes in a file size efficient way]
-\newif\ifstorebox
-\DeclareOption{disable}{\storeboxfalse}
-\DeclareOption{enable}{\storeboxtrue}
+\DeclareOption{disable}{\let\ifstorebox\iffalse}
+\DeclareOption{enable}{\let\ifstorebox\iftrue}
 \ProcessOptions*
 \edef\@tempa{\@ptionlist{\@currname.\@currext}}
 \ifx\@tempa\empty
@@ -10,7 +9,7 @@
     \expandafter\let\csname ifstorebox\expandafter\endcsname\csname ifpdf\endcsname
 \fi
 %    \end{macrocode}
-
+%
 %    \begin{macrocode}
 \RequirePackage{collectbox}[2011/08/04]
 %    \end{macrocode}
