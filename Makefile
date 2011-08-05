@@ -70,7 +70,7 @@ build: adjustbox.dtx adjustbox.ins README
 	cd build && latexmk -pdf storebox.dtx
 	cd build && pdfopt adjustbox.pdf opt.pdf && mv opt.pdf adjustbox.pdf
 	cd build && pdfopt storebox.pdf opt.pdf && mv opt.pdf storebox.pdf
-	cd build && ctanify adjustbox.dtx adjustbox.ins storebox.dtx README
+	cd build && ctanify adjustbox.dtx adjustbox.ins storebox.dtx *.sty adjpgf.def=tex/latex/adjustbox/ README
 	cd build && ${CP} adjustbox.tar.gz /tmp
 
 
