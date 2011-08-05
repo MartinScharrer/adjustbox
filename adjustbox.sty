@@ -456,18 +456,25 @@
         \endgroup
         \setbox\collectedbox\hbox\bgroup%
             \def\noexpand\@tempa{\noexpand#1}%
-            \begingroup\aftergroup\noexpand\@storebox@env@end
     }%
     \@tempa
+    \begingroup
+    \aftergroup\@storebox@env@end
     \@endpefalse
     \color@setgroup
+    \begingroup
+    \def\@currenvir{storebox\empty}%
     \ignorespaces
 }
 %    \end{macrocode}
 % \end{macro}
 %
 %    \begin{macrocode}
-\let\endstorebox\endlrbox
+\def\endstorebox{%
+    \unskip
+    \endgroup
+    \color@endgroup
+}
 %    \end{macrocode}
 %
 % \begin{macro}{\@storebox@env@end}
