@@ -427,6 +427,7 @@
 \newcommand*\storebox{%
     \collectboxcheckenv{storebox}%
     \ifcollectboxenv
+        \endgroup
         \expandafter\@storebox@env
     \else
         \expandafter\@storebox
@@ -435,6 +436,10 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%
+%    \begin{macrocode}
+\ifpdf
+%    \end{macrocode}
 %
 % \begin{macro}{\@storebox}
 % Macro version:
@@ -453,7 +458,6 @@
 %    \begin{macrocode}
 \def\@storebox@env#1{%
     \edef\@tempa{%
-        \endgroup
         \setbox\collectedbox\hbox\bgroup%
             \def\noexpand\@tempa{\noexpand#1}%
     }%
@@ -468,14 +472,6 @@
 }
 %    \end{macrocode}
 % \end{macro}
-%
-%    \begin{macrocode}
-\def\endstorebox{%
-    \unskip
-    \endgroup
-    \color@endgroup
-}
-%    \end{macrocode}
 %
 % \begin{macro}{\@storebox@env@end}
 % This ends the box assignment and stores the box as PDF xform.
@@ -494,6 +490,25 @@
 % \end{macro}
 %
 %
+% \begin{macro}{\endstorebox}
+%    \begin{macrocode}
+\def\endstorebox{%
+    \unskip
+    \endgroup
+    \color@endgroup
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\newstorebox}
+%    \begin{macrocode}
+\newcommand*\newstorebox[1]{%
+    \@ifdefinable{#1}{\let#1\relax}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
 % \begin{macro}{\usestorebox}
 %    \begin{macrocode}
 \newcommand*\usestorebox[1]{%
@@ -501,6 +516,59 @@
 }
 %    \end{macrocode}
 % \end{macro}
+%
+%
+%    \begin{macrocode}
+\else
+%    \end{macrocode}
+%
+%
+% \begin{macro}{\@storebox}
+% Macro version:
+%    \begin{macrocode}
+\def\@storebox#1{\@collectboxto{#1}{}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@storebox@env}
+%    \begin{macrocode}
+\def\@storebox@env{%
+  \edef\@currenvir{\@currenvir\noexpand\noexpand\noexpand\empty}%
+  \lrbox
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\endstorebox}
+%    \begin{macrocode}
+\def\endstorebox{%
+    \endlrbox
+    \edef\@currenvir{\@currenvir}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\newsavebox}
+%    \begin{macrocode}
+\@ifdefinable\newstorebox{%
+\let\newstorebox\newsavebox
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\usestorebox}
+%    \begin{macrocode}
+\@ifdefinable\usestorebox{%
+\let\usestorebox\usebox
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+\fi
+%    \end{macrocode}
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
