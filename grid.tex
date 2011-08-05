@@ -3,11 +3,10 @@
 \usepackage{lmodern}
 
 \usepackage{tikz}
-
 \newdimen\unit
-\tikzset{unit/.code={\unit=\dimexpr#1\relax}}
-\tikzset{xy/.style={x={#1},y={#1},unit={#1},font={\sffamily\fontsize{.2\unit}{.24\unit}\selectfont},line width=.01\unit}}
 \begin{document}%
+\tikzset{unit/.code={\unit=\dimexpr#1\relax}}%
+\tikzset{xy/.style={x={#1},y={#1},unit={#1},font={\sffamily\fontsize{.2\unit}{.24\unit}\selectfont},line width=.01\unit}}%
 \begin{tikzpicture}[xy=10pt]%
     \path [use as bounding box] (0,0) rectangle (10,10);
     \foreach \x in {5,...,1} {
