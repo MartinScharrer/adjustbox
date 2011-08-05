@@ -18,14 +18,18 @@ This work has the LPPL maintenance status `maintained'.
 
 The Current Maintainer of this work is Martin Scharrer.
 
-This work consists of the files adjustbox.dtx, adjustbox.ins
-and the derived file adjustbox.sty.
+This work consists of the files adjustbox.dtx, adjustbox.ins,
+storebox.dtx and the derived files adjustbox.sty and storebox.sty.
 
 \endpreamble
 \keepsilent
 
 \generate{%
   \file{adjustbox.sty}{\from{adjustbox.dtx}{adjustbox}}%
+  \file{adjcalc.sty}{\from{adjustbox.dtx}{adjcalc}}%
+  \file{adjgrfx.sty}{\from{adjustbox.dtx}{adjgrfx}}%
+  \file{adjpgf.def}{\from{adjustbox.dtx}{adjpgf.def}}%
+  \file{storebox.sty}{\from{storebox.dtx}{storebox}}%
   \file{adjustbox-de.tex}{\nopreamble\nopostamble\from{adjustbox.dtx}{de}}%
 }
 

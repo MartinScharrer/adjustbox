@@ -57,15 +57,20 @@ ${INSTALLDIR}:
 ${DOCINSTALLDIR}:
 	mkdir -p $@
 
+.PHONY: build
+
 build: adjustbox.dtx adjustbox.ins README
 	rm -rf build/
 	mkdir build
-	perl dtx.pl adjustbox.dtx build/adjustbox.dtx
+	perl ../dtx/dtx.pl adjustbox.dtx build/adjustbox.dtx
+	perl ../dtx/dtx.pl storebox.dtx build/storebox.dtx
 	${CP} adjustbox.ins README build/
 	cd build && yes | tex adjustbox.ins
 	cd build && latexmk -pdf adjustbox.dtx
+	cd build && latexmk -pdf storebox.dtx
 	cd build && pdfopt adjustbox.pdf opt.pdf && mv opt.pdf adjustbox.pdf
-	cd build && ctanify adjustbox.dtx adjustbox.ins README
+	cd build && pdfopt storebox.pdf opt.pdf && mv opt.pdf storebox.pdf
+	cd build && ctanify adjustbox.dtx adjustbox.ins storebox.dtx README
 	cd build && ${CP} adjustbox.tar.gz /tmp
 
 
