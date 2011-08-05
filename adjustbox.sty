@@ -6,13 +6,8 @@
 %    \end{macrocode}
 %
 %    \begin{macrocode}
+\RequirePackage{adjcalc}
 \RequirePackage{xkeyval}
-%\def\adjbox@dim@pgfmath{\AtEndOfPackage{\RequirePackage{pgfrcs,pgfkeys,pgfmath}\adjbox@dim@pgfmath}}
-\def\adjbox@dim@pgfmath{\AtEndOfPackage{\RequirePackage{pgf}\adjbox@dim@pgfmath}}
-\def\adjbox@dim@etex{\AtEndOfPackage{\adjbox@dim@etex}}
-\def\adjbox@dim@tex{\AtEndOfPackage{\adjbox@dim@tex}}
-\def\adjbox@dim@latex{\AtEndOfPackage{\adjbox@dim@latex}}
-\def\adjbox@dim@calc{\AtEndOfPackage{\RequirePackage{calc}\adjbox@dim@calc}}
 
 %%  * Default unit: pt, bp, any other unit, none
 \def\adjbox@defaultunit{bp}
@@ -20,11 +15,6 @@
 
 %%  * Math for Dimensions: etex, tex, latex, pgfmath
 \DeclareOptionX<adjbox>{PGF}{\def\adjbox@driver{adjpgf.def}\adjbox@dim@pgfmath}
-\DeclareOptionX<adjbox>{pgfmath}{\adjbox@dim@pgfmath}
-\DeclareOptionX<adjbox>{etex}{\adjbox@dim@etex}
-\DeclareOptionX<adjbox>{tex}{\adjbox@dim@tex}
-\DeclareOptionX<adjbox>{latex}{\adjbox@dim@latex}
-\DeclareOptionX<adjbox>{calc}{\adjbox@dim@calc}
 
 \def\adjbox@fam{adjbox}
 \DeclareOptionX<adjbox>{export}{\def\adjbox@fam{Gin}}
@@ -289,7 +279,7 @@
     \let\Gin@esetsize\adjbox@esetsize
     \@tempswafalse
     \toks@{{\adjustbox@@@@}}%
-    \def\setlength{\adjbox@setdim}%
+    \def\setlength{\adjsetlength}%
     \setkeys{adjbox,Gin}{#1}%
     \adjbox@esetsize
     \the\toks@
@@ -359,11 +349,11 @@
 %    \begin{macrocode}
 \def\@trimbox#1#2#3#4#5{%
     \setbox#5=\hbox{%
-        \adjbox@setdim\@tempdima{#1}%
+        \adjsetlength\@tempdima{#1}%
         \hskip-\@tempdima
-        \adjbox@setsubdim{\@tempdima}{\dp#5}{#2}%
-        \adjbox@setsubdim{\@tempdimb}{\wd#5}{#3}%
-        \adjbox@setsubdim{\@tempdimc}{\ht#5}{#4}%
+        \adjsetlength\@tempdima{\dp#5 - (#2)}%
+        \adjsetlength\@tempdimb{\wd#5 - (#3)}%
+        \adjsetlength\@tempdimc{\ht#5 - (#4)}%
         \dp#5=\@tempdima
         \wd#5=\@tempdimb
         \ht#5=\@tempdimc
@@ -492,17 +482,17 @@
     \relax% 0
         \BOXCONTENT
     \or% 1
-        \adjbox@setdim\@tempdima\@tempb
+        \adjsetlength\@tempdima\@tempb
         \Gscale@div\@tempa\@tempdima#2%
         \Gscale@box\@tempa[\@tempa]\BOXCONTENT
     \or% 2
-        \adjbox@setdim\@tempdima\@tempa
+        \adjsetlength\@tempdima\@tempa
         \Gscale@div\@tempa\@tempdima\width%
         \Gscale@box\@tempa[\@tempa]\BOXCONTENT
     \or% 3
-        \adjbox@setdim\@tempdima\@tempa
+        \adjsetlength\@tempdima\@tempa
         \Gscale@div\@tempa\@tempdima\width
-        \adjbox@setldim\@tempdima\@tempb
+        \adjsetlength\@tempdima\@tempb
         \Gscale@div\@tempb\@tempdima#2%
         \ifdim\@tempa\p@#1\@tempb\p@
             \let\@tempb\@tempa
@@ -537,8 +527,8 @@
 %    \begin{macrocode}
 \def\adjbox@frame#1 #2 #3\relax{%
     \adjbox@Gin@add{%
-        \adjbox@setdim\fboxrule{#1}%
-        \adjbox@setdim\fboxsep{#2}%
+        \adjsetlength\fboxrule{#1}%
+        \adjsetlength\fboxsep{#2}%
         \fbox
     }%
     \adjbox@Gin@add{}% add group around code
@@ -607,7 +597,7 @@
 % \begin{key}{adjbox}{dpi}
 %    \begin{macrocode}
 \define@key\adjbox@fam{dpi}{%
-    \adjbox@setdim\pdfpxdimen{1in/(#1)}%
+    \adjsetlength\pdfpxdimen{1in/(#1)}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -616,7 +606,7 @@
 % \begin{key}{adjbox}{pxdim}
 %    \begin{macrocode}
 \define@key\adjbox@fam{pxdim}{%
-    \adjbox@setdim\pdfpxdimen{#1}%
+    \adjsetlength\pdfpxdimen{#1}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -906,7 +896,7 @@
 % \begin{macro}{\@@lapbox}
 %    \begin{macrocode}
 \def\@@lapbox#1{%
-    \adjbox@setdim\@tempdima{#1}%
+    \adjsetlength\@tempdima{#1}%
     \@tempdimb\width
     \advance\@tempdimb by \ifdim\@tempdima>\z@-\fi\@tempdima
     \hb@xt@\@tempdimb{%
@@ -935,8 +925,8 @@
 % \begin{macro}{\i@@lapbox}
 %    \begin{macrocode}
 \def\i@@lapbox#1#2{%
-    \adjbox@setdim\@tempdima{#2}%
-    \adjbox@setdim\@tempdimb{#1}%
+    \adjsetlength\@tempdimb{#1}%
+    \adjsetlength\@tempdima{#2}%
     \hb@xt@\@tempdimb{%
         \ifdim\@tempdima<\z@
             \hss
@@ -994,11 +984,11 @@
 %    \begin{macrocode}
 \def\@marginbox#1#2#3#4#5{%
     \setbox#5=\hbox{%
-        \adjbox@setdim\@tempdima{#1}%
+        \adjsetlength\@tempdima{#1}%
         \hskip\@tempdima
-        \adjbox@setadddim{\@tempdima}{\dp#5}{#2}%
-        \adjbox@setadddim{\@tempdimb}{\wd#5}{#3}%
-        \adjbox@setadddim{\@tempdimc}{\ht#5}{#4}%
+        \adjsetlength\@tempdima{\dp#5 + #2}%
+        \adjsetlength\@tempdimb{\wd#5 + #3}%
+        \adjsetlength\@tempdimc{\ht#5 + #4}%
         \dp#5=\@tempdima
         \wd#5=\@tempdimb
         \ht#5=\@tempdimc
@@ -1008,123 +998,5 @@
 %    \end{macrocode}
 % \end{macro}
 %
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsection{Dimension macros}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% \begin{macro}{\adjbox@dim@etex}
-%    \begin{macrocode}
-\def\adjbox@dim@etex{%
-    \def\adjbox@setdim##1##2{%
-        ##1=\dimexpr##2\relax
-    }%
-    \def\adjbox@setadddim##1##2##3{%
-        ##1=\dimexpr##2 + ##3\relax
-    }%
-    \def\adjbox@setsubdim##1##2##3{%
-        ##1=\dimexpr##2 -\dimexpr##3\relax\relax
-    }%
-    \def\adjbox@default##1##2{%
-        \@defaultunits##1=\dimexpr##2 \adjbox@defaultunit\relax\@nnil
-    }%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\adjbox@dim@tex}
-%    \begin{macrocode}
-\def\adjbox@dim@tex{%
-    \def\adjbox@setdim##1##2{%
-        ##1=##2\relax
-    }%
-    \def\adjbox@setadddim##1##2##3{%
-        \@tempdima=##2\relax
-        \advance\@tempdima by ##2\relax
-        ##1=\@tempdima
-    }%
-    \def\adjbox@setsubdim##1##2##3{%
-        \@tempdima=##2\relax
-        \advance\@tempdima by -##2\relax
-        ##1=\@tempdima
-    }%
-    \def\adjbox@default##1##2{%
-        \@defaultunits##1=##2 \adjbox@defaultunit\relax\@nnil
-    }%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjbox@dim@latex}
-%    \begin{macrocode}
-\def\adjbox@dim@latex{%
-    \def\adjbox@setdim{%
-        \adjbox@origsetlength
-    }%
-    \def\adjbox@setadddim##1##2##3{%
-        \adjbox@origsetlength\@tempdima{##2}%
-        \addtolength\@tempdima{##3}%
-        \adjbox@origsetlength##1{\@tempdima}%
-    }%
-    \def\adjbox@setsubdim##1##2##3{%
-        \adjbox@origsetlength\@tempdima{##2}%
-        \@tempdima=-\@tempdima
-        \addtolength\@tempdima{##3}%
-        \adjbox@origsetlength##1{-\@tempdima}%
-    }%
-    \def\adjbox@default##1##2{%
-        \afterassignment\adjbox@checkdefault
-        ##1=##2 \adjbox@defaultunit\relax\@nnil{##1}{##2}%
-    }%
-    \def\adjbox@checkdefault##1\@nnil##2##3{%
-        \ifx\relax##1\relax\else
-            \adjbox@origsetlength{##2}{##3}%
-        \fi
-    }%
-}
-\let\adjbox@dim@calc\adjbox@dim@latex
-\AtEndOfPackage{\let\adjbox@origsetlength\setlength}
-\AtBeginDocument{\let\adjbox@origsetlength\setlength}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjbox@dim@pgfmath}
-%    \begin{macrocode}
-\def\adjbox@dim@pgfmath{%
-    \def\adjbox@setdim{%
-        \pgfmathsetlength
-    }%
-    \def\adjbox@setadddim##1##2##3{%
-        \pgfmathsetlength\@tempdima{##2 + ##3}%
-        ##1=\@tempdima
-    }%
-    \def\adjbox@setsubdim##1##2##3{%
-        \pgfmathsetlength\@tempdima{##2 - (##3)}%
-        ##1=\@tempdima
-    }%
-    \def\adjbox@default##1##2{%
-        \edef\pgfmathresultunitscale{1\adjbox@defaultunit}%
-        \let\pgfmathpostparse\pgfmathscaleresult
-        \pgfmathparse{##2}%
-        ##1=\pgfmathresult pt\relax
-    }%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-% Use e-TeX by default if available, otherwise LaTeX (maybe with \pkg{calc})
-%    \begin{macrocode}
-\begingroup
-\expandafter\ifx\csname eTeXversion\endcsname\relax
-    \endgroup
-    \adjbox@dim@latex
-    \def\adjbox@dim@etex{\PackageError{adjustbox}{e-TeX not available for current compiler!}}%
-\else
-    \endgroup
-    \adjbox@dim@etex
-\fi
-%    \end{macrocode}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,0 +1,89 @@
+%    \begin{macrocode}
+\RequirePackage{xkeyval}
+%    \end{macrocode}
+%
+% Use e-TeX by default if available, otherwise LaTeX (maybe with \pkg{calc})
+%    \begin{macrocode}
+\def\adjcalc@atend{%
+\begingroup
+\expandafter\ifx\csname eTeXversion\endcsname\relax
+    \endgroup
+    \RequirePackage{calc}%
+    \adjcalc@calc
+    \def\adjcalc@etex{\PackageError{adjcalc}{e-TeX not available for current compiler!}}%
+\else
+    \endgroup
+    \adjcalc@etex
+\fi
+}
+%    \end{macrocode}
+%
+% Initial definitions for the package options. This macros are later redefined because the same keys
+% can be used as macro options.
+%    \begin{macrocode}
+\def\adjcalc@pgfmath{\AtEndOfPackage{\RequirePackage{pgf}}\let\adjcalc@atend\adjcalc@pgfmath}
+\def\adjcalc@etex{\let\adjcalc@atend\adjcalc@etex}
+\def\adjcalc@calc{\AtEndOfPackage{\RequirePackage{calc}}\let\adjcalc@atend\adjcalc@calc}
+%    \end{macrocode}
+%
+% Options:
+%    \begin{macrocode}
+\DeclareOptionX<adjbox>{pgfmath}{\adjcalc@pgfmath}
+\DeclareOptionX<adjbox>{etex}{\adjcalc@etex}
+\DeclareOptionX<adjbox>{latex}{\adjcalc@latex}
+\ProcessOptionsX*<adjbox>
+%    \end{macrocode}
+%
+%
+% \begin{macro}{\adjcalc@etex}
+%    \begin{macrocode}
+\def\adjcalc@etex{%
+    \protected\def\adjsetlength##1##2{%
+        ##1=\dimexpr##2\relax
+    }%
+    \protected\def\adjaddtolength##1##2{%
+        \advance##1 by \dimexpr##2\relax
+    }%
+    \def\adjbox@default##1##2{%
+        \@defaultunits##1=\dimexpr##2 \adjbox@defaultunit\relax\@nnil
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \begin{macro}{\adjcalc@calc}
+%    \begin{macrocode}
+\def\adjcalc@calc{%
+    \DeclareRobustCommand\adjsetlength{\calc@assign@skip}
+    \DeclareRobustCommand\adjaddtolength[1]{\calc@assign@skip{\advance ##1}}
+    \def\adjbox@checkdefault##1\@nnil##2##3{%
+        \ifx\relax##1\relax\else
+            \calc@assign@skip{##2}{##3}%
+        \fi
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjcalc@pgfmath}
+%    \begin{macrocode}
+\def\adjcalc@pgfmath{%
+    \DeclareRobustCommand\adjsetlength{\pgfmathsetlength}%
+    \DeclareRobustCommand\adjaddtolength{\pgfmathaddtolength}%
+    \def\adjbox@default##1##2{%
+        \edef\pgfmathresultunitscale{1\adjbox@defaultunit}%
+        \let\pgfmathpostparse\pgfmathscaleresult
+        \pgfmathparse{##2}%
+        ##1=\pgfmathresult pt\relax
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+\adjcalc@atend
+%    \end{macrocode}
+%
