@@ -9,24 +9,17 @@
 \RequirePackage{adjcalc}
 \RequirePackage{xkeyval}
 
-%%  * Default unit: pt, bp, any other unit, none
 \def\adjbox@defaultunit{bp}
 \DeclareOptionX<adjbox>{defaultunit}{\def\adjbox@defaultunit{#1}}
-
-%%  * Math for Dimensions: etex, tex, latex, pgfmath
-\DeclareOptionX<adjbox>{PGF}{\def\adjbox@driver{adjpgf.def}\adjbox@dim@pgfmath}
 
 \def\adjbox@fam{adjbox}
 \DeclareOptionX<adjbox>{export}{\def\adjbox@fam{Gin}}
 \DeclareOptionX<adjbox>{patch}{\AtEndOfPackage{\RequirePackage{adjgrfx}}}
 
-%%  * Driver (pdftex, all others => PGF) DONE!
 \def\adjbox@driver{adj\Gin@driver}
 \DeclareOptionX<adjbox>{pgf}{\def\adjbox@driver{adjpgf.def}}
+\DeclareOptionX<adjbox>{PGF}{\def\adjbox@driver{adjpgf.def}\adjbox@dim@pgfmath}
 \DeclareOptionX<adjbox>*{\PassOptionsToPackage\CurrentOption{graphicx}}
-
-%% Options:
-%%  * Install keys: for adjustbox only only also for \includegraphics
 
 %% Process Options:
 \ProcessOptionsX*<adjbox>
