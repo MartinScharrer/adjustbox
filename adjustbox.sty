@@ -128,25 +128,14 @@
         {\collectboxcheckenv{trimbox}\trimbox@}%
 }
 \def\trimbox@#1{%
-    \collectbox{\trimbox@@{#1}}%
+    \collectbox{\trimbox@@\@trimbox{#1}}%
 }
 \def\trimbox@s#1{%
-    \collectbox{\viewport@@{#1}}%
+    \collectbox{\trimbox@@{\adjbox@@viewport\@trimbox}{#1}}%
 }
-\def\trimbox@@#1{%
-    \adjbox@parse@v#1 \\%
-    \@trimbox
-        \adjbox@tllx
-        \adjbox@tlly
-        \adjbox@turx
-        \adjbox@tury
-        \collectedbox
-    \usebox\collectedbox
-}
-\def\viewport@@#1{%
-    \adjbox@parse@v#1 \\%
-    \adjbox@@viewport
-    \@trimbox
+\def\trimbox@@#1#2{%
+    \adjbox@parse@v#2 \\%
+    #1%
         \adjbox@tllx
         \adjbox@tlly
         \adjbox@turx
@@ -212,31 +201,10 @@
         {\collectboxcheckenv{clipbox}\clipbox@}%
 }
 \def\clipbox@#1{%
-    \collectbox{\clipbox@@{#1}}%
+    \collectbox{\trimbox@@\@clipbox{#1}}%
 }
 \def\clipbox@s#1{%
-    \collectbox{\clipviewport@@{#1}}%
-}
-\def\clipbox@@#1{%
-    \adjbox@parse@v#1 \\%
-    \@clipbox
-        \adjbox@tllx
-        \adjbox@tlly
-        \adjbox@turx
-        \adjbox@tury
-        \collectedbox
-    \usebox\collectedbox
-}
-\def\clipviewport@@#1{%
-    \adjbox@parse@v#1 \\%
-    \adjbox@@viewport
-    \@clipbox
-        \adjbox@tllx
-        \adjbox@tlly
-        \adjbox@turx
-        \adjbox@tury
-        \collectedbox
-    \usebox\collectedbox
+    \collectbox{\trimbox@@{\adjbox@@viewport\@clipbox}{#1}}%
 }
 %    \end{macrocode}
 % \end{macro}
