@@ -124,9 +124,10 @@
 % \begin{macro}{\trimbox}
 %    \begin{macrocode}
 \newcommand\trimbox{%
+    \collectboxcheckenv{trimbox}%
     \@ifstar
-        {\collectboxcheckenv{trimbox*}\trimbox@s}%
-        {\collectboxcheckenv{trimbox}\trimbox@}%
+        \trimbox@s
+        \trimbox@
 }
 \def\trimbox@#1{%
     \collectbox{\trimbox@@\@trimbox{#1}}%
@@ -149,7 +150,10 @@
 %
 % \begin{environment}{trimbox*}
 %    \begin{macrocode}
-\expandafter\let\csname trimbox*\endcsname\trimbox@s
+\expandafter\newcommand\expandafter*\csname trimbox*\endcsname{%
+    \@collectboxisenv{trimbox*}%
+    \trimbox@s
+}
 %    \end{macrocode}
 % \end{environment}
 %
@@ -197,9 +201,10 @@
 % \begin{macro}{\clipbox}
 %    \begin{macrocode}
 \newcommand\clipbox{%
+    \collectboxcheckenv{clipbox}%
     \@ifstar
-        {\collectboxcheckenv{clipbox*}\clipbox@s}%
-        {\collectboxcheckenv{clipbox}\clipbox@}%
+        \clipbox@s
+        \clipbox@
 }
 \def\clipbox@#1{%
     \collectbox{\trimbox@@\@clipbox{#1}}%
@@ -213,7 +218,10 @@
 %
 % \begin{environment}{clipbox*}
 %    \begin{macrocode}
-\expandafter\let\csname clipbox*\endcsname\clipbox@s
+\expandafter\newcommand\expandafter*\csname clipbox*\endcsname{%
+    \@collectboxisenv{clipbox*}%
+    \clipbox@s
+}
 %    \end{macrocode}
 % \end{environment}
 %
@@ -380,10 +388,20 @@
 % \begin{macro}{\minsizebox}
 %    \begin{macrocode}
 \newcommand*\minsizebox{%
+    \collectboxcheckenv{minsizebox}%
     \@ifstar{\@minsizebox\totalheight}{\@minsizebox\height}%
 }
 %    \end{macrocode}
 % \end{macro}
+%
+% \begin{environment}{minsizebox*}
+%    \begin{macrocode}
+\expandafter\newcommand\expandafter*\csname minsizebox*\endcsname{%
+    \@collectboxisenv{minsizebox*}%
+    \@minsizebox\totalheight
+}
+%    \end{macrocode}
+% \end{environment}
 %
 %
 % \begin{macro}{\@minsizebox}
@@ -398,10 +416,20 @@
 % \begin{macro}{\maxsizebox}
 %    \begin{macrocode}
 \newcommand*\maxsizebox{%
+    \collectboxcheckenv{maxsizebox}%
     \@ifstar{\@maxsizebox\totalheight}{\@maxsizebox\height}%
 }
 %    \end{macrocode}
 % \end{macro}
+%
+% \begin{environment}{maxsizebox*}
+%    \begin{macrocode}
+\expandafter\newcommand\expandafter*\csname maxsizebox*\endcsname{%
+    \@collectboxisenv{maxsizebox*}%
+    \@maxsizebox\totalheight
+}
+%    \end{macrocode}
+% \end{environment}
 %
 %
 % \begin{macro}{\@maxsizebox}
@@ -866,6 +894,7 @@
 % \begin{macro}{\lapbox}
 %    \begin{macrocode}
 \newcommand*{\lapbox}[1][]{%
+    \collectboxcheckenv{lapbox}%
     \ifx\relax#1\relax
         \expandafter\@lapbox
     \else
@@ -944,6 +973,7 @@
 % Collect box first.
 %    \begin{macrocode}
 \newcommand\marginbox[1]{%
+    \collectboxcheckenv{marginbox}%
     \@collectbox{\marginbox@{#1}}%
 }
 %    \end{macrocode}
