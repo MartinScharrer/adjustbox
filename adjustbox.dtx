@@ -84,7 +84,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{1396}
+% \CheckSum{0}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -452,10 +452,54 @@
 %
 %
 % \subsection{Further Box Modification Macros}\label{sec:basicmacros}
-% This section lists further provided macros and keys usable as \Macro\adjustbox options and, if the \opt{export} package option was used, also as \Macro\includgraphics options.
+% This section lists further macros which are defined unless the package is loaded with the \opt{minimal} option.
+%
+% \DescribeMacro\marginbox{<\llx>~<\lly>~<\urx>~<\ury>}{<\TEXT>}
+% This macro can be used to add a margin (white space) around the content. It can be seen as the opposite of \Macro\trim.
+% It is also available as \env{marginbox} environment and also usable as |margin| option (see below).
+% There is no star variant.
+%
+%
+% \DescribeMacro\minsizebox{<width>}{<height>}{<\TEXT>}
+% \DescribeMacro\minsizebox*{<width>}{<totalheight>}{<\TEXT>}
+% This macro is like \Macro\resizebox of the \pkg{graphics/x} package, but only resizes the content if its natural size is smaller
+% than the given \meta{width} or \meta{height}.
+% If only one value should be set the other one can be replaced by `|!|'.
+% If required the content is scaled up so that the width and height is equal or larger than the given values, but does not change 
+% the aspect ratio. 
+% The star variant uses the total height instead of only the height.
+% This macro is used internally for the |min width|, |min height|, |min totalheight| and |min totalsize| options.
+%
+% \DescribeMacro\maxsizebox{<width>}{<height>}{<\TEXT>}
+% \DescribeMacro\maxsizebox*{<width>}{<totalheight>}{<\TEXT>}
+% This macro is like \Macro\resizebox of the \pkg{graphics/x} package, but only resizes the content if its natural size is larger
+% than the given \meta{width} or \meta{height}.
+% If only one value should be set the other one can be replaced by `|!|'.
+% If required the content is scaled down so that the width and height is equal or smaller than the given values, but does not change 
+% the aspect ratio.
+% The star variant uses the total height instead of only the height.
+% This macro is used internally for the |max width|, |max height|, |max totalheight| and |max totalsize| options.
+%
+%
+% \DescribeMacro\lapbox[<width>]{<lap amount>}{<\TEXT>}
+% This macro is a generalisation of the \LaTeX\ core macros \Macro\rlap{<\TEXT>} and \Macro\llap{<\TEXT>} which lap the
+% text to the right or left without taking any official space. The \Macro\lapbox macro can be used to only partially lap
+% the content to the right (positive amount) or left (negative amount). As with all macros of this package the original width
+% can be references using \Macro\width. The resulting official width of the box is normally the original width minus the absolute
+% lap amount. However, it can also be set explicitly using the option argument.
+% It is also possible to use lap amount which absolute values are larger than the original width. In this case the resulting
+% official width will be zero by default and the content will padded with the required white space.
+% Note that the lap amount always states the distance between the right side of the official box and the right side of the actual
+% content for positive amounts or the distance between the left side of the official box and the left side of the actual content 
+% for negative values.
+%
+% For example, \Macro\lapbox[0pt]{\width}{<\TEXT>} is equivalent to \Macro\rlap{<\TEXT>} and
+% \Macro\lapbox[0pt]{-\width}{<\TEXT>} is equivalent to \Macro\llap{<\TEXT>}.
+%
+% \subsection{New keys for \cs{adjustbox} and \cs{includegraphics}}\label{sec:basicmacros}
+% This section lists provided keys usable as \Macro\adjustbox options and, if the \opt{export} package option was used, also as \Macro\includgraphics options.
 % If the package is loaded with the \opt{minimal} option this code is skipped.
 % \let\PrintMacroName\PrintKeyName
-%
 %
 % \subsubsection{Trimming and Clipping}
 %
@@ -496,7 +540,7 @@
 % This key can be used to add a margin (white space) around the content. It can be seen as the opposite of |trim| (and in fact is implemented
 % almost identical to it with negated signs). The four values are added to the left, bottom, right and top side of the content, respectively.
 % If negative values are given the content is actually trimmed, but this will lead to wrong results if the absolute values are bigger
-% than the available amount. This is particularly a problem with the depth. The |trim| and |Trim| code will handle this cause correctly, however.
+% than the available amount. This is particularly a problem with the depth. The |trim| and |Trim| code will handle this case correctly, however.
 %
 % \subsubsection{Size/Scaling}
 %
@@ -659,6 +703,7 @@
 % to the |dpi| key the \Macro\pdfpxdimen length can be set directly to the given value. Afterwards |1px| will stand
 % for the given \meta{length}.}
 %
+% \let\PrintMacroName\OrigPrintMacroName
 % \clearpage
 % \ifenglish
 % \section{Examples}\label{sec:example}
