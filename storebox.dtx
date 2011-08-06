@@ -97,7 +97,7 @@
 % The \opt{disable} option is useful to see the resulting file size difference.
 % The usage of the \opt{enable} option should not be required and will lead to errors if used with unsupported \TeX{} formats.
 %
-%
+% \Needspace*{3cm}
 % \section{Macros}
 %
 % \DescribeMacro{\newstorebox}{<\textbackslash boxname>}
@@ -113,6 +113,8 @@
 % The \pkg{collectbox} package is used to collect the \meta{content} as box and not as macro argument and therefore it can
 % contain verbatim and other special material. The braces can also be written in their explicit form \Macro\bgroup and \Macro\egroup
 % and then split in two different macros or across the begin and end of an environment.
+% It is possible to use \Macro\storebox multiple times with the same \meta{\textbackslash boxname}. This will create
+% a new PDF object without affected the old one.
 % In fall-back mode this macro is functional equal to \Macro\savebox (but then still uses \pkg{collectbox}).
 %
 %
@@ -131,15 +133,49 @@
 % This if-switch is set to \emph{true} if \Macro\storebox was successfully defined as intended
 % but to \emph{false} if the \Macro\savebox fall-back was used.
 %
+% \clearpage
+% \section{Example}
+% \begin{lstlisting}[gobble=2,language={[latex]tex},numbers=none]
+% \documentclass{article}
 %
+% \usepackage{storebox}
+%
+% \newstorebox{\mybox} % Not really required for PDF output
+% \begin{document}
+%
+% \storebox{\mybox}{\verb+Supports verbatim #$\empty+}
+%
+% \usestorebox{\mybox}
+% \usestorebox{\mybox}
+%
+% \storebox\mybox\bgroup
+% Can also be split
+% \verb+\empty+
+% \egroup
+%
+% \usestorebox{\mybox}
+% \usestorebox{\mybox}
+%
+% \begin{storebox}{\mybox}
+%     Or used as environment
+%     (then will ignore leading and trailing spaces)
+% \end{storebox}
+%
+% \usestorebox{\mybox}
+% \usestorebox{\mybox}
+%
+% \end{document}
+% \end{lstlisting}
+%
+% \setcounter{lstnumber}{1}
 % \StopEventually{}
 %
+% \clearpage
 % \section{Implementation}
 %
 % \iffalse
 %<*storebox>
 % \fi
-%
 % \iffalse
 %</storebox>
 % \fi
