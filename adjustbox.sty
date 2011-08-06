@@ -606,6 +606,18 @@
 % \end{key}
 %
 %
+% \begin{macro}{\adjbox@raisebox}
+%    \begin{macrocode}
+\def\adjbox@raisebox#1#2#3#4\@nnil{%
+    \ifx\relax#3\relax
+        \adjbox@Gin@add{\@irsbox{#1}[{#2}]}%
+    \else
+        \adjbox@Gin@add{\@iirsbox{#1}[{#2}][{#3}]}%
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
 % \begin{key}{adjbox}{valign}
 %    \begin{macrocode}
 \define@key\adjbox@fam{valign}{%
@@ -615,10 +627,27 @@
 % \end{key}
 %
 %
+% \begin{macro}{\adjboxvtop}
+%    \begin{macrocode}
+\def\adjboxvtop{\ht\strutbox}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\adjboxvcenter}
+%    \begin{macrocode}
+\def\adjboxvcenter{1ex}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\adjboxvbottom}
+%    \begin{macrocode}
+\def\adjboxvbottom{-\dp\strutbox}
+%    \end{macrocode}
+% \end{macro}
+%
+%
 % \begin{macro}{\adjbox@valign@t}
 %    \begin{macrocode}
 \def\adjbox@valign@t{%
-    \adjbox@Gin@Add{\@irsbox{\dimexpr-\height+\ht\strutbox\relax}[]}%
+    \adjbox@Gin@Add{\@irsbox{\dimexpr-\height+\adjboxvtop\relax}[]}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -645,7 +674,7 @@
 % \begin{macro}{\adjbox@valign@m}
 %    \begin{macrocode}
 \def\adjbox@valign@m{%
-    \adjbox@Gin@Add{\@irsbox{\dimexpr.5\depth-.5\height+.5\ht\strutbox\relax}[]}%
+    \adjbox@Gin@Add{\@irsbox{\dimexpr.5\depth-.5\height+\adjboxvcenter\relax}[]}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -654,26 +683,21 @@
 % \begin{macro}{\adjbox@valign@b}
 %    \begin{macrocode}
 \def\adjbox@valign@b{%
-    \adjbox@Gin@Add{\@irsbox{-\depth}[]}%
+    \adjbox@Gin@Add{\@irsbox{\dimexpr\depth+\adjboxvbottom\relax}[]}%
 }
 %    \end{macrocode}
 % \end{macro}
 %
-%    \begin{macrocode}
-\let\adjbox@valign@B\adjbox@valign@b
-%    \end{macrocode}
 %
-% \begin{macro}{\adjbox@raisebox}
+% \begin{macro}{\adjbox@valign@B}
 %    \begin{macrocode}
-\def\adjbox@raisebox#1#2#3#4\@nnil{%
-    \ifx\relax#3\relax
-        \adjbox@Gin@add{\@irsbox{#1}[{#2}]}%
-    \else
-        \adjbox@Gin@add{\@iirsbox{#1}[{#2}][{#3}]}%
-    \fi
+\def\adjbox@valign@B{%
+    \adjbox@Gin@Add{\@irsbox{\depth}[]}%
 }
 %    \end{macrocode}
 % \end{macro}
+%
+%
 %
 %
 % \begin{key}{adjbox}{set height}
@@ -727,18 +751,21 @@
 %
 %
 %    \begin{macrocode}
-\define@key\adjbox@fam{center}[]{%
-    \toks@\expandafter{\expandafter\hb@xt@\expandafter\linewidth\expandafter{\expandafter\hss\the\toks@\hss}}%
+\define@key\adjbox@fam{center}[\linewidth]{%
+    \def\@tempa{\hb@xt@#1}%
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\expandafter\hss\the\toks@\hss}}%
 }
 %    \end{macrocode}
 %    \begin{macrocode}
-\define@key\adjbox@fam{left}[]{%
-    \toks@\expandafter{\expandafter\hb@xt@\expandafter\linewidth\expandafter{\expandafter\hss\the\toks@}}%
+\define@key\adjbox@fam{left}[\linewidth]{%
+    \def\@tempa{\hb@xt@#1}%
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\expandafter\hss\the\toks@}}%
 }
 %    \end{macrocode}
 %    \begin{macrocode}
-\define@key\adjbox@fam{right}[]{%
-    \toks@\expandafter{\expandafter\hb@xt@\expandafter\linewidth\expandafter{\the\toks@\hss}}%
+\define@key\adjbox@fam{right}[\linewidth]{%
+    \def\@tempa{\hb@xt@#1}%
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@\hss}}%
 }
 %    \end{macrocode}
 %

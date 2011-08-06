@@ -44,12 +44,19 @@
 \GetFileInfo{adjustbox.dtx}
 \usepackage[utf8]{inputenc}
 \usepackage{adjustbox}
-\usepackage{pgf}
+\usepackage{tikz}
 \normalmarginpar
 \newenvironment{key}[2]{\expandafter\macro\expandafter{%
    \csname KV@#1@#2\endcsname}}{\endmacro}
 \newcommand{\DescribeKey}[2]{\expandafter\DescribeMacro\expandafter{%
    \csname KV@#1@#2\endcsname}}
+
+\let\OrigPrintMacroName\PrintMacroName
+\def\PrintKeyName#1{%
+    {\macrodescstyle{\strut
+    \escapechar-1
+    \string#1\strut}}%
+}%
 
 \newcommand\babelfiledate{%
     \expandafter\babelfileDate\filedate\relax
@@ -62,6 +69,7 @@
     \today
     \endgroup
 }
+\optionaloff
 
 %\EnableCrossrefs
 %\CodelineIndex
@@ -76,7 +84,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{1400}
+% \CheckSum{1396}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -162,7 +170,6 @@
 % Das \textsf{adjustbox} Paket definiert die Makros \Macro\clipbox und \Macro\trimbox, sowie das allgemeine \Macro\adjustbox Macro (engl.: \emph{adjust} = anpassen).
 % Das Beschneiden wird durch eine \env{pgfpicture} Umgebung des Pakets \pkg{pgf} verwirklicht, dass sowohl das PS und PDF Ausgabeformat unterstützt.
 % \fi
-% \optionaloff
 %
 % \ifenglish
 % \def\llx{llx}
@@ -198,7 +205,7 @@
 %
 % \ifenglish
 % \section{Usage}
-% This section describes the usage of the provided macros, which are outlined in \autoref{sec:boxmacros}.
+% This section describes the usage of the provided macros, which are outlined in \autoref{sec:basicmacros}.
 % Possible advanced values for the macro arguments are mentioned in \autoref{sec:argval}. The existing verbatim support
 % is explained in \autoref{sec:verbatim}. Finally \autoref{sec:alternatives} compares the existing macros with the 
 % corresponding options of \Macro\djustbox.
@@ -209,7 +216,7 @@
 % \else
 % \newpage
 % \section{Anleitung}
-% Dieser Abschnitt beschreibt die Verwendung der Makros dieses Pakets. Diese werden zuerst im \autoref{sec:boxmacros} beschrieben.
+% Dieser Abschnitt beschreibt die Verwendung der Makros dieses Pakets. Diese werden zuerst im \autoref{sec:basicmacros} beschrieben.
 % \autoref{sec:argval} erklärt welche Werte in den Makroargumenten verwendet werden können. Die Makros unterstützen sogenannten
 % \emph{verbatim} (engl.: wortgetreu) Inhalt was im \autoref{sec:verbatim} erleutert wird.
 % Schlussendlich wird im \autoref{sec:alternatives} die exisitierenden Makros mit den entsprechendem Optionen von \Macro\adjustbox
@@ -221,9 +228,11 @@
 %
 % \ifenglish
 % \Needspace*{7\baselineskip}
-% \subsection{Box Modification Macros}\label{sec:boxmacros}
+% \subsection{Basic Box Modification Macros}\label{sec:basicmacros}
+% This section lists the provided macros \Macro\clipbox and \Macro\trimbox missing in the \pkg{graphicx} package
+% as well as the general \Macro\adjustbox macro.  If the package is loaded with the \opt{minimal} option no further macros or keys are defined.
 % \else
-% \subsection{Makros zur Modifikation von {\LaTeX} Material}\label{sec:boxmacros}
+% \subsection{Makros zur Modifikation von {\LaTeX} Material}\label{sec:basicmacros}
 % \fi
 %
 % \ifenglish
@@ -439,6 +448,216 @@
 % \end{tabular}%
 % \hss}%
 % \end{table}
+%
+%
+%
+% \subsection{Further Box Modification Macros}\label{sec:basicmacros}
+% This section lists further provided macros and keys usable as \Macro\adjustbox options and, if the \opt{export} package option was used, also as \Macro\includgraphics options.
+% If the package is loaded with the \opt{minimal} option this code is skipped.
+% \let\PrintMacroName\PrintKeyName
+%
+%
+% \subsubsection{Trimming and Clipping}
+%
+% \DescribeMacro{Trim}'='<llx>~<lly>~<urx>~<ury>
+% \DescribeMacro{Viewport}'='<llx>~<lly>~<urx>~<ury>
+% The normal |trim| and |viewport| keys
+% {\let\PrintMacroName\OrigPrintMacroName
+% as described earlier are applied on the original content before any resizing
+% or other effects. This is because for \Macro\includegraphics the trimming is done by the internal graphic driver,
+% while the effects can be applied later (but can also be driver dependent).
+% If the |trim| and |viewport| keys are used multiple times the last values will be used for the trimming, i.e. the content is only 
+% trimmed once. The upper case variants |Trim| and |Viewport| will wrap the content internally in a \Macro\trimbox or \Macro\trimbox*\relax
+% macro which can be applied multiple times, e.g.\ before and after the content is rotated.
+% These two keys awaits the same format as the original keys. However, the |clip| key has no effect on them.}
+%
+% \DescribeMacro{Clip}'='<llx>~<lly>~<urx>~<ury>
+% \DescribeMacro{Clip*}'='<llx>~<lly>~<urx>~<ury>
+% As stated above the |clip| boolean key
+% {\let\PrintMacroName\OrigPrintMacroName
+% which will make the default |trim| and |viewport| keys clip the trimmed content, has no effect
+% on the |Trim| and |Viewport| keys. Instead |Clip| and |Clip*| are provided which wrap the content internally in a \Macro\clipbox or 
+% \Macro\clipbox*\relax macro. They can be used several times.}
+%
+%
+% \subsubsection{Frame and Margin}
+%
+% \DescribeMacro{frame}
+% \DescribeMacro{frame}'='<width>
+% \DescribeMacro{frame}'='<width>~<sep>
+% This key will draw a black frame around the content.
+% {\let\PrintMacroName\OrigPrintMacroName
+% By default the frame lines will have a thickness of \Macro\fboxrule\relax
+% (i.e.\ the same thickness like \Macro\fbox) and will be placed tightly around the content with zero separation.
+% The line width and also the separation can be defined as the optional value.}
+%
+%
+% \DescribeMacro{margin}'='<llx>~<lly>~<urx>~<ury>
+% This key can be used to add a margin (white space) around the content. It can be seen as the opposite of |trim| (and in fact is implemented
+% almost identical to it with negated signs). The four values are added to the left, bottom, right and top side of the content, respectively.
+% If negative values are given the content is actually trimmed, but this will lead to wrong results if the absolute values are bigger
+% than the available amount. This is particularly a problem with the depth. The |trim| and |Trim| code will handle this cause correctly, however.
+%
+% \subsubsection{Size/Scaling}
+%
+% \DescribeMacro{min width}'='<width>
+% \DescribeMacro{max width}'='<width>
+% \DescribeMacro{min height}'='<height>
+% \DescribeMacro{max height}'='<height>
+% \DescribeMacro{min totalheight}'='<total height>
+% \DescribeMacro{max totalheight}'='<total height>
+% These keys allow to set the minimum and maximum width, height or totalheight of the content.
+% The current size of the content is measured and the content is resized if the constraint is not already met,
+% otherwise the content is unchanged. Multiple usages of these keys are checked one after each other, and therefore
+% it is possible that a later one is undoing the size changes of an earlier one.
+% A good example is |max width=\textwidth| which will limit large content to the text width but will not affect smaller
+% content.
+%
+% \DescribeMacro{min size}'='{<width>}{<height>}
+% \DescribeMacro{max size}'='{<width>}{<height>}
+% \DescribeMacro{min totalsize}'='{<width>}{<total height>}
+% \DescribeMacro{max totalsize}'='{<width>}{<total height>}
+% These keys allow to specify the minimum or maximum width and (total)height of the content together,
+% which is more efficient than using the width and (total)height keys described earlier.
+%
+% \DescribeMacro{reflect}
+% This reflects
+% {\let\PrintMacroName\OrigPrintMacroName
+% the content by using \Macro\reflectbox internally, which is identical to \Macro\scalebox{1}[-1].}
+%
+%
+% \subsubsection{Positioning and Alignment}
+%
+% \DescribeMacro{raise}'='<amount>
+% \DescribeMacro{raise}'='{<amount>}{<height>}
+% \DescribeMacro{raise}'='{<amount>}{<height>}{<depth>}
+% This key uses 
+% {\let\PrintMacroName\OrigPrintMacroName
+% \Macro\raisebox{<amount>}{\ldots} to raise the content upwards for the given \meta{amount} (length).
+% A negative length moves the content down.
+% The two optional arguments of \Macro\raisebox{<amount>}[<height>][<depth>]{\ldots}\relax are also available
+% as optional brace arguments. They can be used to set the official height and depth of the content.
+% This is also possible using the |set height| and |set depth| keys.
+% }
+%
+% \DescribeMacro{valign}'='<letter>
+% This key allows to vertically align the content to the top, middle and bottom.  The uppercase letters |T|, |M| and |B|
+% {\let\PrintMacroName\OrigPrintMacroName
+% align to the content top (i.e. all depth, no height), the geometric, vertical center (equal height and depth) and to
+% the bottom (all height, no depth), respectively.  This allows the alignment of content of different size, but will not
+% result in good alignment with text.  The lowercase letters |t|, |m| and |b| are aligning the content again to the top,
+% center and bottom but take the current text size in account.
+% The |t| letter leaves a certain height given by the macro\footnote{A macro and not a length is used to allow for
+% font size relative values like \texttt{1ex}.} \Macro\adjboxvtop\relax
+% (by default set to the height of \Macro\strut\relax, i.e.\ |\ht\strutbox|, which is |.7\baselineskip|),
+% while |b| sets a certain depth given (as negative length) by the macro \Macro\adjboxvbottom\relax
+% (by default equal to the (negated) \Macro\strut depth, i.e.\ |-\dp\strutbox|, which is |.3\baselineskip|).
+% The |m| letter will center towards the vertical center of the text line which is determined by the macro
+% \Macro\adjboxvcenter\relax (by default \texttt{1ex}).}
+%
+% The following table shows the different alignments for three different sized blocks:
+% 
+% \bigskip
+% \begingroup
+% \def\vr{%
+%     \unskip
+%     \tikz [gray] {\useasboundingbox (0,0);
+%       \draw (-13.5em,0) -- (2.25em,0);
+%       \draw (-13.5em,\adjboxvcenter) -- (2.25em,\adjboxvcenter);
+%     }%
+%     \unskip\ignorespaces
+% }%
+% \centerline{%
+% \begin{tabular}{cccm{2em}}
+%  \toprule
+%   \texttt{T} & \texttt{M} & \texttt{B} & Text \\
+%   \adjustbox{valign=T}{\textcolor{red}{\rule{1em}{2em}\unskip}}\unskip
+%   \adjustbox{valign=T}{\textcolor{green}{\rule{1em}{3em}\unskip}}\unskip
+%   \adjustbox{valign=T}{\textcolor{blue}{\rule{1em}{1ex}\unskip}} &
+%   \adjustbox{valign=M}{\textcolor{red}{\rule{1em}{2em}\unskip}}\unskip
+%   \adjustbox{valign=M}{\textcolor{green}{\rule{1em}{3em}\unskip}}\unskip
+%   \adjustbox{valign=M}{\textcolor{blue}{\rule{1em}{1ex}\unskip}} &
+%   \adjustbox{valign=T}{\textcolor{red}{\rule{1em}{2em}\unskip}}\unskip
+%   \adjustbox{valign=T}{\textcolor{green}{\rule{1em}{3em}\unskip}}\unskip
+%   \adjustbox{valign=T}{\textcolor{blue}{\rule{1em}{1ex}\unskip}} &
+%   Mxy \newline \mbox{\vr Mxy}\newline Mxy \\
+%  \midrule
+%   \texttt{t} & \texttt{m} & \texttt{b} & Text \\
+%   \adjustbox{valign=t}{\textcolor{red}{\rule{1em}{2em}\unskip}}\unskip
+%   \adjustbox{valign=t}{\textcolor{green}{\rule{1em}{3em}\unskip}}\unskip
+%   \adjustbox{valign=t}{\textcolor{blue}{\rule{1em}{1ex}\unskip}} &
+%   \adjustbox{valign=m}{\textcolor{red}{\rule{1em}{2em}\unskip}}\unskip
+%   \adjustbox{valign=m}{\textcolor{green}{\rule{1em}{3em}\unskip}}\unskip
+%   \adjustbox{valign=m}{\textcolor{blue}{\rule{1em}{1ex}\unskip}} &
+%   \adjustbox{valign=t}{\textcolor{red}{\rule{1em}{2em}\unskip}}\unskip
+%   \adjustbox{valign=t}{\textcolor{green}{\rule{1em}{3em}\unskip}}\unskip
+%   \adjustbox{valign=t}{\textcolor{blue}{\rule{1em}{1ex}\unskip}} &
+%   Mxy \newline \mbox{\vr Mxy}\newline Mxy \\
+%  \bottomrule
+% \end{tabular}}
+% \endgroup
+%
+%
+% \DescribeMacro{set height}'='<height>
+% This sets the official height of the content without actual changing it. This can be seen as a form of trimming.
+% It uses the same internal code as\\
+% {\let\PrintMacroName\OrigPrintMacroName
+% \Macro\raisebox{'0pt'}[<height>]{<content>}}.
+%
+%
+% \DescribeMacro{set depth}'='<depth>
+% This sets the official depth of the content without actual changing it. This can be seen as a form of trimming.
+% It uses the same internal code as\\
+% {\let\PrintMacroName\OrigPrintMacroName
+% \Macro\raisebox{'0pt'}['\height'][<depth>]{<content>}}.
+%
+%
+% \DescribeMacro{lap}'='<lap amount>
+% \DescribeMacro{lap}'='{<length>}{<lap amount>}
+% This wraps the content into a
+% {\let\PrintMacroName\OrigPrintMacroName
+% \Macro\lapbox{<lap amount>}{\ldots} and
+% \Macro\lapbox[<length>]{<lap amount>}{\ldots}, respectively. Positive \meta{amounts} lap the content to the right
+% and negative to the left. The optional \meta{length} argument allows to set the final width.
+% }
+%
+%
+% \DescribeMacro{center}
+% \DescribeMacro{center}'='<width>
+% This key places 
+% {\let\PrintMacroName\OrigPrintMacroName
+% the content in a horizontal box which is by default \Macro\linewidth wide (i.e.\ as wide as a normal text paragraph)
+% and centers it in it. The effect is very similar to \Macro\centerline. The original content is unchanged, but simply identical
+% white space is added as a left and right margin. This is useful if the content is a figure or table and can be used as a replacement
+% for \Macro\centering. One important difference is that the content will then have the given width which might influence (sub-)caption
+% placement.}
+%
+% \DescribeMacro{right}
+% \DescribeMacro{right}'='<width>
+% Like |center| this key
+% {\let\PrintMacroName\OrigPrintMacroName
+% places the content in a box with the given width (by default \Macro\linewidth) but right aligns it.}
+%
+% \DescribeMacro{left}
+% \DescribeMacro{left}'='<width>
+% Like |center| this key
+% {\let\PrintMacroName\OrigPrintMacroName
+% places the content in a box with the given width (by default \Macro\linewidth) but left aligns it.}
+%
+% \subsubsection{Pixel size}
+%
+% \DescribeMacro{dpi}'='<number (dots per inch)>
+% The |dpi| key provides a simple interface to set the pixel size to the given DPI (dots per inch) value.
+% For |pdflatex| the length unit |px| can be used to specify pixels. However, the equivalent dimension (length) of one pixel must be
+% {\let\PrintMacroName\OrigPrintMacroName
+% set using the \Macro\pdfpxdimen length register. To set a specific DPI value this length must be set using
+% \Macro\setlength\AlsoMacro\pdfpxdimen{'1in/'<dots>}, which is done by the \MacroArgs'dpi='<dots> key.}
+%
+% \DescribeMacro{pxdim}'='<length>
+% Alternatively
+% {\let\PrintMacroName\OrigPrintMacroName
+% to the |dpi| key the \Macro\pdfpxdimen length can be set directly to the given value. Afterwards |1px| will stand
+% for the given \meta{length}.}
 %
 % \clearpage
 % \ifenglish
