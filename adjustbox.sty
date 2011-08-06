@@ -15,15 +15,16 @@
 \def\adjbox@fam{adjbox}
 \DeclareOptionX<adjbox>{export}{\def\adjbox@fam{Gin}}
 \DeclareOptionX<adjbox>{patch}{\AtEndOfPackage{\RequirePackage{adjgrfx}}}
+\DeclareOptionX<adjbox>{minimal}{\let\adjbox@maybeend\endinput}
 
 \def\adjbox@driver{adj\Gin@driver}
 \DeclareOptionX<adjbox>{pgf}{\def\adjbox@driver{adjpgf.def}}
 \DeclareOptionX<adjbox>{PGF}{\def\adjbox@driver{adjpgf.def}\adjbox@dim@pgfmath}
 \DeclareOptionX<adjbox>*{\PassOptionsToPackage\CurrentOption{graphicx}}
 
-%% Process Options:
+\let\adjbox@maybeend\relax
 \ProcessOptionsX*<adjbox>
-\disable@keys{adjbox}{patch,export,PGF}
+\disable@keys{adjbox}{patch,export,PGF,minimal}
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -368,6 +369,10 @@
 %    \end{macrocode}
 %
 %
+% Stop here if 'minimal' option was used.
+%    \begin{macrocode}
+\adjbox@maybeend
+%    \end{macrocode}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsection{More box commands}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
