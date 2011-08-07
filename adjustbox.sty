@@ -404,25 +404,39 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@minmaxsizebox}
+% \begin{macro}{\@minmaxsizebox}[4]{Compare sign \texttt{<} or \texttt{>}}{\cs{height} or \cs{totalheight}}{width}{height}
+% Used for all min/max-size boxes including the starred version. The first two arguments determine the style.
+%
+% The width and height values are expanded to allow for \Macro\ifdim or similar conditionals.
 %    \begin{macrocode}
 \newcommand*\@minmaxsizebox[4]{%
-    \edef\@tempa{#3}% width
-    \edef\@tempb{#4}% height
-    \message{^^J [\@tempa,\@tempb] }%
+    \edef\@tempa{#3}%
+    \edef\@tempb{#4}%
     \ifcase0%
+%    \end{macrocode}
+% Do nothing if both values are `|!|', otherwise use case 1 if the height is to large/small (|#1|)
+% than the \Macro\height or \Macro\totalheight (|#2|).
+%    \begin{macrocode}
     \ifx\@tempa\Gin@exclamation
-        \ifx\@tempb\Gin@exclamation\else
+        \ifx\@tempb\Gin@exclamation
+        \else
             \ifdim\@tempb#1#2%
                 1%
             \fi
         \fi
     \else
+%    \end{macrocode}
+% If the width is given, but not the height, use case 2 if the width is to large/small (|#1|) than the native \Macro\width.
+%    \begin{macrocode}
         \ifx\@tempb\Gin@exclamation
             \ifdim\@tempa#1\width
                 2%
             \fi
         \else
+%    \end{macrocode}
+% If both values are given.
+% Use case 0-3 depending if the width and/or height is to large/small.
+%    \begin{macrocode}
             \ifdim\@tempa#1\width
                 \ifdim\@tempb#1#2%
                     3%
@@ -436,17 +450,30 @@
             \fi
         \fi
     \fi
+%    \end{macrocode}
+%  Case 0: no scaling is needed. Insert content unchanged.
+%    \begin{macrocode}
     \relax% 0
         \BOXCONTENT
-    \or% 1
+%    \end{macrocode}
+%  Case 1: height needs scaling. Calculate factor and scale the content with it.
+%    \begin{macrocode}
+    \or
         \adjsetlength\@tempdima\@tempb
         \Gscale@div\@tempa\@tempdima#2%
         \Gscale@box\@tempa[\@tempa]\BOXCONTENT
-    \or% 2
+%    \end{macrocode}
+%  Case 2: width needs scaling. Calculate factor and scale the content with it.
+%    \begin{macrocode}
+    \or
         \adjsetlength\@tempdima\@tempa
-        \Gscale@div\@tempa\@tempdima\width%
+        \Gscale@div\@tempa\@tempdima\width
         \Gscale@box\@tempa[\@tempa]\BOXCONTENT
-    \or% 3
+%    \end{macrocode}
+%  Case 3: both width and height need scaling.
+%  Both scale factors are calculated and the more extreme value is used.
+%    \begin{macrocode}
+    \or
         \adjsetlength\@tempdima\@tempa
         \Gscale@div\@tempa\@tempdima\width
         \adjsetlength\@tempdima\@tempb
