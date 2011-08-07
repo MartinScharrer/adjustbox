@@ -157,46 +157,6 @@
 %    \end{macrocode}
 % \end{environment}
 %
-% \begin{key}{adjbox}{Trim}
-%    \begin{macrocode}
-\define@key\adjbox@fam{Trim}{%
-    \Gin@esetsize
-    \@tempswatrue
-    \adjbox@Gin@add{\trimbox@{#1}}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{key}{adjbox}{Viewport}
-%    \begin{macrocode}
-\define@key\adjbox@fam{Viewport}{%
-    \Gin@esetsize
-    \@tempswatrue
-    \adjbox@Gin@add{\trimbox@s{#1}}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{key}{adjbox}{Clip}
-%    \begin{macrocode}
-\define@key\adjbox@fam{Clip}{%
-    \Gin@esetsize
-    \@tempswatrue
-    \adjbox@Gin@add{\clipbox@{#1}}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{key}{adjbox}{Clip*}
-%    \begin{macrocode}
-\define@key\adjbox@fam{Clip*}{%
-    \Gin@esetsize
-    \@tempswatrue
-    \adjbox@Gin@add{\clipbox@s{#1}}%
-}
-%    \end{macrocode}
-% \end{key}
-%
 %
 % \begin{macro}{\clipbox}
 %    \begin{macrocode}
@@ -507,6 +467,46 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsection{New \cs{includegraphics} and \cs{adjustbox} options}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \begin{key}{adjbox}{Trim}
+%    \begin{macrocode}
+\define@key\adjbox@fam{Trim}{%
+    \Gin@esetsize
+    \@tempswatrue
+    \adjbox@Gin@add{\trimbox@{#1}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{Viewport}
+%    \begin{macrocode}
+\define@key\adjbox@fam{Viewport}{%
+    \Gin@esetsize
+    \@tempswatrue
+    \adjbox@Gin@add{\trimbox@s{#1}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{Clip}
+%    \begin{macrocode}
+\define@key\adjbox@fam{Clip}{%
+    \Gin@esetsize
+    \@tempswatrue
+    \adjbox@Gin@add{\clipbox@{#1}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{Clip*}
+%    \begin{macrocode}
+\define@key\adjbox@fam{Clip*}{%
+    \Gin@esetsize
+    \@tempswatrue
+    \adjbox@Gin@add{\clipbox@s{#1}}%
+}
+%    \end{macrocode}
+% \end{key}
 %
 %
 % \begin{key}{adjbox}{frame}
