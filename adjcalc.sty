@@ -34,7 +34,7 @@
 %    \begin{macrocode}
 \def\adjcalc@pgfmath{\AtEndOfPackage{\RequirePackage{pgf}}\def\adjcalc@atend{\adjcalc@pgfmath}}
 \def\adjcalc@etex{\def\adjcalc@atend{\adjcalc@etex}}
-\def\adjcalc@calc{\AtEndOfPackage{\RequirePackage{calc}}\let\adjcalc@atend{\adjcalc@calc}}
+\def\adjcalc@calc{\AtEndOfPackage{\RequirePackage{calc}}\def\adjcalc@atend{\adjcalc@calc}}
 %    \end{macrocode}
 %
 % Options:
