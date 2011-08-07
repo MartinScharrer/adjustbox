@@ -42,7 +42,9 @@
 \DeclareOptionX<adjbox>{pgfmath}{\adjcalc@pgfmath}
 \DeclareOptionX<adjbox>{etex}{\adjcalc@etex}
 \DeclareOptionX<adjbox>{calc}{\adjcalc@calc}
+\DeclareOptionX<adjbox>{none}{\let\adjcalc@atend\relax\def\adjsetlength{\setlength}}
 \ProcessOptionsX*<adjbox>
+\disable@keys{adjbox}{none}
 %    \end{macrocode}
 %
 % \begin{macro}{\adjcalc@etex}
