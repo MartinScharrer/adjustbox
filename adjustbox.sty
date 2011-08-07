@@ -896,73 +896,32 @@
 %
 % \begin{macro}{\lapbox}
 %    \begin{macrocode}
-\newcommand*{\lapbox}[1][]{%
+\newcommand*\lapbox[2][\width-\@tempdimb]{%
     \collectboxcheckenv{lapbox}%
-    \ifx\relax#1\relax
-        \expandafter\@lapbox
-    \else
-        \expandafter\i@lapbox
-    \fi
-    {#1}%
+    \@collectbox{\@lapbox{#1}{#2}}%
 }
 %    \end{macrocode}
 % \end{macro}
-%
 %
 % \begin{macro}{\@lapbox}
 %    \begin{macrocode}
 \def\@lapbox#1#2{%
-    \@collectbox{\@@lapbox{#2}}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\@@lapbox}
-%    \begin{macrocode}
-\def\@@lapbox#1{%
-    \adjsetlength\@tempdima{#1}%
-    \@tempdimb\width
-    \advance\@tempdimb by \ifdim\@tempdima>\z@-\fi\@tempdima
-    \hb@xt@\@tempdimb{%
-        \ifdim\@tempdima<\z@
-            \hss
-        \fi
-        \BOXCONTENT
-        \ifdim\@tempdima>\z@
-            \hss
-        \fi
-    }%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\i@lapbox}
-%    \begin{macrocode}
-\def\i@lapbox#1#2{%
-    \@collectbox{\i@@lapbox{#1}{#2}}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\i@@lapbox}
-%    \begin{macrocode}
-\def\i@@lapbox#1#2{%
-    \adjsetlength\@tempdimb{#1}%
     \adjsetlength\@tempdima{#2}%
-    \hb@xt@\@tempdimb{%
-        \ifdim\@tempdima<\z@
-            \hss
-            \hb@xt@-\@tempdima{\BOXCONTENT\hss}%
-            \hskip\@tempdimb
-        \else
-            \hskip\@tempdimb
-            \hb@xt@\@tempdima{\hss\BOXCONTENT}%
-            \hss
-        \fi
-    }%
+    \ifdim\@tempdima<\z@
+        \@tempdimb=-\@tempdima
+    \else
+        \@tempdimb=\@tempdima
+    \fi
+    \adjsetlength\@tempdimc{#1}%
+    \ifdim\@tempdimc<\z@
+        \@tempdimc=\z@
+    \fi
+    \leavevmode
+    \ifdim\@tempdima<\z@
+        \hb@xt@\@tempdimc{\hss\hb@xt@\@tempdimb{\usebox\collectedbox\hss}\hskip\@tempdimc}%
+    \else
+        \hb@xt@\@tempdimc{\hskip\@tempdimc\hb@xt@\@tempdimb{\hss\usebox\collectedbox}\hss}%
+    \fi
 }
 %    \end{macrocode}
 % \end{macro}
