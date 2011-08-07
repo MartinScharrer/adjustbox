@@ -25,7 +25,7 @@
 %
 % \iffalse
 %<*driver>
-\ProvidesFile{adjustbox.dtx}
+\ProvidesFile{adjustbox.dtx}[2011/08/07 v0.5 DTX File]
 \expandafter\ifx\csname ifenglish\endcsname\relax
     \expandafter\newif\csname ifenglish\endcsname
     \englishtrue
@@ -106,6 +106,8 @@
 % \changes{v0.1}{2011/01/24}{First internal version}
 % \changes{v0.2}{2011/01/27}{First released version}
 % \changes{v0.3}{2011/03/20}{Bug fix for wrong baseline placed on the bottom}
+% \changes{v0.4}{2011/07/xx}{Added pdftex driver}
+% \changes{v0.5}{2011/08/07}{Added more macros and keys}
 %
 % \GetFileInfo{adjustbox.dtx}
 %
@@ -126,11 +128,13 @@
 %
 % \ifenglish
 % \begin{abstract}
-%  This package provides macros missing in \pkg{graphics} to trim, clip and generally adjust boxed \LaTeX{} material.
-%  The macros allow for verbatim content. Equivalent environments are also provided. The trim and clip operation
-%  are implemented using the \pkg{pgf} package, which supports both DVI/PS and PDF output.
+%  This package provides macros missing in \pkg{graphics} to trim, clip and generally adjust boxed \LaTeX{} material
+%  as well as further box modification macros and option keys usable for \Macro\adjustbox and \Macro\includegraphics.
+%  The macros use the \pkg{collectbox} package to allow for verbatim content. Equivalent environments are also provided.
+%  The trim operation is now implemented in \TeX\ and the clip operation uses |pdftex| primitives if available.
+%  Otherwise the \pkg{pgf} package is used for clipping, which supports both DVI/PS and PDF output.
 %  \\
-%  \textcolor{red}{This package is new and the implementation might change in upcoming releases!}
+%  \textcolor{yellow}{This package is still a little new and its implementation might not be fully stable yet.}
 % \end{abstract}
 % \else
 % \begin{abstract}
@@ -152,10 +156,12 @@
 % operation on \LATeX{} material, which is subsequently placed inside a \Macro\hbox.
 % However no macros are provided to trim or clip \LATeX{} material, most likely because this operations
 % are not done by \TeX{} but by the output format, i.e. using PostScript (PS) or PDF operations.
-% 
+%
 % This package provides the missing macros \Macro\clipbox and \Macro\trimbox
-% as well as the general \Macro\adjustbox macro. The clipping and trimming operations are implemented using
-% a \env{pgfpicture} environment from the \pkg{pgf} package which supports both PS and PDF output.
+% as well as the general \Macro\adjustbox macro. The trim operation is implemented as \TeX\ code
+% and the clip operation either using a |pdftex| or a \env{pgfpicture} environment from the \pkg{pgf} package
+% which supports both PS and PDF output. All \LaTeX\ compilers should be supported, but |pdflatex| is the main target of the
+% author.
 % \else
 % \section{Einleitung}
 % Das \LaTeX{} Paket \pkg{graphicx} (die erweiterte Version von \pkg{graphics}) stellt das Macro \Macro\includegraphics[<Optionen>]{<Dateiname>} zur Verfügung
@@ -170,6 +176,66 @@
 % Das \textsf{adjustbox} Paket definiert die Makros \Macro\clipbox und \Macro\trimbox, sowie das allgemeine \Macro\adjustbox Macro (engl.: \emph{adjust} = anpassen).
 % Das Beschneiden wird durch eine \env{pgfpicture} Umgebung des Pakets \pkg{pgf} verwirklicht, dass sowohl das PS und PDF Ausgabeformat unterstützt.
 % \fi
+%
+% \section{Package Option}
+% Following v0.5 from 2011/08/07 this package accepts the following package options. Some of them can also be used as
+% optional keys for macros.
+%
+% \begin{description}\def\oitem#1{\item[{\normalfont\opt{#1}}]}
+%   \oitem{minimal} Only define the minimal set of macros, i.e.\ \Macro\trimbox, \Macro\clipbox and \Macro\adjustbox as
+%       with previous versions before v0.5.
+%   \oitem{export} Export the now keys of \Macro\adjustbox also to \Macro\includegraphics so that they can be used for
+%       images as well. This option is meaningless if \opt{minimal} was used.
+%   \oitem{patch} Patch the internal \pkg{graphicx} code to allow the usage of size macros.
+%                 This simply loads the small \pkg{adjgrfx} package which can also be used independently.
+%                 (Not fully implemented and tested yet!)
+%   \oitem{pgf} Uses the \pkg{pgf} package for all clip operations. This overrides all automatically detected drivers.
+%               At the moment only a |pdftex| driver is provided, all other compilers and output formats use this option already.
+%   \oitem{PGF} Uses the \pkg{pgf} package for clip operations and configures the macros to parse lengths using
+%   \pkg{pgfmath} (compare with the \opt{pgf} option below).
+%  \end{description}
+%
+% The following options define the way length values are processed by the provided macros.
+% They can be used either as package options and as keys for \Macro\adjustbox\relax (but not for \Macro\includegraphics
+% even if the \opt{export} option was used) to change the settings locally.
+% The only difference between these two usages is that they also load required packages when used as package options.
+% Therefore all keys used in the document should be loaded as package options first or the required packages must be loaded
+% manually.
+%
+% \begin{description}\def\oitem#1{\item[{\normalfont\opt{#1}}]}
+%   \oitem{etex} Uses the $\epsilon$-\TeX\ primitive \Macro\dimexpr to parse length values. This allows for additions,
+%      subtractions as well as multiplications and devision by a numeric factor. See the official \pkg{etex\_man} document
+%      for more details. This setting is the default if $\epsilon$-\TeX\ is detected (which should be the case with all
+%      modern \LaTeX\ distributions).
+%   \oitem{calc} Uses the \pkg{calc} package to parse length values. It supports all operations mentioned for \opt{etex} and
+%      also some other operation like \Macro\widthof{<text>}.
+%      See the \pkg{calc} package manual for more details.
+%      This is the default setting if $\epsilon$-TeX is not detected.
+%   \oitem{pgfmath} Uses the \pkg{pgfmath} package of the \pkg{pgf} bundle to parse length values. It supports all basic
+%      numeric operations and also advanced mathematical functions.
+%      See the \pkg{pgf} manual for more details.
+%      Because the \pkg{pgfmath} package can't be loaded
+%      independently in the current version (v2.10) the whole \pkg{pgf} package will be loaded.
+% \end{description}
+%
+% One further option exists which can also be used as optional key for \Macro\adjustbox\relax (but not for
+% \Macro\includegraphics):
+% \begin{description}\def\oitem#1{\item[{\normalfont\opt{#1}}]}
+%   \oitem{defaultunit}\MacroArgs'='<unit>\relax
+%      This sets the default unit used for the values of \Macro\trimbox, \Macro\clipbox and \Macro\marginbox
+%      including there starred versions
+%      as well as all related keys like |trim|, |viewport|, |margin|, |Trim|, |Viewport|, |Clip| and |Clip*|.
+%      The standard default unit is the same as for \Macro\includegraphics: `|bp|' (big points, PostScript points).
+%      However, for \LaTeX\ material \TeX\ normal unit `|pt|' (\TeX\ points) are better suited and will avoid rounding
+%      errors which otherwise get introduced by the internal conversion.
+%      The default unit is only used if the particular value is only a single number without unit,
+%      but not if any mathematical operations are used.
+%      If the special value |none| is used no default unit is applied and the internal check if the value is a single number
+%      is by-passed. This gives a small speed bonus and can be used to avoid potential issues with complex values.
+%      At this moment this setting will disable the default unit feature for the rest of the current group (i.e.\ all
+%      further \Macro\adjustbox keys or globally if used as a package option) and further usages of this option will
+%      have no affect. This might change in future versions of this package.
+% \end{description}
 %
 % \ifenglish
 % \def\llx{llx}
@@ -208,7 +274,8 @@
 % This section describes the usage of the provided macros, which are outlined in \autoref{sec:basicmacros}.
 % Possible advanced values for the macro arguments are mentioned in \autoref{sec:argval}. The existing verbatim support
 % is explained in \autoref{sec:verbatim}. Finally \autoref{sec:alternatives} compares the existing macros with the 
-% corresponding options of \Macro\djustbox.
+% corresponding options of \Macro\adjustbox.
+% Further box modification macros and keys are described in \autoref{sec:moremacros} and \autoref{sec:newkeys}, respectively.
 % See the example \autoref{sec:example} for examples of this macros.
 %
 % It is recommended to also read the \emph{Graphics Guide} (|grfguide|, i.e.~the manual of the |graphics|/|x| packages),
@@ -366,8 +433,8 @@
 %    \hbox{\Macro\width~~~\Macro\height~~~\Macro\depth~~~\Macro\totalheight}%
 % \endDescribeMacros
 % \ifenglish
-% This \LaTeX{} lengths hold the original dimension of \meta{text} and can be used as part of the arguments to \Macro\adjustbox, \Macro\trimbox and \Macro\clipbox.
-% The totalheight is the height plus depth.
+% These \LaTeX{} lengths hold the original dimension of \meta{text} and can be used as part of the arguments to \Macro\adjustbox, \Macro\trimbox and \Macro\clipbox.
+% The totalheight is the height plus depth. With the \pkg{patch} option these lengths can also be used for \Macro\includegraphics.
 % \else
 % Diese \LaTeX{} Längen enthalten die Weite, Höhe, Tiefe bzw.\ die totale Höhe (Höhe + Tiefe) des \meta{\TEXT} Arguments bzw.\ des Inhalts der Umgebung.
 % Diese Längen können in den ersten Argument von \Macro\adjustbox, \Macro\trimbox und \Macro\clipbox verwendet werden um relative Änderungen vorzunehmen.
@@ -375,10 +442,11 @@
 %
 % If\marginpar{Default unit} no unit is provided for of the bounding box coordinates (\llx, \lly, \urx, \ury) then PostScript points
 % (\emph{big points}, bp, $72\,\text{bp}=1\,\text{inch}$) are used, as it is the default behaviour
-% of the |trim| and |viewport| ptions of \pkg{graphicx}'s \Macro\includegraphics. Note that \pkg{graphicx} converts all values, independent if a unit is provided or not,
+% of the |trim| and |viewport| options of \pkg{graphicx}'s \Macro\includegraphics. Note that \pkg{graphicx} converts all values, independent if a unit is provided or not,
 % internally to bp, because graphics where traditionally stored in Encapsulated PostScript (EPS) files. The more modern PDF files also use bp instead of pt.
 % Because the |adjustbox| package macros target \LATeX{} material and users will mostly use pt values this internal conversion to bp got disabled for them to 
-% avoid unnecessary rounding errors.
+% avoid unnecessary rounding errors. Since v0.5 the default unit can be changed using the |defaultunit|\MacroArgs'='<unit>\relax
+% key (which is also usable as global package option).
 %
 %
 % \subsubsection*{Examples for Argument Values}
@@ -389,6 +457,7 @@
 %
 % \subsection{Verbatim Support}\label{sec:verbatim}
 % The macros read the \meta{text} as \TeX{} \Macro\hbox and not as an macro argument in order to support verbatim content.
+% This functionality is now provided as dedicated package \pkg{collectbox} which can also be used independently.
 % This means that the braces around the content can also be written as \Macro\bgroup and \Macro\egroup:
 % \begin{macroquote}
 %   \trimbox{1 2 3 4}\AlsoMacro\bgroup~<\TEXT>\AlsoMacro\egroup
@@ -451,7 +520,7 @@
 %
 %
 %
-% \subsection{Further Box Modification Macros}\label{sec:basicmacros}
+% \subsection{Further Box Modification Macros}\label{sec:moremacros}
 % This section lists further macros which are defined unless the package is loaded with the \opt{minimal} option.
 %
 % \DescribeMacro\marginbox{<\llx>~<\lly>~<\urx>~<\ury>}{<\TEXT>}
@@ -497,7 +566,7 @@
 % \Macro\lapbox[0pt]{-\width}{<\TEXT>} is equivalent to \Macro\llap{<\TEXT>}.
 % A centering \Macro\clap macro can be achieved using \Macro\lapbox[0pt]{.5\width} or \Macro\lapbox[0pt]{-.5\width}.
 %
-% \subsection{New keys for \cs{adjustbox} and \cs{includegraphics}}\label{sec:basicmacros}
+% \subsection{New keys for \cs{adjustbox} and \cs{includegraphics}}\label{sec:newkeys}
 % This section lists provided keys usable as \Macro\adjustbox options and, if the \opt{export} package option was used, also as \Macro\includgraphics options.
 % If the package is loaded with the \opt{minimal} option this code is skipped.
 % \let\PrintMacroName\PrintKeyName
