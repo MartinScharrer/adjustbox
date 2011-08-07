@@ -6,7 +6,6 @@
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\RequirePackage{adjcalc}
 \RequirePackage{xkeyval}
 
 \def\adjbox@defaultunit{bp}
@@ -19,11 +18,11 @@
 
 \def\adjbox@driver{adj\Gin@driver}
 \DeclareOptionX<adjbox>{pgf}{\def\adjbox@driver{adjpgf.def}}
-\DeclareOptionX<adjbox>{PGF}{\def\adjbox@driver{adjpgf.def}\adjbox@dim@pgfmath}
+\DeclareOptionX<adjbox>{PGF}{\def\adjbox@driver{adjpgf.def}\adjcalccr@pgfmath}
 \DeclareOptionX<adjbox>*{\PassOptionsToPackage\CurrentOption{graphicx}}
 
 \let\adjbox@maybeend\relax
-\ProcessOptionsX*<adjbox>
+\input{adjcalc.sty}
 \disable@keys{adjbox}{patch,export,PGF,minimal}
 %    \end{macrocode}
 %
