@@ -35,6 +35,7 @@
 \def\adjcalc@pgfmath{\AtEndOfPackage{\RequirePackage{pgf}}\def\adjcalc@atend{\adjcalc@pgfmath}}
 \def\adjcalc@etex{\def\adjcalc@atend{\adjcalc@etex}}
 \def\adjcalc@calc{\AtEndOfPackage{\RequirePackage{calc}}\def\adjcalc@atend{\adjcalc@calc}}
+\def\adjcalc@overwrite{\AtEndOfPackage{\adjcalc@overwrite}}
 %    \end{macrocode}
 %
 % Options:
@@ -42,7 +43,8 @@
 \DeclareOptionX<adjbox>{pgfmath}{\adjcalc@pgfmath}
 \DeclareOptionX<adjbox>{etex}{\adjcalc@etex}
 \DeclareOptionX<adjbox>{calc}{\adjcalc@calc}
-\DeclareOptionX<adjbox>{none}{\let\adjcalc@atend\relax\def\adjsetlength{\setlength}}
+\DeclareOptionX<adjbox>{none}{\let\adjcalc@atend\relax\def\adjsetlength{\setlength}\let\adjcalc@overwrite\relax}
+\DeclareOptionX<adjbox>{overwrite}{\adjcalc@overwrite}
 \ProcessOptionsX*<adjbox>
 \disable@keys{adjbox}{none}
 %    \end{macrocode}
@@ -56,6 +58,16 @@
     \protected\def\adjaddtolength##1##2{%
         \advance##1 by \dimexpr##2\relax
     }%
+    \protected\def\adjsetcounter##1##2{%
+        \@ifundefined{c@##1}%
+            {\@nocounterr{##1}}%
+            {\global\csname c@##1\endcsname\numexpr ##2\relax}%
+    }%
+    \protected\def\adjaddtocounter##1##2{%
+        \@ifundefined{c@##1}%
+            {\@nocounterr{##1}}%
+            {\global\advance\csname c@##1\endcsname\numexpr ##2\relax}%
+    }%
     \def\adjbox@default##1##2{%
         \@defaultunits##1=\dimexpr##2 \adjbox@defaultunit\relax\@nnil
     }%
@@ -66,10 +78,14 @@
 %
 %
 % \begin{macro}{\adjcalc@calc}
+% This uses the underlying (re-)definitions of the normal macros (\Macro\setlength, ...) done by the \pkg{calc} package.
+% This allows to locally redefine \Macro\setlength to call \Macro\adjsetlength, etc., without causing an infinite loop.
 %    \begin{macrocode}
 \def\adjcalc@calc{%
-    \DeclareRobustCommand\adjsetlength{\calc@assign@skip}
-    \DeclareRobustCommand\adjaddtolength[1]{\calc@assign@skip{\advance ##1}}
+    \DeclareRobustCommand\adjsetlength{\calc@assign@skip}%
+    \DeclareRobustCommand\adjaddtolength[1]{\calc@assign@skip{\advance ##1}}%
+    \DeclareRobustCommand\adjsetcounter[2]{\@ifundefined{c@##1}{\@nocounterr{##1}}{\calc@assign@count{\global\csname c@##1\endcsname}{##2}}}%
+    \DeclareRobustCommand\adjaddtocounter[2]{\@ifundefined{c@##1}{\@nocounterr{##1}}{\calc@assign@count{\global\advance\csname c@##1\endcsname}{##2}}}%
     \def\adjbox@checkdefault##1\@nnil##2##3{%
         \ifx\relax##1\relax\else
             \calc@assign@skip{##2}{##3}%
@@ -85,12 +101,26 @@
 \def\adjcalc@pgfmath{%
     \DeclareRobustCommand\adjsetlength{\pgfmathsetlength}%
     \DeclareRobustCommand\adjaddtolength{\pgfmathaddtolength}%
+    \DeclareRobustCommand\adjsetcounter{\pgfmathsetcounter}%
+    \DeclareRobustCommand\adjaddtocounter{\pgfmathaddtocounter}%
     \def\adjbox@default##1##2{%
         \edef\pgfmathresultunitscale{1\adjbox@defaultunit}%
         \let\pgfmathpostparse\pgfmathscaleresult
         \pgfmathparse{##2}%
         ##1=\pgfmathresult pt\relax
     }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjcalc@overwrite}
+%    \begin{macrocode}
+\def\adjcalc@overwrite{%
+    \let\setlength\adjsetlength
+    \let\addtolength\adjaddtolength
+    \let\setcounter\adjsetcounter
+    \let\addtocounter\adjaddtocounter
 }
 %    \end{macrocode}
 % \end{macro}
