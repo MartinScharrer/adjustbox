@@ -586,6 +586,14 @@
 % \end{key}
 %
 %
+% \begin{key}{adjbox}{rotate}
+% New alias of existing |angle| key.
+%    \begin{macrocode}
+\expandafter\let\csname KV@\adjbox@fam @rotate\endcsname\KV@Gin@angle
+%    \end{macrocode}
+% \end{key}
+%
+%
 % \begin{key}{adjbox}{lap}
 %    \begin{macrocode}
 \define@key\adjbox@fam{lap}{%
@@ -605,9 +613,9 @@
 %    \begin{macrocode}
 \def\adjbox@lapbox#1#2#3\@nnil{%
     \ifx\relax#2\relax
-        \adjbox@Gin@add{\@lapbox{}{#1}}%
+        \adjbox@Gin@add{\lapbox{#1}}%
     \else
-        \adjbox@Gin@add{\i@lapbox{#1}{#2}}%
+        \adjbox@Gin@add{\lapbox[{#1}]{#2}}%
     \fi
 }
 %    \end{macrocode}
@@ -817,19 +825,22 @@
 %
 %    \begin{macrocode}
 \define@key\adjbox@fam{center}[\linewidth]{%
-    \def\@tempa{\hb@xt@#1}%
+    \adjsetlength\@tempdima{#1}%
+    \edef\@tempa{\hb@xt@\the\@tempdima}%
     \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\expandafter\hss\the\toks@\hss}}%
 }
 %    \end{macrocode}
 %    \begin{macrocode}
 \define@key\adjbox@fam{left}[\linewidth]{%
-    \def\@tempa{\hb@xt@#1}%
+    \adjsetlength\@tempdima{#1}%
+    \edef\@tempa{\hb@xt@\the\@tempdima}%
     \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\expandafter\hss\the\toks@}}%
 }
 %    \end{macrocode}
 %    \begin{macrocode}
 \define@key\adjbox@fam{right}[\linewidth]{%
-    \def\@tempa{\hb@xt@#1}%
+    \adjsetlength\@tempdima{#1}%
+    \edef\@tempa{\hb@xt@\the\@tempdima}%
     \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@\hss}}%
 }
 %    \end{macrocode}
