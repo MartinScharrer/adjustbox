@@ -763,6 +763,13 @@
 % \end{macro}
 %
 %
+% \begin{key}{adjbox}{set height}
+%    \begin{macrocode}
+\define@key\adjbox@fam{bgcolor}{%
+    \adjbox@Gin@add{\colorbox{#1}}%
+}
+%    \end{macrocode}
+% \end{key}
 %
 %
 % \begin{key}{adjbox}{set height}
@@ -816,22 +823,79 @@
 %
 %
 %    \begin{macrocode}
-\define@key\adjbox@fam{center}[\linewidth]{%
+\def\adjbox@halign#1#2#3{%
+    \Gin@esetsize
+    \@tempswatrue
     \def\@tempa{\hb@xt@#1}%
-    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\expandafter\hss\the\toks@\hss}}%
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\expandafter#2\the\toks@#3}}%
+}
+%    \end{macrocode}
+%    \begin{macrocode}
+\define@key\adjbox@fam{center}[\linewidth]{%
+    \adjbox@halign{#1}\hss\hss
 }
 %    \end{macrocode}
 %    \begin{macrocode}
 \define@key\adjbox@fam{left}[\linewidth]{%
-    \def\@tempa{\hb@xt@#1}%
-    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\expandafter\hss\the\toks@}}%
+    \adjbox@halign{#1}\hss\relax
 }
 %    \end{macrocode}
 %    \begin{macrocode}
 \define@key\adjbox@fam{right}[\linewidth]{%
-    \def\@tempa{\hb@xt@#1}%
-    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@\hss}}%
+    \adjbox@halign{#1}\relax\hss
 }
+%    \end{macrocode}
+%    \begin{macrocode}
+\define@key\adjbox@fam{outer}[\linewidth]{%
+    \def\@tempa{\adjbox@halign{#1}}%
+    \if@twoside
+      \adjbox@ifoddpage
+        {\@tempa\hss\relax}%
+        {\@tempa\relax\hss}%
+    \else
+        \@tempa\hss\hss
+    \fi
+}
+%    \end{macrocode}
+%    \begin{macrocode}
+\define@key\adjbox@fam{inner}[\linewidth]{%
+    \def\@tempa{\adjbox@halign{#1}}%
+    \if@twoside
+      \adjbox@ifoddpage
+        {\@tempa\relax\hss}%
+        {\@tempa\hss\relax}%
+    \else
+        \@tempa\hss\hss
+    \fi
+}
+%    \end{macrocode}
+%    \begin{macrocode}
+\def\adjbox@ifoddpage{%
+    \begingroup
+    \adjbox@checkoddpage
+    \expandafter\endgroup
+    \ifoddpage
+        \expandafter\@firstoftwo
+    \else
+        \expandafter\@secondoftwo
+    \fi
+}
+%    \end{macrocode}
+%    \begin{macrocode}
+\def\adjbox@checkoddpage{%
+    \ifodd\c@page
+        \oddpagetrue
+    \else
+        \oddpagefalse
+    \fi
+}%
+%    \end{macrocode}
+%    \begin{macrocode}
+\newif\ifoddpage
+\AtBeginDocument{%
+    \@ifpackageloaded{changepage}{\let\adjbox@checkoddpage\checkoddpage}%
+     {\@ifpackageloaded{chngpage}{\let\adjbox@checkoddpage\checkoddpage}{}}%
+}%
 %    \end{macrocode}
 %
 % \begin{key}{adjbox}{min width}
