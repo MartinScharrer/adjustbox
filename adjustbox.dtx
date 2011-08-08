@@ -750,13 +750,36 @@
 % \DescribeMacro{right}'='<width>
 % Like |center| this key
 % {\let\PrintMacroName\OrigPrintMacroName
-% places the content in a box with the given width (by default \Macro\linewidth) but right aligns it.}
+% places the content in a box with the given width (by default \Macro\linewidth) but right aligns it.
+% If the content is wider than the available width it will stick out into both side equally without causing an overfull hbox warning.
+% }
 %
 % \DescribeMacro{left}
 % \DescribeMacro{left}'='<width>
 % Like |center| this key
 % {\let\PrintMacroName\OrigPrintMacroName
-% places the content in a box with the given width (by default \Macro\linewidth) but left aligns it.}
+% places the content in a box with the given width (by default \Macro\linewidth) but left aligns it.
+% If the content is wider than the available width it will stick out into the right side without causing an overfull hbox warning.
+% }
+%
+%
+% \DescribeMacro{inner}
+% \DescribeMacro{inner}'='<width>
+% Like |center|, |left| and |right| this key 
+% {\let\PrintMacroName\OrigPrintMacroName
+% places the content in a box with the given width (by default \Macro\linewidth) but aligns it towards the inner margin.
+% If the content is wider than the available width it will stick into the outer margin without causing an overfull hbox warning.
+% In |twoside| mode this key is equal to |left| for odd pages and equal to |right| for even pages.
+% For |oneside| mode it is always equal to |center|, because there is no inner or outer margin.
+% Note that the page-is-odd test might not always lead to correct results for some material close to a page boundary, because \TeX\
+% might not have decided on which page it will be placed. This can be improved by loading the \pkg{changepage} package with the 
+% \opt{strict} option, which uses a reference to determine the correct page number (and requires the usual additional compiler run).
+% }
+%
+% \DescribeMacro{outer}
+% \DescribeMacro{outer}'='<width>
+% Identical to |inner| but aligns the content towards the outer margin.
+% If the content is wider than the available width it will stick into the outer inner without causing an overfull hbox warning.
 %
 % \subsubsection{Pixel size}
 %
