@@ -194,24 +194,18 @@
 %
 %
 % \begin{macro}{\adjustbox}
-%    \begin{macrocode}
-\newcommand\adjustbox[1]{%
-    \collectboxcheckenv{adjustbox}%
-    \collectbox{\adjustbox@{#1}}%
-}
-%    \end{macrocode}
-% \end{macro}
+% Now processes the keys before the box is read to allow for parbox or similar modes.
 %
-%
-% \begin{macro}{\adjustbox@}
-% This code was adapted from the \Macro\Gin@ii macro from the |graphicx| package.
+% This code was originally adapted from the \Macro\Gin@ii macro from the |graphicx| package.
 % The \emph{temp switch a} is set to |true| to indicate to |graphicx| that the
 % scaling should be done internal, so this package doesn't have to do it.
 % The content including macro \Macro\adjustbox@@@ is but into place,
 % the saved options are activated and the final size is set.
 % The typesetting of the content is finally done by executing the token register.
 %    \begin{macrocode}
-\def\adjustbox@#1{%
+\newcommand\adjustbox[1]{%
+    \collectboxcheckenv{adjustbox}%
+    \begingroup
     \adjustbox@dimcmds
     \let\Gin@esetsize\adjbox@esetsize
     \@tempswatrue
@@ -219,12 +213,14 @@
     \def\setlength{\adjsetlength}%
     \setkeys{adjbox,Gin}{#1}%
     \adjbox@esetsize
-    \the\toks@
+    \adjbox@collectbox{\the\toks@\endgroup}%
 }
+\let\adjbox@collectbox\@collectbox
 %    \end{macrocode}
 % \end{macro}
 %
 %
+%    \begin{macrocode}
 % \begin{macro}{\adjustbox@@@@}
 % Content wrapper which might be redefined when the size is specified.
 %    \begin{macrocode}
@@ -261,16 +257,38 @@
 %
 %
 % \begin{macro}{\adjustbox@dimcmds}
+% Inits the dimension macro in an unexpandedable way. They will be redefined to the correct
+% values by \Macro\collectbox.
 %    \begin{macrocode}
 \def\adjustbox@dimcmds{%
+    \let\width\relax
+    \let\height\relax
+    \let\depth\relax
+    \let\totalheight\relax
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \iffalse
+% \begin{macro}{\adjustbox@dimcmds}
+% Needs to be reworked.
+%    \begin{macrocode}
+%<*OUTDATED>
+\def\OLD@adjustbox@dimcmds{%
+    \protected\def\width{\wd\collectedbox}%
+    \protected\def\height{\ht\collectedbox}%
+    \protected\def\depth{\dp\collectedbox}%
+    \protected\def\totalheight{\dimexpr\ht\collectedbox+\dp\collectedbox\relax}%
     \protected\edef\WIDTH {\dimexpr\the\wd\collectedbox\relax}%
     \protected\edef\HEIGHT{\dimexpr\the\ht\collectedbox\relax}%
     \protected\edef\DEPTH {\dimexpr\the\dp\collectedbox\relax}%
     \protected\edef\TOTALHEIGHT{\dimexpr\the\ht\collectedbox+\the\dp\collectedbox\relax}%
 }
+%</OUTDATED>
 %    \end{macrocode}
 % \end{macro}
-%
+% \fi
 %
 % \begin{macro}{\adjustbox@@@}
 %    \begin{macrocode}
@@ -612,7 +630,7 @@
 % \begin{macro}{\adjbox@lapbox}
 %    \begin{macrocode}
 \def\adjbox@lapbox#1#2#3\@nnil{%
-    \ifx\relax#2\relax
+    \ifx\@nnil#2\@nnil
         \adjbox@Gin@add{\lapbox{#1}}%
     \else
         \adjbox@Gin@add{\lapbox[{#1}]{#2}}%
@@ -682,7 +700,7 @@
 % \begin{macro}{\adjbox@raisebox}
 %    \begin{macrocode}
 \def\adjbox@raisebox#1#2#3#4\@nnil{%
-    \ifx\relax#3\relax
+    \ifx\@nnil#3\@nnil
         \adjbox@Gin@add{\@irsbox{#1}[{#2}]}%
     \else
         \adjbox@Gin@add{\@iirsbox{#1}[{#2}][{#3}]}%
@@ -820,7 +838,7 @@
 % E.g.: \verb+min size=\A+ is the same as  \verb+min size={\A}{\A}+
 %    \begin{macrocode}
 \def\adjbox@Gin@sizeadd#1#2#3\relax{%
-    \ifx\relax#3\relax
+    \ifx\@nnil#3\@nnil
         \adjbox@Gin@add{#1{#2}{#2}}%
     \else
         \adjbox@Gin@add{#1{#2}{#3}}%
