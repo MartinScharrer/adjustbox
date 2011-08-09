@@ -1,0 +1,120 @@
+%&pdflatex
+\documentclass{article}
+
+\usepackage{adjustbox}
+
+\newcommand\Adjustbox[1]{%
+    \par
+    \bigskip
+    \noindent
+    {\ttfamily\detokenize{#1}:\ }%
+    \par\smallskip\noindent
+    \adjustbox{#1}%
+}
+
+\begin{document}
+
+\noindent
+Without keys:\par\noindent
+\adjustbox{}{%
+    test line \verb+$%^&_}\relax+%
+}
+
+\Adjustbox{scale=.5}{%
+    test line \verb+$%^&_}\relax+%
+}
+
+\Adjustbox{width=.5\width}{%
+    test line \verb+$%^&_}\relax+%
+}
+
+\Adjustbox{width=.5\width,height=\height}{%
+    test line \verb+$%^&_}\relax+%
+}
+
+\Adjustbox{reflect}{%
+    test line \verb+$%^&_}\relax+%
+}
+
+\Adjustbox{frame}{%
+    test line \verb+$%^&_}\relax+%
+}
+
+\Adjustbox{frame={\fboxrule} \fboxsep}{%
+    test line \verb+$%^&_}\relax+%
+}
+
+\Adjustbox{frame=2pt}{%
+    test line \verb+$%^&_}\relax+%
+}
+
+\Adjustbox{frame=2pt 1pt}{%
+    test line \verb+$%^&_}\relax+%
+}
+
+\Adjustbox{center}{%
+    test line \verb+$%^&_}\relax+%
+}
+
+\Adjustbox{center=\linewidth-2\fboxrule,frame}{%
+    test line \verb+$%^&_}\relax+%
+}
+
+\Adjustbox{left}{%
+    test line \verb+$%^&_}\relax+%
+}
+
+\Adjustbox{left=\linewidth-2\fboxrule,frame}{%
+    test line \verb+$%^&_}\relax+%
+}
+
+\Adjustbox{right}{%
+    test line \verb+$%^&_}\relax+%
+}
+
+\Adjustbox{right=\linewidth-2\fboxrule,frame}{%
+    test line \verb+$%^&_}\relax+%
+}
+
+\Adjustbox{left}{%
+    test line \verb+$%^&_}\relax+ 
+    test line \verb+$%^&_}\relax+ 
+    test line \verb+$%^&_}\relax+ 
+    test line \verb+$%^&_}\relax+%
+}
+(overlong line)
+
+\Adjustbox{lap=\width,frame}{%
+    test line \verb+$%^&_}\relax+%
+}
+
+\Adjustbox{lap={0pt}\width,frame}{%
+    test line \verb+$%^&_}\relax+%
+}
+
+\noindent
+\leavevmode\hbox{%
+\collectbox*{\fboxsep=0pt\fbox}{\lapbox{\width}{%
+    test line \verb+$%^&_}\relax+%
+    }}}
+
+\noindent\mbox{\frame\strut}
+
+\Adjustbox{angle=90}{%
+    test line \verb+$%^&_}\relax+%
+}.
+
+\Adjustbox{origin=c,rotate=90,rotate=-90}{%
+    test line \verb+$%^&_}\relax+%
+}.
+
+
+\Adjustbox{origin=rB,rotate=90}{%
+    test line \verb+$%^&_}\relax+%
+}.
+
+
+
+\end{document}
+
+
