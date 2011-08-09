@@ -1110,99 +1110,42 @@
 %
 %
 %
-% \begin{key}{adjbox}{parbox}
+% \begin{key}{adjbox}{minipage}
 %    \begin{macrocode}
-\define@key{adjbox}{parbox}{%
+\define@key{adjbox}{minipage}{%
     \@ifnextchar[{%
-        \adjbox@parbox
+        \adjust@addenv{minipage}%
     }{%
-        \adjust@setparbox{c}{}{s}{#1}%
+        \adjust@addenv{minipage}{{#1}}\@nnil%
+        \remove@to@nnil
     }#1\@nnil
 }
 %    \end{macrocode}
 % \end{key}
 %
-% \begin{macro}{\adjust@setparbox}
-%    \begin{macrocode}
-\def\adjust@setparbox#1#2#3#4{%
-    \def\adjbox@collectbox{\adjust@collectparbox{#1}{#2}{#3}{#4}}%
-    \remove@to@nnil
-}
-%    \end{macrocode}
-% \end{macro}
 %
-%
-% \begin{macro}{\adjbox@parbox}
+% \begin{key}{adjbox}{innerenv}
 %    \begin{macrocode}
-\def\adjbox@parbox[#1]{%
-    \@ifnextchar[{%
-        \adjbox@iparbox{#1}%
+\define@key{adjbox}{innerenv}{%
+    \@ifnextchar\bgroup{%
+        \adjust@addenv
     }{%
-        \adjust@setparbox{#1}{}{s}%
-    }%
+        \adjust@addenv{#1}\@nnil%
+        \remove@to@nnil
+    }#1\@nnil
 }
 %    \end{macrocode}
-% \end{macro}
+% \end{key}
 %
 %
-% \begin{macro}{\adjbox@iparbox}
+% \begin{macro}{\adjust@addenv}
 %    \begin{macrocode}
-\def\adjbox@iparbox#1[#2]{%
-    \@ifnextchar[{%
-        \adjbox@iiparbox{#1}{#2}%
-    }{%
-        \adjust@setparbox{#1}{#2}{s}%
-    }%
-}
+\def\adjust@addenv#1#2\@nnil{%
+    \def\adjbox@collectbox##1{\collectbox@{\begin{#1}#2}{##1}{\end{#1}}}%
+}%
 %    \end{macrocode}
 % \end{macro}
 %
-%
-% \begin{macro}{\adjbox@iiparbox}
-%    \begin{macrocode}
-\def\adjbox@iiparbox#1#2[#3]{%
-    \adjust@setparbox{#1}{#2}{#3}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-%
-% \begin{macro}{\adjust@collectparbox}
-%    \begin{macrocode}
-\def\adjust@collectparbox#1#2#3#4#5{%
-  \@pboxswfalse
-  \adjsetlength\@tempdima{#4}%
-  \let\collect@box\vbox
-  \let\@tempboxa\collectedbox
-  \collectbox@{\hsize\@tempdima\@parboxrestore}{\adjbox@doparbox{#1}{#2}{#3}#5}{\@@par}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjbox@doparbox}
-%    \begin{macrocode}
-\def\adjbox@doparbox#1#2#3{%
-    \setbox\collectedbox\hbox{\color@setgroup
-    \ifx\@nnil#2\@nnil\else
-      \adjsetlength\@tempdimb{#2}%
-      \edef\@parboxto{to\the\@tempdimb}%
-    \fi
-    \if#1b\vbox
-    %\else\if #1B\vbox
-    \else\if #1t\vtop
-    %\else\if #1T\vtop
-    \else\@pboxswtrue $\vcenter
-    \fi\fi
-    %\fi\fi
-    \@parboxto{\let\hss\vss\let\unhbox\unvbox
-       \csname bm@#3\endcsname}%
-    \if@pboxsw \m@th$\fi
-    \color@endgroup}%
-}
-%    \end{macrocode}
-% \end{macro}
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
