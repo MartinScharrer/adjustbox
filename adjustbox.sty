@@ -1109,4 +1109,100 @@
 % \end{macro}
 %
 %
+%
+% \begin{key}{adjbox}{parbox}
+%    \begin{macrocode}
+\define@key{adjbox}{parbox}{%
+    \@ifnextchar[{%
+        \adjbox@parbox
+    }{%
+        \adjust@setparbox{c}{}{s}{#1}%
+    }#1\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{macro}{\adjust@setparbox}
+%    \begin{macrocode}
+\def\adjust@setparbox#1#2#3#4{%
+    \def\adjbox@collectbox{\adjust@collectparbox{#1}{#2}{#3}{#4}}%
+    \remove@to@nnil
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@parbox}
+%    \begin{macrocode}
+\def\adjbox@parbox[#1]{%
+    \@ifnextchar[{%
+        \adjbox@iparbox{#1}%
+    }{%
+        \adjust@setparbox{#1}{}{s}%
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@iparbox}
+%    \begin{macrocode}
+\def\adjbox@iparbox#1[#2]{%
+    \@ifnextchar[{%
+        \adjbox@iiparbox{#1}{#2}%
+    }{%
+        \adjust@setparbox{#1}{#2}{s}%
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@iiparbox}
+%    \begin{macrocode}
+\def\adjbox@iiparbox#1#2[#3]{%
+    \adjust@setparbox{#1}{#2}{#3}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \begin{macro}{\adjust@collectparbox}
+%    \begin{macrocode}
+\def\adjust@collectparbox#1#2#3#4#5{%
+  \@pboxswfalse
+  \adjsetlength\@tempdima{#4}%
+  \let\collect@box\vbox
+  \let\@tempboxa\collectedbox
+  \collectbox@{\hsize\@tempdima\@parboxrestore}{\adjbox@doparbox{#1}{#2}{#3}#5}{\@@par}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@doparbox}
+%    \begin{macrocode}
+\def\adjbox@doparbox#1#2#3{%
+    \setbox\collectedbox\hbox{\color@setgroup
+    \ifx\@nnil#2\@nnil\else
+      \adjsetlength\@tempdimb{#2}%
+      \edef\@parboxto{to\the\@tempdimb}%
+    \fi
+    \if#1b\vbox
+    %\else\if #1B\vbox
+    \else\if #1t\vtop
+    %\else\if #1T\vtop
+    \else\@pboxswtrue $\vcenter
+    \fi\fi
+    %\fi\fi
+    \@parboxto{\let\hss\vss\let\unhbox\unvbox
+       \csname bm@#3\endcsname}%
+    \if@pboxsw \m@th$\fi
+    \color@endgroup}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
