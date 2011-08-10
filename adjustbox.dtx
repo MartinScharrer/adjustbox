@@ -745,14 +745,19 @@
 % and centers it in it. The effect is very similar to \Macro\centerline. The original content is unchanged, but simply identical
 % white space is added as a left and right margin. This is useful if the content is a figure or table and can be used as a replacement
 % for \Macro\centering. One important difference is that the content will then have the given width which might influence (sub-)caption
-% placement.}
+% placement.
+% If the content is wider than the available width it will stick out on both sides equally without causing an overfull hbox warning.
+% Note that when \Macro\adjustbox paragraph is used at the beginning of a paragraph the normal paragraph indention is added, which
+% will push the while box to the right and might cause an overfull line. In such cases a \Macro\noindent must be added beforehand.
+% The \env{adjustbox} environment already uses this macro.
+% }
 %
 % \DescribeMacro{right}
 % \DescribeMacro{right}'='<width>
 % Like |center| this key
 % {\let\PrintMacroName\OrigPrintMacroName
 % places the content in a box with the given width (by default \Macro\linewidth) but right aligns it.
-% If the content is wider than the available width it will stick out into both side equally without causing an overfull hbox warning.
+% If the content is wider than the available width it will stick out into the left side without causing an overfull hbox warning.
 % }
 %
 % \DescribeMacro{left}

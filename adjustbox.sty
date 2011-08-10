@@ -954,6 +954,8 @@
 % \end{macro}
 %
 %
+%
+% \begin{macro}{\adjbox@halign}
 %    \begin{macrocode}
 \def\adjbox@halign#1#2#3{%
     \Gin@esetsize
@@ -963,21 +965,33 @@
     \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\expandafter#2\the\toks@#3}}%
 }
 %    \end{macrocode}
+% \end{macro}
+%
+% \begin{key}{adjbox}{center}
 %    \begin{macrocode}
 \define@key\adjbox@fam{center}[\linewidth]{%
     \adjbox@halign{#1}\hss\hss
 }
 %    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{left}
 %    \begin{macrocode}
 \define@key\adjbox@fam{left}[\linewidth]{%
     \adjbox@halign{#1}\hss\relax
 }
 %    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{right}
 %    \begin{macrocode}
 \define@key\adjbox@fam{right}[\linewidth]{%
     \adjbox@halign{#1}\relax\hss
 }
 %    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{outer}
 %    \begin{macrocode}
 \define@key\adjbox@fam{outer}[\linewidth]{%
     \def\@tempa{\adjbox@halign{#1}}%
@@ -990,6 +1004,9 @@
     \fi
 }
 %    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{inner}
 %    \begin{macrocode}
 \define@key\adjbox@fam{inner}[\linewidth]{%
     \def\@tempa{\adjbox@halign{#1}}%
@@ -1002,6 +1019,8 @@
     \fi
 }
 %    \end{macrocode}
+%
+% \begin{macro}{\adjbox@ifoddpage}
 %    \begin{macrocode}
 \def\adjbox@ifoddpage{%
     \begingroup
@@ -1014,6 +1033,10 @@
     \fi
 }
 %    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@checkoddpage}
 %    \begin{macrocode}
 \def\adjbox@checkoddpage{%
     \ifodd\c@page
@@ -1023,6 +1046,8 @@
     \fi
 }%
 %    \end{macrocode}
+% \end{macro}
+%
 %    \begin{macrocode}
 \newif\ifoddpage
 \AtBeginDocument{%
@@ -1215,6 +1240,10 @@
 % \end{macro}
 %
 %
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsubsection{Minibox and other Environments Keys}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \begin{key}{adjbox}{minipage}
 %    \begin{macrocode}
