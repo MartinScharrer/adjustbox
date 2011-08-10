@@ -309,17 +309,22 @@
 % \subsubsection*{Rand beschneiden ohne Überhang auszublenden}
 % \fi
 % \vskip-\lastskip
+% \DescribeMacro\trimbox{<all sites>}{<\TEXT>}
+% \DescribeMacro\trimbox{<left/right>~<top/bottom>}{<\TEXT>}
+% \DescribeMacro\trimbox{<\llx>~<\lly>~<\urx>~<\ury>}{<\TEXT>}
 % \DescribeMacro\trimbox*{<\llx>~<\lly>~<\urx>~<\ury>}{<\TEXT>}
 % \ifenglish
 % \subsubsection*{Trim Box Content}
 % The macro \Macro\trimbox trims the given amount from the lower left (ll) and the upper right (ur) corner of
 % the box. This means that the amount \meta{llx} is trimmed from the left side, \meta{lly} from the bottom and
 % \meta{urx} and \meta{ury} from the right and top of the box, respectively.
+% If only one value is given it will be used for all four sites.
+% If only two values are given the first one will be used for the left and right side (llx, urx) and the second for the bottom and top side (lly, ury).
 % Trimming means that the official size of the box is reduced, but no material
 % is actual removed. The material in the trimmed areas simply swaps over the official border.
 %
 % If the starred version is used the four coordinates are taken as the |viewport| instead, i.e. the box
-% is trimmed to the rectangle described by the coordinates.
+% is trimmed to the rectangle described by the coordinates. In this case using all four values must be specified.
 % \else
 % Das Makro \Macro\trimbox setzt den \meta{Text} in eine \TeX{} Box und reduziert dessen offizielle Größe
 % (\emph{bounding box}, engl.: begrenzende Box), so dass \TeX{} annimmt es wäre entsprechend kleiner. Überstehendes Material
@@ -332,7 +337,7 @@
 % \fi
 %
 %
-% \DescribeEnv[<\TEXT>]{trimbox}*{<\llx>~<\lly>~<\urx>~<\ury>}
+% \DescribeEnv[<\TEXT>]{trimbox}{<1, 2 or 4 trim values>}
 % \vspace{-\baselineskip}
 % \DescribeEnv[<\TEXT>]{trimbox*}{<\llx>~<\lly>~<\urx>~<\ury>}
 % \ifenglish
@@ -356,6 +361,9 @@
 % \subsubsection*{Rand beschneiden und Überhang ausblenden}
 % \fi
 % \vskip-\lastskip
+% \DescribeMacro\clipbox{<all sites>}{<\TEXT>}
+% \DescribeMacro\clipbox{<left/right>~<top/bottom>}{<\TEXT>}
+% \DescribeMacro\clipbox{<\llx>~<\lly>~<\urx>~<\ury>}{<\TEXT>}
 % \DescribeMacro\clipbox*{<\llx>~<\lly>~<\urx>~<\ury>}{<\TEXT>}
 % \ifenglish
 % The \Macro\clipbox macro works like the \Macro\trimbox and trims the given amounts from the \meta{text}.
@@ -372,7 +380,7 @@
 % Die Sternvariante verwendet die angegebenen Werte als den zu darstellenden Bereich wie bei \Macro\trimbox'*'.
 % \fi
 %
-% \DescribeEnv[<\TEXT>]{clipbox}*{<\llx>~<\lly>~<\urx>~<\ury>}
+% \DescribeEnv[<\TEXT>]{clipbox}{<1, 2 or 4 trim values>}
 % \vspace{-\baselineskip}
 % \DescribeEnv[<\TEXT>]{clipbox*}{<\llx>~<\lly>~<\urx>~<\ury>}
 % \iffalse
@@ -574,6 +582,8 @@
 %
 % \subsubsection{Trimming and Clipping}
 %
+% \DescribeMacro{Trim}'='<all sites>
+% \DescribeMacro{Trim}'='<left/right>~<top/bottom>
 % \DescribeMacro{Trim}'='<llx>~<lly>~<urx>~<ury>
 % \DescribeMacro{Viewport}'='<llx>~<lly>~<urx>~<ury>
 % The normal |trim| and |viewport| keys
@@ -586,6 +596,8 @@
 % macro which can be applied multiple times, e.g.\ before and after the content is rotated.
 % These two keys awaits the same format as the original keys. However, the |clip| key has no effect on them.}
 %
+% \DescribeMacro{Clip}'='<all sites>
+% \DescribeMacro{Clip}'='<left/right>~<top/bottom>
 % \DescribeMacro{Clip}'='<llx>~<lly>~<urx>~<ury>
 % \DescribeMacro{Clip*}'='<llx>~<lly>~<urx>~<ury>
 % As stated above the |clip| boolean key
@@ -813,6 +825,34 @@
 % Die folgenden Beispiele zeigen die Anwendung der Makros dieses Packets auf einen Beispieltext (\Macro\example).
 % Das Ergebnis wird mit einer engen, farbigen Umrandung dargestellt um die entgültigen Dimensionen sichtbar zu machen.
 % \fi
+%
+% \subsection{Minipage or other inner Environment}
+% The following keys will overwrite each other and only defined for \env{adjustbox} but do not apply for \Macro\includegraphics.
+% Because they are therefore only used inside a mandatory argument and never in an optional these keys allow for optional bracket arguments.
+%
+% \DescribeMacro{minipage}'='<width>
+% \DescribeMacro{minipage}'='[<position>][<height>][<inner position>]{<width>}
+% This key wraps the inner content in a \env{minipage} with the given \meta{width} before it is stored as horizontal box.
+% This allows for line breaks and footnotes in the \env{adjustbox}.
+% All optional arguments of \env{minipage} are supported. I only the width is given it does not have to be enclosed in braces.
+% The \meta{position} argument must be `|t|' for top baseline, `|b|' for bottom baseline and `|c|' for center alignment relative to other
+% text, i.e.\ defines the resulting baseline. If a \meta{height} is defined the \meta{inner position} defaults to \meta{position} but
+% can also be `|s|' to stretch the content over the whole height. This requires the content to include some vertical stretchable material.
+%
+% \DescribeMacro{innerenv}'='<environment name>
+% \DescribeMacro{innerenv}'='{<environment name>}<environment options>
+% Wraps the inner content in the given \meta{environment} before it is stored as horizontal box. Only one inner environment can be used 
+% and further uses of this key will overwrite previous ones as well as any |minipage| and |innercode| key.
+%
+% \DescribeMacro{innercode}'='{<begin code>}{<end code>}
+% Places the given code before and after the inner content before it is stored as horizontal box. Only one set of inner code can be used 
+% and further uses of this key will overwrite previous ones as well as any |minipage| and |innerenv| key.
+%
+%
+% \subsection{Adding own Code or Environments}
+%
+% \DescribeMacro{env}'='<environment name>
+% \DescribeMacro{env}'='{<environment name>}<environment options>
 %
 % \begingroup
 % \def\examplecontent{\begin{tabular}{@{}|c|c|@{}}
