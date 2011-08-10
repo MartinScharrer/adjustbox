@@ -1246,9 +1246,9 @@
 %    \begin{macrocode}
 \define@key{adjbox}{minipage}{%
     \@ifnextchar[{%
-        \adjust@addenv{minipage}%
+        \adjbox@addenv{minipage}%
     }{%
-        \adjust@addenv{minipage}{{#1}}\@nnil%
+        \adjbox@addenv{minipage}{{#1}}\@nnil%
         \remove@to@nnil
     }#1\@nnil
 }
@@ -1260,20 +1260,44 @@
 %    \begin{macrocode}
 \define@key{adjbox}{innerenv}{%
     \@ifnextchar\bgroup{%
-        \adjust@innerenv
+        \adjbox@innerenv
     }{%
-        \adjust@innerenv{#1}\@nnil%
+        \adjbox@innerenv{#1}\@nnil%
         \remove@to@nnil
     }#1\@nnil
 }
 %    \end{macrocode}
 % \end{key}
 %
-%
-% \begin{macro}{\adjust@addenv}
+% \begin{macro}{\adjbox@innerenv}
 %    \begin{macrocode}
-\def\adjust@innerenv#1#2\@nnil{%
+\def\adjbox@innerenv#1#2\@nnil{%
     \def\adjbox@collectbox##1{\collectbox@{\begin{#1}#2}{##1}{\end{#1}}}%
+}%
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{key}{adjbox}{innercode}
+%    \begin{macrocode}
+\define@key{adjbox}{innercode}{%
+    \adjbox@innercode#1{}{}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{macro}{\adjbox@innerenv}
+%    \begin{macrocode}
+\def\adjbox@innerenv#1#2\@nnil{%
+    \def\adjbox@collectbox##1{\collectbox@{\begin{#1}#2}{##1}{\end{#1}}}%
+}%
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjbox@innercode}
+%    \begin{macrocode}
+\def\adjbox@innercode#1#2{%
+    \def\adjbox@collectbox##1{\collectbox@{#1}{##1}{#2}}%
 }%
 %    \end{macrocode}
 % \end{macro}
@@ -1284,9 +1308,9 @@
 %    \begin{macrocode}
 \define@key{adjbox}{env}{%
     \@ifnextchar\bgroup{%
-        \adjust@addenv
+        \adjbox@addenv
     }{%
-        \adjust@addenv{#1}\@nnil%
+        \adjbox@addenv{#1}\@nnil%
         \remove@to@nnil
     }#1\@nnil
 }
@@ -1357,14 +1381,5 @@
 }%
 %    \end{macrocode}
 % \end{macro}
-%
-% \begin{macro}{\adjust@addcode}
-%    \begin{macrocode}
-\def\adjust@appendcode#1{%
-}%
-%    \end{macrocode}
-% \end{macro}
-%
-%
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
