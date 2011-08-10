@@ -233,8 +233,6 @@
 %    \end{macrocode}
 % \end{macro}
 %
-%
-%    \begin{macrocode}
 % \begin{macro}{\adjustbox@@@@}
 % Content wrapper which might be redefined when the size is specified.
 %    \begin{macrocode}
@@ -1016,6 +1014,7 @@
     \fi
 }
 %    \end{macrocode}
+% \end{key}
 %
 % \begin{macro}{\adjbox@ifoddpage}
 %    \begin{macrocode}
@@ -1246,9 +1245,9 @@
 %    \begin{macrocode}
 \define@key{adjbox}{minipage}{%
     \@ifnextchar[{%
-        \adjbox@addenv{minipage}%
+        \adjbox@innerenv{minipage}%
     }{%
-        \adjbox@addenv{minipage}{{#1}}\@nnil%
+        \adjbox@innerenv{minipage}{{#1}}\@nnil%
         \remove@to@nnil
     }#1\@nnil
 }
@@ -1320,7 +1319,7 @@
 %
 % \begin{macro}{\adjust@addenv}
 %    \begin{macrocode}
-\def\adjust@addenv#1#2\@nnil{%
+\def\adjbox@addenv#1#2\@nnil{%
     \def\@tempa{\begin{#1}#2}%
     \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\the\toks@\end{#1}}%
 }%

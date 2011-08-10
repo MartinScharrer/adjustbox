@@ -72,10 +72,12 @@
 }
 \optionaloff
 
+\lstset{numbers=none,basicstyle=\ttfamily\scriptsize}
+
 %\EnableCrossrefs
 %\CodelineIndex
 %\RecordChanges
-%\OnlyDescription
+\OnlyDescription
 \renewcommand{\bottomfraction}{0.5}
 \begin{document}
   \DocInput{adjustbox.dtx}
@@ -532,6 +534,8 @@
 % \subsection{Further Box Modification Macros}\label{sec:moremacros}
 % This section lists further macros which are defined unless the package is loaded with the \opt{minimal} option.
 %
+% \DescribeMacro\marginbox{<all sites>}{<\TEXT>}
+% \DescribeMacro\marginbox{<left/right>~<top/bottom>}{<\TEXT>}
 % \DescribeMacro\marginbox{<\llx>~<\lly>~<\urx>~<\ury>}{<\TEXT>}
 % This macro can be used to add a margin (white space) around the content. It can be seen as the opposite of \Macro\trim.
 % It is also available as \env{marginbox} environment and also usable as |margin| option (see below).
@@ -619,6 +623,8 @@
 % The line width and also the separation can be defined as the optional value.}
 %
 %
+% \DescribeMacro{margin}'='<all sites>
+% \DescribeMacro{margin}'='<left/right>~<top/bottom>
 % \DescribeMacro{margin}'='<llx>~<lly>~<urx>~<ury>
 % This key can be used to add a margin (white space) around the content. It can be seen as the opposite of |trim| (and in fact is implemented
 % almost identical to it with negated signs). The four values are added to the left, bottom, right and top side of the content, respectively.
@@ -652,6 +658,16 @@
 % {\let\PrintMacroName\OrigPrintMacroName
 % the content by using \Macro\reflectbox internally, which is identical to \Macro\scalebox{1}[-1].}
 %
+% \subsubsection*{Examples:}
+%   \begin{examplecode}
+%   \adjustbox{reflect}{\sffamily OTTO}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{reflect}{\sffamily ANNA}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{reflect}{Some text!}
+%   \end{examplecode}
 %
 % \subsubsection{Positioning and Alignment}
 %
@@ -666,6 +682,20 @@
 % as optional brace arguments. They can be used to set the official height and depth of the content.
 % This is also possible using the |set height| and |set depth| keys.
 % }
+%
+% \subsubsection*{Examples:}
+%   \begin{examplecode}
+%   Is \adjustbox{raise=1ex}{higher}
+%   than the normal text
+%   \end{examplecode}
+%   \begin{examplecode}
+%   Is \adjustbox{raise={1ex}{\height}}{higher}
+%   than the normal text but sill has its original official height
+%   \end{examplecode}
+%   \begin{examplecode}
+%   Is \adjustbox{raise={1ex}{1ex}{0pt}}{higher and \rotatebox{-90}{depth}}
+%   but with limited official height and no depth.
+%   \end{examplecode}
 %
 % \DescribeMacro{valign}'='<letter>
 % This key allows to vertically align the content to the top, middle and bottom.  The uppercase letters |T|, |M| and |B|
@@ -731,6 +761,11 @@
 % {\let\PrintMacroName\OrigPrintMacroName
 % \Macro\raisebox{'0pt'}[<height>]{<content>}}.
 %
+% \subsubsection*{Examples:}
+%   \begin{examplecode}
+%   \adjustbox{set height=.5\height}
+%       {\shortstack{some stacked\\content}}
+%   \end{examplecode}
 %
 % \DescribeMacro{set depth}'='<depth>
 % This sets the official depth of the content without actual changing it. This can be seen as a form of trimming.
@@ -738,6 +773,11 @@
 % {\let\PrintMacroName\OrigPrintMacroName
 % \Macro\raisebox{'0pt'}['\height'][<depth>]{<content>}}.
 %
+% \subsubsection*{Examples:}
+%   \begin{examplecode}
+%   \adjustbox{set depth=0pt}
+%       {\shortstack{some stacked\\content with \raisebox{-1ex}{depth}}}
+%   \end{examplecode}
 %
 % \DescribeMacro{lap}'='<lap amount>
 % \DescribeMacro{lap}'='{<length>}{<lap amount>}
@@ -747,6 +787,26 @@
 % \Macro\lapbox[<length>]{<lap amount>}{\ldots}, respectively. Positive \meta{amounts} lap the content to the right
 % and negative to the left. The optional \meta{length} argument allows to set the final width.
 % }
+%
+% \subsubsection*{Examples:}
+%   \begin{examplecode}
+%   \adjustbox{lap=.5\width}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{lap=-.5\width}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{lap=\width}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{lap=-\width}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{lap={\width}{\width}}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{lap={\width}{-\width}}{Some content}
+%   \end{examplecode}
 %
 %
 % \DescribeMacro{center}
@@ -764,6 +824,14 @@
 % The \env{adjustbox} environment already uses this macro.
 % }
 %
+% \subsubsection*{Examples:}
+%   \begin{examplecode}
+%   \adjustbox{center}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{center=5cm}{Some content}
+%   \end{examplecode}
+%
 % \DescribeMacro{right}
 % \DescribeMacro{right}'='<width>
 % Like |center| this key
@@ -772,6 +840,15 @@
 % If the content is wider than the available width it will stick out into the left side without causing an overfull hbox warning.
 % }
 %
+% \subsubsection*{Examples:}
+%   \begin{examplecode}
+%   \adjustbox{right}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{right=5cm}{Some content}
+%   \end{examplecode}
+%
+%
 % \DescribeMacro{left}
 % \DescribeMacro{left}'='<width>
 % Like |center| this key
@@ -779,6 +856,15 @@
 % places the content in a box with the given width (by default \Macro\linewidth) but left aligns it.
 % If the content is wider than the available width it will stick out into the right side without causing an overfull hbox warning.
 % }
+%
+% \subsubsection*{Examples:}
+%   \begin{examplecode}
+%   \adjustbox{left}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{left=5cm}{Some content}
+%   \end{examplecode}
+%
 %
 %
 % \DescribeMacro{inner}
@@ -799,6 +885,7 @@
 % Identical to |inner| but aligns the content towards the outer margin.
 % If the content is wider than the available width it will stick into the outer inner without causing an overfull hbox warning.
 %
+%
 % \subsubsection{Pixel size}
 %
 % \DescribeMacro{dpi}'='<number (dots per inch)>
@@ -808,11 +895,106 @@
 % set using the \Macro\pdfpxdimen length register. To set a specific DPI value this length must be set using
 % \Macro\setlength\AlsoMacro\pdfpxdimen{'1in/'<dots>}, which is done by the \MacroArgs'dpi='<dots> key.}
 %
+% \subsubsection*{Example:}
+%   \begin{examplecode}
+%   \adjustbox{dpi=72,trim=10px}
+%       {\textcolor{green}{\rule{50px}{50px}}}
+%   \end{examplecode}
+%
 % \DescribeMacro{pxdim}'='<length>
 % Alternatively
 % {\let\PrintMacroName\OrigPrintMacroName
 % to the |dpi| key the \Macro\pdfpxdimen length can be set directly to the given value. Afterwards |1px| will stand
 % for the given \meta{length}.}
+%
+% \subsubsection*{Example:}
+%   \begin{examplecode}
+%   \adjustbox{pxdim=2pt,trim=2px}
+%       {\textcolor{green}{\rule{10px}{10px}}}
+%   \end{examplecode}
+%
+% \subsection{Minipage or other inner Environment}
+% The following keys will overwrite each other and only defined for \env{adjustbox} but do not apply for \Macro\includegraphics.
+% Because they are therefore only used inside a mandatory argument and never in an optional these keys allow for optional bracket arguments.
+%
+% \DescribeMacro{minipage}'='<width>
+% \DescribeMacro{minipage}'='[<position>][<height>][<inner position>]{<width>}
+% This key wraps the inner content in a \env{minipage} with the given \meta{width} before it is stored as horizontal box.
+% Its order relative to other keys is not meaningful (except that future keys of this sub-section will overwrite it).
+% This allows for line breaks and footnotes in the \env{adjustbox}.
+% All optional arguments of \env{minipage} are supported. I only the width is given it does not have to be enclosed in braces.
+% The \meta{position} argument must be `|t|' for top baseline, `|b|' for bottom baseline and `|c|' for center alignment relative to other
+% text, i.e.\ defines the resulting baseline. If a \meta{height} is defined the \meta{inner position} defaults to \meta{position} but
+% can also be `|s|' to stretch the content over the whole height. This requires the content to include some vertical stretchable material.
+%
+% \subsubsection*{Examples:}
+%   \begin{examplecode}
+%   \adjustbox{minipage=5cm,angle=-10}{%
+%      Some example code which will 
+%      be automatically broken or can include \\
+%      line breaks\footnote{AND footnotes!!}\\
+%      or verbatim \verb+@%^&}_+!%
+%   }
+%   \end{examplecode}
+%   \begin{examplecode}
+%   Before \begin{adjustbox}{minipage=[b][3cm][s]{5cm}}
+%      Some example code
+%
+%      \vfill
+%      with line breaks\footnote{AND footnotes!!}
+%
+%      \vfill
+%      or verbatim \verb+@%^&}_+!%
+%   \end{adjustbox} After
+%   \end{examplecode}
+%
+% \DescribeMacro{innerenv}'='<environment name>
+% \DescribeMacro{innerenv}'='{<environment name>}<environment options>
+% Wraps the inner content in the given \meta{environment} before it is stored as horizontal box. Only one inner environment can be used 
+% and further uses of this key will overwrite previous ones as well as any |minipage| and |innercode| key.
+% It should be kept in mind that there is some internal code between the begin of the environment and the content. For this reason
+% a \env{tabular}, \env{innerenv} or similar environment will not work here, because that code will be taken as part of the first cell.
+%
+% \subsubsection*{Example:}
+%   \begin{examplecode}
+%   \newenvironment{myenv}[2][]{Before [#1](#2)}{After}
+%   \adjustbox{innerenv={myenv}[ex]{amble}}{Content}
+%   \end{examplecode}
+%
+%
+% \DescribeMacro{innercode}'='{<begin code>}{<end code>}
+% Places the given code before and after the inner content before it is stored as horizontal box. Only one set of inner code can be used 
+% and further uses of this key will overwrite previous ones as well as any |minipage| and |innerenv| key.
+%
+% \subsubsection*{Example:}
+%   \begin{examplecode}
+%   \adjustbox{innercode={\color{green}}{!}}{Content}
+%   \end{examplecode}
+%
+%
+%
+% \subsection{Adding own Code or Environments}
+%
+% \DescribeMacro{env}'='<environment name>
+% \DescribeMacro{env}'='{<environment name>}<environment options>
+% Adds an \meta{environment} around the content and the already existing code around it which was added by other keys beforehand.
+% Potential \meta{environment options} (or any other code) can follow the environment name if it was set inside braces.
+% At this stage the content is already boxed and format macros won't have any effect on any included text. For this the |innerenv| key needs to be used instead.
+%
+% \DescribeMacro{addcode}'='{<code before>}{<code afters>}
+% Adds some \meta{code before} and some \meta{code after} the content and the 
+% already existing code around it which was added by other keys beforehand.
+% At this stage the content is already boxed and format macros won't have any effect on any included text.
+%
+% \DescribeMacro{appcode}'='<code afterwards>
+% Appends come \meta{code after} the content and the already existing code around it which was added by other keys beforehand.
+% More complex code should be enclosed in braces.
+%
+% \DescribeMacro{precode}'='<code before>
+% Prepends come \meta{code afterwards} the content and the already existing code around it which was added by other keys beforehand.
+% More complex code should be enclosed in braces.
+%
+%
 %
 % \let\PrintMacroName\OrigPrintMacroName
 % \clearpage
@@ -825,35 +1007,6 @@
 % Die folgenden Beispiele zeigen die Anwendung der Makros dieses Packets auf einen Beispieltext (\Macro\example).
 % Das Ergebnis wird mit einer engen, farbigen Umrandung dargestellt um die entgültigen Dimensionen sichtbar zu machen.
 % \fi
-%
-% \subsection{Minipage or other inner Environment}
-% The following keys will overwrite each other and only defined for \env{adjustbox} but do not apply for \Macro\includegraphics.
-% Because they are therefore only used inside a mandatory argument and never in an optional these keys allow for optional bracket arguments.
-%
-% \DescribeMacro{minipage}'='<width>
-% \DescribeMacro{minipage}'='[<position>][<height>][<inner position>]{<width>}
-% This key wraps the inner content in a \env{minipage} with the given \meta{width} before it is stored as horizontal box.
-% This allows for line breaks and footnotes in the \env{adjustbox}.
-% All optional arguments of \env{minipage} are supported. I only the width is given it does not have to be enclosed in braces.
-% The \meta{position} argument must be `|t|' for top baseline, `|b|' for bottom baseline and `|c|' for center alignment relative to other
-% text, i.e.\ defines the resulting baseline. If a \meta{height} is defined the \meta{inner position} defaults to \meta{position} but
-% can also be `|s|' to stretch the content over the whole height. This requires the content to include some vertical stretchable material.
-%
-% \DescribeMacro{innerenv}'='<environment name>
-% \DescribeMacro{innerenv}'='{<environment name>}<environment options>
-% Wraps the inner content in the given \meta{environment} before it is stored as horizontal box. Only one inner environment can be used 
-% and further uses of this key will overwrite previous ones as well as any |minipage| and |innercode| key.
-%
-% \DescribeMacro{innercode}'='{<begin code>}{<end code>}
-% Places the given code before and after the inner content before it is stored as horizontal box. Only one set of inner code can be used 
-% and further uses of this key will overwrite previous ones as well as any |minipage| and |innerenv| key.
-%
-%
-% \subsection{Adding own Code or Environments}
-%
-% \DescribeMacro{env}'='<environment name>
-% \DescribeMacro{env}'='{<environment name>}<environment options>
-%
 % \begingroup
 % \def\examplecontent{\begin{tabular}{@{}|c|c|@{}}
 %       \hline
