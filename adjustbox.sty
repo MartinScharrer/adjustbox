@@ -578,7 +578,7 @@
 % \begin{key}{adjbox}{frame}
 %    \begin{macrocode}
 \define@key\adjbox@fam{frame}[{{\fboxrule}}]{%
-    \adjbox@frame#1 {} {} \relax\relax\@nnil
+    \adjbox@frame{\fboxsep\z@}#1 {} {} \relax\relax\@nnil
 }
 %    \end{macrocode}
 % \end{key}
@@ -587,7 +587,7 @@
 % \begin{key}{adjbox}{fbox}
 %    \begin{macrocode}
 \define@key\adjbox@fam{fbox}[{{\fboxrule}}]{%
-    \adjbox@frame#1 {} {} {} \relax\relax\@nnil
+    \adjbox@frame{}#1 {} {} {} \relax\relax\@nnil
 }
 %    \end{macrocode}
 % \end{key}
@@ -595,11 +595,11 @@
 %
 % \begin{macro}{\adjbox@frame}
 %    \begin{macrocode}
-\def\adjbox@frame#1 #2 #3 #4\relax{%
+\def\adjbox@frame#1#2 #3 #4 #5\relax{%
     \Gin@esetsize
     \@tempswatrue
     \adjbox@Gin@add{%
-        \@collectbox{\adjbox@@frame{}{#1}{#2}{#3}}%
+        \@collectbox{#1\adjbox@@frame{}{#2}{#3}{#4}}%
     }%
     \remove@to@nnil
 }
