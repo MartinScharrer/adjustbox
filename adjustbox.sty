@@ -1263,6 +1263,30 @@
 %    \begin{macrocode}
 \define@key{adjbox}{innerenv}{%
     \@ifnextchar\bgroup{%
+        \adjust@innerenv
+    }{%
+        \adjust@innerenv{#1}\@nnil%
+        \remove@to@nnil
+    }#1\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\adjust@addenv}
+%    \begin{macrocode}
+\def\adjust@innerenv#1#2\@nnil{%
+    \def\adjbox@collectbox##1{\collectbox@{\begin{#1}#2}{##1}{\end{#1}}}%
+}%
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \begin{key}{adjbox}{env}
+%    \begin{macrocode}
+\define@key{adjbox}{env}{%
+    \@ifnextchar\bgroup{%
         \adjust@addenv
     }{%
         \adjust@addenv{#1}\@nnil%
@@ -1276,7 +1300,8 @@
 % \begin{macro}{\adjust@addenv}
 %    \begin{macrocode}
 \def\adjust@addenv#1#2\@nnil{%
-    \def\adjbox@collectbox##1{\collectbox@{\begin{#1}#2}{##1}{\end{#1}}}%
+    \def\@tempa{\begin{#1}#2}%
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\the\toks@\end{#1}}%
 }%
 %    \end{macrocode}
 % \end{macro}
