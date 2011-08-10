@@ -564,9 +564,16 @@
 % \begin{key}{adjbox}{frame}
 %    \begin{macrocode}
 \define@key\adjbox@fam{frame}[{{\fboxrule}}]{%
-    \Gin@esetsize
-    \@tempswatrue
-    \adjbox@frame#1 {\z@} \relax\relax\@nnil
+    \adjbox@frame#1 {} {} \relax\relax\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{fbox}
+%    \begin{macrocode}
+\define@key\adjbox@fam{fbox}[{{\fboxrule}}]{%
+    \adjbox@frame#1 {} {} {} \relax\relax\@nnil
 }
 %    \end{macrocode}
 % \end{key}
@@ -574,17 +581,123 @@
 %
 % \begin{macro}{\adjbox@frame}
 %    \begin{macrocode}
-\def\adjbox@frame#1 #2 #3\relax{%
+\def\adjbox@frame#1 #2 #3 #4\relax{%
+    \Gin@esetsize
+    \@tempswatrue
     \adjbox@Gin@add{%
-        \adjsetlength\fboxrule{#1}%
-        \adjsetlength\fboxsep{#2}%
-        \fbox
+        \@collectbox{\adjbox@@frame{}{#1}{#2}{#3}}%
     }%
-    \adjbox@Gin@add{}% add group around code
     \remove@to@nnil
 }
 %    \end{macrocode}
 % \end{macro}
+%
+%
+% \begin{key}{adjbox}{cframe}
+%    \begin{macrocode}
+\define@key\adjbox@fam{cframe}{%
+    \adjbox@cframe{\fboxsep\z@}#1 {} {} {} \relax\relax\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{cfbox}
+%    \begin{macrocode}
+\define@key\adjbox@fam{cfbox}{%
+    \adjbox@cframe{}#1 {} {} {} \relax\relax\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{macro}{\adjbox@cframe}
+%    \begin{macrocode}
+\def\adjbox@cframe#1#2 #3 #4 #5 #6\relax{%
+    \Gin@esetsize
+    \@tempswatrue
+    \adjbox@Gin@add{%
+        \@collectbox{#1\adjbox@@frame{\color{#2}}{#3}{#4}{#5}}%
+    }%
+    \remove@to@nnil
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@@frame}
+%    \begin{macrocode}
+\def\adjbox@@frame#1#2#3#4{%
+    \ifx\@nnil#2\@nnil\else
+        \adjsetlength\fboxrule{#2}%
+    \fi
+    \ifx\@nnil#3\@nnil\else
+        \adjsetlength\fboxsep{#3}%
+    \fi
+    \adjsetlength\adjbox@tllx{\fboxrule + \fboxsep}%
+    \@marginbox
+        \adjbox@tllx
+        \adjbox@tllx
+        \adjbox@tllx
+        \adjbox@tllx
+        \collectedbox
+    \ifx\@nnil#4\@nnil\else
+      \setbox\collectedbox
+    \fi
+      \hbox\bgroup\color@setgroup
+        \BOXCONTENT
+        \hskip-\width
+        #1%
+        \adjbox@boxframe\width\height\depth
+      \color@endgroup\egroup
+    \ifx\@nnil#4\@nnil\else
+      \adjsetlength\adjbox@tllx{#4}%
+      \@marginbox
+        \adjbox@tllx
+        \adjbox@tllx
+        \adjbox@tllx
+        \adjbox@tllx
+        \collectedbox
+      \BOXCONTENT
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjbox@boxframe}
+% Tries to reuse the definition of the \pkg{xcolor} package.
+% If it isn't loaded its definition is defined here.
+%
+% This code was taken from the \pkg{xcolor} package under the free LPPL license.
+%    \begin{macrocode}
+\let\adjbox@boxframe\boxframe
+\providecommand\adjbox@boxframe[3]{%
+    \hbox{%
+        \dimen@ #2%
+        \advance \dimen@ #3\relax
+        \lower #3\vbox {%
+            \hrule \@height \fboxrule
+            \@tempdima -0.5\fboxrule
+            \ifodd\fboxrule
+                \advance \@tempdima \m@ne sp
+            \fi
+            \kern \@tempdima
+            \hbox {%
+                \advance \dimen@ -\fboxrule
+                \vrule \@width \fboxrule \@height \dimen@ \@depth \z@
+                \@tempdima #1%
+                \advance \@tempdima -\tw@ \fboxrule
+                \kern \@tempdima
+                \vrule \@width \fboxrule \@height \dimen@ \@depth \z@
+            }%
+            \kern -0.5\fboxrule
+            \hrule \@height \fboxrule
+        }%
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
 %
 %
 % \begin{key}{adjbox}{reflect}
