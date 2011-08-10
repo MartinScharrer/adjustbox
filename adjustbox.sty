@@ -1306,6 +1306,68 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{key}{adjbox}{addcode}
+%    \begin{macrocode}
+\define@key{adjbox}{Addcode}{%
+    \adjust@@addcode#1{}\@nnil%
+}
+\define@key{adjbox}{addcode}{%
+    \Gin@esetsize
+    \@tempswatrue
+    \adjust@@addcode#1{}\@nnil%
+}
+\def\adjust@@addcode#1#2#3\@nnil{%
+    \ifx\@nnil#3\@nnil
+        \adjust@addcode{#1}{#2}%
+    \else
+        \PackageError{adjustbox}{Incorrect input for key 'addcode={<code before>}{<code afterwards>}'!}%
+    \fi
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{precode}
+%    \begin{macrocode}
+\define@key{adjbox}{precode}{%
+    \Gin@esetsize
+    \@tempswatrue
+    \adjust@addcode{#1}{}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{Precode}
+%    \begin{macrocode}
+\define@key{adjbox}{Precode}{%
+    \adjust@addcode{#1}{}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{appcode}
+%    \begin{macrocode}
+\define@key{adjbox}{appcode}{%
+    \toks@\expandafter{\the\toks@#1}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{macro}{\adjust@addcode}
+%    \begin{macrocode}
+\def\adjust@addcode#1#2{%
+    \def\@tempa{#1}%
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}#2}%
+}%
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjust@addcode}
+%    \begin{macrocode}
+\def\adjust@appendcode#1{%
+}%
+%    \end{macrocode}
+% \end{macro}
+%
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
