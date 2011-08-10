@@ -48,7 +48,7 @@
 \define@key{adjbox}{viewport}{%
     \let\Gin@viewport@code\adjbox@@viewport
     \let\adjustbox@@@\adjustbox@@@trimclip
-    \adjbox@parse@v#1 \\%
+    \adjbox@parse@v{#1}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -59,7 +59,7 @@
 \define@key{adjbox}{trim}{%
     \let\Gin@viewport@code\adjbox@@trim
     \let\adjustbox@@@\adjustbox@@@trimclip
-    \adjbox@parse@v#1 \\%
+    \adjbox@parse@v{#1}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -88,11 +88,25 @@
 %
 % \begin{macro}{\adjbox@parse@v}
 %    \begin{macrocode}
-\def\adjbox@parse@v#1 #2 #3 #4 #5\\{%
+\def\adjbox@parse@v#1{%
+    \adjbox@parse@@v#1 {} {} {} \\%
+}
+\def\adjbox@parse@@v#1 #2 #3 #4 #5\\{%
   \adjbox@default\adjbox@tllx{#1}%
-  \adjbox@default\adjbox@tlly{#2}%
-  \adjbox@default\adjbox@turx{#3}%
-  \adjbox@default\adjbox@tury{#4}%
+  \ifx\@nnil#2\@nnil
+    \adjbox@tlly\adjbox@tllx
+    \adjbox@turx\adjbox@tllx
+    \adjbox@tury\adjbox@tlly
+  \else
+    \adjbox@default\adjbox@tlly{#2}%
+    \ifx\@nnil#3\@nnil
+      \adjbox@turx\adjbox@tllx
+      \adjbox@tury\adjbox@tlly
+    \else
+      \adjbox@default\adjbox@turx{#3}%
+      \adjbox@default\adjbox@tury{#4}%
+    \fi
+  \fi
 }%
 %%\newdimen\adjbox@llx
 %%\newdimen\adjbox@lly
@@ -143,7 +157,7 @@
     \collectbox{\trimbox@@{\adjbox@@viewport\@trimbox}{#1}}%
 }
 \def\trimbox@@#1#2{%
-    \adjbox@parse@v#2 \\%
+    \adjbox@parse@v{#2}%
     #1%
         \adjbox@tllx
         \adjbox@tlly
@@ -1185,7 +1199,7 @@
 % (2) Change box margins and (3) place the box.
 %    \begin{macrocode}
 \def\marginbox@#1{%
-    \adjbox@parse@v#1 \\%
+    \adjbox@parse@v{#1}%
     \@marginbox
         \adjbox@tllx
         \adjbox@tlly
