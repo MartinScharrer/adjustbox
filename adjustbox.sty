@@ -537,9 +537,7 @@
 % \begin{key}{adjbox}{Trim}
 %    \begin{macrocode}
 \define@key\adjbox@fam{Trim}{%
-    \Gin@esetsize
-    \@tempswatrue
-    \adjbox@Gin@add{\trimbox@{#1}}%
+    \adjbox@Gin@Add{\trimbox@{#1}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -547,9 +545,7 @@
 % \begin{key}{adjbox}{Viewport}
 %    \begin{macrocode}
 \define@key\adjbox@fam{Viewport}{%
-    \Gin@esetsize
-    \@tempswatrue
-    \adjbox@Gin@add{\trimbox@s{#1}}%
+    \adjbox@Gin@Add{\trimbox@s{#1}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -557,9 +553,7 @@
 % \begin{key}{adjbox}{Clip}
 %    \begin{macrocode}
 \define@key\adjbox@fam{Clip}{%
-    \Gin@esetsize
-    \@tempswatrue
-    \adjbox@Gin@add{\clipbox@{#1}}%
+    \adjbox@Gin@Add{\clipbox@{#1}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -567,9 +561,7 @@
 % \begin{key}{adjbox}{Clip*}
 %    \begin{macrocode}
 \define@key\adjbox@fam{Clip*}{%
-    \Gin@esetsize
-    \@tempswatrue
-    \adjbox@Gin@add{\clipbox@s{#1}}%
+    \adjbox@Gin@Add{\clipbox@s{#1}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -596,9 +588,7 @@
 % \begin{macro}{\adjbox@frame}
 %    \begin{macrocode}
 \def\adjbox@frame#1#2 #3 #4 #5\relax{%
-    \Gin@esetsize
-    \@tempswatrue
-    \adjbox@Gin@add{%
+    \adjbox@Gin@Add{%
         \@collectbox{#1\adjbox@@frame{}{#2}{#3}{#4}}%
     }%
     \remove@to@nnil
@@ -626,9 +616,7 @@
 % \begin{macro}{\adjbox@cframe}
 %    \begin{macrocode}
 \def\adjbox@cframe#1#2 #3 #4 #5 #6\relax{%
-    \Gin@esetsize
-    \@tempswatrue
-    \adjbox@Gin@add{%
+    \adjbox@Gin@Add{%
         \@collectbox{#1\adjbox@@frame{\color{#2}}{#3}{#4}{#5}}%
     }%
     \remove@to@nnil
@@ -715,6 +703,8 @@
 %
 %
 % \begin{key}{adjbox}{reflect}
+% Taken from the \key{scale} key of the \pkg{graphicx} package.
+% Open question: why is \Macro\Gin@esetsize not called?
 %    \begin{macrocode}
 \define@key\adjbox@fam{reflect}[]{%
   \if@tempswa
@@ -742,8 +732,6 @@
 % \begin{key}{adjbox}{lap}
 %    \begin{macrocode}
 \define@key\adjbox@fam{lap}{%
-    \Gin@esetsize
-    \@tempswatrue
     \@ifnextchar\bgroup{%
         \adjbox@lapbox
     }{%
@@ -758,9 +746,9 @@
 %    \begin{macrocode}
 \def\adjbox@lapbox#1#2#3\@nnil{%
     \ifx\@nnil#2\@nnil
-        \adjbox@Gin@add{\lapbox{#1}}%
+        \adjbox@Gin@Add{\lapbox{#1}}%
     \else
-        \adjbox@Gin@add{\lapbox[{#1}]{#2}}%
+        \adjbox@Gin@Add{\lapbox[{#1}]{#2}}%
     \fi
 }
 %    \end{macrocode}
@@ -770,9 +758,7 @@
 % \begin{key}{adjbox}{margin}
 %    \begin{macrocode}
 \define@key\adjbox@fam{margin}{%
-    \Gin@esetsize
-    \@tempswatrue
-    \adjbox@Gin@add{\marginbox{#1}}%
+    \adjbox@Gin@Add{\@collectbox{\marginbox@{#1}}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -797,14 +783,11 @@
 %
 %
 %    \begin{macrocode}
-\define@key\adjbox@fam{show}{%
-    \show#1%
+\define@key\adjbox@fam{execute}{%
+    #1%
 }
-\define@key{Gin}{debug}[]{%
-    \showthe\toks@
-}
-\define@key\adjbox@fam{showthe}{%
-    \showthe#1%
+\define@key\adjbox@fam{execute}{%
+    \adjbox@Gin@add{#1}%
 }
 %    \end{macrocode}
 %
@@ -812,8 +795,6 @@
 % \begin{key}{adjbox}{raise}
 %    \begin{macrocode}
 \define@key\adjbox@fam{raise}{%
-    \Gin@esetsize
-    \@tempswatrue
     \@ifnextchar\bgroup{%
         \adjbox@raisebox
     }{%
@@ -828,9 +809,9 @@
 %    \begin{macrocode}
 \def\adjbox@raisebox#1#2#3#4\@nnil{%
     \ifx\@nnil#3\@nnil
-        \adjbox@Gin@add{\@irsbox{#1}[{#2}]}%
+        \adjbox@Gin@Add{\@irsbox{#1}[{#2}]}%
     \else
-        \adjbox@Gin@add{\@iirsbox{#1}[{#2}][{#3}]}%
+        \adjbox@Gin@Add{\@iirsbox{#1}[{#2}][{#3}]}%
     \fi
 }
 %    \end{macrocode}
@@ -916,7 +897,7 @@
 % \end{macro}
 %
 %
-% \begin{key}{adjbox}{set height}
+% \begin{key}{adjbox}{bgcolor}
 %    \begin{macrocode}
 \define@key\adjbox@fam{bgcolor}{%
     \adjbox@Gin@add{\colorbox{#1}}%
@@ -928,9 +909,7 @@
 % \begin{key}{adjbox}{set height}
 %    \begin{macrocode}
 \define@key\adjbox@fam{set height}{%
-    \Gin@esetsize
-    \@tempswatrue
-    \adjbox@Gin@add{\@irsbox\z@[{#1}]}%
+    \adjbox@Gin@Add{\@irsbox\z@[{#1}]}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -939,7 +918,7 @@
 % \begin{key}{adjbox}{set depth}
 %    \begin{macrocode}
 \define@key\adjbox@fam{set depth}{%
-    \adjbox@Gin@add{\@iirsbox\z@[\height][{#1}]}%
+    \adjbox@Gin@Add{\@iirsbox\z@[\height][{#1}]}%
 }
 %    \end{macrocode}
 % \end{key}
