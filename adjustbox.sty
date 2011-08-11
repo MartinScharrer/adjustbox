@@ -756,7 +756,15 @@
 % \begin{key}{adjbox}{margin}
 %    \begin{macrocode}
 \define@key\adjbox@fam{margin}{%
-    \adjbox@Gin@Add{\@collectbox{\marginbox@{#1}}}%
+    \adjbox@Gin@Add{\marginbox@{#1}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{margin*}
+%    \begin{macrocode}
+\define@key\adjbox@fam{margin*}{%
+    \adjbox@Gin@Add{\marginbox@s{#1}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -1186,19 +1194,36 @@
 % \begin{macro}{\marginbox}[1]{Margins as space separated values (like for 'trim')}
 % Collect box first.
 %    \begin{macrocode}
-\newcommand\marginbox[1]{%
+\newcommand\marginbox{%
     \collectboxcheckenv{marginbox}%
-    \@collectbox{\marginbox@{#1}}%
+    \@ifstar
+        \marginbox@s
+        \marginbox@
+}
+\def\marginbox@#1{%
+    \@collectbox{\marginbox@@{#1}}%
+}
+\def\marginbox@s#1{%
+    \@collectbox{\marginbox@@s{#1}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{environment}{marginbox*}[1]{Margins as space separated values (like for 'trim')}
+%    \begin{macrocode}
+\expandafter\newcommand\expandafter*\csname marginbox*\endcsname{%
+    \@collectboxisenv{marginbox*}%
+    \marginbox@s
 }
 %    \end{macrocode}
 % \end{macro}
 %
 %
-% \begin{macro}{\marginbox@}
+% \begin{macro}{\marginbox@@}
 % (1) Parse margins (must be done here to allow the user to use the original box dimensions).
 % (2) Change box margins and (3) place the box.
 %    \begin{macrocode}
-\def\marginbox@#1{%
+\def\marginbox@@#1{%
     \adjbox@parse@v{#1}%
     \@marginbox
         \adjbox@tllx
@@ -1207,6 +1232,24 @@
         \adjbox@tury
         \collectedbox
     \usebox\collectedbox
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\marginbox@@s}
+% (1) Parse margins (must be done here to allow the user to use the original box dimensions).
+% (2) Change box margins and (3) raise the box by the bottom margin to preserve original depth.
+%    \begin{macrocode}
+\def\marginbox@@s#1{%
+    \adjbox@parse@v{#1}%
+    \@marginbox
+        \adjbox@tllx
+        \adjbox@tlly
+        \adjbox@turx
+        \adjbox@tury
+        \collectedbox
+    \raise\adjbox@tlly\copy\collectedbox
 }
 %    \end{macrocode}
 % \end{macro}

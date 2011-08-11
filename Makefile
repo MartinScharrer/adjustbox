@@ -5,6 +5,7 @@ CP=cp
 RMDIR=rm -rf
 PDFLATEX=pdflatex -interaction=batchmode
 LATEXMK=latexmk -pdf -silent
+PDFOPT=qpdf --linearize
 
 PACKEDFILES=adjustbox.sty
 DOCFILES=adjustbox.pdf 
@@ -24,8 +25,8 @@ unpack: ${PACKEDFILES}
 doc: ${DOCFILES}
 
 pdfopt: doc
-	@-pdfopt adjustbox.pdf .temp.pdf && mv .temp.pdf adjustbox.pdf
-	@-pdfopt adjustbox-de.pdf .temp.pdf && mv .temp.pdf adjustbox-de.pdf
+	@-${PDFOPT} adjustbox.pdf .temp.pdf && mv .temp.pdf adjustbox.pdf
+	@-${PDFOPT} adjustbox-de.pdf .temp.pdf && mv .temp.pdf adjustbox-de.pdf
 
 adjustbox.pdf: adjustbox.dtx
 	${LATEXMK} $<
@@ -75,8 +76,8 @@ build: adjustbox.dtx adjustbox.ins README
 	cd build && yes | tex adjustbox.ins
 	cd build && latexmk -pdf adjustbox.dtx
 	cd build && latexmk -pdf storebox.dtx
-	cd build && pdfopt adjustbox.pdf opt.pdf && mv opt.pdf adjustbox.pdf
-	cd build && pdfopt storebox.pdf opt.pdf && mv opt.pdf storebox.pdf
+	cd build && ${PDFOPT} adjustbox.pdf opt.pdf && mv opt.pdf adjustbox.pdf
+	cd build && ${PDFOPT} storebox.pdf opt.pdf && mv opt.pdf storebox.pdf
 	cd build && ctanify adjustbox.dtx adjustbox.ins storebox.dtx *.sty adjpgf.def=tex/latex/adjustbox/ README
 	cd build && ${CP} adjustbox.tar.gz /tmp
 
