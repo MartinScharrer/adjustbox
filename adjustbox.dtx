@@ -60,7 +60,52 @@
 }
 \optionaloff
 
-%\lstset{numbers=none,basicstyle=\ttfamily\scriptsize}
+\lstdefinestyle{examplecode}{basicstyle=\ttfamily\small,numbers=none}
+\makeatletter
+\def\PrintExample{%
+  \begingroup
+  \par\smallskip\noindent
+  \leavevmode
+  \BoxExample
+  \@tempdima=\textwidth
+  \advance\@tempdima by -\wd\examplecodebox\relax
+  \advance\@tempdima by -\wd\exampleresultbox\relax
+  \advance\@tempdima by -15pt\relax
+  \ifdim\@tempdima>\bigskipamount
+    \hbox to \textwidth{%
+     \null\hss
+     \minipage[c]{\wd\examplecodebox}\usebox\examplecodebox\endminipage
+     \hfill\hskip\bigskipamount\hfill
+     \minipage[c]{\wd\exampleresultbox}%
+        \EXAMPLERESULT
+     \endminipage
+     \hss\null
+     }%
+  \else
+    \vbox{%
+        \leftline{\usebox\examplecodebox}%
+        \vspace{\bigskipamount}%
+        \rightline{\EXAMPLERESULT}%
+    }%
+  \fi
+  \par\smallskip
+  \endgroup
+}
+\def\EXAMPLERESULT{%
+    \leavevmode\hbox{%
+    \textcolor{exampleborder}{%
+        \boxframe
+            {\dimexpr\wd\exampleresultbox+2\fboxrule\relax}%
+            {\dimexpr\ht\exampleresultbox+\fboxrule\relax}%
+            {\dimexpr\dp\exampleresultbox+\fboxrule\relax}%
+        \hskip-\wd\exampleresultbox
+        \hskip-2\fboxrule
+    }%
+    \usebox\exampleresultbox
+    }%
+}%
+\makeatother
+\colorlet{exampleborder}{black!33}
 
 %\EnableCrossrefs
 %\CodelineIndex
