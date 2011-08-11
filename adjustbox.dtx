@@ -38,7 +38,7 @@
 
 %\PassOptionsToPackage{ngerman}{hyperref}
 %\RequirePackage[ngerman]{babel}
-\documentclass{ydoc}[2011/03/19]
+\documentclass{ydoc}[2011/08/11]
 \usepackage{amsmath}
 \usepackage{fourier}
 \GetFileInfo{adjustbox.dtx}
@@ -46,18 +46,6 @@
 \usepackage{adjustbox}
 \usepackage{tikz}
 \normalmarginpar
-\newenvironment{key}[2]{\expandafter\macro\expandafter{%
-   \csname KV@#1@#2\endcsname}}{\endmacro}
-\newcommand{\DescribeKey}[2]{\expandafter\DescribeMacro\expandafter{%
-   \csname KV@#1@#2\endcsname}}
-
-\let\OrigPrintMacroName\PrintMacroName
-\def\PrintKeyName#1{%
-    {\macrodescstyle{\strut
-    \escapechar-1
-    \string#1\strut}}%
-}%
-\let\key\texttt
 
 \newcommand\babelfiledate{%
     \expandafter\babelfileDate\filedate\relax
@@ -72,7 +60,7 @@
 }
 \optionaloff
 
-\lstset{numbers=none,basicstyle=\ttfamily\scriptsize}
+%\lstset{numbers=none,basicstyle=\ttfamily\scriptsize}
 
 %\EnableCrossrefs
 %\CodelineIndex
@@ -80,7 +68,7 @@
 \OnlyDescription
 \renewcommand{\bottomfraction}{0.5}
 \begin{document}
-  \DocInput{adjustbox.dtx}
+ \DocInput{adjustbox.dtx}
   \PrintChanges
   %\newpage\PrintIndex
 \end{document}
@@ -582,50 +570,46 @@
 % \subsection{New keys for \cs{adjustbox} and \cs{includegraphics}}\label{sec:newkeys}
 % This section lists provided keys usable as \Macro\adjustbox options and, if the \opt{export} package option was used, also as \Macro\includgraphics options.
 % If the package is loaded with the \opt{minimal} option this code is skipped.
-% \let\PrintMacroName\PrintKeyName
 %
 % \subsubsection{Trimming and Clipping}
 %
-% \DescribeMacro{Trim}'='<all sites>
-% \DescribeMacro{Trim}'='<left/right>~<top/bottom>
-% \DescribeMacro{Trim}'='<llx>~<lly>~<urx>~<ury>
-% \DescribeMacro{Viewport}'='<llx>~<lly>~<urx>~<ury>
+% \DescribeKey{Trim}'='<all sites>
+% \DescribeKey{Trim}'='<left/right>~<top/bottom>
+% \DescribeKey{Trim}'='<llx>~<lly>~<urx>~<ury>
+% \DescribeKey{Viewport}'='<llx>~<lly>~<urx>~<ury>
 % The normal |trim| and |viewport| keys
-% {\let\PrintMacroName\OrigPrintMacroName
 % as described earlier are applied on the original content before any resizing
 % or other effects. This is because for \Macro\includegraphics the trimming is done by the internal graphic driver,
 % while the effects can be applied later (but can also be driver dependent).
 % If the |trim| and |viewport| keys are used multiple times the last values will be used for the trimming, i.e. the content is only 
 % trimmed once. The upper case variants |Trim| and |Viewport| will wrap the content internally in a \Macro\trimbox or \Macro\trimbox*\relax
 % macro which can be applied multiple times, e.g.\ before and after the content is rotated.
-% These two keys awaits the same format as the original keys. However, the |clip| key has no effect on them.}
+% These two keys awaits the same format as the original keys. However, the |clip| key has no effect on them.
 %
-% \DescribeMacro{Clip}'='<all sites>
-% \DescribeMacro{Clip}'='<left/right>~<top/bottom>
-% \DescribeMacro{Clip}'='<llx>~<lly>~<urx>~<ury>
-% \DescribeMacro{Clip*}'='<llx>~<lly>~<urx>~<ury>
+% \DescribeKey{Clip}'='<all sites>
+% \DescribeKey{Clip}'='<left/right>~<top/bottom>
+% \DescribeKey{Clip}'='<llx>~<lly>~<urx>~<ury>
+% \DescribeKey{Clip*}'='<llx>~<lly>~<urx>~<ury>
 % As stated above the |clip| boolean key
-% {\let\PrintMacroName\OrigPrintMacroName
 % which will make the default |trim| and |viewport| keys clip the trimmed content, has no effect
 % on the |Trim| and |Viewport| keys. Instead |Clip| and |Clip*| are provided which wrap the content internally in a \Macro\clipbox or 
-% \Macro\clipbox*\relax macro. They can be used several times.}
+% \Macro\clipbox*\relax macro. They can be used several times.
 %
 %
 % \subsubsection{Frame and Margin}
 %
-% \DescribeMacro{frame}
-% \DescribeMacro{frame}'='<width>
-% \DescribeMacro{frame}'='<width>~<sep>
+% \DescribeKey{frame}
+% \DescribeKey{frame}'='<width>
+% \DescribeKey{frame}'='<width>~<sep>
 % This key will draw a black frame around the content.
-% {\let\PrintMacroName\OrigPrintMacroName
 % By default the frame lines will have a thickness of \Macro\fboxrule\relax
 % (i.e.\ the same thickness like \Macro\fbox) and will be placed tightly around the content with zero separation.
-% The line width and also the separation can be defined as the optional value.}
+% The line width and also the separation can be defined as the optional value.
 %
 %
-% \DescribeMacro{margin}'='<all sites>
-% \DescribeMacro{margin}'='<left/right>~<top/bottom>
-% \DescribeMacro{margin}'='<llx>~<lly>~<urx>~<ury>
+% \DescribeKey{margin}'='<all sites>
+% \DescribeKey{margin}'='<left/right>~<top/bottom>
+% \DescribeKey{margin}'='<llx>~<lly>~<urx>~<ury>
 % This key can be used to add a margin (white space) around the content. It can be seen as the opposite of |trim| (and in fact is implemented
 % almost identical to it with negated signs). The four values are added to the left, bottom, right and top side of the content, respectively.
 % If negative values are given the content is actually trimmed, but this will lead to wrong results if the absolute values are bigger
@@ -633,12 +617,12 @@
 %
 % \subsubsection{Size/Scaling}
 %
-% \DescribeMacro{min width}'='<width>
-% \DescribeMacro{max width}'='<width>
-% \DescribeMacro{min height}'='<height>
-% \DescribeMacro{max height}'='<height>
-% \DescribeMacro{min totalheight}'='<total height>
-% \DescribeMacro{max totalheight}'='<total height>
+% \DescribeKey{min width}'='<width>
+% \DescribeKey{max width}'='<width>
+% \DescribeKey{min height}'='<height>
+% \DescribeKey{max height}'='<height>
+% \DescribeKey{min totalheight}'='<total height>
+% \DescribeKey{max totalheight}'='<total height>
 % These keys allow to set the minimum and maximum width, height or totalheight of the content.
 % The current size of the content is measured and the content is resized if the constraint is not already met,
 % otherwise the content is unchanged. Multiple usages of these keys are checked one after each other, and therefore
@@ -646,17 +630,15 @@
 % A good example is |max width=\textwidth| which will limit large content to the text width but will not affect smaller
 % content.
 %
-% \DescribeMacro{min size}'='{<width>}{<height>}
-% \DescribeMacro{max size}'='{<width>}{<height>}
-% \DescribeMacro{min totalsize}'='{<width>}{<total height>}
-% \DescribeMacro{max totalsize}'='{<width>}{<total height>}
+% \DescribeKey{min size}'='{<width>}{<height>}
+% \DescribeKey{max size}'='{<width>}{<height>}
+% \DescribeKey{min totalsize}'='{<width>}{<total height>}
+% \DescribeKey{max totalsize}'='{<width>}{<total height>}
 % These keys allow to specify the minimum or maximum width and (total)height of the content together,
 % which is more efficient than using the width and (total)height keys described earlier.
 %
-% \DescribeMacro{reflect}
-% This reflects
-% {\let\PrintMacroName\OrigPrintMacroName
-% the content by using \Macro\reflectbox internally, which is identical to \Macro\scalebox{1}[-1].}
+% \DescribeKey{reflect}
+% This reflects the content by using \Macro\reflectbox internally, which is identical to \Macro\scalebox{1}[-1].
 %
 % \subsubsection*{Examples:}
 %   \begin{examplecode}
@@ -671,17 +653,15 @@
 %
 % \subsubsection{Positioning and Alignment}
 %
-% \DescribeMacro{raise}'='<amount>
-% \DescribeMacro{raise}'='{<amount>}{<height>}
-% \DescribeMacro{raise}'='{<amount>}{<height>}{<depth>}
+% \DescribeKey{raise}'='<amount>
+% \DescribeKey{raise}'='{<amount>}{<height>}
+% \DescribeKey{raise}'='{<amount>}{<height>}{<depth>}
 % This key uses 
-% {\let\PrintMacroName\OrigPrintMacroName
 % \Macro\raisebox{<amount>}{\ldots} to raise the content upwards for the given \meta{amount} (length).
 % A negative length moves the content down.
 % The two optional arguments of \Macro\raisebox{<amount>}[<height>][<depth>]{\ldots}\relax are also available
 % as optional brace arguments. They can be used to set the official height and depth of the content.
 % This is also possible using the |set height| and |set depth| keys.
-% }
 %
 % \subsubsection*{Examples:}
 %   \begin{examplecode}
@@ -697,9 +677,8 @@
 %   but with limited official height and no depth.
 %   \end{examplecode}
 %
-% \DescribeMacro{valign}'='<letter>
+% \DescribeKey{valign}'='<letter>
 % This key allows to vertically align the content to the top, middle and bottom.  The uppercase letters |T|, |M| and |B|
-% {\let\PrintMacroName\OrigPrintMacroName
 % align to the content top (i.e. all depth, no height), the geometric, vertical center (equal height and depth) and to
 % the bottom (all height, no depth), respectively.  This allows the alignment of content of different size, but will not
 % result in good alignment with text.  The lowercase letters |t|, |m| and |b| are aligning the content again to the top,
@@ -710,7 +689,7 @@
 % while |b| sets a certain depth given (as negative length) by the macro \Macro\adjboxvbottom\relax
 % (by default equal to the (negated) \Macro\strut depth, i.e.\ |-\dp\strutbox|, which is |.3\baselineskip|).
 % The |m| letter will center towards the vertical center of the text line which is determined by the macro
-% \Macro\adjboxvcenter\relax (by default \texttt{1ex}).}
+% \Macro\adjboxvcenter\relax (by default \texttt{1ex}).
 %
 % The following table shows the different alignments for three different sized blocks:
 % 
@@ -755,11 +734,10 @@
 % \endgroup
 %
 %
-% \DescribeMacro{set height}'='<height>
+% \DescribeKey{set height}'='<height>
 % This sets the official height of the content without actual changing it. This can be seen as a form of trimming.
 % It uses the same internal code as\\
-% {\let\PrintMacroName\OrigPrintMacroName
-% \Macro\raisebox{'0pt'}[<height>]{<content>}}.
+% \Macro\raisebox{'0pt'}[<height>]{<content>}.
 %
 % \subsubsection*{Examples:}
 %   \begin{examplecode}
@@ -767,11 +745,10 @@
 %       {\shortstack{some stacked\\content}}
 %   \end{examplecode}
 %
-% \DescribeMacro{set depth}'='<depth>
+% \DescribeKey{set depth}'='<depth>
 % This sets the official depth of the content without actual changing it. This can be seen as a form of trimming.
 % It uses the same internal code as\\
-% {\let\PrintMacroName\OrigPrintMacroName
-% \Macro\raisebox{'0pt'}['\height'][<depth>]{<content>}}.
+% \Macro\raisebox{'0pt'}['\height'][<depth>]{<content>}.
 %
 % \subsubsection*{Examples:}
 %   \begin{examplecode}
@@ -779,14 +756,12 @@
 %       {\shortstack{some stacked\\content with \raisebox{-1ex}{depth}}}
 %   \end{examplecode}
 %
-% \DescribeMacro{lap}'='<lap amount>
-% \DescribeMacro{lap}'='{<length>}{<lap amount>}
+% \DescribeKey{lap}'='<lap amount>
+% \DescribeKey{lap}'='{<length>}{<lap amount>}
 % This wraps the content into a
-% {\let\PrintMacroName\OrigPrintMacroName
 % \Macro\lapbox{<lap amount>}{\ldots} and
 % \Macro\lapbox[<length>]{<lap amount>}{\ldots}, respectively. Positive \meta{amounts} lap the content to the right
 % and negative to the left. The optional \meta{length} argument allows to set the final width.
-% }
 %
 % \subsubsection*{Examples:}
 %   \begin{examplecode}
@@ -809,10 +784,9 @@
 %   \end{examplecode}
 %
 %
-% \DescribeMacro{center}
-% \DescribeMacro{center}'='<width>
+% \DescribeKey{center}
+% \DescribeKey{center}'='<width>
 % This key places 
-% {\let\PrintMacroName\OrigPrintMacroName
 % the content in a horizontal box which is by default \Macro\linewidth wide (i.e.\ as wide as a normal text paragraph)
 % and centers it in it. The effect is very similar to \Macro\centerline. The original content is unchanged, but simply identical
 % white space is added as a left and right margin. This is useful if the content is a figure or table and can be used as a replacement
@@ -822,7 +796,6 @@
 % Note that when \Macro\adjustbox paragraph is used at the beginning of a paragraph the normal paragraph indention is added, which
 % will push the while box to the right and might cause an overfull line. In such cases a \Macro\noindent must be added beforehand.
 % The \env{adjustbox} environment already uses this macro.
-% }
 %
 % \subsubsection*{Examples:}
 %   \begin{examplecode}
@@ -832,13 +805,11 @@
 %   \adjustbox{center=5cm}{Some content}
 %   \end{examplecode}
 %
-% \DescribeMacro{right}
-% \DescribeMacro{right}'='<width>
+% \DescribeKey{right}
+% \DescribeKey{right}'='<width>
 % Like |center| this key
-% {\let\PrintMacroName\OrigPrintMacroName
 % places the content in a box with the given width (by default \Macro\linewidth) but right aligns it.
 % If the content is wider than the available width it will stick out into the left side without causing an overfull hbox warning.
-% }
 %
 % \subsubsection*{Examples:}
 %   \begin{examplecode}
@@ -849,13 +820,11 @@
 %   \end{examplecode}
 %
 %
-% \DescribeMacro{left}
-% \DescribeMacro{left}'='<width>
+% \DescribeKey{left}
+% \DescribeKey{left}'='<width>
 % Like |center| this key
-% {\let\PrintMacroName\OrigPrintMacroName
 % places the content in a box with the given width (by default \Macro\linewidth) but left aligns it.
 % If the content is wider than the available width it will stick out into the right side without causing an overfull hbox warning.
-% }
 %
 % \subsubsection*{Examples:}
 %   \begin{examplecode}
@@ -867,10 +836,9 @@
 %
 %
 %
-% \DescribeMacro{inner}
-% \DescribeMacro{inner}'='<width>
+% \DescribeKey{inner}
+% \DescribeKey{inner}'='<width>
 % Like |center|, |left| and |right| this key 
-% {\let\PrintMacroName\OrigPrintMacroName
 % places the content in a box with the given width (by default \Macro\linewidth) but aligns it towards the inner margin.
 % If the content is wider than the available width it will stick into the outer margin without causing an overfull hbox warning.
 % In |twoside| mode this key is equal to |left| for odd pages and equal to |right| for even pages.
@@ -878,22 +846,20 @@
 % Note that the page-is-odd test might not always lead to correct results for some material close to a page boundary, because \TeX\
 % might not have decided on which page it will be placed. This can be improved by loading the \pkg{changepage} package with the 
 % \opt{strict} option, which uses a reference to determine the correct page number (and requires the usual additional compiler run).
-% }
 %
-% \DescribeMacro{outer}
-% \DescribeMacro{outer}'='<width>
+% \DescribeKey{outer}
+% \DescribeKey{outer}'='<width>
 % Identical to |inner| but aligns the content towards the outer margin.
 % If the content is wider than the available width it will stick into the outer inner without causing an overfull hbox warning.
 %
 %
 % \subsubsection{Pixel size}
 %
-% \DescribeMacro{dpi}'='<number (dots per inch)>
+% \DescribeKey{dpi}'='<number (dots per inch)>
 % The |dpi| key provides a simple interface to set the pixel size to the given DPI (dots per inch) value.
 % For |pdflatex| the length unit |px| can be used to specify pixels. However, the equivalent dimension (length) of one pixel must be
-% {\let\PrintMacroName\OrigPrintMacroName
 % set using the \Macro\pdfpxdimen length register. To set a specific DPI value this length must be set using
-% \Macro\setlength\AlsoMacro\pdfpxdimen{'1in/'<dots>}, which is done by the \MacroArgs'dpi='<dots> key.}
+% \Macro\setlength\AlsoMacro\pdfpxdimen{'1in/'<dots>}, which is done by the \MacroArgs'dpi='<dots> key.
 %
 % \subsubsection*{Example:}
 %   \begin{examplecode}
@@ -901,11 +867,10 @@
 %       {\textcolor{green}{\rule{50px}{50px}}}
 %   \end{examplecode}
 %
-% \DescribeMacro{pxdim}'='<length>
+% \DescribeKey{pxdim}'='<length>
 % Alternatively
-% {\let\PrintMacroName\OrigPrintMacroName
 % to the |dpi| key the \Macro\pdfpxdimen length can be set directly to the given value. Afterwards |1px| will stand
-% for the given \meta{length}.}
+% for the given \meta{length}.
 %
 % \subsubsection*{Example:}
 %   \begin{examplecode}
@@ -917,8 +882,8 @@
 % The following keys will overwrite each other and only defined for \env{adjustbox} but do not apply for \Macro\includegraphics.
 % Because they are therefore only used inside a mandatory argument and never in an optional these keys allow for optional bracket arguments.
 %
-% \DescribeMacro{minipage}'='<width>
-% \DescribeMacro{minipage}'='[<position>][<height>][<inner position>]{<width>}
+% \DescribeKey{minipage}'='<width>
+% \DescribeKey{minipage}'='[<position>][<height>][<inner position>]{<width>}
 % This key wraps the inner content in a \env{minipage} with the given \meta{width} before it is stored as horizontal box.
 % Its order relative to other keys is not meaningful (except that future keys of this sub-section will overwrite it).
 % This allows for line breaks and footnotes in the \env{adjustbox}.
@@ -948,8 +913,8 @@
 %   \end{adjustbox} After
 %   \end{examplecode}
 %
-% \DescribeMacro{innerenv}'='<environment name>
-% \DescribeMacro{innerenv}'='{<environment name>}<environment options>
+% \DescribeKey{innerenv}'='<environment name>
+% \DescribeKey{innerenv}'='{<environment name>}<environment options>
 % Wraps the inner content in the given \meta{environment} before it is stored as horizontal box. Only one inner environment can be used 
 % and further uses of this key will overwrite previous ones as well as any |minipage| and |innercode| key.
 % It should be kept in mind that there is some internal code between the begin of the environment and the content. For this reason
@@ -962,7 +927,7 @@
 %   \end{examplecode}
 %
 %
-% \DescribeMacro{innercode}'='{<begin code>}{<end code>}
+% \DescribeKey{innercode}'='{<begin code>}{<end code>}
 % Places the given code before and after the inner content before it is stored as horizontal box. Only one set of inner code can be used 
 % and further uses of this key will overwrite previous ones as well as any |minipage| and |innerenv| key.
 %
@@ -975,28 +940,25 @@
 %
 % \subsection{Adding own Code or Environments}
 %
-% \DescribeMacro{env}'='<environment name>
-% \DescribeMacro{env}'='{<environment name>}<environment options>
+% \DescribeKey{env}'='<environment name>
+% \DescribeKey{env}'='{<environment name>}<environment options>
 % Adds an \meta{environment} around the content and the already existing code around it which was added by other keys beforehand.
 % Potential \meta{environment options} (or any other code) can follow the environment name if it was set inside braces.
 % At this stage the content is already boxed and format macros won't have any effect on any included text. For this the |innerenv| key needs to be used instead.
 %
-% \DescribeMacro{addcode}'='{<code before>}{<code afters>}
+% \DescribeKey{addcode}'='{<code before>}{<code afters>}
 % Adds some \meta{code before} and some \meta{code after} the content and the 
 % already existing code around it which was added by other keys beforehand.
 % At this stage the content is already boxed and format macros won't have any effect on any included text.
 %
-% \DescribeMacro{appcode}'='<code afterwards>
+% \DescribeKey{appcode}'='<code afterwards>
 % Appends come \meta{code after} the content and the already existing code around it which was added by other keys beforehand.
 % More complex code should be enclosed in braces.
 %
-% \DescribeMacro{precode}'='<code before>
+% \DescribeKey{precode}'='<code before>
 % Prepends come \meta{code afterwards} the content and the already existing code around it which was added by other keys beforehand.
 % More complex code should be enclosed in braces.
 %
-%
-%
-% \let\PrintMacroName\OrigPrintMacroName
 % \clearpage
 % \ifenglish
 % \section{Examples}\label{sec:example}

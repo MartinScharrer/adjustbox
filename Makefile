@@ -59,6 +59,13 @@ ${DOCINSTALLDIR}:
 
 .PHONY: build
 
+manual: adjustbox.dtx adjustbox.ins
+	-mkdir .manual
+	perl ../dtx/dtx.pl adjustbox.dtx .manual/adjustbox.dtx
+	cd .manual && latexmk -pdf adjustbox.dtx
+	mv .manual/adjustbox.pdf adjustbox.pdf
+
+
 build: adjustbox.dtx adjustbox.ins README
 	rm -rf build/
 	mkdir build
