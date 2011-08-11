@@ -542,21 +542,27 @@
 % \begin{tabular}{ll}
 %   \toprule
 %   \ifenglish
-%   Original Macro (w/o text argument)  &  Alternative  (w/o text argument) \\
+%   Original Macro (w/o content argument)  &  Alternative \Macro\adjustbox keys \\
 %   \else
-%   Originales Makro (ohne Text Argument)  &  Alternative  (ohne Text argument) \\
+%   Originales Makro (ohne Textargument)  &  Alternative \Macro\adjustbox Schlüssel \\
 %   \fi
 %   \midrule
-%   \Macro\rotatebox{<\Angle>}    &   \Macro\adjustbox{'angle='<\Angle>}  \\
-%   \Macro\scalebox{<\factor>}    &   \Macro\adjustbox{'scale='<\factor>}  \\
-%   \Macro\scalebox{<\xfactor>}[<\yfactor>]    &   \Macro\adjustbox{'width='<\xfactor>\AlsoMacro\width',height='<\yfactor>\AlsoMacro\height}  \\
-%   \Macro\reflectbox            &   \Macro\adjustbox{'width=-'\AlsoMacro\width',height='\AlsoMacro\height}  \\
-%   \Macro\resizebox{<\width>}{<\height>}    &   \Macro\adjustbox{'width='<\width>',height='<\height>}  \\
-%   \Macro\resizebox*{<\width>}{<\totalheight>}    &   \Macro\adjustbox{'width='<\width>',totalheight='<\totalheight>}  \\
-%   \Macro\trimbox{<\llx>~<\lly>~<\urx>~<\ury>}    &   \Macro\adjustbox{'trim='<\llx>~<\lly>~<\urx>~<\ury>}  \\
-%   \Macro\trimbox*{<\llx>~<\lly>~<\urx>~<\ury>}    &   \Macro\adjustbox{'viewport='<\llx>~<\lly>~<\urx>~<\ury>}  \\
-%   \Macro\clipbox{<\llx>~<\lly>~<\urx>~<\ury>}    &   \Macro\adjustbox{'trim='<\llx>~<\lly>~<\urx>~<\ury>,clip}  \\
-%   \Macro\clipbox*{<\llx>~<\lly>~<\urx>~<\ury>}    &   \Macro\adjustbox{'viewport='<\llx>~<\lly>~<\urx>~<\ury>,clip}  \\
+%   \Macro\rotatebox{<\Angle>}                   & \MacroArgs'angle='<\Angle>  \\
+%                                                & \MacroArgs'rotate='<\Angle>  \\
+%   \Macro\scalebox{<\factor>}                   & \MacroArgs'scale='<\factor>  \\
+%   \Macro\scalebox{<\xfactor>}[<\yfactor>]      & \MacroArgs'width='<\xfactor>\AlsoMacro\width',height='<\yfactor>\AlsoMacro\height  \\
+%   \Macro\reflectbox                            & \MacroArgs'reflect'  \\
+%                                                & \MacroArgs'width=-'\AlsoMacro\width',height='\AlsoMacro\height  \\
+%   \Macro\resizebox{<\width>}{<\height>}        & \MacroArgs'width='<\width>',height='<\height>  \\
+%   \Macro\resizebox*{<\width>}{<\totalheight>}  & \MacroArgs'width='<\width>',totalheight='<\totalheight>  \\
+%   \Macro\trimbox{<\llx>~<\lly>~<\urx>~<\ury>}  & \MacroArgs'trim='<\llx>~<\lly>~<\urx>~<\ury>  \\
+%                                                & \MacroArgs'Trim='<\llx>~<\lly>~<\urx>~<\ury>  \\
+%   \Macro\trimbox*{<\llx>~<\lly>~<\urx>~<\ury>} & \MacroArgs'viewport='<\llx>~<\lly>~<\urx>~<\ury>  \\
+%                                                & \MacroArgs'Viewport='<\llx>~<\lly>~<\urx>~<\ury>  \\
+%   \Macro\clipbox{<\llx>~<\lly>~<\urx>~<\ury>}  & \MacroArgs'trim='<\llx>~<\lly>~<\urx>~<\ury>,clip  \\
+%                                                & \MacroArgs'Clip='<\llx>~<\lly>~<\urx>~<\ury>  \\
+%   \Macro\clipbox*{<\llx>~<\lly>~<\urx>~<\ury>} & \MacroArgs'viewport='<\llx>~<\lly>~<\urx>~<\ury>,clip  \\
+%                                                & \MacroArgs'Clip*='<\llx>~<\lly>~<\urx>~<\ury>  \\
 %   \bottomrule
 % \end{tabular}%
 % \hss}%
