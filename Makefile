@@ -57,12 +57,12 @@ ${INSTALLDIR}:
 ${DOCINSTALLDIR}:
 	mkdir -p $@
 
-.PHONY: build
+.PHONY: build manual
 
 manual: adjustbox.dtx adjustbox.ins
 	-mkdir .manual
 	perl ../dtx/dtx.pl adjustbox.dtx .manual/adjustbox.dtx
-	cd .manual && latexmk -pdf adjustbox.dtx
+	cd .manual && latexmk -pdf adjustbox.dtx || rm .manual/adjustbox.aux
 	mv .manual/adjustbox.pdf adjustbox.pdf
 
 

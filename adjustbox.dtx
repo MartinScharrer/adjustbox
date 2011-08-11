@@ -40,6 +40,7 @@
 %\RequirePackage[ngerman]{babel}
 \documentclass{ydoc}[2011/08/11]
 \usepackage{amsmath}
+\usepackage[T1]{fontenc}
 \usepackage{fourier}
 \GetFileInfo{adjustbox.dtx}
 \usepackage[utf8]{inputenc}
@@ -60,7 +61,8 @@
 }
 \optionaloff
 
-\lstdefinestyle{examplecode}{basicstyle=\ttfamily\small,numbers=none}
+\lstdefinelanguage{none}{}
+\lstdefinestyle{examplecode}{basicstyle=\ttfamily\small,numbers=none,language=none}
 \makeatletter
 \def\PrintExample{%
   \begingroup
