@@ -280,7 +280,7 @@
 % \def\lly{lly}
 % \def\urx{urx}
 % \def\ury{ury}
-% \def\TEXT{text}
+% \def\TEXT{content}
 % \def\height{height}
 % \def\width{width}
 % \def\totalheight{totalheight}
@@ -295,7 +295,7 @@
 % \def\lly{luy}
 % \def\urx{orx}
 % \def\ury{ory}
-% \def\TEXT{Text}
+% \def\TEXT{Inhalt}
 % \def\height{Höhe}
 % \def\width{Weite}
 % \def\totalheight{Totale Höhe}
@@ -579,12 +579,21 @@
 % \DescribeMacro\marginbox{<left/right>~<top/bottom>}{<\TEXT>}
 % \DescribeMacro\marginbox{<\llx>~<\lly>~<\urx>~<\ury>}{<\TEXT>}
 % This macro can be used to add a margin (white space) around the content. It can be seen as the opposite of \Macro\trim.
+% The original baseline of the content is preserved because \meta{\lly} is added to the depth.
 % It is also available as \env{marginbox} environment and also usable as |margin| option (see below).
-% There is no star variant.
+%
+%
+% \DescribeMacro\marginbox'*'{<all sites>}{<\TEXT>}
+% \DescribeMacro\marginbox'*'{<left/right>~<top/bottom>}{<\TEXT>}
+% \DescribeMacro\marginbox'*'{<\llx>~<\lly>~<\urx>~<\ury>}{<\TEXT>}
+% This starred version is almost identical to the normal \Macro\marginbox, but also raises the content by the \MacroArgs<\lly>
+% amount, so that the original depth instead of the original baseline is preserved.
+% Note that while \Macro\marginbox is basically the opposite of \Macro\trim, \Macro\marginbox* is not the opposite of \Macro\trim*.
+% Instead it also takes the same values as the normal value and not view port values like \Macro\trim*.
 %
 %
 % \DescribeMacro\minsizebox{<width>}{<height>}{<\TEXT>}
-% \DescribeMacro\minsizebox*{<width>}{<totalheight>}{<\TEXT>}
+% \DescribeMacro\minsizebox'*'{<width>}{<totalheight>}{<\TEXT>}
 % This macro is like \Macro\resizebox of the \pkg{graphics/x} package, but only resizes the content if its natural size is smaller
 % than the given \meta{width} or \meta{height}.
 % If only one value should be set the other one can be replaced by `|!|'.
@@ -594,7 +603,7 @@
 % This macro is used internally for the |min width|, |min height|, |min totalheight| and |min totalsize| options.
 %
 % \DescribeMacro\maxsizebox{<width>}{<height>}{<\TEXT>}
-% \DescribeMacro\maxsizebox*{<width>}{<totalheight>}{<\TEXT>}
+% \DescribeMacro\maxsizebox'*'{<width>}{<totalheight>}{<\TEXT>}
 % This macro is like \Macro\resizebox of the \pkg{graphics/x} package, but only resizes the content if its natural size is larger
 % than the given \meta{width} or \meta{height}.
 % If only one value should be set the other one can be replaced by `|!|'.
@@ -663,10 +672,17 @@
 % \DescribeKey{margin}'='<all sites>
 % \DescribeKey{margin}'='<left/right>~<top/bottom>
 % \DescribeKey{margin}'='<llx>~<lly>~<urx>~<ury>
-% This key can be used to add a margin (white space) around the content. It can be seen as the opposite of |trim| (and in fact is implemented
+% This key can be used to add a margin (white space) around the content (using \Macro\marginbox).
+% It can be seen as the opposite of |trim| (and in fact is implemented
 % almost identical to it with negated signs). The four values are added to the left, bottom, right and top side of the content, respectively.
+% The original baseline of the content is preserved by adding \meta{\lly} to the depth.
 % If negative values are given the content is actually trimmed, but this will lead to wrong results if the absolute values are bigger
 % than the available amount. This is particularly a problem with the depth. The |trim| and |Trim| code will handle this case correctly, however.
+%
+% \DescribeKey{margin*}'='<all sites>
+% \DescribeKey{margin*}'='<left/right>~<top/bottom>
+% \DescribeKey{margin*}'='<llx>~<lly>~<urx>~<ury>
+% Like \Key{margin} but also raises the content by \meta{\lly} and therefore preserves the original depth and not the original baseline.
 %
 % \subsubsection{Size/Scaling}
 %
