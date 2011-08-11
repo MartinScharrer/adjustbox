@@ -736,8 +736,15 @@
 % These keys allow to specify the minimum or maximum width and (total)height of the content together,
 % which is more efficient than using the width and (total)height keys described earlier.
 %
+% \DescribeKey{scale}'='<factor>
+% \DescribeKey{scale}'='{<h-factor>}{<v-factor>}
+% The normal \Key{scale} key of \pkg{graphicx} only allows for one scale factor which is used for both the horizontal and vertical scaling.
+% With \pkg{adjustbox} it is also possible to provide the horizontal and vertical scale factors separately.
+%
 % \DescribeKey{reflect}
-% This reflects the content by using \Macro\reflectbox internally, which is identical to \Macro\scalebox{1}[-1].
+% This reflects the content by using \Macro\reflectbox internally, which is identical to \Macro\scalebox{-1}[1],
+% i.e.\ this key is identical to \Key{scale}'='{-1}{1}.
+%
 %
 % \subsubsection*{Examples:}
 %   \begin{examplecode}
