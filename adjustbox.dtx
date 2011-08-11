@@ -86,8 +86,8 @@
     morekeywords={adjustbox,\adjustbox},
     keywordstyle=\macrodescstyle,
     emph={viewport, trim, Trim, Viewport, Clip, Clip*, frame, fbox, cframe, cfbox, reflect, lap, margin, margin*, dpi,
-    pxdim, execute, raise, valign, bgcolor, set height, set depth, center, left, right, outer, inner, min width, max
-    width, min height, max height, min totalheight, max totalheight, min size, max size, min totalsize, max totalsize,
+    pxdim, execute, raise, valign, bgcolor, set, height, depth, width, totalheight, center, left, right, outer, inner, min, max,
+    size, totalsize,
     minipage, innerenv, innercode, env, Addcode, addcode, precode, Precode, appcode, angle, scale, height, width, totalheight, resolution,
     },
     emphstyle=\keydescstyle,
@@ -344,7 +344,6 @@
 % is explained in \autoref{sec:verbatim}. Finally \autoref{sec:alternatives} compares the existing macros with the 
 % corresponding options of \Macro\adjustbox.
 % Further box modification macros and keys are described in \autoref{sec:moremacros} and \autoref{sec:newkeys}, respectively.
-% See the example \autoref{sec:example} for examples of this macros.
 %
 % It is recommended to also read the \emph{Graphics Guide} (\pkg{grfguide}, i.e.~the manual of the \pkg{graphics}/|x| packages),
 % to understand the existing options for \Macro\includegraphics. 
@@ -487,6 +486,41 @@
 % \fi
 %
 % \ifenglish
+% \section*{Examples}
+% The following examples show the application of the package macros on an example text.
+% The result is placed in a tight, colored frame box to show the resulting dimensions.
+% \else
+% \section*{Beispiele}
+% Die folgenden Beispiele zeigen die Anwendung der Makros dieses Packets auf einen Beispieltext (\Macro\example).
+% Das Ergebnis wird mit einer engen, farbigen Umrandung dargestellt um die entgültigen Dimensionen sichtbar zu machen.
+% \fi
+% \begingroup
+% \def\examplecontent{\begin{tabular}{@{}|c|c|@{}}
+%       \hline
+%       A & B \\
+%       \hline
+%       C & D \\
+%       \hline
+%   \end{tabular}^^A
+% }
+% \fboxsep=0pt%
+% \def\Fbox{\fcolorbox{red}{white}}%
+% \def\X{\vspace*{20pt}}%
+% \par\bigskip\noindent
+% \begin{tabular}{@{}lc}
+%   \X\Macro\example      & \Fbox{\examplecontent} \\
+%   \X\Macro\trimbox{10 5 10 5}{\AlsoMacro\example} & \Fbox{\trimbox{10 5 10 5}{\examplecontent}} \\
+%   \X\Macro\clipbox{10 5 10 5}{\AlsoMacro\example} & \Fbox{\clipbox{10 5 10 5}{\examplecontent}} \\
+%   \X\Macro\trimbox*{15 5 25 30}{\AlsoMacro\example} & \Fbox{\trimbox*{15 5 25 30}{\examplecontent}} \\
+%   \X\Macro\clipbox*{15 5 25 30}{\AlsoMacro\example} & \Fbox{\clipbox*{15 5 25 30}{\examplecontent}} \\
+%   \X\Macro\adjustbox{trim=10 5 10 5,angle=45}{\AlsoMacro\example} & \Fbox{\adjustbox{trim=10 5 10 5,angle=45}{\examplecontent}} \\
+%   \X\Macro\adjustbox{scale=1.5}{\AlsoMacro\example} & \Fbox{\adjustbox{scale=1.5}{\examplecontent}} \\
+%   \X\Macro\adjustbox{width=180pt,height=20pt}{\AlsoMacro\example} & \Fbox{\adjustbox{width=40pt,height=10pt}{\examplecontent}} \\
+%   \X\Macro\adjustbox{width=180pt,height=20pt,keepaspectratio}{\AlsoMacro\example} & \Fbox{\adjustbox{width=40pt,height=10pt,keepaspectratio}{\examplecontent}} \\
+% \end{tabular}
+%
+% \clearpage
+% \ifenglish
 % \subsection{Argument Values}\label{sec:argval}
 % The\marginpar{Parsing} argument values are parsed by versatile \Macro\pgfmathparse of the already used \pkg{pgf} package.
 % This allows very complex arithmetic expressions as any of the trim/clip coordinates or other numeric options.
@@ -545,6 +579,7 @@
 % This is to support the questionable habit of some \LaTeX{} users to drop the braces for single token arguments.
 % All environments support verbatim content.
 %
+% \clearpage
 % \ifenglish
 % \subsection{Alternatives for existing Macros}\label{sec:alternatives}
 % The flexible \Macro\adjustbox can also be used as an alternative to existing macros from the \pkg{graphics} package as shown by Table~\ref{tab:alternatives}.
@@ -1068,52 +1103,6 @@
 % Prepends come \meta{code afterwards} the content and the already existing code around it which was added by other keys beforehand.
 % More complex code should be enclosed in braces.
 %
-% \clearpage
-% \ifenglish
-% \section{Examples}\label{sec:example}
-% The following examples show the application of the package macros on an example text.
-% The result is placed in a tight, colored frame box to show the resulting dimensions.
-% \else
-% \section{Beispiele}\label{sec:example}
-% Die folgenden Beispiele zeigen die Anwendung der Makros dieses Packets auf einen Beispieltext (\Macro\example).
-% Das Ergebnis wird mit einer engen, farbigen Umrandung dargestellt um die entgültigen Dimensionen sichtbar zu machen.
-% \fi
-% \begingroup
-% \def\examplecontent{\begin{tabular}{@{}|c|c|@{}}
-%       \hline
-%       A & B \\
-%       \hline
-%       C & D \\
-%       \hline
-%   \end{tabular}^^A
-% }
-% \fboxsep=0pt%
-% \def\Fbox{\fcolorbox{red}{white}}%
-% \def\X{\vspace*{20pt}}%
-% \par\bigskip\noindent
-% \begin{tabular}{@{}lc}
-%   \X\Macro\example      & \Fbox{\examplecontent} \\
-%   \X\Macro\trimbox{10 5 10 5}{\AlsoMacro\example} & \Fbox{\trimbox{10 5 10 5}{\examplecontent}} \\
-%   \X\Macro\clipbox{10 5 10 5}{\AlsoMacro\example} & \Fbox{\clipbox{10 5 10 5}{\examplecontent}} \\
-%   \X\Macro\trimbox*{15 5 25 30}{\AlsoMacro\example} & \Fbox{\trimbox*{15 5 25 30}{\examplecontent}} \\
-%   \X\Macro\clipbox*{15 5 25 30}{\AlsoMacro\example} & \Fbox{\clipbox*{15 5 25 30}{\examplecontent}} \\
-%   \X\Macro\adjustbox{trim=10 5 10 5,angle=45}{\AlsoMacro\example} & \Fbox{\adjustbox{trim=10 5 10 5,angle=45}{\examplecontent}} \\
-%   \X\Macro\adjustbox{scale=1.5}{\AlsoMacro\example} & \Fbox{\adjustbox{scale=1.5}{\examplecontent}} \\
-%   \X\Macro\adjustbox{width=180pt,height=20pt}{\AlsoMacro\example} & \Fbox{\adjustbox{width=40pt,height=10pt}{\examplecontent}} \\
-%   \X\Macro\adjustbox{width=180pt,height=20pt,keepaspectratio}{\AlsoMacro\example} & \Fbox{\adjustbox{width=40pt,height=10pt,keepaspectratio}{\examplecontent}} \\
-% \end{tabular}
-%
-% \ifenglish
-% \subsubsection*{Environment example:}
-% \else
-% \subsubsection*{Beispiel mit Umgebung:}
-% \fi
-% \noindent
-% \Macro\begin{adjustbox}{angle=2}:\\
-% \begin{adjustbox}{angle=2}
-%    | verbatim inside \begin{adjustbox}{angle=2} ... \end{adjustbox} |
-% \end{adjustbox}
-% \endgroup
 %
 % \StopEventually{}
 % \clearpage
