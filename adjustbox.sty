@@ -698,6 +698,41 @@
 %
 %
 %
+% \begin{key}{adjbox}{scale}
+%    \begin{macrocode}
+\define@key\adjbox@fam{scale}{%
+    \@ifnextchar\bgroup{%
+        \adjbox@scale@xy
+    }{%
+        \adjbox@scale@x
+    }#1\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{macro}{\adjbox@scale@x}
+%    \begin{macrocode}
+\def\adjbox@scale@x#1\@nnil{%
+    \adjbox@scale@xy{#1}{#1}\@nnil%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjbox@scale@xy}
+%    \begin{macrocode}
+\def\adjbox@scale@xy#1#2\@nnil{%
+  \if@tempswa
+    \adjbox@Gin@add{\Gscale@box{#1}[{#2}]}%
+  \else
+    \def\Gin@req@sizes{%
+      \def\Gin@scalex{#1}\def\Gin@scaley{#2}%
+      \Gin@req@height\Gin@scaley\Gin@nat@height
+      \Gin@req@width\Gin@scalex\Gin@nat@width}%
+  \fi
+  \@tempswatrue
+}
+%    \end{macrocode}
+% \end{macro}
 %
 %
 % \begin{key}{adjbox}{reflect}
@@ -705,16 +740,8 @@
 % Open question: why is \Macro\Gin@esetsize not called?
 %    \begin{macrocode}
 \define@key\adjbox@fam{reflect}[]{%
-  \if@tempswa
-    \adjbox@Gin@add{\Gscale@box-1[1]}%
-  \else
-    \def\Gin@req@sizes{%
-      \def\Gin@scalex{-1}\def\Gin@scaley{1}%
-      \Gin@req@height\Gin@nat@height
-      \Gin@req@width\Gin@nat@width
-    }%
-  \fi
-  \@tempswatrue}
+    \adjbox@scale@xy{-1}{1}\@nnil
+}
 %    \end{macrocode}
 % \end{key}
 %
