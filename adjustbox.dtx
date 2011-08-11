@@ -41,12 +41,17 @@
 \documentclass{ydoc}[2011/08/11]
 \usepackage{amsmath}
 \usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
 \usepackage{fourier}
 \GetFileInfo{adjustbox.dtx}
-\usepackage[utf8]{inputenc}
+\usepackage{newverbs}
+\MakeSpecialShortVerb\qverb\"
+%\AtBeginDocument{\MakeShortMacroArgs\`\relax}
+%\AtEndDocument{\DeleteShortVerb\`}
 \usepackage{adjustbox}
 \usepackage{tikz}
 \normalmarginpar
+
 
 \newcommand\babelfiledate{%
     \expandafter\babelfileDate\filedate\relax
@@ -61,8 +66,33 @@
 }
 \optionaloff
 
-\lstdefinelanguage{none}{}
-\lstdefinestyle{examplecode}{basicstyle=\ttfamily\small,numbers=none,language=none}
+\lstdefinelanguage{none}{}%
+\lstdefinelanguage{adjustbox}{%
+  moretexcs={%
+      begin,end,adjustbox
+  },
+  emph={%
+      frame,fbox,cframe,cfbox,minipage,raise
+  },
+}%
+
+\lstdefinestyle{examplecode}{%
+    basicstyle=\ttfamily\small,
+    numbers=none,language=none,
+    classoffset=1,
+    morekeywords={\begin,\end},
+    keywordstyle=\bfseries,
+    classoffset=0,
+    morekeywords={adjustbox,\adjustbox},
+    keywordstyle=\macrodescstyle,
+    emph={viewport, trim, Trim, Viewport, Clip, Clip*, frame, fbox, cframe, cfbox, reflect, lap, margin, margin*, dpi,
+    pxdim, execute, raise, valign, bgcolor, set height, set depth, center, left, right, outer, inner, min width, max
+    width, min height, max height, min totalheight, max totalheight, min size, max size, min totalsize, max totalsize,
+    minipage, innerenv, innercode, env, Addcode, addcode, precode, Precode, appcode, angle, scale, height, width, totalheight, resolution,
+    },
+    emphstyle=\keydescstyle,
+}
+
 \makeatletter
 \def\PrintExample{%
   \begingroup
@@ -262,9 +292,9 @@
 %   \oitem{defaultunit}\MacroArgs'='<unit>\relax
 %      This sets the default unit used for the values of \Macro\trimbox, \Macro\clipbox and \Macro\marginbox
 %      including there starred versions
-%      as well as all related keys like |trim|, |viewport|, |margin|, |Trim|, |Viewport|, |Clip| and |Clip*|.
-%      The standard default unit is the same as for \Macro\includegraphics: `|bp|' (big points, PostScript points).
-%      However, for \LaTeX\ material \TeX\ normal unit `|pt|' (\TeX\ points) are better suited and will avoid rounding
+%      as well as all related keys like \Key{trim}, \Key{viewport}, \Key{margin}, \Key{trim}, \Key{viewport}, \Key{Clip} and \Key{Clip*}.
+%      The standard default unit is the same as for \Macro\includegraphics: "bp" (big points, PostScript points).
+%      However, for \LaTeX\ material \TeX\ normal unit "pt" (\TeX\ points) are better suited and will avoid rounding
 %      errors which otherwise get introduced by the internal conversion.
 %      The default unit is only used if the particular value is only a single number without unit,
 %      but not if any mathematical operations are used.
@@ -316,7 +346,7 @@
 % Further box modification macros and keys are described in \autoref{sec:moremacros} and \autoref{sec:newkeys}, respectively.
 % See the example \autoref{sec:example} for examples of this macros.
 %
-% It is recommended to also read the \emph{Graphics Guide} (|grfguide|, i.e.~the manual of the |graphics|/|x| packages),
+% It is recommended to also read the \emph{Graphics Guide} (\pkg{grfguide}, i.e.~the manual of the \pkg{graphics}/|x| packages),
 % to understand the existing options for \Macro\includegraphics. 
 % \else
 % \newpage
@@ -327,7 +357,7 @@
 % Schlussendlich wird im \autoref{sec:alternatives} die exisitierenden Makros mit den entsprechendem Optionen von \Macro\adjustbox
 % verglichen. Beispiele für die beschriebenen Makros befinden sich im folgendem \autoref{sec:example}.
 %
-% Dem Leser wird darüberhinaus die Lektüre der Anleitung der |graphic|/|x| Pakete, der \emph{Graphics Guide}, empfohlen wo
+% Dem Leser wird darüberhinaus die Lektüre der Anleitung der \pkg{graphic}/|x| Pakete, der \emph{Graphics Guide}, empfohlen wo
 % die möglichen Optionen für das Makro \Macro\includegraphics gelistet sind, die auch für \Macro\adjustbox verwendet werden.
 % \fi
 %
@@ -360,7 +390,7 @@
 % Trimming means that the official size of the box is reduced, but no material
 % is actual removed. The material in the trimmed areas simply swaps over the official border.
 %
-% If the starred version is used the four coordinates are taken as the |viewport| instead, i.e. the box
+% If the starred version is used the four coordinates are taken as the \Key{viewport} instead, i.e. the box
 % is trimmed to the rectangle described by the coordinates. In this case using all four values must be specified.
 % \else
 % Das Makro \Macro\trimbox setzt den \meta{Text} in eine \TeX{} Box und reduziert dessen offizielle Größe
@@ -408,7 +438,7 @@
 % Note that the material will still be part of the output file but is simply not shown.
 % It might be exported using special tools, so using \Macro\clipbox\relax (or \Macro\includegraphics[clip,trim=...])
 % to censor classified information would be a bad idea.
-% The starred version will again use the given coordinates as |viewport|. 
+% The starred version will again use the given coordinates as \Key{viewport}. 
 % \else
 % Das \Macro\clipbox Makro arbeiten ähnlich wie \Macro\trimbox nur, dass der entfernte Rand auch wirklich
 % ausgeblendet wird. Allerdings bleibt dieses Material Teil der Ausgabedatei und könnte durch spezielle Software exportiert werden.
@@ -458,20 +488,20 @@
 %
 % \ifenglish
 % \subsection{Argument Values}\label{sec:argval}
-% The\marginpar{Parsing} argument values are parsed by versatile \Macro\pgfmathparse of the already used |pgf| package.
+% The\marginpar{Parsing} argument values are parsed by versatile \Macro\pgfmathparse of the already used \pkg{pgf} package.
 % This allows very complex arithmetic expressions as any of the trim/clip coordinates or other numeric options.
 % See the |pgfmanual| for detailed information.
-% Note\marginpar{Space=Separator} that the four values for \Macro\trimbox and \Macro\clipbox as well as for the |trim| and |viewport| option of \Macro\adjustbox
-% are separated by spaces. If the expression of any of this values holds a space or ends with a macro (eats trailing spaces!) it must be wrapped into braces `|{ }|'.
+% Note\marginpar{Space=Separator} that the four values for \Macro\trimbox and \Macro\clipbox as well as for the \Key{trim} and \Key{viewport} option of \Macro\adjustbox
+% are separated by spaces. If the expression of any of this values holds a space or ends with a macro (eats trailing spaces!) it must be wrapped into braces "{ }".
 % \else
 % \newpage
 % \subsection{Erlaubte Werte für Makroargumente}\label{sec:argval}
 % Die numerischen Werte für die Makros werden durch das vielseitige \Macro\pgfmathparse Makro des sowieso schon verwendeten \pkg{pgf} Paketes
 % eingelesen. Dies erlaubt die Verwendung von einfachen oder komplizierten Formeln.
 % Eine genaue Beschreibung der unterstützten mathematischen Operationen befindet sich im Handbuch des \pkg{pgf} Paketes.
-% Dabei muss beachtet werden das die vier Werte für die \Macro\trimbox und \Macro\clipbox Makros sowie für die |trim| und |viewport| Optionen von \Macro\adjustbox
+% Dabei muss beachtet werden das die vier Werte für die \Macro\trimbox und \Macro\clipbox Makros sowie für die \Key{trim} und \Key{viewport} Optionen von \Macro\adjustbox
 % durch Leerzeichen getrennt werden müssen. Komplizierte Angaben die ein Leerzeichen enthalten oder auf ein Makro enden (entfernt nachfolgende Leerzeichen) müssen
-% deswegen in geschweifte Klammern `|{ }|' gesetzt werden.
+% deswegen in geschweifte Klammern "{ }" gesetzt werden.
 % \fi
 %
 %
@@ -488,9 +518,9 @@
 %
 % If\marginpar{Default unit} no unit is provided for of the bounding box coordinates (\llx, \lly, \urx, \ury) then PostScript points
 % (\emph{big points}, bp, $72\,\text{bp}=1\,\text{inch}$) are used, as it is the default behaviour
-% of the |trim| and |viewport| options of \pkg{graphicx}'s \Macro\includegraphics. Note that \pkg{graphicx} converts all values, independent if a unit is provided or not,
+% of the \Key{trim} and \Key{viewport} options of \pkg{graphicx}'s \Macro\includegraphics. Note that \pkg{graphicx} converts all values, independent if a unit is provided or not,
 % internally to bp, because graphics where traditionally stored in Encapsulated PostScript (EPS) files. The more modern PDF files also use bp instead of pt.
-% Because the |adjustbox| package macros target \LATeX{} material and users will mostly use pt values this internal conversion to bp got disabled for them to 
+% Because the \pkg{adjustbox} package macros target \LATeX{} material and users will mostly use pt values this internal conversion to bp got disabled for them to 
 % avoid unnecessary rounding errors. Since v0.5 the default unit can be changed using the |defaultunit|\MacroArgs'='<unit>\relax
 % key (which is also usable as global package option).
 %
@@ -498,7 +528,7 @@
 % \subsubsection*{Examples for Argument Values}
 % \codeline{\AlsoMacro\trimbox{'{.5\width} 10 {log10(10)/sin(45) + 1} 10pt'}{<\TEXT>}}
 % will trim half the original amount from the left, 10\,bp from the bottom and 
-% 2.42328\,bp from the right (bp, because no unit was used in the formula; change e.g. `|+ 1|' to `|+ 1pt|' to get 2.42328\,pt),
+% 2.42328\,bp from the right (bp, because no unit was used in the formula; change e.g. "+ 1" to "+ 1pt" to get 2.42328\,pt),
 % as well as 10\,pt from the top.
 %
 % \subsection{Verbatim Support}\label{sec:verbatim}
@@ -580,7 +610,7 @@
 % \DescribeMacro\marginbox{<\llx>~<\lly>~<\urx>~<\ury>}{<\TEXT>}
 % This macro can be used to add a margin (white space) around the content. It can be seen as the opposite of \Macro\trim.
 % The original baseline of the content is preserved because \meta{\lly} is added to the depth.
-% It is also available as \env{marginbox} environment and also usable as |margin| option (see below).
+% It is also available as \env{marginbox} environment and also usable as \Key{margin} option (see below).
 %
 %
 % \DescribeMacro\marginbox'*'{<all sites>}{<\TEXT>}
@@ -596,21 +626,21 @@
 % \DescribeMacro\minsizebox'*'{<width>}{<totalheight>}{<\TEXT>}
 % This macro is like \Macro\resizebox of the \pkg{graphics/x} package, but only resizes the content if its natural size is smaller
 % than the given \meta{width} or \meta{height}.
-% If only one value should be set the other one can be replaced by `|!|'.
+% If only one value should be set the other one can be replaced by "!".
 % If required the content is scaled up so that the width and height is equal or larger than the given values, but does not change 
 % the aspect ratio. 
 % The star variant uses the total height instead of only the height.
-% This macro is used internally for the |min width|, |min height|, |min totalheight| and |min totalsize| options.
+% This macro is used internally for the \Key{min width}, \Key{min height}, \Key{min totalheight} and \Key{min totalsize} options.
 %
 % \DescribeMacro\maxsizebox{<width>}{<height>}{<\TEXT>}
 % \DescribeMacro\maxsizebox'*'{<width>}{<totalheight>}{<\TEXT>}
 % This macro is like \Macro\resizebox of the \pkg{graphics/x} package, but only resizes the content if its natural size is larger
 % than the given \meta{width} or \meta{height}.
-% If only one value should be set the other one can be replaced by `|!|'.
+% If only one value should be set the other one can be replaced by "!".
 % If required the content is scaled down so that the width and height is equal or smaller than the given values, but does not change 
 % the aspect ratio.
 % The star variant uses the total height instead of only the height.
-% This macro is used internally for the |max width|, |max height|, |max totalheight| and |max totalsize| options.
+% This macro is used internally for the \Key{max width}, \Key{max height}, \Key{max totalheight} and \Key{max totalsize} options.
 %
 %
 % \DescribeMacro\lapbox[<width>]{<lap amount>}{<\TEXT>}
@@ -639,22 +669,22 @@
 % \DescribeKey{Trim}'='<left/right>~<top/bottom>
 % \DescribeKey{Trim}'='<llx>~<lly>~<urx>~<ury>
 % \DescribeKey{Viewport}'='<llx>~<lly>~<urx>~<ury>
-% The normal |trim| and |viewport| keys
+% The normal \Key{trim} and \Key{viewport} keys
 % as described earlier are applied on the original content before any resizing
 % or other effects. This is because for \Macro\includegraphics the trimming is done by the internal graphic driver,
 % while the effects can be applied later (but can also be driver dependent).
-% If the |trim| and |viewport| keys are used multiple times the last values will be used for the trimming, i.e. the content is only 
-% trimmed once. The upper case variants |Trim| and |Viewport| will wrap the content internally in a \Macro\trimbox or \Macro\trimbox*\relax
+% If the \Key{trim} and \Key{viewport} keys are used multiple times the last values will be used for the trimming, i.e. the content is only 
+% trimmed once. The upper case variants \Key{trim} and \Key{viewport} will wrap the content internally in a \Macro\trimbox or \Macro\trimbox*\relax
 % macro which can be applied multiple times, e.g.\ before and after the content is rotated.
-% These two keys awaits the same format as the original keys. However, the |clip| key has no effect on them.
+% These two keys awaits the same format as the original keys. However, the \Key{clip} key has no effect on them.
 %
 % \DescribeKey{Clip}'='<all sites>
 % \DescribeKey{Clip}'='<left/right>~<top/bottom>
 % \DescribeKey{Clip}'='<llx>~<lly>~<urx>~<ury>
 % \DescribeKey{Clip*}'='<llx>~<lly>~<urx>~<ury>
-% As stated above the |clip| boolean key
-% which will make the default |trim| and |viewport| keys clip the trimmed content, has no effect
-% on the |Trim| and |Viewport| keys. Instead |Clip| and |Clip*| are provided which wrap the content internally in a \Macro\clipbox or 
+% As stated above the \Key{clip} boolean key
+% which will make the default \Key{trim} and \Key{viewport} keys clip the trimmed content, has no effect
+% on the \Key{trim} and \Key{viewport} keys. Instead \Key{Clip} and \Key{Clip*} are provided which wrap the content internally in a \Macro\clipbox or 
 % \Macro\clipbox*\relax macro. They can be used several times.
 %
 %
@@ -673,11 +703,11 @@
 % \DescribeKey{margin}'='<left/right>~<top/bottom>
 % \DescribeKey{margin}'='<llx>~<lly>~<urx>~<ury>
 % This key can be used to add a margin (white space) around the content (using \Macro\marginbox).
-% It can be seen as the opposite of |trim| (and in fact is implemented
+% It can be seen as the opposite of \Key{trim} (and in fact is implemented
 % almost identical to it with negated signs). The four values are added to the left, bottom, right and top side of the content, respectively.
 % The original baseline of the content is preserved by adding \meta{\lly} to the depth.
 % If negative values are given the content is actually trimmed, but this will lead to wrong results if the absolute values are bigger
-% than the available amount. This is particularly a problem with the depth. The |trim| and |Trim| code will handle this case correctly, however.
+% than the available amount. This is particularly a problem with the depth. The \Key{trim} and \Key{trim} code will handle this case correctly, however.
 %
 % \DescribeKey{margin*}'='<all sites>
 % \DescribeKey{margin*}'='<left/right>~<top/bottom>
@@ -696,7 +726,7 @@
 % The current size of the content is measured and the content is resized if the constraint is not already met,
 % otherwise the content is unchanged. Multiple usages of these keys are checked one after each other, and therefore
 % it is possible that a later one is undoing the size changes of an earlier one.
-% A good example is |max width=\textwidth| which will limit large content to the text width but will not affect smaller
+% A good example is \Key{max width}'='\AlsoMacro\textwidth which will limit large content to the text width but will not affect smaller
 % content.
 %
 % \DescribeKey{min size}'='{<width>}{<height>}
@@ -730,7 +760,7 @@
 % A negative length moves the content down.
 % The two optional arguments of \Macro\raisebox{<amount>}[<height>][<depth>]{\ldots}\relax are also available
 % as optional brace arguments. They can be used to set the official height and depth of the content.
-% This is also possible using the |set height| and |set depth| keys.
+% This is also possible using the \Key{set height} and \Key{set depth} keys.
 %
 % \subsubsection*{Examples:}
 %   \begin{examplecode}
@@ -879,7 +909,7 @@
 %
 % \DescribeKey{right}
 % \DescribeKey{right}'='<width>
-% Like |center| this key
+% Like \Key{center} this key
 % places the content in a box with the given width (by default \Macro\linewidth) but right aligns it.
 % If the content is wider than the available width it will stick out into the left side without causing an overfull hbox warning.
 %
@@ -894,7 +924,7 @@
 %
 % \DescribeKey{left}
 % \DescribeKey{left}'='<width>
-% Like |center| this key
+% Like \Key{center} this key
 % places the content in a box with the given width (by default \Macro\linewidth) but left aligns it.
 % If the content is wider than the available width it will stick out into the right side without causing an overfull hbox warning.
 %
@@ -910,25 +940,25 @@
 %
 % \DescribeKey{inner}
 % \DescribeKey{inner}'='<width>
-% Like |center|, |left| and |right| this key 
+% Like \Key{center}, \Key{left} and \Key{right} this key 
 % places the content in a box with the given width (by default \Macro\linewidth) but aligns it towards the inner margin.
 % If the content is wider than the available width it will stick into the outer margin without causing an overfull hbox warning.
-% In |twoside| mode this key is equal to |left| for odd pages and equal to |right| for even pages.
-% For |oneside| mode it is always equal to |center|, because there is no inner or outer margin.
+% In |twoside| mode this key is equal to \Key{left} for odd pages and equal to \Key{right} for even pages.
+% For |oneside| mode it is always equal to \Key{center}, because there is no inner or outer margin.
 % Note that the page-is-odd test might not always lead to correct results for some material close to a page boundary, because \TeX\
 % might not have decided on which page it will be placed. This can be improved by loading the \pkg{changepage} package with the 
 % \opt{strict} option, which uses a reference to determine the correct page number (and requires the usual additional compiler run).
 %
 % \DescribeKey{outer}
 % \DescribeKey{outer}'='<width>
-% Identical to |inner| but aligns the content towards the outer margin.
+% Identical to \Key{inner} but aligns the content towards the outer margin.
 % If the content is wider than the available width it will stick into the outer inner without causing an overfull hbox warning.
 %
 %
 % \subsubsection{Pixel size}
 %
 % \DescribeKey{dpi}'='<number (dots per inch)>
-% The |dpi| key provides a simple interface to set the pixel size to the given DPI (dots per inch) value.
+% The \Key{dpi} key provides a simple interface to set the pixel size to the given DPI (dots per inch) value.
 % For |pdflatex| the length unit |px| can be used to specify pixels. However, the equivalent dimension (length) of one pixel must be
 % set using the \Macro\pdfpxdimen length register. To set a specific DPI value this length must be set using
 % \Macro\setlength\AlsoMacro\pdfpxdimen{'1in/'<dots>}, which is done by the \MacroArgs'dpi='<dots> key.
@@ -941,7 +971,7 @@
 %
 % \DescribeKey{pxdim}'='<length>
 % Alternatively
-% to the |dpi| key the \Macro\pdfpxdimen length can be set directly to the given value. Afterwards |1px| will stand
+% to the \Key{dpi} key the \Macro\pdfpxdimen length can be set directly to the given value. Afterwards |1px| will stand
 % for the given \meta{length}.
 %
 % \subsubsection*{Example:}
@@ -960,9 +990,9 @@
 % Its order relative to other keys is not meaningful (except that future keys of this sub-section will overwrite it).
 % This allows for line breaks and footnotes in the \env{adjustbox}.
 % All optional arguments of \env{minipage} are supported. I only the width is given it does not have to be enclosed in braces.
-% The \meta{position} argument must be `|t|' for top baseline, `|b|' for bottom baseline and `|c|' for center alignment relative to other
+% The \meta{position} argument must be "t" for top baseline, "b" for bottom baseline and "c" for center alignment relative to other
 % text, i.e.\ defines the resulting baseline. If a \meta{height} is defined the \meta{inner position} defaults to \meta{position} but
-% can also be `|s|' to stretch the content over the whole height. This requires the content to include some vertical stretchable material.
+% can also be "s" to stretch the content over the whole height. This requires the content to include some vertical stretchable material.
 %
 % \subsubsection*{Examples:}
 %   \begin{examplecode}
@@ -988,7 +1018,7 @@
 % \DescribeKey{innerenv}'='<environment name>
 % \DescribeKey{innerenv}'='{<environment name>}<environment options>
 % Wraps the inner content in the given \meta{environment} before it is stored as horizontal box. Only one inner environment can be used 
-% and further uses of this key will overwrite previous ones as well as any |minipage| and |innercode| key.
+% and further uses of this key will overwrite previous ones as well as any \Key{minipage} and \Key{innercode} key.
 % It should be kept in mind that there is some internal code between the begin of the environment and the content. For this reason
 % a \env{tabular}, \env{innerenv} or similar environment will not work here, because that code will be taken as part of the first cell.
 %
@@ -1001,7 +1031,7 @@
 %
 % \DescribeKey{innercode}'='{<begin code>}{<end code>}
 % Places the given code before and after the inner content before it is stored as horizontal box. Only one set of inner code can be used 
-% and further uses of this key will overwrite previous ones as well as any |minipage| and |innerenv| key.
+% and further uses of this key will overwrite previous ones as well as any \Key{minipage} and \Key{innerenv} key.
 %
 % \subsubsection*{Example:}
 %   \begin{examplecode}
@@ -1016,7 +1046,7 @@
 % \DescribeKey{env}'='{<environment name>}<environment options>
 % Adds an \meta{environment} around the content and the already existing code around it which was added by other keys beforehand.
 % Potential \meta{environment options} (or any other code) can follow the environment name if it was set inside braces.
-% At this stage the content is already boxed and format macros won't have any effect on any included text. For this the |innerenv| key needs to be used instead.
+% At this stage the content is already boxed and format macros won't have any effect on any included text. For this the \Key{innerenv} key needs to be used instead.
 %
 % \DescribeKey{addcode}'='{<code before>}{<code afters>}
 % Adds some \meta{code before} and some \meta{code after} the content and the 
