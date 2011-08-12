@@ -385,6 +385,26 @@
 % \subsection{More box commands}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+% \begin{macro}{\phantombox}[3]{width}{height}{depth}
+% Produces an empty box with the given width, height and depth.
+%    \begin{macrocode}
+\newcommand*\phantombox[3]{%
+    \begingroup
+    \adjsetlength\@tempdima{#1}%
+    \adjsetlength\@tempdimb{#2}%
+    \adjsetlength\@tempdimc{#3}%
+    \setbox\collectedbox\hbox{}%
+    \wd\collectedbox\@tempdima
+    \ht\collectedbox\@tempdimb
+    \dp\collectedbox\@tempdimc
+    \leavevmode
+    \box\collectedbox
+    \endgroup
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
 % \begin{macro}{\minsizebox}
 %    \begin{macrocode}
 \newcommand*\minsizebox{%
