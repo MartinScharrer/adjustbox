@@ -694,6 +694,12 @@
 % \Macro\lapbox[0pt]{-\width}{<\TEXT>} is equivalent to \Macro\llap{<\TEXT>}.
 % A centering \Macro\clap macro can be achieved using \Macro\lapbox[0pt]{.5\width} or \Macro\lapbox[0pt]{-.5\width}.
 %
+%
+% \DescribeMacro\phantombox{<width>}{<height>}{<depth>}
+% This macro produces an empty box with the given width, height and depth.
+% It is equivalent to \Macro\phantom{\AlsoMacro\rule[-<depth>]{<width>}{<height>+<depth>}} but more efficient and more user friendly.
+%
+%
 % \subsection{New keys for \cs{adjustbox} and \cs{includegraphics}}\label{sec:newkeys}
 % This section lists provided keys usable as \Macro\adjustbox options and, if the \opt{export} package option was used, also as \Macro\includgraphics options.
 % If the package is loaded with the \opt{minimal} option this code is skipped.
