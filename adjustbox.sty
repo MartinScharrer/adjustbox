@@ -876,7 +876,7 @@
 % \begin{macro}{\adjbox@valign@t}
 %    \begin{macrocode}
 \def\adjbox@valign@t{%
-    \adjbox@Gin@Add{\@irsbox{\dimexpr-\height+\adjboxvtop\relax}[]}%
+    \adjbox@Gin@Add{\@irsbox{\height+\adjboxvtop}[]}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -894,7 +894,7 @@
 % \begin{macro}{\adjbox@valign@M}
 %    \begin{macrocode}
 \def\adjbox@valign@M{%
-    \adjbox@Gin@Add{\@irsbox{\dimexpr.5\depth-.5\height\relax}[]}%
+    \adjbox@Gin@Add{\@irsbox{.5\depth-.5\height}[]}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -903,7 +903,7 @@
 % \begin{macro}{\adjbox@valign@m}
 %    \begin{macrocode}
 \def\adjbox@valign@m{%
-    \adjbox@Gin@Add{\@irsbox{\dimexpr.5\depth-.5\height+\adjboxvcenter\relax}[]}%
+    \adjbox@Gin@Add{\@irsbox{.5\depth-.5\height+\adjboxvcenter}[]}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -912,7 +912,7 @@
 % \begin{macro}{\adjbox@valign@b}
 %    \begin{macrocode}
 \def\adjbox@valign@b{%
-    \adjbox@Gin@Add{\@irsbox{\dimexpr\depth+\adjboxvbottom\relax}[]}%
+    \adjbox@Gin@Add{\@irsbox{\depth+\adjboxvbottom}[]}%
 }
 %    \end{macrocode}
 % \end{macro}
