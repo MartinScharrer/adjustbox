@@ -52,6 +52,16 @@
 \usepackage{tikz}
 \normalmarginpar
 
+\renewenvironment{example}[1][Example:]{%
+    \subsubsection*{#1}%
+}{%
+    \par
+}
+\newenvironment{examples}[1][Examples:]{%
+    \subsubsection*{#1}%
+}{%
+    \par
+}
 
 \newcommand\babelfiledate{%
     \expandafter\babelfileDate\filedate\relax
@@ -788,7 +798,7 @@
 % i.e.\ this key is identical to \Key{scale}'='{-1}{1}.
 %
 %
-% \subsubsection*{Examples:}
+% \begin{examples}
 %   \begin{examplecode}
 %   \adjustbox{reflect}{\sffamily OTTO}
 %   \end{examplecode}
@@ -798,6 +808,7 @@
 %   \begin{examplecode}
 %   \adjustbox{reflect}{Some text!}
 %   \end{examplecode}
+% \end{examples}
 %
 % \subsubsection{Positioning and Alignment}
 %
@@ -811,7 +822,7 @@
 % as optional brace arguments. They can be used to set the official height and depth of the content.
 % This is also possible using the \Key{set height} and \Key{set depth} keys.
 %
-% \subsubsection*{Examples:}
+% \begin{examples}
 %   \begin{examplecode}
 %   Is \adjustbox{raise=1ex}{higher}
 %   than the normal text
@@ -826,6 +837,7 @@
 %   \rotatebox{-90}{depth}} but with limited official
 %   height and no depth.
 %   \end{examplecode}
+% \end{examples}
 %
 % \DescribeKey{valign}'='<letter>
 % This key allows to vertically align the content to the top, middle and bottom.  The uppercase letters |T|, |M| and |B|
@@ -889,23 +901,25 @@
 % It uses the same internal code as\\
 % \Macro\raisebox{'0pt'}[<height>]{<content>}.
 %
-% \subsubsection*{Examples:}
+% \begin{examples}
 %   \begin{examplecode}
 %   \adjustbox{set height=.5\height}
 %       {\shortstack{some stacked\\content}}
 %   \end{examplecode}
+% \end{examples}
 %
 % \DescribeKey{set depth}'='<depth>
 % This sets the official depth of the content without actual changing it. This can be seen as a form of trimming.
 % It uses the same internal code as\\
 % \Macro\raisebox{'0pt'}['\height'][<depth>]{<content>}.
 %
-% \subsubsection*{Examples:}
+% \begin{examples}
 %   \begin{examplecode}
 %   \adjustbox{set depth=0pt}
 %       {\shortstack{some stacked\\content
 %       with \raisebox{-1ex}{depth}}}
 %   \end{examplecode}
+% \end{examples}
 %
 % \DescribeKey{lap}'='<lap amount>
 % \DescribeKey{lap}'='{<length>}{<lap amount>}
@@ -914,7 +928,7 @@
 % \Macro\lapbox[<length>]{<lap amount>}{\ldots}, respectively. Positive \meta{amounts} lap the content to the right
 % and negative to the left. The optional \meta{length} argument allows to set the final width.
 %
-% \subsubsection*{Examples:}
+% \begin{examples}
 %   \begin{examplecode}
 %   \adjustbox{lap=.5\width}{Some content}
 %   \end{examplecode}
@@ -933,6 +947,7 @@
 %   \begin{examplecode}
 %   \adjustbox{lap={\width}{-\width}}{Some content}
 %   \end{examplecode}
+% \end{examples}
 %
 %
 % \DescribeKey{center}
@@ -948,13 +963,14 @@
 % will push the while box to the right and might cause an overfull line. In such cases a \Macro\noindent must be added beforehand.
 % The \env{adjustbox} environment already uses this macro.
 %
-% \subsubsection*{Examples:}
+% \begin{examples}
 %   \begin{examplecode}
 %   \adjustbox{center}{Some content}
 %   \end{examplecode}
 %   \begin{examplecode}
 %   \adjustbox{center=5cm}{Some content}
 %   \end{examplecode}
+% \end{examples}
 %
 % \DescribeKey{right}
 % \DescribeKey{right}'='<width>
@@ -962,13 +978,14 @@
 % places the content in a box with the given width (by default \Macro\linewidth) but right aligns it.
 % If the content is wider than the available width it will stick out into the left side without causing an overfull hbox warning.
 %
-% \subsubsection*{Examples:}
+% \begin{examples}
 %   \begin{examplecode}
 %   \adjustbox{right}{Some content}
 %   \end{examplecode}
 %   \begin{examplecode}
 %   \adjustbox{right=5cm}{Some content}
 %   \end{examplecode}
+% \end{examples}
 %
 %
 % \DescribeKey{left}
@@ -977,13 +994,14 @@
 % places the content in a box with the given width (by default \Macro\linewidth) but left aligns it.
 % If the content is wider than the available width it will stick out into the right side without causing an overfull hbox warning.
 %
-% \subsubsection*{Examples:}
+% \begin{examples}
 %   \begin{examplecode}
 %   \adjustbox{left}{Some content}
 %   \end{examplecode}
 %   \begin{examplecode}
 %   \adjustbox{left=5cm}{Some content}
 %   \end{examplecode}
+% \end{examples}
 %
 %
 %
@@ -1010,24 +1028,26 @@
 % The \Key{dpi} key provides a simple interface to set the pixel size to the given DPI (dots per inch) value.
 % For |pdflatex| the length unit |px| can be used to specify pixels. However, the equivalent dimension (length) of one pixel must be
 % set using the \Macro\pdfpxdimen length register. To set a specific DPI value this length must be set using
-% \Macro\setlength\AlsoMacro\pdfpxdimen{'1in/'<dots>}, which is done by the \MacroArgs'dpi='<dots> key.
+% \Macro\setlength\AlsoMacro\pdfpxdimen{'1in/'<dots>}, which is done by the \Key{dpi}'='<dots> key.
 %
-% \subsubsection*{Example:}
+% \begin{example}
 %   \begin{examplecode}
 %   \adjustbox{dpi=72,trim=10px,frame}
 %       {\textcolor{green}{\rule{50px}{50px}}}
 %   \end{examplecode}
+% \end{example}
 %
 % \DescribeKey{pxdim}'='<length>
 % Alternatively
 % to the \Key{dpi} key the \Macro\pdfpxdimen length can be set directly to the given value. Afterwards |1px| will stand
 % for the given \meta{length}.
 %
-% \subsubsection*{Example:}
+% \begin{example}
 %   \begin{examplecode}
 %   \adjustbox{pxdim=2pt,trim=2px,frame}
 %       {\textcolor{green}{\rule{10px}{10px}}}
 %   \end{examplecode}
+% \end{example}
 %
 % \subsection{Minipage or other inner Environment}
 % The following keys will overwrite each other and only defined for \env{adjustbox} but do not apply for \Macro\includegraphics.
@@ -1043,7 +1063,7 @@
 % text, i.e.\ defines the resulting baseline. If a \meta{height} is defined the \meta{inner position} defaults to \meta{position} but
 % can also be "s" to stretch the content over the whole height. This requires the content to include some vertical stretchable material.
 %
-% \subsubsection*{Examples:}
+% \begin{examples}
 %   \begin{examplecode}
 %   \adjustbox{minipage=5cm,angle=-10}{%
 %      Some example code which will 
@@ -1063,6 +1083,7 @@
 %      or verbatim \verb+@%^&}_+!%
 %   \end{adjustbox} After
 %   \end{examplecode}
+% \end{examples}
 %
 % \DescribeKey{innerenv}'='<environment name>
 % \DescribeKey{innerenv}'='{<environment name>}<environment options>
@@ -1071,23 +1092,23 @@
 % It should be kept in mind that there is some internal code between the begin of the environment and the content. For this reason
 % a \env{tabular}, \env{innerenv} or similar environment will not work here, because that code will be taken as part of the first cell.
 %
-% \subsubsection*{Example:}
+% \begin{example}
 %   \begin{examplecode}
 %   \newenvironment{myenv}[2][]{Before [#1](#2)}{After}
 %   \adjustbox{innerenv={myenv}[ex]{amble}}{Content}
 %   \end{examplecode}
+% \end{example}
 %
 %
 % \DescribeKey{innercode}'='{<begin code>}{<end code>}
 % Places the given code before and after the inner content before it is stored as horizontal box. Only one set of inner code can be used 
 % and further uses of this key will overwrite previous ones as well as any \Key{minipage} and \Key{innerenv} key.
 %
-% \subsubsection*{Example:}
+% \begin{example}
 %   \begin{examplecode}
 %   \adjustbox{innercode={\color{green}}{!}}{Content}
 %   \end{examplecode}
-%
-%
+% \end{example}
 %
 % \subsection{Adding own Code or Environments}
 %
