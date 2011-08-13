@@ -90,10 +90,10 @@
     basicstyle=\ttfamily\small,
     numbers=none,language=none,
     classoffset=1,
-    morekeywords={\begin,\end},
+    morekeywords={begin,end},
     keywordstyle=\bfseries,
     classoffset=0,
-    morekeywords={adjustbox,\adjustbox},
+    morekeywords={adjustbox,minsizebox,maxsizebox,lapbox,marginbox,phantombox},
     keywordstyle=\macrodescstyle,
     emph={viewport, trim, Trim, Viewport, Clip, Clip*, frame, fbox, cframe, cfbox, reflect, lap, margin, margin*, dpi,
     pxdim, execute, raise, valign, bgcolor, set, height, depth, width, totalheight, center, left, right, outer, inner, min, max,
@@ -658,6 +658,12 @@
 % The original baseline of the content is preserved because \meta{\lly} is added to the depth.
 % It is also available as \env{marginbox} environment and also usable as \Key{margin} option (see below).
 %
+% \begin{example}
+%   \begin{examplecode}
+%   Before \fbox{\marginbox{1ex 2ex 3ex 4ex}{Text}} After
+%   \end{examplecode}
+% \end{example}
+%
 %
 % \DescribeMacro\marginbox'*'{<all sites>}{<\TEXT>}
 % \DescribeMacro\marginbox'*'{<left/right>~<top/bottom>}{<\TEXT>}
@@ -666,6 +672,12 @@
 % amount, so that the original depth instead of the original baseline is preserved.
 % Note that while \Macro\marginbox is basically the opposite of \Macro\trim, \Macro\marginbox* is not the opposite of \Macro\trim*.
 % Instead it also takes the same values as the normal value and not view port values like \Macro\trim*.
+%
+% \begin{example}
+%   \begin{examplecode}
+%   Before \fbox{\marginbox*{1ex 2ex 3ex 4ex}{Text}} After
+%   \end{examplecode}
+% \end{example}
 %
 %
 % \DescribeMacro\minsizebox{<width>}{<height>}{<\TEXT>}
@@ -678,6 +690,26 @@
 % The star variant uses the total height instead of only the height.
 % This macro is used internally for the \Key{min width}, \Key{min height}, \Key{min totalheight} and \Key{min totalsize} options.
 %
+% \begin{examples}
+%   \begin{examplecode}
+%   \minsizebox{3cm}{2ex}{Some Text} which will be enlarged
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \minsizebox{!}{4ex}{\fbox{Some Text}} which will be enlarged
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \minsizebox*{!}{4ex}{\fbox{Some Text}} which will be enlarged
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \minsizebox{3cm}{!}{Some Text} which will be enlarged
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \minsizebox{1cm}{1ex}{Some Text}, already large enough
+%   \end{examplecode}
+% \end{examples}
+%
+%
+%
 % \DescribeMacro\maxsizebox{<width>}{<height>}{<\TEXT>}
 % \DescribeMacro\maxsizebox'*'{<width>}{<totalheight>}{<\TEXT>}
 % This macro is like \Macro\resizebox of the \pkg{graphics/x} package, but only resizes the content if its natural size is larger
@@ -688,6 +720,23 @@
 % The star variant uses the total height instead of only the height.
 % This macro is used internally for the \Key{max width}, \Key{max height}, \Key{max totalheight} and \Key{max totalsize} options.
 %
+% \begin{examples}
+%   \begin{examplecode}
+%   \maxsizebox{1cm}{1ex}{Some Text} which will be reduced
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \maxsizebox{!}{1ex}{\fbox{Some Text}} which will be reduced
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \maxsizebox*{!}{1ex}{\fbox{Some Text}} which will be reduced
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \maxsizebox{1cm}{!}{Some Text} which will be reduced
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \maxsizebox{3cm}{1cm}{Some Text}, already small enough
+%   \end{examplecode}
+% \end{examples}
 %
 % \DescribeMacro\lapbox[<width>]{<lap amount>}{<\TEXT>}
 % This macro is a generalisation of the \LaTeX\ core macros \Macro\rlap{<\TEXT>} and \Macro\llap{<\TEXT>} which lap the
@@ -701,18 +750,62 @@
 % content for positive amounts or the distance between the left side of the official box and the left side of the actual content 
 % for negative values.
 %
-% For example, \Macro\lapbox[0pt]{\width}{<\TEXT>} is equivalent to \Macro\rlap{<\TEXT>} and
-% \Macro\lapbox[0pt]{-\width}{<\TEXT>} is equivalent to \Macro\llap{<\TEXT>}.
-% A centering \Macro\clap macro can be achieved using \Macro\lapbox[0pt]{.5\width} or \Macro\lapbox[0pt]{-.5\width}.
+% \begin{examples}
+%   General lapping:
+%   \begin{examplecode}
+%   \lapbox{1cm}{Some Text}
+%   \end{examplecode}
+%   \vspace{-2\smallskipamount}%
+%   \begin{examplecode}
+%   \lapbox{-1cm}{Some Text}
+%   \end{examplecode}
+%   \vspace{-2\smallskipamount}%
+%   \begin{examplecode}
+%   \lapbox[4cm]{1cm}{Some Text}
+%   \end{examplecode}
+%   \vspace{-2\smallskipamount}%
+%   \begin{examplecode}
+%   \lapbox[3cm]{2cm}{Some Text}
+%   \end{examplecode}
+%   \vspace{\smallskipamount}%
+%   Like \Macro\rlap:
+%   \vspace{-\smallskipamount}%
+%   \begin{examplecode}
+%   \lapbox[0pt]{\width}{Some Text}
+%   \end{examplecode}
+%   \vspace{\smallskipamount}%
+%   Like \Macro\llap:
+%   \vspace{-\smallskipamount}%
+%   \begin{examplecode}
+%   \lapbox[0pt]{-\width}{Some Text}
+%   \end{examplecode}
+%   \vspace{\smallskipamount}%
+%   A centering \Macro\clap macro can be achieved using:
+%   \vspace{-\smallskipamount}%
+%   \begin{examplecode}
+%   \lapbox[0pt]{-.5\width}{Some Text}
+%   \end{examplecode}
+%   \vspace{-2\smallskipamount}%
+%   \begin{examplecode}
+%   \lapbox[0pt]{.5\width}{Some Text}
+%   \end{examplecode}
+%
+% \end{examples}
 %
 %
 % \DescribeMacro\phantombox{<width>}{<height>}{<depth>}
 % This macro produces an empty box with the given width, height and depth.
-% It is equivalent to \Macro\phantom{\AlsoMacro\rule[-<depth>]{<width>}{<height>+<depth>}} but more efficient and more user friendly.
+% It is equivalent to \Macro\phantom{\AlsoMacro\rule['-'<depth>]{<width>}{<height>'+'<depth>}} but more efficient and more user friendly.
+%
+% \begin{example}
+%   \begin{examplecode}
+%   Before \fbox{\phantombox{1cm}{2ex}{1ex}} After
+%   \end{examplecode}
+% \end{example}
 %
 %
 % \subsection{New keys for \cs{adjustbox} and \cs{includegraphics}}\label{sec:newkeys}
-% This section lists provided keys usable as \Macro\adjustbox options and, if the \opt{export} package option was used, also as \Macro\includgraphics options.
+% This section lists provided keys usable as \Macro\adjustbox options and, if the \opt{export} package option was used, also as \Macro\includegraphics options.
 % If the package is loaded with the \opt{minimal} option this code is skipped.
 %
 % \subsubsection{Trimming and Clipping}
