@@ -1,47 +1,22 @@
 LaTeX package 'adjustbox'
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 Copyright (c) 2011 by Martin Scharrer <martin@scharrer-online.de>
-WWW: http://latex.scharrer-online.de/
+WWW: https://bitbucket.org/martin_scharrer/adjustbox (incl. bug tracker)
 
-Provides the macros \trimbox, \clipbox and \adjustbox as an addition
-to the macros \resizebox, \scalebox and \rotatebox from the 'graphics' package.
-It reuses the key=value interface of the 'graphicx' package.
-The 'pgf' package is used to implement the trimming and clipping operations
-as well as to parse the numeric values.
-Environment versions of the macros are also provided.
-Both macros and environments support verbatim content.
+This package provides several macros to adjust boxed content.
+One purpose is to supplement the standard 'graphics' package, which defines the macros
+\resizebox, \scalebox and \rotatebox, with the macros \trimbox and \clipbox.
+The main feature is the general \adjustbox macro which extends the key=value
+interface of \includegraphics from the 'graphicx' package, and applies it to general text
+content.
+Additional provided box macros are \lapbox, \marginbox, \minsizebox, \maxsizebox and \phantombox.
 
-Usage:
-\trimbox{<llx> <lly> <urx> <ury>}{<text>}       Trims given amount
-\trimbox*{<llx> <lly> <urx> <ury>}{<text>}      Trims to given viewport
+All macros use the authors other package 'collectbox' to read the content as box and not as
+macro argument. This allows for all forms of content including special material like verbatim content.
+A special feature of 'collectbox' is used to provide matching environments with the identical names as the
+macros.
 
-\clipbox{<llx> <lly> <urx> <ury>}{<text>}       Clips given amount
-\clipbox*{<llx> <lly> <urx> <ury>}{<text>}      Clips to given viewport
-
-\adjustbox{<includegraphics options>}{<text>}   Like graphicx's \includegraphics, but for text
-Supported options: width, height, totalheight, keepaspectratio, scale, angle, trim, viewport, clip
-The options is mandatory but can be empty for the trivial case (=\mbox).
-
-
-Environments:
-
-\begin{trimbox}{<llx> <lly> <urx> <ury>}
-   <text>
-\end{trimbox}
-
-\begin{trimbox*}{<llx> <lly> <urx> <ury>}
-   <text>
-\end{trimbox*}
-
-\begin{clipbox}{<llx> <lly> <urx> <ury>}
-   <text>
-\end{clipbox}
-
-\begin{clipbox*}{<llx> <lly> <urx> <ury>}
-   <text>
-\end{clipbox*}
-
-\begin{adjustbox}{<includegraphics options>}
-   <text>
-\end{adjustbox}
+The clipping operation is output driver dependend. At the moment the package provides
+native support for 'pdflatex'. For other output drivers the 'pgf' package is used as a general 
+fall-back for all clipping operations.
 
