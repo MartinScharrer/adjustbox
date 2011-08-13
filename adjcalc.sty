@@ -53,10 +53,10 @@
 %    \begin{macrocode}
 \def\adjcalc@etex{%
     \protected\def\adjsetlength##1##2{%
-        ##1=\dimexpr##2\relax
+        ##1=\glueexpr##2\relax
     }%
     \protected\def\adjaddtolength##1##2{%
-        \advance##1 by \dimexpr##2\relax
+        \advance##1 by \glueexpr##2\relax
     }%
     \protected\def\adjsetcounter##1##2{%
         \@ifundefined{c@##1}%
@@ -69,7 +69,7 @@
             {\global\advance\csname c@##1\endcsname\numexpr ##2\relax}%
     }%
     \def\adjbox@default##1##2{%
-        \@defaultunits##1=\dimexpr##2 \adjbox@defaultunit\relax\@nnil
+        \@defaultunits##1=\glueexpr##2 \adjbox@defaultunit\relax\@nnil
     }%
 }
 %    \end{macrocode}
