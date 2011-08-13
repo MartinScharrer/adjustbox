@@ -20,6 +20,13 @@ tds
 *.svx
 *.toc
 *.zip
+*.ps
+*.eps
 ?.*
 ?
-
+.manual
+*.tex
+build
+collectbox.sty
+*.dvi
+*.fdb_latexmk
