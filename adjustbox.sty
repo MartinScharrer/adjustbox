@@ -1452,3 +1452,56 @@
 % \end{macro}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \subsection{New, experimental macros and keys}
+%
+% \begin{macro}{\bgimagebox}
+%    \begin{macrocode}
+\newcommand*\bgimagebox[2][]{%
+    \collectboxcheckenv{bgimagebox}%
+    \@collectbox{\@bgimagebox{#1}{#2}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@bgimagebox}
+%    \begin{macrocode}
+\def\@bgimagebox#1#2{%
+    \mbox{%
+        \lower\depth\hbox{%
+            \edef\@tempa{\noexpand\includegraphics%
+                [#1,width=\the\width,totalheight=\the\totalheight]%
+                {#2}%
+            }%
+            \@tempa
+        }%
+        \hskip-\width%
+        \BOXCONTENT
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{key}{adjbox}{bgimage}
+%    \begin{macrocode}
+\define@key{adjbox}{bgimage}{%
+    \@ifnextchar\bgroup{%
+        \adjbox@bgimage
+    }{%
+        \adjbox@bgimage{}{#1}%
+    }#1\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\adjbox@bgimage}
+%    \begin{macrocode}
+\def\adjbox@bgimage#1#2#3\@nnil{%
+    \adjbox@Gin@add{\@collectbox{\@bgimagebox{#1}{#2}}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
