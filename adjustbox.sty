@@ -930,10 +930,43 @@
 % \begin{key}{adjbox}{bgcolor}
 %    \begin{macrocode}
 \define@key\adjbox@fam{bgcolor}{%
-    \adjbox@Gin@add{\colorbox{#1}}%
+    \@ifnextchar\bgroup{%
+        \adjbox@bgcolor
+    }{%
+        \adjbox@bgcolor{}{#1}%
+    }#1\@nnil
 }
 %    \end{macrocode}
 % \end{key}
+%
+%
+% \begin{macro}{\adjbox@bgcolor}
+%    \begin{macrocode}
+\def\adjbox@bgcolor#1#2#3\@nnil{%
+    \adjbox@Gin@add{\@collectbox{\adjbox@@bgcolor{#1}{#2}}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@@bgcolor}
+%    \begin{macrocode}
+\def\adjbox@@bgcolor#1#2{%
+    \mbox{%
+        \hbox{%
+            \ifx\@nnil#1\@nnil
+                \color{#2}%
+            \else
+                \color[#1]{#2}%
+            \fi
+            \vrule\@width\width\@height\height\@depth\depth
+        }%
+        \hskip-\width
+        \BOXCONTENT
+    }%
+}%
+%    \end{macrocode}
+% \end{macro}
 %
 %
 % \begin{key}{adjbox}{set height}
