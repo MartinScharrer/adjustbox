@@ -2,7 +2,7 @@
 % \subsection{Package header, options and dependencies}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %    \begin{macrocode}
-\ProvidesPackage{adjustbox}[2011/08/07 v0.5 Adjusting TeX boxes (trim, clip, ...)]
+\ProvidesPackage{adjustbox}[2011/08/21 v0.5a Adjusting TeX boxes (trim, clip, ...)]
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -36,7 +36,7 @@
 %
 %    \begin{macrocode}
 \RequirePackage{graphicx}[1999/02/16]
-\RequirePackage{collectbox}[2011/08/06]
+\RequirePackage{collectbox}[2011/08/11]
 %    \end{macrocode}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1041,7 +1041,7 @@
 % \begin{key}{adjbox}{left}
 %    \begin{macrocode}
 \define@key\adjbox@fam{left}[\linewidth]{%
-    \adjbox@halign{#1}\hss\relax
+    \adjbox@halign{#1}\relax\hss
 }
 %    \end{macrocode}
 % \end{key}
@@ -1049,7 +1049,7 @@
 % \begin{key}{adjbox}{right}
 %    \begin{macrocode}
 \define@key\adjbox@fam{right}[\linewidth]{%
-    \adjbox@halign{#1}\relax\hss
+    \adjbox@halign{#1}\hss\relax
 }
 %    \end{macrocode}
 % \end{key}
