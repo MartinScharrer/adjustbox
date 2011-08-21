@@ -25,7 +25,7 @@
 %
 % \iffalse
 %<*driver>
-\ProvidesFile{adjustbox.dtx}[2011/08/13 v0.5 DTX File]
+\ProvidesFile{adjustbox.dtx}[2011/08/21 v0.5a DTX File]
 \expandafter\ifx\csname ifenglish\endcsname\relax
     \expandafter\newif\csname ifenglish\endcsname
     \englishtrue
@@ -48,7 +48,7 @@
 \MakeSpecialShortVerb\qverb\"
 %\AtBeginDocument{\MakeShortMacroArgs\`\relax}
 %\AtEndDocument{\DeleteShortVerb\`}
-\usepackage{adjustbox}
+\usepackage{adjustbox}[2011/08/21]
 \usepackage{tikz}
 \normalmarginpar
 
@@ -186,6 +186,7 @@
 % \changes{v0.3}{2011/03/20}{Bug fix for wrong baseline placed on the bottom}
 % \changes{v0.4}{2011/07/xx}{Added pdftex driver}
 % \changes{v0.5}{2011/08/13}{Added more macros and keys}
+% \changes{v0.5a}{2011/08/21}{Fixed \Key{left} and \Key{right} keys. Fixed \Key{valign}'='t}
 %
 % \GetFileInfo{adjustbox.dtx}
 %
@@ -967,9 +968,9 @@
 %   \adjustbox{valign=M}{\textcolor{red}{\rule{1em}{2em}\unskip}}\unskip
 %   \adjustbox{valign=M}{\textcolor{green}{\rule{1em}{3em}\unskip}}\unskip
 %   \adjustbox{valign=M}{\textcolor{blue}{\rule{1em}{1ex}\unskip}} &
-%   \adjustbox{valign=T}{\textcolor{red}{\rule{1em}{2em}\unskip}}\unskip
-%   \adjustbox{valign=T}{\textcolor{green}{\rule{1em}{3em}\unskip}}\unskip
-%   \adjustbox{valign=T}{\textcolor{blue}{\rule{1em}{1ex}\unskip}} &
+%   \adjustbox{valign=B}{\textcolor{red}{\rule{1em}{2em}\unskip}}\unskip
+%   \adjustbox{valign=B}{\textcolor{green}{\rule{1em}{3em}\unskip}}\unskip
+%   \adjustbox{valign=B}{\textcolor{blue}{\rule{1em}{1ex}\unskip}} &
 %   Mxy \newline \mbox{\vr Mxy}\newline Mxy \\
 %  \midrule
 %   \texttt{t} & \texttt{m} & \texttt{b} & Text \\
@@ -979,9 +980,9 @@
 %   \adjustbox{valign=m}{\textcolor{red}{\rule{1em}{2em}\unskip}}\unskip
 %   \adjustbox{valign=m}{\textcolor{green}{\rule{1em}{3em}\unskip}}\unskip
 %   \adjustbox{valign=m}{\textcolor{blue}{\rule{1em}{1ex}\unskip}} &
-%   \adjustbox{valign=t}{\textcolor{red}{\rule{1em}{2em}\unskip}}\unskip
-%   \adjustbox{valign=t}{\textcolor{green}{\rule{1em}{3em}\unskip}}\unskip
-%   \adjustbox{valign=t}{\textcolor{blue}{\rule{1em}{1ex}\unskip}} &
+%   \adjustbox{valign=b}{\textcolor{red}{\rule{1em}{2em}\unskip}}\unskip
+%   \adjustbox{valign=b}{\textcolor{green}{\rule{1em}{3em}\unskip}}\unskip
+%   \adjustbox{valign=b}{\textcolor{blue}{\rule{1em}{1ex}\unskip}} &
 %   Mxy \newline \mbox{\vr Mxy}\newline Mxy \\
 %  \bottomrule
 % \end{tabular}}
