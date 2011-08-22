@@ -71,14 +71,14 @@ build: adjustbox.dtx adjustbox.ins README
 	rm -rf build/
 	mkdir build
 	perl ../dtx/dtx.pl adjustbox.dtx build/adjustbox.dtx
-	perl ../dtx/dtx.pl storebox.dtx build/storebox.dtx
+#	perl ../dtx/dtx.pl storebox.dtx build/storebox.dtx
 	${CP} adjustbox.ins README build/
 	cd build && yes | tex adjustbox.ins
 	cd build && latexmk -pdf adjustbox.dtx
-	cd build && latexmk -pdf storebox.dtx
+#	cd build && latexmk -pdf storebox.dtx
 	cd build && ${PDFOPT} adjustbox.pdf opt.pdf && mv opt.pdf adjustbox.pdf
-	cd build && ${PDFOPT} storebox.pdf opt.pdf && mv opt.pdf storebox.pdf
-	cd build && ctanify adjustbox.dtx adjustbox.ins storebox.dtx *.sty adjpgf.def=tex/latex/adjustbox/ README
+#	cd build && ${PDFOPT} storebox.pdf opt.pdf && mv opt.pdf storebox.pdf
+	cd build && ctanify adjustbox.dtx adjustbox.ins *.sty adjpgf.def=tex/latex/adjustbox/ README adjustbox.pdf #storebox.dtx
 	cd build && ${CP} adjustbox.tar.gz /tmp
 
 buildonce: adjustbox.dtx adjustbox.ins README

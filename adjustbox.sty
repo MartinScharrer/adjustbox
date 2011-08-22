@@ -36,7 +36,7 @@
 %
 %    \begin{macrocode}
 \RequirePackage{graphicx}[1999/02/16]
-\RequirePackage{collectbox}[2011/08/11]
+\RequirePackage{collectbox}[2011/08/22]
 %    \end{macrocode}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1358,6 +1358,44 @@
 % \end{key}
 %
 %
+% \begin{key}{adjbox}{tabular}
+%    \begin{macrocode}
+\define@key{adjbox}{tabular}{%
+    \@ifnextchar[{%
+        \adjbox@innerenv{tabular}%
+    }{%
+        \adjbox@innerenv{tabular}{{#1}}\@nnil%
+        \remove@to@nnil
+    }#1\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{tabular*}
+%    \begin{macrocode}
+\define@key{adjbox}{tabular*}{%
+    \adjbox@innerenv{tabular*}#1\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{array}
+%    \begin{macrocode}
+\define@key{adjbox}{array}{%
+    \@ifnextchar[{%
+        \adjbox@innercode{\(\begin{array}#1}{\end{array}\)}%
+        \remove@to@nnil
+    }{%
+        \adjbox@innercode{\(\begin{array}{#1}}{\end{array}\)}%
+        \remove@to@nnil
+    }#1\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
 % \begin{key}{adjbox}{innerenv}
 %    \begin{macrocode}
 \define@key{adjbox}{innerenv}{%
@@ -1388,13 +1426,6 @@
 %    \end{macrocode}
 % \end{key}
 %
-% \begin{macro}{\adjbox@innerenv}
-%    \begin{macrocode}
-\def\adjbox@innerenv#1#2\@nnil{%
-    \def\adjbox@collectbox##1{\collectbox@{\begin{#1}#2}{##1}{\end{#1}}}%
-}%
-%    \end{macrocode}
-% \end{macro}
 %
 % \begin{macro}{\adjbox@innercode}
 %    \begin{macrocode}
