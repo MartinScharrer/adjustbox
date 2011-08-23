@@ -1362,9 +1362,9 @@
 %    \begin{macrocode}
 \define@key{adjbox}{tabular}{%
     \@ifnextchar[{%
-        \adjbox@innerenv{tabular}%
+        \adjbox@tabular{tabular}%
     }{%
-        \adjbox@innerenv{tabular}{{#1}}\@nnil%
+        \adjbox@tabular{tabular}{{#1}}\@nnil%
         \remove@to@nnil
     }#1\@nnil
 }
@@ -1372,10 +1372,23 @@
 % \end{key}
 %
 %
+% \begin{macro}{\adjbox@tabular}
+%    \begin{macrocode}
+\def\adjbox@tabular#1#2\@nnil{%
+    \ifcollectboxenv
+        \adjbox@innerenv{#1}{#2}\@nnil
+    \else
+        \def\adjbox@collectbox##1{\collectbox@tab{#1}{#2}{}{##1}{}}%
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
 % \begin{key}{adjbox}{tabular*}
 %    \begin{macrocode}
 \define@key{adjbox}{tabular*}{%
-    \adjbox@innerenv{tabular*}#1\@nnil
+    \adjbox@tabular{tabular*}#1\@nnil
 }
 %    \end{macrocode}
 % \end{key}
@@ -1385,15 +1398,27 @@
 %    \begin{macrocode}
 \define@key{adjbox}{array}{%
     \@ifnextchar[{%
-        \adjbox@innercode{\(\begin{array}#1}{\end{array}\)}%
-        \remove@to@nnil
+        \adjbox@array%
     }{%
-        \adjbox@innercode{\(\begin{array}{#1}}{\end{array}\)}%
+        \adjbox@array{{#1}}\@nnil%
         \remove@to@nnil
     }#1\@nnil
 }
 %    \end{macrocode}
 % \end{key}
+%
+%
+% \begin{macro}{\adjbox@array}
+%    \begin{macrocode}
+\def\adjbox@array#1\@nnil{%
+    \ifcollectboxenv
+        \adjbox@innercode{\(\begin{array}#1}{\end{array}\)}%
+    \else
+        \def\adjbox@collectbox##1{\collectbox@tab{array}{#1}{\(}{##1}{\)}}%
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
 %
 %
 % \begin{key}{adjbox}{innerenv}
@@ -1568,4 +1593,4 @@
 }
 %    \end{macrocode}
 % \end{macro}
-%
+
