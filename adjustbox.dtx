@@ -187,6 +187,7 @@
 % \changes{v0.4}{2011/07/xx}{Added pdftex driver}
 % \changes{v0.5}{2011/08/13}{Added more macros and keys}
 % \changes{v0.5a}{2011/08/21}{Fixed \Key{left} and \Key{right} keys. Fixed \Key{valign}'='t}
+% \changes{v0.6}{2011/09/04}{Added tabular support.}
 %
 % \GetFileInfo{adjustbox.dtx}
 %
@@ -1143,7 +1144,10 @@
 % \end{example}
 %
 % \subsection{Minipage or other inner Environment}
-% The following keys will overwrite each other and only defined for \env{adjustbox} but do not apply for \Macro\includegraphics.
+% The following keys set the way the content is processed before it is stored it in a box.
+% These keys will overwrite each other and only the latest used key will take effect.
+% Because they affect the inner content directly their order relative to other, normal keys is not meaningful.
+% Also they are only defined for \env{adjustbox} but do not apply for \Macro\includegraphics.
 % Because they are therefore only used inside a mandatory argument and never in an optional these keys allow for optional bracket arguments.
 %
 % \DescribeKey{minipage}'='<width>
@@ -1178,10 +1182,19 @@
 %   \end{examplecode}
 % \end{examples}
 %
+% \DescribeKey{tabular}'='[<position>]{<column specification>}
+% \DescribeKey{tabular*}'='[<position>]{<width>}{<column specification>}
+% \DescribeKey{array}'='[<position>]{<column specification>}
+% Places the content in a \env{tabular}, \env{tabular*} or \env{array} environment, respectively.
+% These keys require different implementations for macro (\Macro\adjustbox) and environment mode (\env{adjustbox} environment) in order to insert
+% the end code correctly. Note that the environment mode is more efficient and fully stable, while the macro mode requires the last row to end with 
+% an explicit |\\| (which can be followed by \Macro\hline or any other macro which uses \Macro\noalign internally). In macro mode the |\\| is internally redefined
+% to check for the closing brace. While this was successful tested for normal usages it might still cause issues with unusual or complicated cases.
+%
+%
 % \DescribeKey{innerenv}'='<environment name>
 % \DescribeKey{innerenv}'='{<environment name>}<environment options>
-% Wraps the inner content in the given \meta{environment} before it is stored as horizontal box. Only one inner environment can be used 
-% and further uses of this key will overwrite previous ones as well as any \Key{minipage} and \Key{innercode} key.
+% Wraps the inner content in the given \meta{environment} before it is stored as horizontal box.
 % It should be kept in mind that there is some internal code between the begin of the environment and the content. For this reason
 % a \env{tabular}, \env{innerenv} or similar environment will not work here, because that code will be taken as part of the first cell.
 %
@@ -1194,8 +1207,7 @@
 %
 %
 % \DescribeKey{innercode}'='{<begin code>}{<end code>}
-% Places the given code before and after the inner content before it is stored as horizontal box. Only one set of inner code can be used 
-% and further uses of this key will overwrite previous ones as well as any \Key{minipage} and \Key{innerenv} key.
+% Places the given code before and after the inner content before it is stored as horizontal box.
 %
 % \begin{example}
 %   \begin{examplecode}

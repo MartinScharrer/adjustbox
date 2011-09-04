@@ -17,9 +17,6 @@ all: unpack doc
 package: unpack
 class: unpack
 
-${PACKEDFILES}: adjustbox.dtx adjustbox.ins
-	yes | pdflatex adjustbox.ins
-
 unpack: ${PACKEDFILES}
 
 doc: ${DOCFILES}
