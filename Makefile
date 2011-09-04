@@ -84,6 +84,7 @@ build: adjustbox.dtx adjustbox.ins README
 #	perl ../dtx/dtx.pl storebox.dtx build/storebox.dtx
 	${CP} adjustbox.ins README build/
 	cd build && yes | tex adjustbox.ins
+	cd build && ln -s ../collectbox.sty
 	cd build && latexmk -pdf adjustbox.dtx
 #	cd build && latexmk -pdf storebox.dtx
 	cd build && ${PDFOPT} adjustbox.pdf opt.pdf && mv opt.pdf adjustbox.pdf
@@ -98,6 +99,7 @@ buildonce: adjustbox.dtx adjustbox.ins README
 	perl ../dtx/dtx.pl storebox.dtx build/storebox.dtx
 	${CP} adjustbox.ins README build/
 	cd build && yes | tex adjustbox.ins
+	cd build && ln -s ../collectbox.sty
 	cd build && pdflatex adjustbox.dtx
 #	cd build && pdflatex storebox.dtx
 

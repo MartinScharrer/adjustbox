@@ -1191,6 +1191,22 @@
 % an explicit |\\| (which can be followed by \Macro\hline or any other macro which uses \Macro\noalign internally). In macro mode the |\\| is internally redefined
 % to check for the closing brace. While this was successful tested for normal usages it might still cause issues with unusual or complicated cases.
 %
+% \begin{examples}
+%   \begin{examplecode}
+%   \adjustbox{tabular=lll}{%
+%                   \hline
+%       A & B & C \\\hline
+%       a & b & c \\\hline
+%   }
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \begin{adjustbox}{tabular=lll}
+%       A & B & C \\
+%       a & b & c
+%   \end{adjustbox}
+%   \end{examplecode}
+% \end{examples}
+%
 %
 % \DescribeKey{innerenv}'='<environment name>
 % \DescribeKey{innerenv}'='{<environment name>}<environment options>
