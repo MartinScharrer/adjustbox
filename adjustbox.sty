@@ -1604,7 +1604,7 @@
 \newcommand\splitbox[2]{%
     \noindent
     \collectboxcheckenv{splitbox}%
-    \collectbox{\@splitbox{#1}{#2}}%
+    \@collectbox{\@splitbox{#1}{#2}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1612,7 +1612,7 @@
 %
 % \begin{macro}{\splitboxcmd}
 %    \begin{macrocode}
-\def\splitboxcmd\relax
+\let\splitboxcmd\relax
 %    \end{macrocode}
 % \end{macro}
 %
@@ -1639,17 +1639,17 @@
     \xdef\@tempa{#1}%
     \xdef\@tempb{#2}%
     \ifx\@tempa\Gin@exclamation
-        \Gin@nat@width\maxdimen
+        \@tempdima\maxdimen
     \else
-        \adjsetlength\Gin@nat@width\@tempa
+        \adjsetlength\@tempdima\@tempa
     \fi
     \ifx\@tempb\Gin@exclamation
         \Gin@nat@height\maxdimen
     \else
         \adjsetlength\Gin@nat@height\@tempb
     \fi
-    \ifdim\Gin@nat@width>\width
-        \Gin@nat@width\width
+    \ifdim\@tempdima>\width
+        \@tempdima\width
     \fi
     \ifdim\Gin@nat@height>\totalheight
         \Gin@nat@height\totalheight
@@ -1668,13 +1668,13 @@
 % \begin{macro}{\@@splitbox}
 %    \begin{macrocode}
 \def\@@splitbox{%
-    \advance\adjbox@turx-\Gin@nat@width
+    \advance\adjbox@turx-\@tempdima
     {\setbox\collectedbox\hbox{\usestorebox\splittedbox}%
         \@clipbox\adjbox@tllx\adjbox@tlly\adjbox@turx\adjbox@tury\collectedbox
         \splitboxcmd{\usebox\collectedbox}%
     }%
     \ifdim\adjbox@turx>\z@
-        \advance\adjbox@tllx+\Gin@nat@width
+        \advance\adjbox@tllx+\@tempdima
         \expandafter\@@splitbox
     \else
         \splitboxnewline
@@ -1691,3 +1691,44 @@
 %    \end{macrocode}
 % \end{macro}
 %
+
+\def\pagebreakbox{%
+    \par\noindent
+    \@collectbox\@pagebreakbox
+}
+
+\def\@pagebreakbox{%
+    \ifstorebox
+        \storebox\splittedbox{\BOXCONTENT}%
+        \setbox\collectedbox\hbox{\usestorebox\splittedbox}%
+    \fi
+    \adjsetlength\adjbox@tlly{\totalheight-\pagegoal+\pagetotal+\ht\strutbox}%
+    \ifdim\adjbox@tlly>\z@
+        \begingroup
+        \setbox\collectedbox=\copy\collectedbox
+        \@clipbox\z@\adjbox@tlly\z@\z@\collectedbox
+        \BOXCONTENT\\
+        \endgroup
+        \adjsetlength\adjbox@tury{\totalheight-\adjbox@tlly}%
+        \ifdim\adjbox@tlly>\textheight
+            \loop
+                \advance\adjbox@tlly-\textheight
+                \begingroup
+                \setbox\collectedbox=\copy\collectedbox
+                \@clipbox\z@\adjbox@tlly\z@\adjbox@tury\collectedbox
+                \BOXCONTENT\\
+                \endgroup
+                \advance\adjbox@tury\textheight
+                \ifdim\adjbox@tlly>\textheight
+            \repeat
+            \@clipbox\z@\z@\z@\adjbox@tury\collectedbox
+            \BOXCONTENT
+        \else
+            \@clipbox\z@\z@\z@\adjbox@tury\collectedbox
+            \BOXCONTENT
+        \fi
+    \else
+        \BOXCONTENT%
+    \fi
+}
+
