@@ -1634,8 +1634,10 @@
 % \begin{macro}{\@splitbox}
 %    \begin{macrocode}
 \def\@splitbox#1#2{%
-    \let\splittedbox\collectedbox
-    \storebox\splittedbox{\raise\depth\hbox{\BOXCONTENT}}%
+    \ifstorebox
+        \storebox\splittedbox{\BOXCONTENT}%
+        \setbox\collectedbox\hbox{\usestorebox\splittedbox}%
+    \fi
     \xdef\@tempa{#1}%
     \xdef\@tempb{#2}%
     \ifx\@tempa\Gin@exclamation
@@ -1669,10 +1671,11 @@
 %    \begin{macrocode}
 \def\@@splitbox{%
     \advance\adjbox@turx-\@tempdima
-    {\setbox\collectedbox\hbox{\usestorebox\splittedbox}%
-        \@clipbox\adjbox@tllx\adjbox@tlly\adjbox@turx\adjbox@tury\collectedbox
-        \splitboxcmd{\usebox\collectedbox}%
-    }%
+    \begingroup
+    \setbox\collectedbox=\copy\collectedbox
+    \@clipbox\adjbox@tllx\adjbox@tlly\adjbox@turx\adjbox@tury\collectedbox
+    \splitboxcmd{\usebox\collectedbox}%
+    \endgroup
     \ifdim\adjbox@turx>\z@
         \advance\adjbox@tllx+\@tempdima
         \expandafter\@@splitbox
