@@ -5,7 +5,7 @@ DIRECTORY     = /macros/latex/contrib/adjustbox
 DONOTANNOUNCE = 0
 LICENSE       = free
 FREEVERSION   = lppl
-FILE          = /tmp/${CONTRIBUTION}.tar.gz
+FILE          = ${CONTRIBUTION}.tar.gz
 export CONTRIBUTION VERSION NAME EMAIL SUMMARY DIRECTORY DONOTANNOUNCE ANNOUNCE NOTES LICENSE FREEVERSION FILE
 
 upload: build
@@ -89,8 +89,8 @@ build: adjustbox.dtx adjustbox.ins README
 #	cd build && latexmk -pdf storebox.dtx
 	cd build && ${PDFOPT} adjustbox.pdf opt.pdf && mv opt.pdf adjustbox.pdf
 #	cd build && ${PDFOPT} storebox.pdf opt.pdf && mv opt.pdf storebox.pdf
-	cd build && ctanify adjustbox.dtx adjustbox.ins *.sty adjpgf.def=tex/latex/adjustbox/ README adjustbox.pdf #storebox.dtx
-	cd build && ${CP} adjustbox.tar.gz /tmp
+	cd build && ctanify adjustbox.dtx adjustbox.ins adj*.sty adjpgf.def=tex/latex/adjustbox/ README adjustbox.pdf #storebox.dtx
+	cd build && ${CP} adjustbox.tar.gz ..
 
 buildonce: adjustbox.dtx adjustbox.ins README
 	rm -rf build/
