@@ -1602,31 +1602,9 @@
 % \begin{macro}{\splitbox}
 %    \begin{macrocode}
 \newcommand\splitbox[2]{%
-    \noindent
     \collectboxcheckenv{splitbox}%
     \@collectbox{\@splitbox{#1}{#2}}%
 }
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\splitboxcmd}
-%    \begin{macrocode}
-\let\splitboxcmd\relax
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\splitboxnewline}
-%    \begin{macrocode}
-\newcommand\splitboxnewline{\\}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\splitbox@epsilon}
-%    \begin{macrocode}
-\def\splitbox@epsilon{100sp}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -1694,12 +1672,40 @@
 %    \end{macrocode}
 % \end{macro}
 %
-
+%
+% \begin{macro}{\splitboxcmd}
+%    \begin{macrocode}
+\let\splitboxcmd\relax
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\splitboxnewline}
+%    \begin{macrocode}
+\newcommand\splitboxnewline{\\}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\splitbox@epsilon}
+%    \begin{macrocode}
+\def\splitbox@epsilon{100sp}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\pagebreakbox}
+%    \begin{macrocode}
 \def\pagebreakbox{%
-    \par\noindent
+    \collectboxcheckenv{pagebreakbox}%
     \@collectbox\@pagebreakbox
 }
-
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@pagebreakbox}
+%    \begin{macrocode}
 \def\@pagebreakbox{%
     \ifstorebox
         \storebox\splittedbox{\BOXCONTENT}%
@@ -1734,4 +1740,6 @@
         \BOXCONTENT%
     \fi
 }
-
+%    \end{macrocode}
+% \end{macro}
+%
