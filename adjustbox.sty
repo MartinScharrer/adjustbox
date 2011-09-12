@@ -1602,12 +1602,20 @@
 % \begin{macro}{\splitbox}
 %    \begin{macrocode}
 \newcommand\splitbox[2]{%
-    \noindent
     \collectboxcheckenv{splitbox}%
     \@collectbox{\@splitbox{#1}{#2}}%
 }
 %    \end{macrocode}
 % \end{macro}
+%
+%
+% \begin{key}{adjbox}{split}
+%    \begin{macrocode}
+\define@key\adjbox@fam{split}{%
+    \adjbox@Gin@Add{\@collectbox{\@splitbox#1}}%
+}
+%    \end{macrocode}
+% \end{key}
 %
 %
 % \begin{macro}{\@splitbox}
@@ -1698,12 +1706,20 @@
 % \begin{macro}{\pagebreakbox}
 %    \begin{macrocode}
 \newcommand\pagebreakbox[1][]{%
-    \noindent
     \collectboxcheckenv{pagebreakbox}%
     \@collectbox{\@pagebreakbox{#1}}%
 }
 %    \end{macrocode}
 % \end{macro}
+%
+% \begin{key}{adjbox}{split}
+%    \begin{macrocode}
+\define@key\adjbox@fam{pagebreak}[]{%
+    \adjbox@Gin@Add{\@collectbox{\@pagebreakbox{#1}}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
 %
 %
 % \begin{macro}{\@pagebreakbox}
@@ -1756,3 +1772,4 @@
 %    \end{macrocode}
 % \end{macro}
 %
+
