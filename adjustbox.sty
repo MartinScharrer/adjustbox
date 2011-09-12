@@ -1602,6 +1602,7 @@
 % \begin{macro}{\splitbox}
 %    \begin{macrocode}
 \newcommand\splitbox[2]{%
+    \noindent
     \collectboxcheckenv{splitbox}%
     \@collectbox{\@splitbox{#1}{#2}}%
 }
@@ -1696,9 +1697,10 @@
 %
 % \begin{macro}{\pagebreakbox}
 %    \begin{macrocode}
-\def\pagebreakbox{%
+\newcommand\pagebreakbox[1][]{%
+    \noindent
     \collectboxcheckenv{pagebreakbox}%
-    \@collectbox\@pagebreakbox
+    \@collectbox{\@pagebreakbox{#1}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1706,18 +1708,29 @@
 %
 % \begin{macro}{\@pagebreakbox}
 %    \begin{macrocode}
-\def\@pagebreakbox{%
+\def\@pagebreakbox#1{%
     \ifstorebox
         \storebox\splittedbox{\BOXCONTENT}%
         \setbox\collectedbox\hbox{\usestorebox\splittedbox}%
     \fi
-    \adjsetlength\adjbox@tlly{\totalheight-\pagegoal+\pagetotal+\ht\strutbox}%
+    \def\@tempa{#1}%
+    \ifx\@tempa\emtpy
+        \adjsetlength\adjbox@tlly
+            {\totalheight-\pagegoal+\pagetotal+\ht\strutbox}%
+    \else
+        \sbox\@tempboxa{\begin{minipage}{\linewidth}\@tempa\end{minipage}}%
+        \adjsetlength\adjbox@tlly
+            {\totalheight-\pagegoal+\pagetotal+\ht\strutbox+\ht\@tempboxa+\dp\@tempboxa}%
+    \fi
     \ifdim\adjbox@tlly>\z@
         \begingroup
         \setbox\collectedbox=\copy\collectedbox
         \@clipbox\z@\adjbox@tlly\z@\z@\collectedbox
         \BOXCONTENT\\
         \endgroup
+        \ifx\@tempa\empty\else
+            \usebox\@tempboxa\\
+        \fi
         \adjsetlength\adjbox@tury{\totalheight-\adjbox@tlly}%
         \ifdim\adjbox@tlly>\textheight
             \loop
