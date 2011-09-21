@@ -1667,10 +1667,12 @@
         \advance\adjbox@tllx+\@tempdima
         \expandafter\@@splitbox
     \else
-        \splitboxnewline
-        \adjbox@tllx\z@
-        \adjbox@turx\width
-        \ifdim\adjbox@tlly<\splitbox@epsilon\else
+        \ifdim\adjbox@tlly<\splitbox@epsilon
+            \splitboxlastnewline
+        \else
+            \splitboxnewline
+            \adjbox@tllx\z@
+            \adjbox@turx\width
             \advance\adjbox@tlly-\Gin@nat@height
             \advance\adjbox@tury+\Gin@nat@height
             \expandafter\expandafter
@@ -1684,7 +1686,7 @@
 %
 % \begin{macro}{\splitboxcmd}
 %    \begin{macrocode}
-\let\splitboxcmd\relax
+\let\splitboxcmd\empty
 %    \end{macrocode}
 % \end{macro}
 %
@@ -1692,6 +1694,13 @@
 % \begin{macro}{\splitboxnewline}
 %    \begin{macrocode}
 \newcommand\splitboxnewline{\\}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\splitboxlastnewline}
+%    \begin{macrocode}
+\newcommand\splitboxlastnewline{\splitboxnewline}
 %    \end{macrocode}
 % \end{macro}
 %
