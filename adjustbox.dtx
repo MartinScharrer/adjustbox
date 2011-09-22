@@ -1,26 +1,25 @@
 % \iffalse meta-comment
-%
-% Copyright (C) 2011 by Martin Scharrer <martin@scharrer-online.de>
-% -----------------------------------------------------------------
-%
-% This work may be distributed and/or modified under the
-% conditions of the LaTeX Project Public License, either version 1.3c
-% of this license or (at your option) any later version.
-% The latest version of this license is in
-%
-%   http://www.latex-project.org/lppl.txt
-%
-% and version 1.3c or later is part of all distributions of LaTeX
-% version 2008/05/04 or later.
-%
-% This work has the LPPL maintenance status `maintained'.
-%
-% The Current Maintainer of this work is Martin Scharrer.
-%
-% This work consists of the files adjustbox.dtx, adjustbox.ins
-% and the derived file adjustbox.sty.
-%
-% $Id$
+%%
+%% Copyright (C) 2011 by Martin Scharrer <martin@scharrer.me>
+%% ----------------------------------------------------------
+%%
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3c
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%
+%%   http://www.latex-project.org/lppl.txt
+%%
+%% and version 1.3c or later is part of all distributions of LaTeX
+%% version 2008/05/04 or later.
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%%
+%% The Current Maintainer of this work is Martin Scharrer.
+%%
+%% This work consists of the files adjustbox.dtx, adjustbox.ins
+%% and the derived file adjustbox.sty.
+%%
 % \fi
 %
 % \iffalse
@@ -1252,6 +1251,24 @@
 % Prepends come \meta{code afterwards} the content and the already existing code around it which was added by other keys beforehand.
 % More complex code should be enclosed in braces.
 %
+% \subsection{Split content}
+% The following features are experimental and can be used to split a boxed content.
+%
+% \DescribeMacro\splitbox{<split width>}{<split height>}{<content>}
+% This macro boxes the given content and splits it in multiple fragments of the given width and height.
+% This is done row by row starting from the upper left corner. The last column and row can have a smaller size than requested.
+% Every fragment is placed using \Macro\splitboxcmd{<fragment box>} which is empty by default but can be redefined to e.g.\ draw
+% a frame around each fragment. After every row except the last the macro \Macro\splitboxnewline is inserted which defaults to |\\|,
+% but can also be redefined freely. After the last row the macro \Macro\splitboxlastnewline is inserted which defaults to \Macro\splitboxnewline.
+%
+% The \Macro\splitbox content is stored using \Macro\storebox from the \pkg{storebox} package and therefore the whole content should only
+% be stored once in the output file if the format is supported by that package (currently only PDF).
+%
+% \DescribeEnv[<content>]{splitbox}{<split width>}{<split height>}
+% Environment version of \Macro\splitbox.
+%
+% \DescribeKey{splitbox}'='{<split width>}{<split height>}
+% The \Key{splitbox} key can be used with \Macro\adjustbox and uses \Macro\splitbox internally.
 %
 % \StopEventually{}
 % \clearpage

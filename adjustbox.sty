@@ -1658,11 +1658,7 @@
 %    \begin{macrocode}
 \def\@@splitbox{%
     \advance\adjbox@turx-\@tempdima
-    \begingroup
-    \setbox\collectedbox=\copy\collectedbox
-    \@clipbox\adjbox@tllx\adjbox@tlly\adjbox@turx\adjbox@tury\collectedbox
-    \splitboxcmd{\usebox\collectedbox}%
-    \endgroup
+    \@@@splitbox
     \ifdim\adjbox@turx>\z@
         \advance\adjbox@tllx+\@tempdima
         \expandafter\@@splitbox
@@ -1679,6 +1675,31 @@
             \expandafter\@@splitbox
         \fi
     \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@@@splitbox}
+%    \begin{macrocode}
+\def\@@@splitbox{%
+    \begingroup
+    \setbox\collectedbox=\copy\collectedbox
+    \@clipbox\adjbox@tllx\adjbox@tlly\adjbox@turx\adjbox@tury\collectedbox
+    \splitboxcmd{\usebox\collectedbox}%
+    \endgroup
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@@splitbox}
+%    \begin{macrocode}
+\def\@@@splitbox{%
+    \begingroup
+    \setbox\collectedbox=\copy\collectedbox
+    \@clipbox\adjbox@tllx\adjbox@tlly\adjbox@turx\adjbox@tury\collectedbox
+    \splitboxcmd{\usebox\collectedbox}%
+    \endgroup
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1714,9 +1735,10 @@
 %
 % \begin{macro}{\pagebreakbox}
 %    \begin{macrocode}
-\newcommand\pagebreakbox[1][]{%
+\newcommand\pagebreakbox{%
+    \par\noindent
     \collectboxcheckenv{pagebreakbox}%
-    \@collectbox{\@pagebreakbox{#1}}%
+    \@collectbox{\@pagebreakbox}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1724,7 +1746,7 @@
 % \begin{key}{adjbox}{split}
 %    \begin{macrocode}
 \define@key\adjbox@fam{pagebreak}[]{%
-    \adjbox@Gin@Add{\@collectbox{\@pagebreakbox{#1}}}%
+    \adjbox@Gin@Add{\@collectbox{\@pagebreakbox}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -1732,30 +1754,30 @@
 %
 %
 % \begin{macro}{\@pagebreakbox}
+% Used internal macros:
+%
+% \begin{tabular}{ll}
+%   \Macro\@tempa      & Caption code \\
+%   \Macro\@tempboxa   & Caption box  \\
+%   \Macro\adjbox@tlly & Lower clip amount \\
+%   \Macro\adjbox@tury & Lower clip amount \\
+% \end{tabular}
 %    \begin{macrocode}
-\def\@pagebreakbox#1{%
+\def\@pagebreakbox{%
+    \sbox\collectedbox{\raise\dp\collectedbox\hbox{\BOXCONTENT}}%
     \ifstorebox
         \storebox\splittedbox{\BOXCONTENT}%
         \setbox\collectedbox\hbox{\usestorebox\splittedbox}%
     \fi
-    \def\@tempa{#1}%
-    \ifx\@tempa\emtpy
-        \adjsetlength\adjbox@tlly
-            {\totalheight-\pagegoal+\pagetotal+\ht\strutbox}%
-    \else
-        \sbox\@tempboxa{\begin{minipage}{\linewidth}\@tempa\end{minipage}}%
-        \adjsetlength\adjbox@tlly
-            {\totalheight-\pagegoal+\pagetotal+\ht\strutbox+\ht\@tempboxa+\dp\@tempboxa}%
-    \fi
+    \adjsetlength\adjbox@tlly
+        {\totalheight-\pagegoal+\pagetotal+\pagebreakboxoffset}%
     \ifdim\adjbox@tlly>\z@
         \begingroup
         \setbox\collectedbox=\copy\collectedbox
         \@clipbox\z@\adjbox@tlly\z@\z@\collectedbox
-        \BOXCONTENT\\
+        \BOXCONTENT
         \endgroup
-        \ifx\@tempa\empty\else
-            \usebox\@tempboxa\\
-        \fi
+        \par\noindent
         \adjsetlength\adjbox@tury{\totalheight-\adjbox@tlly}%
         \ifdim\adjbox@tlly>\textheight
             \loop
@@ -1763,22 +1785,33 @@
                 \begingroup
                 \setbox\collectedbox=\copy\collectedbox
                 \@clipbox\z@\adjbox@tlly\z@\adjbox@tury\collectedbox
-                \BOXCONTENT\\
+                \BOXCONTENT
                 \endgroup
                 \advance\adjbox@tury\textheight
+                \par\noindent
                 \ifdim\adjbox@tlly>\textheight
             \repeat
             \@clipbox\z@\z@\z@\adjbox@tury\collectedbox
             \BOXCONTENT
         \else
             \@clipbox\z@\z@\z@\adjbox@tury\collectedbox
+            \par\noindent
             \BOXCONTENT
         \fi
     \else
         \BOXCONTENT%
     \fi
+    \par
 }
 %    \end{macrocode}
 % \end{macro}
 %
+%
+% \begin{macro}{\pagebreakboxoffset}
+%    \begin{macrocode}
+\newcommand*\pagebreakboxoffset{\ht\strutbox}
+%    \end{macrocode}
+% \end{macro}
+%
+
 

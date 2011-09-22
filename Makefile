@@ -8,8 +8,8 @@ FILE          = ${CONTRIBUTION}.tar.gz
 export CONTRIBUTION VERSION NAME EMAIL SUMMARY DIRECTORY DONOTANNOUNCE ANNOUNCE NOTES LICENSE FREEVERSION FILE
 
 
-SRCFILES = ${CONTRIBUTION}.sty storebox.sty
-DOCFILES = ${CONTRIBUTION}.pdf storebox.pdf README
+SRCFILES = ${CONTRIBUTION}.sty
+DOCFILES = ${CONTRIBUTION}.pdf README
 
 TEXMF = ${HOME}/texmf
 
@@ -19,18 +19,15 @@ LATEXMK = latexmk -pdf
 
 all: doc
 
-${FILE}: ${CONTRIBUTION}.dtx ${CONTRIBUTION}.ins ${CONTRIBUTION}.sty README ${CONTRIBUTION}.pdf storebox.pdf storebox.dtx storebox.sty
+${FILE}: ${CONTRIBUTION}.dtx ${CONTRIBUTION}.ins ${CONTRIBUTION}.sty README ${CONTRIBUTION}.pdf
 	${MAKE} --no-print-directory build
 
 upload: ${FILE}
 	ctanupload -p
 
-doc: ${CONTRIBUTION}.pdf storebox.pdf
+doc: ${CONTRIBUTION}.pdf
 
 ${CONTRIBUTION}.pdf: ${CONTRIBUTION}.dtx ${CONTRIBUTION}.sty ${CONTRIBUTION}.ins
-	${MAKE} --no-print-directory build
-
-storebox.pdf: storebox.dtx storebox.sty storebox.ins
 	${MAKE} --no-print-directory build
 
 BUILDDIR = build
@@ -39,26 +36,19 @@ build:
 	-mkdir ${BUILDDIR} 2>/dev/null || true
 	cp ${CONTRIBUTION}.ins README ${BUILDDIR}/
 	tex '\input ydocincl\relax\includefiles{${CONTRIBUTION}.dtx}{${BUILDDIR}/${CONTRIBUTION}.dtx}' && ${RM} ydocincl.log
-	tex '\input ydocincl\relax\includefiles{storebox.dtx}{${BUILDDIR}/storebox.dtx}' && ${RM} ydocincl.log
 	cd ${BUILDDIR} && tex ${CONTRIBUTION}.ins
 	cd ${BUILDDIR} && ${LATEXMK} ${CONTRIBUTION}.dtx
-	cd ${BUILDDIR} && ${LATEXMK} storebox.dtx
-	cd ${BUILDDIR} && ctanify ${CONTRIBUTION}.dtx ${CONTRIBUTION}.ins ${CONTRIBUTION}.sty README ${CONTRIBUTION}.pdf storebox.dtx storebox.sty storebox.pdf
-	cd ${BUILDDIR} && cp ${CONTRIBUTION}.tar.gz ${CONTRIBUTION}.pdf storebox.pdf ..
+	cd ${BUILDDIR} && ctanify ${CONTRIBUTION}.dtx ${CONTRIBUTION}.ins ${CONTRIBUTION}.sty README ${CONTRIBUTION}.pdf
 
 clean:
 	latexmk -C ${CONTRIBUTION}.dtx
-	latexmk -C storebox.dtx
 	@${RM} ${CONTRIBUTION}.cod ${CONTRIBUTION}.glo ${CONTRIBUTION}.gls ${CONTRIBUTION}.exa ${CONTRIBUTION}.log ${CONTRIBUTION}.aux
-	@${RM} storebox.cod storebox.glo storebox.gls storebox.exa storebox.log storebox.aux
 	${RM} -r build ${FILE}
 
 
 distclean:
 	latexmk -c ${CONTRIBUTION}.dtx
-	latexmk -C storebox.dtx
 	@${RM} ${CONTRIBUTION}.cod ${CONTRIBUTION}.glo ${CONTRIBUTION}.gls ${CONTRIBUTION}.exa ${CONTRIBUTION}.log ${CONTRIBUTION}.aux
-	@${RM} storebox.cod storebox.glo storebox.gls storebox.exa storebox.log storebox.aux
 	${RM} -r build
 
 
