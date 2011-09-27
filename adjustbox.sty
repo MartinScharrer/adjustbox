@@ -47,8 +47,10 @@
 %    \begin{macrocode}
 \define@key{adjbox}{viewport}{%
     \let\Gin@viewport@code\adjbox@@viewport
-    \let\adjustbox@@@\adjustbox@@@trimclip
-    \adjbox@parse@v{#1}%
+    \def\adjustbox@@@{%
+        \adjbox@parse@v{#1}%
+        \adjustbox@@@trimclip
+    }%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -58,8 +60,10 @@
 %    \begin{macrocode}
 \define@key{adjbox}{trim}{%
     \let\Gin@viewport@code\adjbox@@trim
-    \let\adjustbox@@@\adjustbox@@@trimclip
-    \adjbox@parse@v{#1}%
+    \def\adjustbox@@@{%
+        \adjbox@parse@v{#1}%
+        \adjustbox@@@trimclip
+    }%
 }
 %    \end{macrocode}
 % \end{macro}
