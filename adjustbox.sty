@@ -43,30 +43,30 @@
 % \subsection{Basic commands}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% \begin{macro}{\adjbox@viewport}
+%
+% \begin{key}{adjbox}{viewport}
 %    \begin{macrocode}
 \define@key{adjbox}{viewport}{%
-    \let\Gin@viewport@code\adjbox@@viewport
     \def\adjustbox@@@{%
         \adjbox@parse@v{#1}%
+        \adjbox@@viewport
         \adjustbox@@@trimclip
     }%
 }
 %    \end{macrocode}
-% \end{macro}
+% \end{key}
 %
 %
-% \begin{macro}{\adjbox@trim}
+% \begin{key}{adjbox}{trim}
 %    \begin{macrocode}
 \define@key{adjbox}{trim}{%
-    \let\Gin@viewport@code\adjbox@@trim
     \def\adjustbox@@@{%
         \adjbox@parse@v{#1}%
         \adjustbox@@@trimclip
     }%
 }
 %    \end{macrocode}
-% \end{macro}
+% \end{key}
 %
 %
 % \begin{macro}{\adjustbox@@@trimclip}
@@ -123,13 +123,6 @@
 %    \end{macrocode}
 % \end{macro}
 %
-%
-%
-% \begin{macro}{\adjbox@@trim}
-%    \begin{macrocode}
-\let\adjbox@@trim\relax
-%    \end{macrocode}
-% \end{macro}
 %
 %
 % \begin{macro}{\adjbox@@viewport}
