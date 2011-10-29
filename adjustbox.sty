@@ -48,8 +48,8 @@
 %    \begin{macrocode}
 \newcommand*\adjustboxset{%
     \@ifstar
-        {\adjbox@addkeysbefore}%
         {\adjbox@addkeysafter}%
+        {\adjbox@addkeysbefore}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1438,6 +1438,23 @@
 }
 %    \end{macrocode}
 % \end{macro}
+%
+% \begin{key}{ADJBOX}{image}
+%    \begin{macrocode}
+\define@key{ADJBOX}{image}[true]{%
+    \begingroup
+    \edef\@tempa{#1}%
+    \edef\@tempb{true}%
+    \ifx\@tempa\@tempb
+        \endgroup
+        \def\adjbox@collectbox##1##2{\@collectbox{##1}{\includegraphics{##2}}}%
+    \else
+        \endgroup
+        \let\adjbox@collectbox\@collectbox
+    \fi
+}
+%    \end{macrocode}
+% \end{key}
 %
 % \begin{key}{ADJBOX}{tabular}
 %    \begin{macrocode}
