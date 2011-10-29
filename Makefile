@@ -38,7 +38,7 @@ build:
 	tex '\input ydocincl\relax\includefiles{${CONTRIBUTION}.dtx}{${BUILDDIR}/${CONTRIBUTION}.dtx}' && ${RM} ydocincl.log
 	cd ${BUILDDIR} && tex ${CONTRIBUTION}.ins
 	cd ${BUILDDIR} && ${LATEXMK} ${CONTRIBUTION}.dtx
-	cd ${BUILDDIR} && ctanify ${CONTRIBUTION}.dtx ${CONTRIBUTION}.ins ${CONTRIBUTION}.sty README ${CONTRIBUTION}.pdf
+	cd ${BUILDDIR} && ctanify ${CONTRIBUTION}.dtx ${CONTRIBUTION}.ins ${CONTRIBUTION}.sty README ${CONTRIBUTION}.pdf adjpgf.def=tex/latex/adjustbox
 
 clean:
 	latexmk -C ${CONTRIBUTION}.dtx
