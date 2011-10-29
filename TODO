@@ -3,3 +3,4 @@ TODOs / Ideas:
  * Add box macro and key for background images (e.g. \bgimage[<img opt>]{<image path>}{<content>}, key: 'bgimg' or 'bgimage')
  * Same for foreground?
  * Might be generalised to allow overlays (\overlaybox{<background content>}{<foreground content>})
+ * Added manual for `cframe` and `cfbox`.
