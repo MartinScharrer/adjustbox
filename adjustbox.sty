@@ -217,6 +217,15 @@
 \newcommand\adjustbox[1]{%
     \collectboxcheckenv{adjustbox}%
     \begingroup
+    \setkeys*{ADJBOX}{#1}%
+    \expandafter\expandafter\expandafter
+    \endgroup
+    \expandafter
+    \adjbox@collectbox\expandafter{\expandafter\adjustbox@\expandafter{\XKV@rm}}%
+}
+\let\adjbox@collectbox\@collectbox
+
+\def\adjustbox@#1{%
     \adjustbox@dimcmds
     \let\Gin@esetsize\adjbox@esetsize
     \@tempswatrue
@@ -224,9 +233,8 @@
     \def\setlength{\adjsetlength}%
     \setkeys{adjbox,Gin}{#1}%
     \adjbox@esetsize
-    \adjbox@collectbox{\the\toks@\endgroup}%
+    \the\toks@
 }
-\let\adjbox@collectbox\@collectbox
 %    \end{macrocode}
 % \end{macro}
 %
@@ -1341,9 +1349,9 @@
 % \subsubsection{Minibox and other Environments Keys}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% \begin{key}{adjbox}{minipage}
+% \begin{key}{ADJBOX}{minipage}
 %    \begin{macrocode}
-\define@key{adjbox}{minipage}{%
+\define@key{ADJBOX}{minipage}{%
     \@ifnextchar[{%
         \adjbox@innerenv{minipage}%
     }{%
@@ -1355,9 +1363,9 @@
 % \end{key}
 %
 %
-% \begin{key}{adjbox}{tabular}
+% \begin{key}{ADJBOX}{tabular}
 %    \begin{macrocode}
-\define@key{adjbox}{tabular}{%
+\define@key{ADJBOX}{tabular}{%
     \@ifnextchar[{%
         \adjbox@tabular{tabular}%
     }{%
@@ -1382,18 +1390,18 @@
 % \end{macro}
 %
 %
-% \begin{key}{adjbox}{tabular*}
+% \begin{key}{ADJBOX}{tabular*}
 %    \begin{macrocode}
-\define@key{adjbox}{tabular*}{%
+\define@key{ADJBOX}{tabular*}{%
     \adjbox@tabular{tabular*}#1\@nnil
 }
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{key}{adjbox}{array}
+% \begin{key}{ADJBOX}{array}
 %    \begin{macrocode}
-\define@key{adjbox}{array}{%
+\define@key{ADJBOX}{array}{%
     \@ifnextchar[{%
         \adjbox@array%
     }{%
@@ -1418,9 +1426,9 @@
 % \end{macro}
 %
 %
-% \begin{key}{adjbox}{innerenv}
+% \begin{key}{ADJBOX}{innerenv}
 %    \begin{macrocode}
-\define@key{adjbox}{innerenv}{%
+\define@key{ADJBOX}{innerenv}{%
     \@ifnextchar\bgroup{%
         \adjbox@innerenv
     }{%
@@ -1440,9 +1448,9 @@
 % \end{macro}
 %
 %
-% \begin{key}{adjbox}{innercode}
+% \begin{key}{ADJBOX}{innercode}
 %    \begin{macrocode}
-\define@key{adjbox}{innercode}{%
+\define@key{ADJBOX}{innercode}{%
     \adjbox@innercode#1{}{}%
 }
 %    \end{macrocode}
@@ -1459,9 +1467,9 @@
 %
 %
 %
-% \begin{key}{adjbox}{env}
+% \begin{key}{ADJBOX}{env}
 %    \begin{macrocode}
-\define@key{adjbox}{env}{%
+\define@key{ADJBOX}{env}{%
     \@ifnextchar\bgroup{%
         \adjbox@addenv
     }{%

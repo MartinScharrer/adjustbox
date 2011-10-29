@@ -1122,11 +1122,16 @@
 % For |pdflatex| the length unit |px| can be used to specify pixels. However, the equivalent dimension (length) of one pixel must be
 % set using the \Macro\pdfpxdimen length register. To set a specific DPI value this length must be set using
 % \Macro\setlength\AlsoMacro\pdfpxdimen{'1in/'<dots>}, which is done by the \Key{dpi}'='<dots> key.
+% Note that the key won't affect the setting for the content but only for the further used keys.
+% However, it is possible to use \Macro\setkeys{adjbox}{'dpi='<number>} inside the content or anywhere else in the document to
+% set \Macro\pdfpxdimen using this interface.
 %
 % \begin{example}
 %   \begin{examplecode}
-%   \adjustbox{dpi=72,trim=10px,frame}
-%       {\textcolor{green}{\rule{50px}{50px}}}
+%   \adjustbox{dpi=72,trim=10px,frame}{%
+%       \setkeys{adjbox}{dpi=72}%
+%       \textcolor{green}{\rule{50px}{50px}}%
+%   }
 %   \end{examplecode}
 % \end{example}
 %
@@ -1138,11 +1143,11 @@
 % \begin{example}
 %   \begin{examplecode}
 %   \adjustbox{pxdim=2pt,trim=2px,frame}
-%       {\textcolor{green}{\rule{10px}{10px}}}
+%       {\textcolor{green}{\rule{20pt}{20pt}}}
 %   \end{examplecode}
 % \end{example}
 %
-% \subsection{Minipage or other inner Environment}
+% \subsection{Minipage or other inner environments}
 % The following keys set the way the content is processed before it is stored it in a box.
 % These keys will overwrite each other and only the latest used key will take effect.
 % Because they affect the inner content directly their order relative to other, normal keys is not meaningful.
