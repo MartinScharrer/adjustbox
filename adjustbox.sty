@@ -44,6 +44,50 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
+% \begin{macro}{\adjustboxset}
+%    \begin{macrocode}
+\newcommand*\adjustboxset{%
+    \@ifstar
+        {\adjbox@addkeysbefore}%
+        {\adjbox@addkeysafter}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjbox@addkeysbefore}
+%    \begin{macrocode}
+\def\adjbox@addkeysbefore#1{%
+    \expandafter\def\expandafter\adjbox@keysbefore\expandafter{\adjbox@keysbefore,#1}%
+    \let\adjbox@setkeys\adjbox@setkeys@ba
+}
+\let\adjbox@keysbefore\@empty
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjbox@addkeysafter}
+%    \begin{macrocode}
+\def\adjbox@addkeysafter#1{%
+    \begingroup
+    \def\@tempa{#1,}%
+    \expandafter\expandafter
+    \expandafter\endgroup
+    \expandafter\expandafter
+    \expandafter\def
+    \expandafter\expandafter
+    \expandafter\adjbox@keysafter
+    \expandafter\expandafter
+    \expandafter{\expandafter\@tempa\adjbox@keysafter}%
+    \let\adjbox@setkeys\adjbox@setkeys@ba
+}
+\let\adjbox@keysafter\@empty
+%    \end{macrocode}
+% \end{macro}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Basic commands}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
 % \begin{key}{adjbox}{viewport}
 %    \begin{macrocode}
 \define@key{adjbox}{viewport}{%
@@ -217,14 +261,33 @@
 \newcommand\adjustbox[1]{%
     \collectboxcheckenv{adjustbox}%
     \begingroup
-    \setkeys*{ADJBOX}{#1}%
+    \adjbox@setkeys{#1}%
     \expandafter\expandafter\expandafter
     \endgroup
     \expandafter
     \adjbox@collectbox\expandafter{\expandafter\adjustbox@\expandafter{\XKV@rm}}%
 }
 \let\adjbox@collectbox\@collectbox
-
+\def\adjbox@setkeys@ba{%
+    \expandafter\expandafter
+    \expandafter\adjbox@@setkeys@ba
+    \expandafter\expandafter
+    \expandafter{\expandafter\adjbox@keysbefore\expandafter}%
+    \expandafter{\adjbox@keysafter}%
+}
+\def\adjbox@@setkeys@ba#1#2#3{%
+    \def\@tempa{#1,#3,#2}\show\@tempa
+    \setkeys*{ADJBOX}{#1,#3,#2}%
+}
+\def\adjbox@setkeys{%
+    \setkeys*{ADJBOX}%
+}
+%    \end{macrocode}
+% \end{environment}
+%
+%
+% \begin{macro}{\adjustbox@}
+%    \begin{macrocode}
 \def\adjustbox@#1{%
     \adjustbox@dimcmds
     \let\Gin@esetsize\adjbox@esetsize
