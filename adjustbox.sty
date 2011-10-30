@@ -57,8 +57,12 @@
 % \begin{macro}{\adjbox@addkeysbefore}
 %    \begin{macrocode}
 \def\adjbox@addkeysbefore#1{%
-    \expandafter\def\expandafter\adjbox@keysbefore\expandafter{\adjbox@keysbefore,#1}%
-    \let\adjbox@setkeys\adjbox@setkeys@ba
+    \ifx\@nnil#1\@nnil
+        \let\adjbox@keysbefore\@empty
+    \else
+        \expandafter\def\expandafter\adjbox@keysbefore\expandafter{\adjbox@keysbefore,#1}%
+        \let\adjbox@setkeys\adjbox@setkeys@ba
+    \fi
 }
 \let\adjbox@keysbefore\@empty
 %    \end{macrocode}
@@ -68,16 +72,21 @@
 %    \begin{macrocode}
 \def\adjbox@addkeysafter#1{%
     \begingroup
-    \def\@tempa{#1,}%
-    \expandafter\expandafter
-    \expandafter\endgroup
-    \expandafter\expandafter
-    \expandafter\def
-    \expandafter\expandafter
-    \expandafter\adjbox@keysafter
-    \expandafter\expandafter
-    \expandafter{\expandafter\@tempa\adjbox@keysafter}%
-    \let\adjbox@setkeys\adjbox@setkeys@ba
+    \def\@tempa{#1}%
+    \ifx\@tempa\@empty
+        \endgroup
+        \let\adjbox@keysafter\@empty
+    \else
+        \expandafter\expandafter
+        \expandafter\endgroup
+        \expandafter\expandafter
+        \expandafter\def
+        \expandafter\expandafter
+        \expandafter\adjbox@keysafter
+        \expandafter\expandafter
+        \expandafter{\expandafter\@tempa\expandafter,\adjbox@keysafter}%
+        \let\adjbox@setkeys\adjbox@setkeys@ba
+    \fi
 }
 \let\adjbox@keysafter\@empty
 %    \end{macrocode}
