@@ -1191,7 +1191,7 @@
 %   \end{examplecode}
 % \end{example}
 %
-% \subsection{Minipage or other inner environments}
+% \subsection{Minipage or other inner environments which change the processing of the content}
 % The following keys set the way the content is processed before it is stored it in a box.
 % These keys will overwrite each other and only the latest used key will take effect.
 % Because they affect the inner content directly their order relative to other, normal keys is not meaningful.
@@ -1207,6 +1207,7 @@
 % The \meta{position} argument must be "t" for top baseline, "b" for bottom baseline and "c" for center alignment relative to other
 % text, i.e.\ defines the resulting baseline. If a \meta{height} is defined the \meta{inner position} defaults to \meta{position} but
 % can also be "s" to stretch the content over the whole height. This requires the content to include some vertical stretchable material.
+% Note that all length arguments can include arithmetic expressions like for other keys.
 %
 % \begin{examples}
 %   \begin{examplecode}
@@ -1230,6 +1231,29 @@
 %   \end{examplecode}
 % \end{examples}
 %
+% \def\OR{{\,\rule[-.75\dp\strutbox]{\fboxrule}{.875\baselineskip}\,}}
+% \DescribeKey{image}
+% \DescribeKey{image}'=true'!\OR!'auto'!\OR!'false'
+% This boolean key makes \Macro\adjustbox act like \Macro\includegraphics, i.e.\ the content is then assumed to be a filename of an image.
+% This feature is not supported by the \env{adjustbox} environment.
+% The key accepts an optional value which should be either `|true|', `|auto|' or `|false|'. The default value is `|true|'.
+% For \Macro\adjustbox both `|true|' and `|auto|' will enable this feature. For the \env{adjustbox} environment `|true|' will raise an error
+% while `|auto|' is taken as `|false|'.
+% In both cases a `|false|' value (or any other value) deactivates this feature and restores the normal content processing.
+% This also overwrites any previously used content processing key. For example |minipage=5cm,image=false|
+% will do nothing, because |image=false| resets all settings done by |minipage|.
+%
+% This key is intended to make \Macro\adjustbox-only features, like \Macro\adjustboxset, more easily available to images.
+% The following usages are basically identical:
+% \begin{macroquote}
+%   \adjustbox{<keys>',image,'<keys>}{<filename>} \\
+%   \adjustbox{<keys>','<keys>}{\AlsoMacro\includegraphics{<filename>}} \\
+%   \includegraphics[<keys>','<keys>]{<filename>}
+% \end{macroquote}
+% However, the first two also use global keys set using
+% \Macro\adjustboxset and always work, while the last form only works with directly given keys and requires \pkg{adjustbox} to be loaded
+% with the \opt{export} option if its keys should be used.
+%
 % \DescribeKey{tabular}'='[<position>]{<column specification>}
 % \DescribeKey{tabular*}'='[<position>]{<width>}{<column specification>}
 % \DescribeKey{array}'='[<position>]{<column specification>}
@@ -1238,6 +1262,7 @@
 % the end code correctly. Note that the environment mode is more efficient and fully stable, while the macro mode requires the last row to end with 
 % an explicit |\\| (which can be followed by \Macro\hline or any other macro which uses \Macro\noalign internally). In macro mode the |\\| is internally redefined
 % to check for the closing brace. While this was successful tested for normal usages it might still cause issues with unusual or complicated cases.
+% Note that these environments are taken as part of the content and so the usage of arithmetic expressions for length arguments is not supported.
 %
 % \begin{examples}
 %   \begin{examplecode}
@@ -1261,6 +1286,7 @@
 % Wraps the inner content in the given \meta{environment} before it is stored as horizontal box.
 % It should be kept in mind that there is some internal code between the begin of the environment and the content. For this reason
 % a \env{tabular}, \env{innerenv} or similar environment will not work here, because that code will be taken as part of the first cell.
+% Note that such a environment is taken as part of the content and so the usage of arithmetic expressions for length arguments is not supported.
 %
 % \begin{example}
 %   \begin{examplecode}
@@ -1272,6 +1298,7 @@
 %
 % \DescribeKey{innercode}'='{<begin code>}{<end code>}
 % Places the given code before and after the inner content before it is stored as horizontal box.
+% Note that such code is taken as part of the content and so the usage of arithmetic expressions for length arguments is not supported.
 %
 % \begin{example}
 %   \begin{examplecode}
