@@ -1,54 +1,12 @@
-%% $Id$
-\input docstrip.tex
-\preamble
-
-Copyright (C) 2011 by Martin Scharrer <martin@scharrer-online.de>
-
-This work may be distributed and/or modified under the
-conditions of the LaTeX Project Public License, either version 1.3c
-of this license or (at your option) any later version.
-The latest version of this license is in
-
-   http://www.latex-project.org/lppl.txt
-
-and version 1.3c or later is part of all distributions of LaTeX
-version 2008/05/04 or later.
-
-This work has the LPPL maintenance status `maintained'.
-
-The Current Maintainer of this work is Martin Scharrer.
-
-This work consists of the files adjustbox.dtx, adjustbox.ins,
-storebox.dtx and the derived files adjustbox.sty and storebox.sty.
-
-\endpreamble
+\input ydocstrip.tex
 \keepsilent
 \askforoverwritefalse
-
 \generate{%
-  \file{adjustbox.sty}{\from{adjustbox.dtx}{adjustbox.sty}}%
-  \file{adjcalc.sty}{\from{adjustbox.dtx}{adjcalc.sty}}%
-  \file{adjgrfx.sty}{\from{adjustbox.dtx}{adjgrfx.sty}}%
-  \file{adjpgf.def}{\from{adjustbox.dtx}{adjpgf.def}}%
+  \file{adjustbox.sty}{\nopreamble\from{adjustbox.dtx}{adjustbox.sty}}%
+  \file{adjcalc.sty}{\nopreamble\from{adjustbox.dtx}{adjcalc.sty}}%
+  \file{adjgrfx.sty}{\nopreamble\from{adjustbox.dtx}{adjgrfx.sty}}%
+  \file{adjpgf.def}{\nopreamble\from{adjustbox.dtx}{adjpgf.def}}%
  %\file{adjustbox-de.tex}{\nopreamble\nopostamble\from{adjustbox.dtx}{de}}%
 }
-
-\obeyspaces
-\Msg{*************************************************************}
-\Msg{*                                                           *}
-\Msg{* To finish the installation you have to move the following *}
-\Msg{* file into a directory searched by TeX:                    *}
-\Msg{*                                                           *}
-\Msg{*     adjustbox.sty                                         *}
-\Msg{*                                                           *}
-\Msg{* To produce the documentation run the file adjustbox.dtx   *}
-\Msg{* through LaTeX.                                            *}
-\Msg{*                                                           *}
-\Msg{* Happy TeXing!                                             *}
-\Msg{*                                                           *}
-\Msg{*************************************************************}
-
 \endbatchfile
-
 %% vim: ft=tex
-

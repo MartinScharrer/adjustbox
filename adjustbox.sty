@@ -2,12 +2,19 @@
 % \subsection{Package header, options and dependencies}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %    \begin{macrocode}
-\ProvidesPackage{adjustbox}[2011/10/29 v0.6a Adjusting TeX boxes (trim, clip, ...)]
+%<!COPYRIGHT>
+\ProvidesPackage{adjustbox}[%
+%<!DATE>
+%<!VERSION>
+%<*DRIVER>
+    2099/01/01 develop
+%</DRIVER>
+    Adjusting TeX boxes (trim, clip, ...)]
 %    \end{macrocode}
 %
 %    \begin{macrocode}
 \RequirePackage{xkeyval}
-
+%
 \def\adjbox@defaultunit{bp}
 \DeclareOptionX<adjbox>{defaultunit}{%
     \def\adjbox@defaultunit{#1}%
@@ -18,17 +25,17 @@
         \def\adjbox@default{\adjsetlength}%
     \fi
 }
-
+%
 \def\adjbox@fam{adjbox}
 \DeclareOptionX<adjbox>{export}{\def\adjbox@fam{Gin}}
 \DeclareOptionX<adjbox>{patch}{\AtEndOfPackage{\RequirePackage{adjgrfx}}}
 \DeclareOptionX<adjbox>{minimal}{\let\adjbox@maybeend\endinput}
-
+%
 \def\adjbox@driver{adj\Gin@driver}
 \DeclareOptionX<adjbox>{pgf}{\def\adjbox@driver{adjpgf.def}}
 \DeclareOptionX<adjbox>{PGF}{\def\adjbox@driver{adjpgf.def}\adjcalc@pgfmath}
 \DeclareOptionX<adjbox>*{\PassOptionsToPackage\CurrentOption{graphicx}}
-
+%
 \let\adjbox@maybeend\relax
 \input{adjcalc.sty}
 \disable@keys{adjbox}{patch,export,PGF,minimal}
@@ -1943,5 +1950,3 @@
 %    \end{macrocode}
 % \end{macro}
 %
-
-
