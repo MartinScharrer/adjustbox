@@ -30,3 +30,4 @@ build
 collectbox.sty
 *.dvi
 *.fdb_latexmk
+*.swp
