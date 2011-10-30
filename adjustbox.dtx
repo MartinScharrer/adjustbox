@@ -193,7 +193,7 @@
 % \changes{v0.5a}{2011/08/21}{Fixed \Key{left} and \Key{right} keys. Fixed \Key{valign}'='t}
 % \changes{v0.6}{2011/09/04}{Added tabular support.}
 % \changes{v0.6a}{2011/10/29}{Fixed issue with keys affecting the content in an unwanted way.}
-% \changes{v0.7}{2011/10/30}{Added \cs{adjustboxset} macro and \Key{image} key.}
+% \changes{v0.7}{2011/10/30}{Added \cs{adjustboxset} and \cs{adjustimage} macros.}
 %
 % \GetFileInfo{adjustbox.dtx}
 %
@@ -479,11 +479,11 @@
 % \subsubsection*{Allgemeine Manipulationen von \LaTeX{} Material}
 % \fi
 % \vskip-\lastskip
-% \DescribeMacro\adjustbox{<includegraphics \options>}{<\TEXT>}
+% \DescribeMacro\adjustbox{<key/value pairs>}{<\TEXT>}
 % \ifenglish
 % The \Macro\adjustbox macro is the general form of all box modifying macros mentioned in the introduction.
-% It can be thought as an \Macro\includegraphics for \LATeX{} material.
-% It supports the same set of \meta{options}, however they are provided as a mandatory not as an optional argument.
+% It can be thought as an extended \Macro\includegraphics for \LATeX{} material.
+% It supports the same \meta{key/value pairs} and many more. However, they are provided as a mandatory not as an optional argument.
 % An \Macro\adjustbox without options would not make sense and can be replaced by a simple \Macro\mbox.
 % There is no starred version of this macro. See also \autoref{tab:alternatives} for a comparison of \Macro\adjustbox
 % with the other macros.
@@ -502,6 +502,17 @@
 % Wie für die anderen Makros gibt es auch für \Macro\adjustbox eine passende Umgebung.
 % \fi
 %
+% \subsubsection*{Adjust Images}
+% \DescribeMacro\adjustimage{<key/value pairs>}{<image filename>}
+% This macro can be used as an extension of \Macro\includegraphics.
+% While \Macro\adjustbox is based on the same interface as \Macro\includegraphics it provides more keys and allows global keys
+% set by \Macro\adjustboxset. Most keys can be exported to \Macro\includegraphics using the \opt{export} option, but there is no support
+% for global keys\footnote{However some keys, but not all, can be set globally using \Macro\setkeys{Gin}{<includegraphic key/value pairs>}}.
+% Therefore it can make sense to use \Macro\adjustbox{<key/value pairs>}{\AlsoMacro\includegraphics{<filename>}}.
+% The \Macro\adjustimage macro is a wrapper for exactly this. This does not require the \opt{export} option and therefore helps to avoid option clashes
+% if \pkg{adjustbox} is loaded at several places.
+%
+% \clearpage
 % \ifenglish
 % \section*{Examples}
 % The following examples show the application of the aforementioned macros on an example text.
@@ -1237,28 +1248,6 @@
 %   \end{examplecode}
 % \end{examples}
 %
-% \def\OR{{\,\rule[-.75\dp\strutbox]{\fboxrule}{.875\baselineskip}\,}}
-% \DescribeKey{image}
-% \DescribeKey{image}'=true'!\OR!'auto'!\OR!'false'
-% This boolean key makes \Macro\adjustbox act like \Macro\includegraphics, i.e.\ the content is then assumed to be a filename of an image.
-% This feature is not supported by the \env{adjustbox} environment.
-% The key accepts an optional value which should be either `|true|', `|auto|' or `|false|'. The default value is `|true|'.
-% For \Macro\adjustbox both `|true|' and `|auto|' will enable this feature. For the \env{adjustbox} environment `|true|' will raise an error
-% while `|auto|' is taken as `|false|'.
-% In both cases a `|false|' value (or any other value) deactivates this feature and restores the normal content processing.
-% This also overwrites any previously used content processing key. For example |minipage=5cm,image=false|
-% will do nothing, because |image=false| resets all settings done by |minipage|.
-%
-% This key is intended to make \Macro\adjustbox-only features, like \Macro\adjustboxset, more easily available to images.
-% The following usages are basically identical:
-% \begin{macroquote}
-%   \adjustbox{<keys>',image,'<keys>}{<filename>} \\
-%   \adjustbox{<keys>','<keys>}{\AlsoMacro\includegraphics{<filename>}} \\
-%   \includegraphics[<keys>','<keys>]{<filename>}
-% \end{macroquote}
-% However, the first two also use global keys set using
-% \Macro\adjustboxset and always work, while the last form only works with directly given keys and requires \pkg{adjustbox} to be loaded
-% with the \opt{export} option if its keys should be used.
 %
 % \DescribeKey{tabular}'='[<position>]{<column specification>}
 % \DescribeKey{tabular*}'='[<position>]{<width>}{<column specification>}
