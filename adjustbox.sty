@@ -1449,17 +1449,42 @@
 % \end{macro}
 %
 % \begin{key}{ADJBOX}{image}
+% If |true| is given |\adjustbox| acts like |\includegraphics| and |adjustbox| raises an error.
+% If |auto| is given |\adjustbox| acts the same, but |adjustbox| ignores the key.
+% Any other value is taken as |false| and resets the content processing to the default.
 %    \begin{macrocode}
 \define@key{ADJBOX}{image}[true]{%
     \begingroup
     \edef\@tempa{#1}%
-    \edef\@tempb{true}%
-    \ifx\@tempa\@tempb
-        \endgroup
-        \def\adjbox@collectbox##1##2{\@collectbox{##1}{\includegraphics{##2}}}%
-    \else
+    \def\@tempb{true}%
+    \def\@tempc{auto}%
+    \ifcase 0%
+        \ifx\@tempa\@tempb
+            \ifcollectboxenv
+                1%
+            \else
+                2%
+            \fi
+        \else
+        \ifx\@tempa\@tempc
+            \ifcollectboxenv
+                3%
+            \else
+                2
+            \fi
+        \fi\fi
+    \relax% 0
         \endgroup
         \let\adjbox@collectbox\@collectbox
+    \or% 1
+        \endgroup
+        \PackageError{adjustbox}{Using 'image=true' is not allowed for the adjustbox\MessageBreak
+                                    environment! Use the \string\adjustbox macro instead}{}%
+    \or% 2
+        \endgroup
+        \def\adjbox@collectbox##1##2{\@collectbox{##1}{\includegraphics{##2}}}%
+    \or% 3
+        \endgroup
     \fi
 }
 %    \end{macrocode}
