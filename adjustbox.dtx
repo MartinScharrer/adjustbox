@@ -809,6 +809,49 @@
 % This section lists provided keys usable as \Macro\adjustbox options and, if the \opt{export} package option was used, also as \Macro\includegraphics options.
 % If the package is loaded with the \opt{minimal} option this code is skipped.
 %
+% \subsubsection{Setting keys globally}
+%
+% \DescribeMacro\adjustboxset{<global keys to be executed \emph{before} local keys>}
+% \DescribeMacro\adjustboxset*{<global keys to be executed \emph{after} local keys>}
+% Using these two macros all keys can be set globally, i.e.\ for all future \Macro\adjustbox macros and \env{adjustbox} environments.
+% Note that these settings are actually \emph{local} to the current \TeX\ group and only really global if used in the preamble or outside any group.
+% The normal macro will place all given keys before the keys used in first argument of \Macro\adjustbox\ / \env{adjustbox},
+% while the starred version will place them afterwards.
+%
+% If these macros are used several times there keys are accumulated. This happens in the given order for the normal version and in reversed order for the starred version,
+% i.e.\ the keys of further \Macro\adjustboxset or \Macro\adjustboxset* are always added so they face inwards.
+% If used without any keys but an empty argument, all keys previously set with the same macro are removed (from the current \TeX\ scope).
+% This means \Macro\adjustboxset{} clears all keys set be previously usages of \Macro\adjustboxset{<keys>} and \Macro\adjustboxset*{} clears all set by \Macro\adjustboxset*{<keys>}.
+% Such resets are again local to the current \TeX\ group.
+%
+%
+% \begin{examples}
+% The macros:
+% \begin{macroquote}
+% \adjustboxset{keya=1} \\
+% \adjustboxset*{keyc=3}\\
+% \adjustbox{keyb=2}{content}
+% \end{macroquote}
+% are effectively the same as:
+% \begin{macroquote}
+% \adjustbox{keya=1,keyb=2,keyc=3}{content}
+% \end{macroquote}
+% \par\medskip\noindent
+% The macros:
+% \begin{macroquote}
+% \adjustboxset{keya=1,keyb=2} \\
+% \adjustboxset{keyc=3,keyd=4} \\
+% \adjustboxset*{keyg=7,keyh=8}\\
+% \adjustboxset*{keyi=9,keyj=10}\\
+% \adjustbox{keye=5,keyf=6}{content}
+% \end{macroquote}
+% are effectively the same as:
+% \begin{codequote}
+%   \AlsoMacro\adjustbox'{keya=1,keyb=2,keyc=3,keyd=4,keye=5,keyf=6,'\\
+%            !\hskip0pt!'            keyi=9,keyj=10,keyg=7,keyh=8}'{content}
+% \end{codequote}
+% \end{examples}
+%
 % \subsubsection{Trimming and Clipping}
 %
 % \DescribeKey{Trim}'='<all sites>
