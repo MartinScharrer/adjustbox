@@ -1468,7 +1468,7 @@
         \else
         \ifx\@tempa\@tempc
             \ifcollectboxenv
-                3%
+                0%
             \else
                 2
             \fi
@@ -1483,8 +1483,6 @@
     \or% 2
         \endgroup
         \def\adjbox@collectbox##1##2{\@collectbox{##1}{\includegraphics{##2}}}%
-    \or% 3
-        \endgroup
     \fi
 }
 %    \end{macrocode}
