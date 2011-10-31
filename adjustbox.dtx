@@ -509,7 +509,9 @@
 % set by \Macro\adjustboxset. Most keys can be exported to \Macro\includegraphics using the \opt{export} option, but there is no support
 % for global keys\footnote{However some keys, but not all, can be set globally using \Macro\setkeys{Gin}{<includegraphic key/value pairs>}}.
 % Therefore it can make sense to use \Macro\adjustbox{<key/value pairs>}{\AlsoMacro\includegraphics{<filename>}}.
-% The \Macro\adjustimage macro is a wrapper for exactly this. This does not require the \opt{export} option and therefore helps to avoid option clashes
+% The \Macro\adjustimage macro is a wrapper for this. However, it does not use \Macro\includegraphics directly, but an internal macro, to allow the redefinition
+% of it.
+% This does not require the \opt{export} option and therefore helps to avoid option clashes
 % if \pkg{adjustbox} is loaded at several places.
 %
 % \clearpage

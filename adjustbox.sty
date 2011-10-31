@@ -375,9 +375,11 @@
 %
 % \begin{macro}{\adjustimage}
 % Simple wrapper to use \Macro\adjustbox for images.
+% It uses the internal code of \Macro\includegraphics instead
+% to allow later redefinition of that macro.
 %    \begin{macrocode}
 \newcommand*\adjustimage[2]{%
-    \adjustbox{#1}{\includegraphics{#2}}%
+    \adjustbox{#1}{\Gin@clipfalse\Gin@i{#2}}%
 }
 %    \end{macrocode}
 % \end{macro}
