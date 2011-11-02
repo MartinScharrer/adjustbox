@@ -1,6 +1,11 @@
 TODOs / Ideas:
 
- * Add box macro and key for background images (e.g. \bgimage[<img opt>]{<image path>}{<content>}, key: 'bgimg' or 'bgimage')
+ * DONE, manual entry pending: Add box macro and key for background images (e.g. \bgimage[<img opt>]{<image path>}{<content>}, key: 'bgimg' or 'bgimage')
  * Same for foreground?
  * Might be generalised to allow overlays (\overlaybox{<background content>}{<foreground content>})
- * Added manual for `cframe` and `cfbox`.
+ * Add manual entry for `cframe` and `cfbox` and maybe other keys.
+ * Redesign manual to put more emphasis on the adjustbox keys.
+ * Finish & test: splitbox, pagebreakbox & keys
+ * Automated keys? If a key is unknown and a macro use `precode=<key>` instead. If it is a length use `\adjsetlength{<key>}{<value>}`. Too much?
+ * width, Width, WIDTH etc. lengths
+ * Provide \Textwidth which should stand for the outer textwidth and not change.
