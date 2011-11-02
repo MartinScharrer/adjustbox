@@ -1022,6 +1022,9 @@
 %
 %
 % \begin{key}{adjbox}{bgcolor}
+% Adds a colored box in the background.
+% |#1| are the argument to color, i.e. either \MacroArgs<color>
+% or \MacroArgs{<model>}{<color>}.
 %    \begin{macrocode}
 \define@key\adjbox@fam{bgcolor}{%
     \@ifnextchar\bgroup{%
@@ -1035,25 +1038,43 @@
 %
 %
 % \begin{macro}{\adjbox@bgcolor}
+% Parses the two possible arguments and adds the background color macro
+% to the token register.
 %    \begin{macrocode}
 \def\adjbox@bgcolor#1#2#3\@nnil{%
-    \adjbox@Gin@add{\@collectbox{\adjbox@@bgcolor{#1}{#2}}}%
+    \ifx\@nnil#1\@nnil
+        \adjbox@Gin@add{\@collectbox{\adjbox@@bgcolor{\color{#2}}}}%
+    \else
+        \adjbox@Gin@add{\@collectbox{\adjbox@@bgcolor{\color[#1]{#2}}}}%
+    \fi
 }
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{key}{adjbox}{bgcolor*}
+% Adds a colored box in the background. It awaits a direct color macro,
+% which gives the user more flexibility.
+%    \begin{macrocode}
+\define@key\adjbox@fam{bgcolor*}{%
+    \adjbox@Gin@add{\@collectbox{\adjbox@@bgcolor{#1}}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
 %
 % \begin{macro}{\adjbox@@bgcolor}
+% This places a colored box (vrule) with the same dimensions than
+% the content, then compensates for the horizontal shift and places
+% the content. This is simpler and more direct than using \Macro\rlap
+% or a box macro from the \pkg{xcolor} package.
+%
+% The argument contains the color macro, e.g.\ \Macro\color{<color>}.
 %    \begin{macrocode}
-\def\adjbox@@bgcolor#1#2{%
+\def\adjbox@@bgcolor#1{%
     \mbox{%
         \hbox{%
-            \ifx\@nnil#1\@nnil
-                \color{#2}%
-            \else
-                \color[#1]{#2}%
-            \fi
-            \vrule\@width\width\@height\height\@depth\depth
+            #1%
+            \vrule\@width\width\@height\height\@depth\depth%
         }%
         \hskip-\width
         \BOXCONTENT
@@ -1594,6 +1615,8 @@
 % \end{macro}
 %
 % \begin{key}{adjbox}{addcode}
+% Adds code before and after the current boxed content.
+% Syntax:~\Key{addcode}'='{<code before>}{<code afterwards>}
 %    \begin{macrocode}
 \define@key{adjbox}{Addcode}{%
     \adjust@@addcode#1{}\@nnil%

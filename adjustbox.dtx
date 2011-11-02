@@ -54,18 +54,6 @@
 }{%
     \par
 }
-
-\newcommand\babelfiledate{%
-    \expandafter\babelfileDate\filedate\relax
-}
-\def\babelfileDate#1/#2/#3\relax{%
-    \begingroup
-    \year#1
-    \month#2
-    \day#3
-    \today
-    \endgroup
-}
 \optionaloff
 
 \lstdefinelanguage{none}{}%
@@ -133,7 +121,7 @@
             {\dimexpr\ht\exampleresultbox+\fboxrule\relax}%
             {\dimexpr\dp\exampleresultbox+\fboxrule\relax}%
         \hskip-\wd\exampleresultbox
-        \hskip-2\fboxrule
+        \hskip-\fboxrule
     }%
     \usebox\exampleresultbox
     }%
@@ -1005,8 +993,44 @@
 % If the content is wider than the available width it will stick into the outer inner without causing an overfull hbox warning.
 %
 %
-% \subsubsection{Pixel size}
+% \subsubsection{Adding a background}
 %
+% \DescribeKey{bgcolor}'='<color>
+% \DescribeKey{bgcolor}'='{<model>}{<color>}
+% This key adds a colored background to the content. The \pkg{xcolor} package (or \pkg{color} or \pkg{xxcolor}) needs to be loaded
+% as well in order for this to work. The value is passed to an internal \Macro\color macro.
+% \begin{examples}
+%   \begin{examplecode}
+%   \adjustbox{bgcolor=blue}{Text with blue background.}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{bgcolor={rgb}{0 0 1}}{Text with blue background in the RGB color model.}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{margin=1ex,bgcolor=green}{green with a little more margin}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{margin=1ex,bgcolor=green,margin=1pt,bgcolor=yellow}{Emulation of colored frame}
+%   \end{examplecode}
+% \end{examples}
+%
+% \DescribeKey{bgcolor*}'='<color macro>
+% Like \Key{bgcolor} but awaits a full color macro as value. This allows to use other macros as \Macro\color like \Macro\blendcolors.
+% See the \pkg{xcolor} manual for more details.
+%
+% \begin{examples}
+%   \begin{examplecode}
+%   \color{blue}Blue text
+%   \adjustbox{bgcolor*=\blendcolors{!10!yellow}\color{.}}{with a yellow-bluish background}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \color{green}Green text
+%   \adjustbox{bgcolor*=\blendcolors{!10!yellow}\color{.}}{with a yellow-greenish background}
+%   \end{examplecode}
+% \end{examples}
+%
+%
+% \subsubsection{Pixel size}
 % \DescribeKey{dpi}'='<number (dots per inch)>
 % The \Key{dpi} key provides a simple interface to set the pixel size to the given DPI (dots per inch) value.
 % For |pdflatex| the length unit |px| can be used to specify pixels. However, the equivalent dimension (length) of one pixel must be
