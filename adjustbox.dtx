@@ -713,14 +713,45 @@
 %
 % \subsubsection{Frame and Margin}
 %
-% \DescribeKey{frame}
-% \DescribeKey{frame}'='<width>
-% \DescribeKey{frame}'='<width>~<sep>
-% This key will draw a black frame around the content.
-% By default the frame lines will have a thickness of \Macro\fboxrule\relax
-% (i.e.\ the same thickness like \Macro\fbox) and will be placed tightly around the content with zero separation.
-% The line width and also the separation can be defined as the optional value.
+% \DescribeKey{fbox}
+% \DescribeKey{fbox}'='<rule width>
+% \DescribeKey{fbox}'='<rule width>~<sep>
+% \DescribeKey{fbox}'='<rule width>~<sep>~<margin>
+% Draws a framed box around the content like \Macro\fbox would do.
+% Using the optional space separated values the rule width, the separation (inner padding) and the outer margin can be set.
+% If not they default to the values \Macro\fbox uses by default: \Macro\fboxrule, \Macro\fboxsep and zero margin.
 %
+% \begin{examples}
+%   \begin{examplecode}
+%   \adjustbox{fbox}{Like \cs{fbox}}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{fbox=1pt}{With 1pt rule width}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{fbox=1pt 2pt}{With 1pt rule width and 2pt separation}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{fbox={\fboxrule} 1pt}{With normal rule width and 1pt separation}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{fbox=1pt 1pt 1pt}{With 1pt for rule width, separation and outer margin}
+%   \end{examplecode}
+% \end{examples}
+%
+% \DescribeKey{frame}
+% \DescribeKey{frame}'='<rule width>
+% \DescribeKey{frame}'='<rule width>~<sep>
+% \DescribeKey{frame}'='<rule width>~<sep>~<margin>
+% The \Key{frame} key as the same effect as the \Key{fbox} key but is modeled after \LaTeX's \Macro\frame macro (not the version \cls{beamer} defines).
+% This means it adds a tight frame with zero separation around the content by default. Besides that it accepts the same space separated values.
+% This key is useful to easily add a tight frame around images where the normal separation wouldn't fit.
+%
+% \begin{examples}
+%   \begin{examplecode}
+%   \adjustbox{frame}{Tight box}
+%   \end{examplecode}
+% \end{examples}
 %
 % \DescribeKey{margin}'='<all sites>
 % \DescribeKey{margin}'='<left/right>~<top/bottom>
@@ -1035,7 +1066,7 @@
 % Adds a background image to the content. The image is stretched if required to fit exactly to the content.
 % It is also possible to provide \Macro\adjustbox or \Macro\includegraphics keys to modify the image (before the resizing is done).
 %
-% \DescribeMacro{\bgimagebox}[<key=value pairs>]{<image filename}
+% \DescribeMacro{\bgimagebox}[<key=value pairs>]{<image filename>}
 % Standalone version of the \Key{bgimage} key. Also available as \env{bgimagebox} environment.
 %
 % \subsubsection{Pixel size}
@@ -1208,13 +1239,17 @@
 % The \Key{split} key can be used with \Macro\adjustbox and uses \Macro\splitbox internally.
 %
 % \DescribeMacro\pagebreakbox{<content>}
-% \DescribeKey{pagebreak}~~~(value is optional and ignored)
-% The \Macro\pagebreakbox macro and its \Key{pagebreak} key variant will split the content into multiple parts so that if fits on the current page.
+% The \Macro\pagebreakbox macro will split the content into multiple parts so that if fits on the current page.
 % If it is larger than the rest of the current page and the full next page it is broken again until the last part fits on a page.
-% This doesn't take any baselines into account and text line in the content may be split in two. 
+% This doesn't take any baselines into account and text line in the content may be split in two.
 % This might be compensated manually by redefining the \Macro\pagebreakboxoffset macro (default: `|\ht\strutbox|'), which adjust the vertical offset
 % of the first part.
 %
+% \DescribeEnv{pagebreakbox}
+% Environment version of \Macro\pagebreakbox.
+%
+% \DescribeKey{pagebreak}
+% The key version of \Macro\pagebreakbox. There should no be any further keys used afterwards, because they will interfere with the page breaks.
 %
 %
 % \StopEventually{}

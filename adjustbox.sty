@@ -660,6 +660,7 @@
 %
 %
 % \begin{key}{adjbox}{frame}
+% As 0--3 arguments: rule width, (inner) separation and margin.
 %    \begin{macrocode}
 \define@key\adjbox@fam{frame}[{{\fboxrule}}]{%
     \adjbox@frame{\fboxsep\z@}#1 {} {} \relax\relax\@nnil
@@ -669,6 +670,7 @@
 %
 %
 % \begin{key}{adjbox}{fbox}
+% Same as \Key{frame} but with different default separation.
 %    \begin{macrocode}
 \define@key\adjbox@fam{fbox}[{{\fboxrule}}]{%
     \adjbox@frame{}#1 {} {} {} \relax\relax\@nnil
@@ -717,7 +719,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\adjbox@@frame}
+% \begin{macro}{\adjbox@@frame}[4]{content}{rule width}{separation}{margin}
 %    \begin{macrocode}
 \def\adjbox@@frame#1#2#3#4{%
     \ifx\@nnil#2\@nnil\else
@@ -1647,6 +1649,7 @@
 % \end{key}
 %
 % \begin{key}{adjbox}{Precode}
+% Same as \Key{precode} but does not set the size yet.
 %    \begin{macrocode}
 \define@key{adjbox}{Precode}{%
     \adjust@addcode{#1}{}%
