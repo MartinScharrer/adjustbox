@@ -1030,6 +1030,14 @@
 % \end{examples}
 %
 %
+% \DescribeKey{bgimage}'='<image filename>
+% \DescribeKey{bgimage}'='{<key=value pairs for image>}{<image filename>}
+% Adds a background image to the content. The image is stretched if required to fit exactly to the content.
+% It is also possible to provide \Macro\adjustbox or \Macro\includegraphics keys to modify the image (before the resizing is done).
+%
+% \DescribeMacro{\bgimagebox}[<key=value pairs>]{<image filename}
+% Standalone version of the \Key{bgimage} key. Also available as \env{bgimagebox} environment.
+%
 % \subsubsection{Pixel size}
 % \DescribeKey{dpi}'='<number (dots per inch)>
 % The \Key{dpi} key provides a simple interface to set the pixel size to the given DPI (dots per inch) value.

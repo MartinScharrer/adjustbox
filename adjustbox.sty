@@ -1690,8 +1690,8 @@
 \def\@bgimagebox#1#2{%
     \mbox{%
         \lower\depth\hbox{%
-            \edef\@tempa{\noexpand\includegraphics%
-                [#1,width=\the\width,totalheight=\the\totalheight]%
+            \edef\@tempa{\noexpand\adjustimage
+                {#1,width=\the\width,totalheight=\the\totalheight}%
                 {#2}%
             }%
             \@tempa
@@ -1705,6 +1705,7 @@
 %
 %
 % \begin{key}{adjbox}{bgimage}
+% One or two arguments, the first optional one are further \Macro\includegraphics keys.
 %    \begin{macrocode}
 \define@key{adjbox}{bgimage}{%
     \@ifnextchar\bgroup{%
