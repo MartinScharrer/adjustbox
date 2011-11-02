@@ -30,18 +30,6 @@
     v0.7
 %<=/VERSION>
     DTX file for the adjustbox package]
-\expandafter\ifx\csname ifenglish\endcsname\relax
-    \expandafter\newif\csname ifenglish\endcsname
-    \englishtrue
-\fi
-\ifenglish
-    \RequirePackage[english]{babel}
-\else
-    \RequirePackage[ngerman]{babel}
-\fi
-
-%\PassOptionsToPackage{ngerman}{hyperref}
-%\RequirePackage[ngerman]{babel}
 \documentclass{ydoc}[2011/08/11]
 \usepackage{amsmath}
 \usepackage[T1]{fontenc}
@@ -199,9 +187,6 @@
 %
 % \DoNotIndex{\newcommand,\newenvironment,\def,\edef,\xdef,\gdef,\let}
 %
-% \ifenglish\else
-%   \title{Das \pkgtitle{adjustbox} Paket}
-% \fi
 % \author{Martin Scharrer}
 % \email{martin@scharrer-online.de}
 % \ydocpdfsettings
@@ -212,7 +197,6 @@
 %  \fontsize \sf@size \z@ \math@fontsfalse \selectfont A}\vss }}\kern -.15em)\TeX}{(La)TeX}}
 % \makeatother
 %
-% \ifenglish
 % \begin{abstract}
 %  This package provides macros missing in \pkg{graphics} to trim, clip and generally adjust boxed \LaTeX{} material
 %  as well as further box modification macros and option keys usable for \Macro\adjustbox and \Macro\includegraphics.
@@ -222,19 +206,7 @@
 %  \\
 %  \textcolor{yellow}{This package is still a little new and its implementation might not be fully stable yet.}
 % \end{abstract}
-% \else
-% \begin{abstract}
-%  Dieses Paket stellt einige Makros zur Verfügung die im \pkg{graphics} Paket vermisst werden
-%  und \LaTeX{} Material zu beschneiden (\emph{trim}, \emph{clip}) oder allgemein zu modifizieren.
-%  Die Makros erlauben Inhalt das im \emph{verbatim} Modus gesetzt ist.
-%  Ebenfalls werden passende Umgebungen für die Makros bereitgestellt.
-%  Das Beschneiden wird durch eine \env{pgfpicture} Umgebung des Pakets \pkg{pgf} verwirklicht,
-%  dass sowohl das PS und PDF Ausgabeformat unterstützt.\\
-%  \textcolor{red}{Dieses Paket ist noch neu und seine Implementieren kann sich in zukünftigen Versionen noch ändern!}
-% \end{abstract}
-% \fi
 %
-% \ifenglish
 % \section{Introduction}
 % The standard \LaTeX{} package \pkg{graphicx} (the extended version of \pkg{graphics}) provides the macro \Macro\includegraphics[<options>]{<file name>} which can
 % be used to include graphic files. Several options can be used to scale, resize, rotate, trim and/or clip the graphic.
@@ -248,20 +220,6 @@
 % and the clip operation either using a |pdftex| or a \env{pgfpicture} environment from the \pkg{pgf} package
 % which supports both PS and PDF output. All \LaTeX\ compilers should be supported, but |pdflatex| is the main target of the
 % author.
-% \else
-% \section{Einleitung}
-% Das \LaTeX{} Paket \pkg{graphicx} (die erweiterte Version von \pkg{graphics}) stellt das Macro \Macro\includegraphics[<Optionen>]{<Dateiname>} zur Verfügung
-% mit dem Bilddateien eingebunden werden können. Zahlreiche Optionen können benutzt werden um das Bild zu skalieren, an eine vorgegebene Größe anzupassen, es zu rotieren 
-% oder den Rand zu beschneiden.
-% Ebenfalls stellt das Paket die Makros \Macro\scalebox\relax (skalieren), \Macro\resizebox\relax (Größe ändern) und \Macro\rotatebox\relax (rotieren) zur Verfügung um \LATeX{} Material,
-% z.B.\ normalen Text, entsprechend anzupassen. Dies wird dazu in eine horizontale Box (\Macro\hbox) gesetzt.
-% Allerdings fehlen Makros um \LATeX{} Material zu beschneiden, wobei der abgeschnittenen Rand entweder sichtbar bleibt (engl.: \emph{trim}) oder ausgeblendet wird (engl. \emph{clip}).
-% Dies ist wahrscheinlich der Fall, weil diese Operationen nicht von \TeX{} selbst vorgenommen werden, sondern von dem verwendeten Ausgabeformat, z.B.\ durch PostScript (PS)
-% oder PDF Operationen.
-%
-% Das \textsf{adjustbox} Paket definiert die Makros \Macro\clipbox und \Macro\trimbox, sowie das allgemeine \Macro\adjustbox Macro (engl.: \emph{adjust} = anpassen).
-% Das Beschneiden wird durch eine \env{pgfpicture} Umgebung des Pakets \pkg{pgf} verwirklicht, dass sowohl das PS und PDF Ausgabeformat unterstützt.
-% \fi
 %
 % \section{Package Option}\label{sec:options}
 % Following v0.5 from 2011/08/13 this package accepts the following package options. Some of them can also be used as
@@ -323,7 +281,6 @@
 %      have no affect. This might change in future versions of this package.
 % \end{description}
 %
-% \ifenglish
 % \def\llx{llx}
 % \def\lly{lly}
 % \def\urx{urx}
@@ -338,24 +295,7 @@
 % \def\yfactor{y-factor}
 % \def\Angle{angle}
 % \def\options{options}
-% \else
-% \def\llx{lux}
-% \def\lly{luy}
-% \def\urx{orx}
-% \def\ury{ory}
-% \def\TEXT{Inhalt}
-% \def\height{Höhe}
-% \def\width{Weite}
-% \def\totalheight{Totale Höhe}
-% \def\depth{Tiefe}
-% \def\factor{Faktor}
-% \def\xfactor{X-Faktor}
-% \def\yfactor{Y-Faktor}
-% \def\Angle{Winkel}
-% \def\options{Optionen}
-% \fi
 %
-% \ifenglish
 % \section{Usage}
 % This section describes the usage of the provided macros, which are outlined in \autoref{sec:basicmacros}.
 % Possible advanced values for the macro arguments are mentioned in \autoref{sec:argval}. The existing verbatim support
@@ -365,39 +305,18 @@
 %
 % It is recommended to also read the \emph{Graphics Guide} (\pkg{grfguide}, i.e.~the manual of the \pkg{graphics}/|x| packages),
 % to understand the existing options for \Macro\includegraphics. 
-% \else
-% \newpage
-% \section{Anleitung}
-% Dieser Abschnitt beschreibt die Verwendung der Makros dieses Pakets. Diese werden zuerst im \autoref{sec:basicmacros} beschrieben.
-% \autoref{sec:argval} erklärt welche Werte in den Makroargumenten verwendet werden können. Die Makros unterstützen sogenannten
-% \emph{verbatim} (engl.: wortgetreu) Inhalt was im \autoref{sec:verbatim} erleutert wird.
-% Schlussendlich wird im \autoref{sec:alternatives} die exisitierenden Makros mit den entsprechendem Optionen von \Macro\adjustbox
-% verglichen. Beispiele für die beschriebenen Makros befinden sich im folgendem \autoref{sec:example}.
 %
-% Dem Leser wird darüberhinaus die Lektüre der Anleitung der \pkg{graphic}/|x| Pakete, der \emph{Graphics Guide}, empfohlen wo
-% die möglichen Optionen für das Makro \Macro\includegraphics gelistet sind, die auch für \Macro\adjustbox verwendet werden.
-% \fi
-%
-% \ifenglish
 % \Needspace*{7\baselineskip}
 % \subsection{Basic Box Modification Macros}\label{sec:basicmacros}
 % This section lists the provided macros \Macro\clipbox and \Macro\trimbox missing in the \pkg{graphicx} package
 % as well as the general \Macro\adjustbox macro.  If the package is loaded with the \opt{minimal} option no further macros or keys are defined.
-% \else
-% \subsection{Makros zur Modifikation von {\LaTeX} Material}\label{sec:basicmacros}
-% \fi
 %
-% \ifenglish
 % \subsubsection*{Trim Box Content}
-% \else
-% \subsubsection*{Rand beschneiden ohne Überhang auszublenden}
-% \fi
 % \vskip-\lastskip
 % \DescribeMacro\trimbox{<all sites>}{<\TEXT>}
 % \DescribeMacro\trimbox{<left/right>~<top/bottom>}{<\TEXT>}
 % \DescribeMacro\trimbox{<\llx>~<\lly>~<\urx>~<\ury>}{<\TEXT>}
 % \DescribeMacro\trimbox*{<\llx>~<\lly>~<\urx>~<\ury>}{<\TEXT>}
-% \ifenglish
 % The macro \Macro\trimbox trims the given amount from the lower left (ll) and the upper right (ur) corner of
 % the box. This means that the amount \meta{llx} is trimmed from the left side, \meta{lly} from the bottom and
 % \meta{urx} and \meta{ury} from the right and top of the box, respectively.
@@ -408,99 +327,49 @@
 %
 % If the starred version is used the four coordinates are taken as the \Key{viewport} instead, i.e. the box
 % is trimmed to the rectangle described by the coordinates. In this case using all four values must be specified.
-% \else
-% Das Makro \Macro\trimbox setzt den \meta{Text} in eine \TeX{} Box und reduziert dessen offizielle Größe
-% (\emph{bounding box}, engl.: begrenzende Box), so dass \TeX{} annimmt es wäre entsprechend kleiner. Überstehendes Material
-% ragt deswegen in den umgebenden Text hinein.
-% Die angegebenen Werte im ersten Argument stehen für die Beträge die von der unteren linken (lu) und der oberen rechten (or)
-% Ecke entfernt werden. Das heisst, dass der Wert \meta{lux} vom linken Rand, \meta{lly} vom unterem Rand und \meta{orx} und \meta{ory}
-% von rechten bzw. oberen Rand abgezogen werden.
-% Wird das Makro allerdings in der Sternvariante aufgerufen, stehen die vier Werte für den Darstellungsbereich (\emph{viewport}) und 
-% alles ausserhalb wird von der offiziellen Größe abgeschnitten.
-% \fi
 %
 %
 % \DescribeEnv[<\TEXT>]{trimbox}{<1, 2 or 4 trim values>}
 % \vspace{-\baselineskip}
 % \DescribeEnv[<\TEXT>]{trimbox*}{<\llx>~<\lly>~<\urx>~<\ury>}
-% \ifenglish
 % The \env{trimbox} and \env{trimbox*} environments do the same as the corresponding macros.
 % Special care is taken so that the macros and the environments can have the same name.
 % Because of this the star can be either part of the name or an optional argument.
 % Also the plain\TeX{} syntax for environments (|\trimbox ... \endtrimbox|) can not be used
 % because it will trigger \Macro\trimbox as a macro. 
-% \else
-% Die Umgebungen \env{trimbox} und \env{trimbox*} erzeugen den selben Effekt wie die gleichnamigen Makros.
-% Ein spezieller Trick wird verwendet, damit der selbe Name für ein Makro und für eine Umgebung verwendet werden kann,
-% was normallerweise nicht der Fall ist. Aufgrund dessen akzeptier die \env{trimbox} Umgebung auch einen optionallen Stern.
-% Die plain\TeX{} Schreibweise für Umgebungen (|\trimbox ... \endtrimbox|) kann allerdings nicht verwendet werden,
-% da es \Macro\trimbox als Makro aufrufen würde.
-% \fi
 %
 %
-% \ifenglish
 % \subsubsection*{Clip Box Content}
-% \else
-% \subsubsection*{Rand beschneiden und Überhang ausblenden}
-% \fi
 % \vskip-\lastskip
 % \DescribeMacro\clipbox{<all sites>}{<\TEXT>}
 % \DescribeMacro\clipbox{<left/right>~<top/bottom>}{<\TEXT>}
 % \DescribeMacro\clipbox{<\llx>~<\lly>~<\urx>~<\ury>}{<\TEXT>}
 % \DescribeMacro\clipbox*{<\llx>~<\lly>~<\urx>~<\ury>}{<\TEXT>}
-% \ifenglish
 % The \Macro\clipbox macro works like the \Macro\trimbox and trims the given amounts from the \meta{text}.
 % However, in addition the trimmed material is also clipped, i.e. it is not shown in the final document.
 % Note that the material will still be part of the output file but is simply not shown.
 % It might be exported using special tools, so using \Macro\clipbox\relax (or \Macro\includegraphics[clip,trim=...])
 % to censor classified information would be a bad idea.
 % The starred version will again use the given coordinates as \Key{viewport}. 
-% \else
-% Das \Macro\clipbox Makro arbeiten ähnlich wie \Macro\trimbox nur, dass der entfernte Rand auch wirklich
-% ausgeblendet wird. Allerdings bleibt dieses Material Teil der Ausgabedatei und könnte durch spezielle Software exportiert werden.
-% Von der Verwendung von \Macro\clipbox\relax (oder \Macro\includegraphics'[clip,trim=...]') um vertrauliche Informationen zu zensieren
-% kann deswegen nur abgeraten werden.
-% Die Sternvariante verwendet die angegebenen Werte als den zu darstellenden Bereich wie bei \Macro\trimbox'*'.
-% \fi
 %
 % \DescribeEnv[<\TEXT>]{clipbox}{<1, 2 or 4 trim values>}
 % \vspace{-\baselineskip}
 % \DescribeEnv[<\TEXT>]{clipbox*}{<\llx>~<\lly>~<\urx>~<\ury>}
-% \iffalse
 % The environment versions of \Macro\clipbox and \Macro\clipbox*. The same rules as for the trimming environments apply.
-% \else
-% Die obigen Makros als Umgebungen. Es gelten die gleichen Regeln wie bei den \env{trimbox} Umgebungen.
-% \fi
 %
 %
-% \ifenglish
 % \subsubsection*{Adjust Box Content}
-% \else
-% \subsubsection*{Allgemeine Manipulationen von \LaTeX{} Material}
-% \fi
 % \vskip-\lastskip
 % \DescribeMacro\adjustbox{<key/value pairs>}{<\TEXT>}
-% \ifenglish
 % The \Macro\adjustbox macro is the general form of all box modifying macros mentioned in the introduction.
 % It can be thought as an extended \Macro\includegraphics for \LATeX{} material.
 % It supports the same \meta{key/value pairs} and many more. However, they are provided as a mandatory not as an optional argument.
 % An \Macro\adjustbox without options would not make sense and can be replaced by a simple \Macro\mbox.
 % There is no starred version of this macro. See also \autoref{tab:alternatives} for a comparison of \Macro\adjustbox
 % with the other macros.
-% \else
-% Mit Hilfe des \Macro\adjustbox Makros (engl.\ \emph{adjust} = anpassen, justieren) ist es möglich die selben Optionen
-% die \Macro\inludegraphics für Bilder zur Verfügung stellt auch auf beliebiges \LATeX{} Material anzuwenden.
-% Die \meta{Optionen} sind dabei allerdings nicht optional, da \Macro\adjustbox ohne jegliche Optionen einem \Macro\mbox
-% gleich käme. Eine Sternvariante existiert für dieses Makro nicht.
-% Es kann dazu verwendet werden Kombinationen von anderen ähnlichen Makros zu ersetzen, was in \autoref{tab:alternatives} dargestellt wird.
-% \fi
 %
 % \DescribeEnv[<\TEXT>]{adjustbox}{<includegraphics \options>}
-% \ifenglish
 % The environment version of \Macro\adjustbox.
-% \else
-% Wie für die anderen Makros gibt es auch für \Macro\adjustbox eine passende Umgebung.
-% \fi
 %
 % \subsubsection*{Adjust Images}
 % \DescribeMacro\adjustimage{<key/value pairs>}{<image filename>}
@@ -515,15 +384,9 @@
 % if \pkg{adjustbox} is loaded at several places.
 %
 % \clearpage
-% \ifenglish
 % \section*{Examples}
 % The following examples show the application of the aforementioned macros on an example text.
 % The result is placed in a tight, colored frame box to show the resulting dimensions.
-% \else
-% \section*{Beispiele}
-% Die folgenden Beispiele zeigen die Anwendung der Makros dieses Packets auf einen Beispieltext (\Macro\example).
-% Das Ergebnis wird mit einer engen, farbigen Umrandung dargestellt um die entgültigen Dimensionen sichtbar zu machen.
-% \fi
 % \begingroup
 % \def\examplecontent{\begin{tabular}{@{}|c|c|@{}}
 %       \hline
@@ -551,7 +414,6 @@
 % \endgroup
 %
 % \clearpage
-% \ifenglish
 % \subsection{Argument Values}\label{sec:argval}
 % All\marginpar{Parsing} length values given in the arguments of all macros and keys provided by this package are parsed by and advanced version of
 % \Macro\setlength (called \Macro\adjsetlength) which uses either $\epsilon$-\TeX\ expressions (default), the \pkg{calc} package (default fall-back)
@@ -561,28 +423,13 @@
 %
 % Note\marginpar{Space=Separator} that the four values for \Macro\trimbox and \Macro\clipbox as well as for the \Key{trim} and \Key{viewport} option of \Macro\adjustbox
 % are separated by spaces. If the expression of any of this values holds a space or ends with a macro (eats trailing spaces!) it must be wrapped into braces "{ }".
-% \else
-% \newpage
-% \subsection{Erlaubte Werte für Makroargumente}\label{sec:argval}
-% Die numerischen Werte für die Makros werden durch das vielseitige \Macro\pgfmathparse Makro des sowieso schon verwendeten \pkg{pgf} Paketes
-% eingelesen. Dies erlaubt die Verwendung von einfachen oder komplizierten Formeln.
-% Eine genaue Beschreibung der unterstützten mathematischen Operationen befindet sich im Handbuch des \pkg{pgf} Paketes.
-% Dabei muss beachtet werden das die vier Werte für die \Macro\trimbox und \Macro\clipbox Makros sowie für die \Key{trim} und \Key{viewport} Optionen von \Macro\adjustbox
-% durch Leerzeichen getrennt werden müssen. Komplizierte Angaben die ein Leerzeichen enthalten oder auf ein Makro enden (entfernt nachfolgende Leerzeichen) müssen
-% deswegen in geschweifte Klammern "{ }" gesetzt werden.
-% \fi
 %
 %
 % \DescribeMacros
 %    \hbox{\Macro\width~~~\Macro\height~~~\Macro\depth~~~\Macro\totalheight}%
 % \endDescribeMacros
-% \ifenglish
 % These \LaTeX{} lengths hold the original dimension of \meta{text} and can be used as part of the arguments to \Macro\adjustbox, \Macro\trimbox and \Macro\clipbox.
 % The totalheight is the height plus depth. With the \pkg{patch} option these lengths can also be used for \Macro\includegraphics.
-% \else
-% Diese \LaTeX{} Längen enthalten die Weite, Höhe, Tiefe bzw.\ die totale Höhe (Höhe + Tiefe) des \meta{\TEXT} Arguments bzw.\ des Inhalts der Umgebung.
-% Diese Längen können in den ersten Argument von \Macro\adjustbox, \Macro\trimbox und \Macro\clipbox verwendet werden um relative Änderungen vorzunehmen.
-% \fi
 %
 % If\marginpar{Default unit} no unit is provided for of the bounding box coordinates (\llx, \lly, \urx, \ury) then PostScript points
 % (\emph{big points}, bp, $72\,\text{bp}=1\,\text{inch}$) are used, as it is the default behaviour
@@ -608,39 +455,19 @@
 % All environments support verbatim content.
 %
 % \clearpage
-% \ifenglish
 % \subsection{Alternatives for existing Macros}\label{sec:alternatives}
 % The flexible \Macro\adjustbox can also be used as an alternative to existing macros from the \pkg{graphics} package as shown by Table~\ref{tab:alternatives}.
 % Because it is longer then the originals this is only of benefit if combinations are to be replaced or verbatim text must be supported.
-% \else
-% \subsection{Alternativen für existierende Makros}\label{sec:alternatives}
-% Das flexible \Macro\adjustbox Makro kann auch als Alternative für die vorhandenen Makros des \pkg{graphics} Paketes verwenden werden.
-% Dies ist in Tabelle~\ref{tab:alternatives} dargestellt.
-% Die dies allerdings mehr Schreibarbeit darstellt ist es nur dann von Vorteil, falls mehrere Operationen verknüpft werden sollen
-% oder wenn der entsprechende Text im \emph{verbatim} Modus eingelesen werden soll.
-% \fi
 %
-% \ifenglish
 % \begin{table}[!hb]
-% \else
-% \begin{table}[!hb]
-% \fi
 % \belowcaptionskip\abovecaptionskip
 % \colorlet{optional}{black}
-% \ifenglish
 % \caption{Alternatives for existing Macros}
-% \else
-% \caption{Alternativen für existierende Makros}
-% \fi
 % \label{tab:alternatives}
 % \hbox to \linewidth{\hss
 % \begin{tabular}{ll}
 %   \toprule
-%   \ifenglish
 %   Original Macro (w/o content argument)  &  Alternative \Macro\adjustbox keys \\
-%   \else
-%   Originales Makro (ohne Textargument)  &  Alternative \Macro\adjustbox Schlüssel \\
-%   \fi
 %   \midrule
 %   \Macro\rotatebox{<\Angle>}                   & \MacroArgs'angle='<\Angle>  \\
 %                                                & \MacroArgs'rotate='<\Angle>  \\
@@ -1347,19 +1174,7 @@
 % \clearpage
 % \section{Implementation}
 % \setcounter{lstnumber}{1}
-% \ifenglish\else
-% Die Dokumentation des Quellcodes ist nur auf Englisch verfügbar.
-% \fi
 %
-% \iffalse
-%<*de>
-%% Wrapper to set language to German and jobname to 'adjustbox-de'.
-%% Does not have to be included in distributions or placed on CTAN.
-\expandafter\newif\csname ifenglish\endcsname
-\englishfalse
-\input{adjustbox.dtx}
-%</de>
-% \fi
 %
 % \iffalse
 %<@adjustbox.sty>
