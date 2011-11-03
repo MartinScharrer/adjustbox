@@ -1103,6 +1103,17 @@
 %    \end{macrocode}
 % \end{key}
 %
+% \begin{key}{adjbox}{set vsize}
+% Uses the same code like \Key{raise} but with the raise value of 0pt,
+% i.e.\ only sets the height and depth.
+%    \begin{macrocode}
+\define@key\adjbox@fam{set vsize}{%
+    \adjbox@raisebox{0pt}#1{}{}\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
 %
 % \begin{macro}{\adjbox@Gin@add}
 %    \begin{macrocode}
