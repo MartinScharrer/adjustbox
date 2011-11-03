@@ -729,13 +729,16 @@
 %   \adjustbox{fbox=1pt}{With 1pt rule width}
 %   \end{examplecode}
 %   \begin{examplecode}
-%   \adjustbox{fbox=1pt 2pt}{With 1pt rule width and 2pt separation}
+%   \adjustbox{fbox=1pt 2pt}
+%       {With 1pt rule width and 2pt separation}
 %   \end{examplecode}
 %   \begin{examplecode}
-%   \adjustbox{fbox={\fboxrule} 1pt}{With normal rule width and 1pt separation}
+%   \adjustbox{fbox={\fboxrule} 1pt}
+%       {With normal rule width and 1pt separation}
 %   \end{examplecode}
 %   \begin{examplecode}
-%   \adjustbox{fbox=1pt 1pt 1pt}{With 1pt for rule width, separation and outer margin}
+%   \adjustbox{fbox=1pt 1pt 1pt}
+%       {With 1pt for rule width, separation and outer margin}
 %   \end{examplecode}
 % \end{examples}
 %
@@ -752,6 +755,32 @@
 %   \adjustbox{frame}{Tight box}
 %   \end{examplecode}
 % \end{examples}
+%
+% \DescribeKey{cfbox}'='<color>
+% \DescribeKey{cfbox}'='<color>~<rule width>
+% \DescribeKey{cfbox}'='<color>~<rule width>~<sep>
+% \DescribeKey{cfbox}'='<color>~<rule width>~<sep>~<margin>
+% Identical to \Key{fbox} but uses the given color for the frame.
+% The \pkg{xcolor} package must be loaded manually in order for this key to work.
+% \begin{example}
+%   \begin{examplecode}
+%   \adjustbox{cfbox=blue 1pt}
+%       {Like a blue \cs{fbox} with \cs{fboxrule}=1pt}
+%   \end{examplecode}
+% \end{example}
+%
+% \DescribeKey{cframe}'='<color>
+% \DescribeKey{cframe}'='<color>~<rule width>
+% \DescribeKey{cframe}'='<color>~<rule width>~<sep>
+% \DescribeKey{cframe}'='<color>~<rule width>~<sep>~<margin>
+% Identical to \Key{frame} but uses the given color for the frame.
+% The \pkg{xcolor} package must be loaded manually in order for this key to work.
+% \begin{example}
+%   \begin{examplecode}
+%   \adjustbox{cfbox=blue!50!green}
+%       {Like a blue and green \cs{frame}}
+%   \end{examplecode}
+% \end{example}
 %
 % \DescribeKey{margin}'='<all sites>
 % \DescribeKey{margin}'='<left/right>~<top/bottom>
@@ -836,7 +865,7 @@
 %   \end{examplecode}
 %   \begin{examplecode}
 %   Is \adjustbox{raise={1ex}{1ex}{0pt}}{higher and 
-%   \rotatebox{-90}{depth}} but with limited official
+%   \rotatebox{-90}{deeper}} but with limited official
 %   height and no depth.
 %   \end{examplecode}
 % \end{examples}
@@ -1221,6 +1250,7 @@
 %
 % \subsection{Experimental Keys}
 % The following features are experimental and may not work correctly yet.
+% At the moment the \pkg{storebox} package must be loaded manually for this keys.
 %
 % \DescribeMacro\splitbox{<split width>}{<split height>}{<content>}
 % This macro boxes the given content and splits it in multiple fragments of the given width and height.
