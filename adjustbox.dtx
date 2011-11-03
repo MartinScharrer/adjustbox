@@ -371,6 +371,15 @@
 % This does not require the \opt{export} option and therefore helps to avoid option clashes
 % if \pkg{adjustbox} is loaded at several places.
 %
+%
+% \DescribeMacro\adjincludegraphics[<key/value pairs>]{<image filename>}
+% Like \Macro\adjustimage but in the same format as \Macro\includegraphics.
+% This macro allows to use all features of \Macro\adjustbox on images, however any `|[ ]|' inside the optional argument must be wrapped in `|{ }|' to mask them.
+% It is possible to redefine \Macro\includegraphics to use/be \Macro\adjincludegraphics and this is done by
+% the \opt{Export} option (not to be confused with the \opt{export} option).
+%
+%
+%
 % \clearpage
 % \section*{Examples}
 % The following examples show the application of the aforementioned macros on an example text.

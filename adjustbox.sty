@@ -28,6 +28,7 @@
 %
 \def\adjbox@fam{adjbox}
 \DeclareOptionX<adjbox>{export}{\def\adjbox@fam{Gin}}
+\DeclareOptionX<adjbox>{Export}{\AtEndOfPackage{\let\includegraphics\adjincludegraphics}}
 \DeclareOptionX<adjbox>{patch}{\AtEndOfPackage{\RequirePackage{adjgrfx}}}
 \DeclareOptionX<adjbox>{minimal}{\let\adjbox@maybeend\endinput}
 %
@@ -379,6 +380,16 @@
 % to allow later redefinition of that macro.
 %    \begin{macrocode}
 \newcommand*\adjustimage[2]{%
+    \adjustbox{#1}{\Gin@clipfalse\Gin@i{#2}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjincludegraphics}
+% Simple wrapper to use \Macro\adjustbox for images in the same format of \Macro\includegraphics.
+% This allows to simply do |\let\includegraphics\adjincludegraphics|, which is done by the \opt{Export} option.
+%    \begin{macrocode}
+\newcommand*\adjincludegraphics[2][]{%
     \adjustbox{#1}{\Gin@clipfalse\Gin@i{#2}}%
 }
 %    \end{macrocode}
