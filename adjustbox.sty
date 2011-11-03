@@ -1616,6 +1616,15 @@
 \def\adjbox@innerenv#1#2\@nnil{%
     \def\adjbox@collectbox##1{\collectbox@{\begin{#1}#2}{##1}{\end{#1}}}%
 }%
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjbox@innerenv}
+% \begin{macro}{\adjbox@@innerenv}
+% \begin{macro}{\adjbox@@@innerenv}
+% Used to extract the environment arguments. The issue here is that if a single mandatory argument is used 
+% its braces are removed. To avoid that a `|{}|' is always added beforehand and then removed again.
+%    \begin{macrocode}
 \def\adjbox@@innerenv#1{%
     \adjbox@@@innerenv{#1}{}%
 }%
@@ -1626,6 +1635,8 @@
     \adjbox@innerenv{#2}{#1}\@nnil
 }%
 %    \end{macrocode}
+% \end{macro}
+% \end{macro}
 % \end{macro}
 %
 %

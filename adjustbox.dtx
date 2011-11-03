@@ -1164,7 +1164,7 @@
 %   \end{examplecode}
 % \end{example}
 %
-% \subsection{Minipage or other inner environments which change the processing of the content}
+% \subsection{Minipage or other inner environments which change the processing of the content}\label{sec:inner}
 % The following keys set the way the content is processed before it is stored it in a box.
 % These keys will overwrite each other and only the latest used key will take effect.
 % Because they affect the inner content directly their order relative to other, normal keys is not meaningful.
@@ -1284,8 +1284,11 @@
 %
 % \DescribeKey{execute}'='<code>
 % Simply executes the code immediately. This is done in the key processing phase and is intended mostly for debugging purposes.
-% Previous keys won't have an effect yet.
+% Previous (normal) keys won't have an effect yet.
 %
+% \DescribeKey{Execute}'='<code>
+% Simply executes the code immediately. This is done in the key processing phase for inner environments (see \autoref{sec:inner}) and is intended mostly for debugging purposes.
+% Only previously used special keys for modifying the boxing of the content will have an effect yet.  % All other keys are not yet processed.
 %
 % \subsection{Experimental Keys}
 % The following features are experimental and may not work correctly yet.
