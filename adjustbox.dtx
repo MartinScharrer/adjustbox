@@ -1236,13 +1236,17 @@
 % \DescribeKey{innerenv}'='{<environment name>}<environment options>
 % Wraps the inner content in the given \meta{environment} before it is stored as horizontal box.
 % It should be kept in mind that there is some internal code between the begin of the environment and the content. For this reason
-% a \env{tabular}, \env{innerenv} or similar environment will not work here, because that code will be taken as part of the first cell.
+% a \env{tabular}, \env{array} or similar environment will not work here, because that code will be taken as part of the first cell.
 % Note that such a environment is taken as part of the content and so the usage of arithmetic expressions for length arguments is not supported.
 %
 % \begin{example}
 %   \begin{examplecode}
 %   \newenvironment{myenv}[2][]{Before [#1](#2)}{After}
 %   \adjustbox{innerenv={myenv}[ex]{amble}}{Content}
+%   \end{examplecode}
+%   \newenvironment{myenv}[2][]{Before [#1](#2)}{After}
+%   \begin{examplecode}
+%   \adjustbox{innerenv={myenv}{amble}}{Content}
 %   \end{examplecode}
 % \end{example}
 %

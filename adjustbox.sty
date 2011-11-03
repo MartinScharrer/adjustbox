@@ -284,7 +284,7 @@
     \expandafter
     \adjbox@collectbox\expandafter{\expandafter\adjustbox@\expandafter{\XKV@rm}}%
 }
-\let\adjbox@collectbox\@collectbox
+\def\adjbox@collectbox{\@collectbox}
 \def\adjbox@setkeys@ba{%
     \expandafter\expandafter
     \expandafter\adjbox@@setkeys@ba
@@ -946,6 +946,12 @@
 }
 %    \end{macrocode}
 %
+%    \begin{macrocode}
+\define@key{ADJBOX}{Execute}{%
+    #1%
+}
+%    \end{macrocode}
+%
 %
 % \begin{key}{adjbox}{raise}
 %    \begin{macrocode}
@@ -1596,7 +1602,7 @@
 %    \begin{macrocode}
 \define@key{ADJBOX}{innerenv}{%
     \@ifnextchar\bgroup{%
-        \adjbox@innerenv
+        \adjbox@@innerenv
     }{%
         \adjbox@innerenv{#1}\@nnil%
         \remove@to@nnil
@@ -1609,6 +1615,15 @@
 %    \begin{macrocode}
 \def\adjbox@innerenv#1#2\@nnil{%
     \def\adjbox@collectbox##1{\collectbox@{\begin{#1}#2}{##1}{\end{#1}}}%
+}%
+\def\adjbox@@innerenv#1{%
+    \adjbox@@@innerenv{#1}{}%
+}%
+\def\adjbox@@@innerenv#1#2\@nnil{%
+    \expandafter\adjbox@@@@innerenv\expandafter{\@gobble#2}{#1}%
+}%
+\def\adjbox@@@@innerenv#1#2{%
+    \adjbox@innerenv{#2}{#1}\@nnil
 }%
 %    \end{macrocode}
 % \end{macro}
