@@ -876,6 +876,24 @@
 % \end{macro}
 %
 %
+% \begin{key}{adjbox}{rlap}
+%    \begin{macrocode}
+\define@key\adjbox@fam{rlap}[]{%
+    \adjbox@Gin@Add{\lapbox{\width}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{llap}
+%    \begin{macrocode}
+\define@key\adjbox@fam{llap}[]{%
+    \adjbox@Gin@Add{\lapbox{-\width}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
 % \begin{key}{adjbox}{margin}
 %    \begin{macrocode}
 \define@key\adjbox@fam{margin}{%

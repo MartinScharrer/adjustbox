@@ -932,29 +932,37 @@
 % It uses the same internal code as\\
 % \Macro\raisebox{'0pt'}[<height>]{<content>}.
 %
-% \begin{examples}
+% \begin{example}
 %   \begin{examplecode}
 %   \adjustbox{set height=.5\height}
 %       {\shortstack{some stacked\\content}}
 %   \end{examplecode}
-% \end{examples}
+% \end{example}
 %
 % \DescribeKey{set depth}'='<depth>
 % This sets the official depth of the content without actual changing it. This can be seen as a form of trimming.
 % It uses the same internal code as\\
 % \Macro\raisebox{'0pt'}['\height'][<depth>]{<content>}.
 %
-% \begin{examples}
+% \begin{example}
 %   \begin{examplecode}
 %   \adjustbox{set depth=0pt}
 %       {\shortstack{some stacked\\content
 %       with \raisebox{-1ex}{depth}}}
 %   \end{examplecode}
-% \end{examples}
+% \end{example}
 %
 % \DescribeKey{set vsize}'='{<height>}{<depth>}
 % This sets the official height of depth of the content without actual changing it.
 % This key is simply the combination of \Key{set height} and \Key{set depth}.
+%
+% \begin{example}
+%   \begin{examplecode}
+%   \adjustbox{set vsize={2pt}{1pt}}
+%       {\shortstack{some stacked\\content
+%       with \raisebox{-1ex}{depth}}}
+%   \end{examplecode}
+% \end{example}
 %
 % \DescribeKey{lap}'='<lap amount>
 % \DescribeKey{lap}'='{<length>}{<lap amount>}
@@ -984,6 +992,20 @@
 %   \end{examplecode}
 % \end{examples}
 %
+% \DescribeKey{rlap}
+% \DescribeKey{llap}
+% This makes the content to be officially 0pt wide and lap over to the right or left, respectively, like the \LaTeX\ macros \Macro\rlap and \Macro\llap do.
+% These are shortcuts for \Key{lap}'='\AlsoMacro\width and \Key{lap}'=-'\AlsoMacro\width, respectively. The values for these keys are ignored and should not be used.
+%
+%
+% \begin{examples}
+%   \begin{examplecode}
+%   \adjustbox{rlap}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{llap}{Some content}
+%   \end{examplecode}
+% \end{examples}
 %
 % \DescribeKey{center}
 % \DescribeKey{center}'='<width>
