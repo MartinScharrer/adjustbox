@@ -305,7 +305,14 @@
 % \begin{macro}{\adjustbox@}
 %    \begin{macrocode}
 \def\adjustbox@#1{%
-    \adjustbox@dimcmds
+    \adjbox@Width\width
+    \adjbox@Height\height
+    \adjbox@Depth\depth
+    \adjbox@Totalheight\totalheight
+    \let\Width\adjbox@Width
+    \let\Height\adjbox@Height
+    \let\Depth\adjbox@Depth
+    \let\Totalheight\adjbox@Totalheight
     \let\Gin@esetsize\adjbox@esetsize
     \@tempswatrue
     \toks@{{\adjustbox@@@@}}%
@@ -315,6 +322,21 @@
     \the\toks@
 }
 %    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjbox@Width}
+% \begin{macro}{\adjbox@Height}
+% \begin{macro}{\adjbox@Depth}
+% \begin{macro}{\adjbox@Totalheight}
+%    \begin{macrocode}
+\newdimen\adjbox@Width
+\newdimen\adjbox@Height
+\newdimen\adjbox@Depth
+\newdimen\adjbox@Totalheight
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
 % \end{macro}
 %
 % \begin{macro}{\adjustbox@@@@}
@@ -347,20 +369,6 @@
     \let\Gin@ewidth\Gin@exclamation
     \let\Gin@eheight\Gin@exclamation
   \fi
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjustbox@dimcmds}
-% Inits the dimension macro in an unexpandedable way. They will be redefined to the correct
-% values by \Macro\collectbox.
-%    \begin{macrocode}
-\def\adjustbox@dimcmds{%
-    \let\width\relax
-    \let\height\relax
-    \let\depth\relax
-    \let\totalheight\relax
 }
 %    \end{macrocode}
 % \end{macro}
