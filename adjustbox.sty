@@ -955,6 +955,12 @@
 %    \end{macrocode}
 %
 %    \begin{macrocode}
+\define@key\adjbox@fam{@debug}[]{%
+    \showthe\toks@
+}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \define@key{ADJBOX}{Execute}{%
     #1%
 }
@@ -965,23 +971,19 @@
 %    \begin{macrocode}
 \define@key\adjbox@fam{raise}{%
     \@ifnextchar\bgroup{%
-        \adjbox@raisebox
+        \adjbox@raise
     }{%
-        \adjbox@raisebox{#1}{}{}%
+        \adjbox@raise{#1}{}{}%
     }#1{}{}{}\@nnil
 }
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{macro}{\adjbox@raisebox}
+% \begin{macro}{\adjbox@raise}
 %    \begin{macrocode}
-\def\adjbox@raisebox#1#2#3#4\@nnil{%
-    \ifx\@nnil#3\@nnil
-        \adjbox@Gin@Add{\@irsbox{#1}[{#2}]}%
-    \else
-        \adjbox@Gin@Add{\@iirsbox{#1}[{#2}][{#3}]}%
-    \fi
+\def\adjbox@raise#1#2#3#4\@nnil{%
+    \adjbox@Gin@Add{\adjbox@raisebox{#1}{#2}{#3}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -993,6 +995,39 @@
 }
 %    \end{macrocode}
 % \end{key}
+%
+%
+% \begin{macro}{\adjbox@raisebox}[3]{raise amount}{height}{depth}
+%    \begin{macrocode}
+\def\adjbox@raisebox#1#2#3{%
+    \collectbox{\adjbox@@raisebox{#1}{#2}{#3}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@@raisebox}[3]{raise amount}{height}{depth}
+%    \begin{macrocode}
+\def\adjbox@@raisebox#1#2#3{%
+    \ifx\@nnil#1\@nnil
+        \setbox\@tempboxa\box\collectedbox
+    \else
+        \adjsetlength\@tempdima{#1}%
+        \sbox\@tempboxa{\raise\@tempdima\box\collectedbox}%
+    \fi
+    \ifx\@nnil#2\@nnil\else
+        \adjsetlength\@tempdima{#2}%
+        \ht\@tempboxa\@tempdima
+    \fi
+    \ifx\@nnil#3\@nnil\else
+        \adjsetlength\@tempdima{#3}%
+        \dp\@tempboxa\@tempdima
+    \fi
+    \box\@tempboxa
+}
+%    \end{macrocode}
+% \end{macro}
+%
 %
 %
 % \begin{macro}{\adjboxvtop}
@@ -1015,7 +1050,7 @@
 % \begin{macro}{\adjbox@valign@t}
 %    \begin{macrocode}
 \def\adjbox@valign@t{%
-    \adjbox@Gin@Add{\@irsbox{-\height+\adjboxvtop}[]}%
+    \adjbox@Gin@Add{\adjbox@raisebox{-\height+\adjboxvtop}{}{}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1024,7 +1059,7 @@
 % \begin{macro}{\adjbox@valign@T}
 %    \begin{macrocode}
 \def\adjbox@valign@T{%
-    \adjbox@Gin@Add{\@irsbox{-\height}[]}%
+    \adjbox@Gin@Add{\adjbox@raisebox{-\height}{}{}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1033,7 +1068,7 @@
 % \begin{macro}{\adjbox@valign@M}
 %    \begin{macrocode}
 \def\adjbox@valign@M{%
-    \adjbox@Gin@Add{\@irsbox{.5\depth-.5\height}[]}%
+    \adjbox@Gin@Add{\adjbox@raisebox{.5\depth-.5\height}{}{}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1042,7 +1077,7 @@
 % \begin{macro}{\adjbox@valign@m}
 %    \begin{macrocode}
 \def\adjbox@valign@m{%
-    \adjbox@Gin@Add{\@irsbox{.5\depth-.5\height+\adjboxvcenter}[]}%
+    \adjbox@Gin@Add{\adjbox@raisebox{.5\depth-.5\height+\adjboxvcenter}{}{}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1051,7 +1086,7 @@
 % \begin{macro}{\adjbox@valign@b}
 %    \begin{macrocode}
 \def\adjbox@valign@b{%
-    \adjbox@Gin@Add{\@irsbox{\depth+\adjboxvbottom}[]}%
+    \adjbox@Gin@Add{\adjbox@raisebox{\depth+\adjboxvbottom}{}{}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1060,7 +1095,7 @@
 % \begin{macro}{\adjbox@valign@B}
 %    \begin{macrocode}
 \def\adjbox@valign@B{%
-    \adjbox@Gin@Add{\@irsbox{\depth}[]}%
+    \adjbox@Gin@Add{\adjbox@raisebox{\depth}{}{}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1132,7 +1167,7 @@
 % \begin{key}{adjbox}{set height}
 %    \begin{macrocode}
 \define@key\adjbox@fam{set height}{%
-    \adjbox@Gin@Add{\@irsbox\z@[{#1}]}%
+    \adjbox@Gin@Add{\adjbox@raisebox{}{#1}{}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -1141,7 +1176,7 @@
 % \begin{key}{adjbox}{set depth}
 %    \begin{macrocode}
 \define@key\adjbox@fam{set depth}{%
-    \adjbox@Gin@Add{\@iirsbox\z@[\height][{#1}]}%
+    \adjbox@Gin@Add{\adjbox@raisebox{}{}{#1}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -1151,7 +1186,7 @@
 % i.e.\ only sets the height and depth.
 %    \begin{macrocode}
 \define@key\adjbox@fam{set vsize}{%
-    \adjbox@raisebox{0pt}#1{}{}\@nnil
+    \adjbox@Gin@Add{\adjbox@raisebox{}#1}%
 }
 %    \end{macrocode}
 % \end{key}
