@@ -100,15 +100,11 @@
 %    \end{macrocode}
 % \end{macro}
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsection{Basic commands}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
 %
 % \begin{key}{adjbox}{viewport}
 %    \begin{macrocode}
 \define@key{adjbox}{viewport}{%
-    \def\adjustbox@@@{%
+    \def\adjustbox@content{%
         \adjbox@parse@v{#1}%
         \adjbox@@viewport
         \adjustbox@@@trimclip
@@ -121,7 +117,7 @@
 % \begin{key}{adjbox}{trim}
 %    \begin{macrocode}
 \define@key{adjbox}{trim}{%
-    \def\adjustbox@@@{%
+    \def\adjustbox@content{%
         \adjbox@parse@v{#1}%
         \adjustbox@@@trimclip
     }%
@@ -271,7 +267,7 @@
 % This code was originally adapted from the \Macro\Gin@ii macro from the |graphicx| package.
 % The \emph{temp switch a} is set to |true| to indicate to |graphicx| that the
 % scaling should be done internal, so this package doesn't have to do it.
-% The content including macro \Macro\adjustbox@@@ is but into place,
+% The content including macro \Macro\adjustbox@content is but into place,
 % the saved options are activated and the final size is set.
 % The typesetting of the content is finally done by executing the token register.
 %    \begin{macrocode}
@@ -315,7 +311,7 @@
     \let\Totalheight\adjbox@Totalheight
     \let\Gin@esetsize\adjbox@esetsize
     \@tempswatrue
-    \toks@{{\adjustbox@@@@}}%
+    \toks@{{\adjustbox@content}}%
     \def\setlength{\adjsetlength}%
     \setkeys{adjbox,Gin}{#1}%
     \adjbox@esetsize
@@ -337,13 +333,6 @@
 % \end{macro}
 % \end{macro}
 % \end{macro}
-% \end{macro}
-%
-% \begin{macro}{\adjustbox@@@@}
-% Content wrapper which might be redefined when the size is specified.
-%    \begin{macrocode}
-\def\adjustbox@@@@{\adjustbox@@@}%
-%    \end{macrocode}
 % \end{macro}
 %
 %
@@ -374,9 +363,10 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\adjustbox@@@}
+% \begin{macro}{\adjustbox@content}
+% The default content, which is simply the collected box.
 %    \begin{macrocode}
-\def\adjustbox@@@{%
+\def\adjustbox@content{%
     \usebox\collectedbox
 }
 %    \end{macrocode}
