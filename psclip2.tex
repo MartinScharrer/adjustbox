@@ -1,0 +1,50 @@
+\documentclass[a4paper]{article}
+
+\usepackage{adjustbox}
+
+\makeatletter
+
+\def\OLD@clipbox#1#2#3#4#5{%
+  \@trimbox{#1}{#2}{#3}{#4}{#5}%
+  \sbox#5{%
+    \special{ps: gsave}%
+    \hbox{\special{ps: currentpoint pop /llx exch def}}%
+    \hbox to 0pt{\hskip\wd#5\special{ps: currentpoint pop /urx exch def}\hss}%
+    \raise-\dp#5\hbox{\special{ps: currentpoint /lly exch def pop}}%
+    \raise\ht#5\hbox{\special{ps: currentpoint /ury exch def pop}}%
+    \special{ps: llx lly urx llx sub ury lly sub rectclip}%
+    \box#5%
+    \special{ps: grestore}%
+  }%
+}
+
+\ifpdf\else
+\def\@clipbox#1#2#3#4#5{%
+  \@trimbox{#1}{#2}{#3}{#4}{#5}%
+  \sbox#5{%
+    \special{ps: gsave}%
+    \hbox to 0pt{%
+        \raise-\dp#5\hbox{\special{ps: /llx currentpoint pop def /lly currentpoint exch pop def}}%
+        \hskip \wd#5%
+        \raise \ht#5\hbox{\special{ps: /urx currentpoint pop def /ury currentpoint exch pop def}}%
+        \hss
+    }%
+    \special{ps: llx lly urx llx sub ury lly sub rectclip}%
+    \box#5%
+    \special{ps: grestore}%
+  }%
+}
+\fi
+
+\makeatother
+
+\begin{document}
+
+x\clipbox{0pt 0pt 0pt 0pt}{Foo q Bar \textit{i}}x\par
+x\clipbox{1pt .5pt 1pt .5pt}{Foo q Bar \textit{i}}x\par
+x\clipbox{0 {\depth} {.5\width} 0}{gXXXXg}x\par
+
+\clipbox{1pt 1pt 1pt 1pt}{x\clipbox{0 {\depth} {.5\width} 0}{gXXXXg}x}\par
+
+\end{document}
+
