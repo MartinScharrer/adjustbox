@@ -1648,6 +1648,7 @@
 % \begin{macro}{\stackbox}
 %    \begin{macrocode}
 \newcommand*\stackbox[1][c]{%
+   \collectboxcheckenv{stackbox}%
    \@testopt{\@stackbox{#1}}{b}%
 }
 %    \end{macrocode}
