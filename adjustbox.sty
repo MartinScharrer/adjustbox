@@ -299,6 +299,8 @@
 %
 %
 % \begin{macro}{\adjustbox@}
+% Second part of \Macro\adjustbox, after the content has been boxed.
+% This sets the dimension macros, processes the keys and finally typesets the content.
 %    \begin{macrocode}
 \def\adjustbox@#1{%
     \adjbox@Width\width
@@ -320,10 +322,23 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%
+% \begin{macro}{\adjustbox@content}
+% The default content, which is simply the collected box.
+% This macro can be redefined if required.
+%    \begin{macrocode}
+\def\adjustbox@content{%
+    \usebox\collectedbox
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
 % \begin{macro}{\adjbox@Width}
 % \begin{macro}{\adjbox@Height}
 % \begin{macro}{\adjbox@Depth}
 % \begin{macro}{\adjbox@Totalheight}
+% Dimension registers for original sizes.
 %    \begin{macrocode}
 \newdimen\adjbox@Width
 \newdimen\adjbox@Height
@@ -358,16 +373,6 @@
     \let\Gin@ewidth\Gin@exclamation
     \let\Gin@eheight\Gin@exclamation
   \fi
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjustbox@content}
-% The default content, which is simply the collected box.
-%    \begin{macrocode}
-\def\adjustbox@content{%
-    \usebox\collectedbox
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1073,6 +1078,21 @@
 % \end{macro}
 %
 %
+% \begin{macro}{\adjbox@valign@c}
+%    \begin{macrocode}
+\def\adjbox@valign@c{%
+    \adjbox@Gin@Add{\@collectbox\adjbox@vcenter}%
+}
+\def\adjbox@vcenter{%
+    \leavevmode
+    \hbox{%
+        $\vcenter{\hbox{\BOXCONTENT}}\m@th$
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
 % \begin{macro}{\adjbox@valign@b}
 %    \begin{macrocode}
 \def\adjbox@valign@b{%
@@ -1543,30 +1563,67 @@
 % \begin{key}{ADJBOX}{minipage}
 %    \begin{macrocode}
 \define@key{ADJBOX}{minipage}{%
-    \@ifnextchar[{%
-        \adjbox@minipage%
-    }{%
-        \adjbox@minipage{{#1}}\@nnil%
-        \remove@to@nnil
-    }#1\@nnil
+    \adjbox@page{minipage}{#1}%
 }
 %    \end{macrocode}
 % \end{key}
 %
-% \begin{macro}{\adjbox@minipage}
+% \begin{key}{ADJBOX}{varwidth}
 %    \begin{macrocode}
-\def\adjbox@minipage#1\@nnil{%
-    \def\adjbox@collectbox##1{\collectbox@{\adjbox@set\begin{minipage}#1\adjbox@reset}{##1}{\end{minipage}}}%
+\define@key{ADJBOX}{varwidth}{%
+    \adjbox@page{varwidth}{#1}%
 }
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\adjbox@page}
+% If the value starts with "[" or "{" take the value as it is,
+% otherwise assume that is a single length expression and add the required "{ }".
+%    \begin{macrocode}
+\def\adjbox@page#1#2{%
+    \@ifnextchar[{%
+        \adjbox@@page{#1}%
+    }{%
+        \@ifnextchar\bgroup{%
+            \adjbox@@page{#1}%
+        }{%
+            \adjbox@@page{#1}{{#2}}\@nnil%
+            \remove@to@nnil
+        }%
+    }#2\@nnil
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@@page}
+% Sets collect-box command to use \env{minipage} or similar environment.
+%    \begin{macrocode}
+\def\adjbox@@page#1#2\@nnil{%
+    \def\adjbox@collectbox##1{\collectbox@{\adjbox@set\begin{#1}#2\adjbox@reset}{##1}{\end{#1}}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjbox@set}
+%    \begin{macrocode}
 \def\adjbox@set{%
     \let\adjbox@origsetlength\setlength
     \def\setlength{\adjsetlength}%
 }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@reset}
+%    \begin{macrocode}
 \def\adjbox@reset{%
     \let\setlength\adjbox@origsetlength
 }
 %    \end{macrocode}
 % \end{macro}
+%
 %
 % \begin{key}{ADJBOX}{tabular}
 %    \begin{macrocode}
@@ -1776,6 +1833,80 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \subsection{New, experimental macros and keys}
+%
+%
+% \begin{macro}{\stackbox}
+%    \begin{macrocode}
+\newcommand*\stackbox[1][c]{%
+   \@testopt{\@stackbox{#1}}{b}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@stackbox}
+% The \env{varwidth} environment is used because it is much simpler to use than \env{tabular}.
+% The horizontal alignment is done by the usual text align macros.
+%    \begin{macrocode}
+\def\@stackbox#1[#2]{%
+    \collectbox@
+        {\begin{varwidth}[#2]{\linewidth}\csname adjbox@halign@#1\endcsname}
+        \BOXCONTENT
+        {\end{varwidth}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{key}{ADJBOX}{stack}
+%    \begin{macrocode}
+\define@key{ADJBOX}{stack}[{}{}]{%
+    \adjbox@stack#1{}{}\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\adjbox@stack}
+%    \begin{macrocode}
+\def\adjbox@stack#1#2#3\@nnil{%
+    \ifx\@nnil#1\@nnil
+        \adjbox@@stack{c}{b}%
+    \else
+    \ifx\@nnil#2\@nnil
+        \adjbox@@stack{#1}{b}%
+    \else
+        \adjbox@@stack{#1}{#2}%
+    \fi\fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@@stack}
+%    \begin{macrocode}
+\def\adjbox@@stack#1#2{%
+    \def\adjbox@collectbox##1{\collectbox@{\begin{varwidth}[#2]{\linewidth}\csname adjbox@halign@#1\endcsname}{##1}{\end{varwidth}}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@halign@c}
+% \begin{macro}{\adjbox@halign@l}
+% \begin{macro}{\adjbox@halign@r}
+% \begin{macro}{\adjbox@halign@j}
+%    \begin{macrocode}
+\def\adjbox@halign@c{\centering}
+\def\adjbox@halign@l{\raggedright}
+\def\adjbox@halign@r{\raggedleft}
+\def\adjbox@halign@j{\let\\\newline}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
 %
 % \begin{macro}{\bgimagebox}
 %    \begin{macrocode}
