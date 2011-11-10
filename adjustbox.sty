@@ -1576,7 +1576,6 @@
 %    \end{macrocode}
 % \end{key}
 %
-%
 % \begin{macro}{\adjbox@page}
 % If the value starts with "[" or "{" take the value as it is,
 % otherwise assume that is a single length expression and add the required "{ }".
@@ -1623,6 +1622,93 @@
 }
 %    \end{macrocode}
 % \end{macro}
+%
+%
+% \begin{macro}{\stackbox}
+%    \begin{macrocode}
+\newcommand*\stackbox[1][c]{%
+   \@testopt{\@stackbox{#1}}{b}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@stackbox}
+% The \env{varwidth} environment is used because it is much simpler to use than \env{tabular}.
+% The horizontal alignment is done by the usual text align macros.
+%    \begin{macrocode}
+\def\@stackbox#1[#2]{%
+    \collectbox@
+        {\begin{varwidth}[#2]{\linewidth}\csname adjbox@halign@#1\endcsname}
+        \BOXCONTENT
+        {\end{varwidth}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{key}{ADJBOX}{stack}
+%    \begin{macrocode}
+\define@key{ADJBOX}{stack}[{}{}]{%
+    \adjbox@stack#1{}{}\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\adjbox@stack}
+%    \begin{macrocode}
+\def\adjbox@stack#1#2#3\@nnil{%
+    \ifx\@nnil#1\@nnil
+        \adjbox@@stack{c}{b}%
+    \else
+    \ifx\@nnil#2\@nnil
+        \adjbox@@stack{#1}{b}%
+    \else
+        \adjbox@@stack{#1}{#2}%
+    \fi\fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@@stack}
+%    \begin{macrocode}
+\def\adjbox@@stack#1#2{%
+    \def\adjbox@collectbox##1{\collectbox@{\begin{varwidth}[#2]{\linewidth}\csname adjbox@halign@#1\endcsname}{##1}{\end{varwidth}}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@halign@c}
+% \begin{macro}{\adjbox@halign@l}
+% \begin{macro}{\adjbox@halign@r}
+% \begin{macro}{\adjbox@halign@j}
+%    \begin{macrocode}
+\def\adjbox@halign@c{\centering}
+\def\adjbox@halign@l{\raggedright}
+\def\adjbox@halign@r{\raggedleft}
+\def\adjbox@halign@j{\let\\\newline}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+%
+% Load the \pkg{varwidth} package if available or disable the dependent keys if not.
+%    \begin{macrocode}
+\IfFileExists{varwidth.sty}
+    {\RequirePackage{varwidth}}{%
+    \define@key{ADJBOX}{varwidth}{%
+        \PackageError{adjustbox}{The 'varwidth' key requires the 'varwidth' package, which is not installed}{}%
+    }
+    \define@key{ADJBOX}{stack}{%
+        \PackageError{adjustbox}{The 'stack' key requires the 'varwidth' package, which is not installed}{}%
+    }
+}%
+%    \end{macrocode}
 %
 %
 % \begin{key}{ADJBOX}{tabular}
@@ -1834,78 +1920,6 @@
 %
 % \subsection{New, experimental macros and keys}
 %
-%
-% \begin{macro}{\stackbox}
-%    \begin{macrocode}
-\newcommand*\stackbox[1][c]{%
-   \@testopt{\@stackbox{#1}}{b}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\@stackbox}
-% The \env{varwidth} environment is used because it is much simpler to use than \env{tabular}.
-% The horizontal alignment is done by the usual text align macros.
-%    \begin{macrocode}
-\def\@stackbox#1[#2]{%
-    \collectbox@
-        {\begin{varwidth}[#2]{\linewidth}\csname adjbox@halign@#1\endcsname}
-        \BOXCONTENT
-        {\end{varwidth}}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{key}{ADJBOX}{stack}
-%    \begin{macrocode}
-\define@key{ADJBOX}{stack}[{}{}]{%
-    \adjbox@stack#1{}{}\@nnil
-}
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{macro}{\adjbox@stack}
-%    \begin{macrocode}
-\def\adjbox@stack#1#2#3\@nnil{%
-    \ifx\@nnil#1\@nnil
-        \adjbox@@stack{c}{b}%
-    \else
-    \ifx\@nnil#2\@nnil
-        \adjbox@@stack{#1}{b}%
-    \else
-        \adjbox@@stack{#1}{#2}%
-    \fi\fi
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjbox@@stack}
-%    \begin{macrocode}
-\def\adjbox@@stack#1#2{%
-    \def\adjbox@collectbox##1{\collectbox@{\begin{varwidth}[#2]{\linewidth}\csname adjbox@halign@#1\endcsname}{##1}{\end{varwidth}}}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjbox@halign@c}
-% \begin{macro}{\adjbox@halign@l}
-% \begin{macro}{\adjbox@halign@r}
-% \begin{macro}{\adjbox@halign@j}
-%    \begin{macrocode}
-\def\adjbox@halign@c{\centering}
-\def\adjbox@halign@l{\raggedright}
-\def\adjbox@halign@r{\raggedleft}
-\def\adjbox@halign@j{\let\\\newline}
-%    \end{macrocode}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-% \end{macro}
 %
 %
 % \begin{macro}{\bgimagebox}
