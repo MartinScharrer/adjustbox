@@ -1,0 +1,68 @@
+\documentclass[a4paper,12pt]{article} 
+\usepackage{adjustbox}
+\usepackage{xcolor}
+%\usepackage[T1]{fontenc}
+%\usepackage{kpfonts}
+
+\def\frame#1{{\fboxsep=0pt\fbox{#1}}}
+
+\makeatletter
+\def\@clipbox#1#2#3#4#5{% <dllx> <dlly> <durx> <dury> <box>
+  \@trimbox{#1}{#2}{#3}{#4}{#5}% trim using TeX commands
+  \sbox#5{% clip to official size of the box:
+    \edef\HEIGHT{-\number\ht#5\space}%
+    \edef\DEPTH{\number\dp#5\space}%
+    \edef\WIDTH{\number\wd#5\space}%
+    \special{ps: 
+      /mtrxc matrix currentmatrix def 
+      currentpoint 2 copy 
+      gsave translate
+      newpath
+      % Scale to 1sp
+      72 72.27 div % 72 bp = 72.27 pt = 1 inch
+      65536 div    % 65536 sp = 1 pt
+      9 div 1000 mul % = 111.11111.. no idea why this factor is needed, got it by trail and error
+      dup scale
+      0 0 moveto
+      0 \HEIGHT      lineto
+      \WIDTH \HEIGHT lineto
+      \WIDTH \DEPTH  lineto
+      0      \DEPTH  lineto
+      closepath 
+      clip newpath  
+      mtrxc setmatrix 
+      moveto
+    }%
+    \box#5%
+    \special{ps: grestore }%
+  }%
+}
+\makeatother
+
+\begin{document}
+
+\frame{\trimbox{2 2 2 2}{Test gy!}}
+
+\frame{\clipbox{2 2 2 2}{Test gy!}}
+
+\frame{\clipbox{2bp 2bp 2bp 2bp}{\tabular{c}AAgg\\Bbyy\\\endtabular}}
+
+\frame{\clipbox{2pt 2pt 2pt 2pt}{\textcolor{green}{\rule{10pt}{10pt}}}}
+
+\frame{\clipbox{2bp 2bp 2bp 2bp}{\textcolor{green}{\rule{10bp}{10bp}}}}
+
+
+\frame{\trimbox{20bp 20bp 20bp 20bp}{\textcolor{green}{\rule{100bp}{100bp}}}}
+
+\frame{\clipbox{20bp 20bp 20bp 20bp}{\textcolor{green}{\rule{100bp}{100bp}}}}
+\clearpage
+\frame{\trimbox{50bp 50bp 50bp 50bp}{\textcolor{green}{\rule[-100bp]{250bp}{250bp}}}}
+\clearpage
+.\frame{\clipbox{50bp 50bp 50bp 50bp}{\textcolor{green}{\rule[-100bp]{250bp}{250bp}}}}
+
+\clearpage
+.\rlap{\rule[-50bp]{150bp}{150bp}}%
+\rlap{\clipbox{50bp 50bp 50bp 50bp}{\textcolor{green}{\rule[-100bp]{250bp}{250bp}}}}%
+%\rlap{\rule[-50bp]{150bp}{150bp}}%
+
+\end{document}
