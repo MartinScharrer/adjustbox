@@ -708,6 +708,7 @@
 % \begin{key}{adjbox}{cframe}
 %    \begin{macrocode}
 \define@key\adjbox@fam{cframe}{%
+    \adjbox@checkcolor
     \adjbox@cframe{\fboxsep\z@}#1 {} {} {} \relax\relax\@nnil
 }
 %    \end{macrocode}
@@ -716,6 +717,7 @@
 % \begin{key}{adjbox}{cfbox}
 %    \begin{macrocode}
 \define@key\adjbox@fam{cfbox}{%
+    \adjbox@checkcolor
     \adjbox@cframe{}#1 {} {} {} \relax\relax\@nnil
 }
 %    \end{macrocode}
@@ -728,6 +730,23 @@
         \@collectbox{#1\adjbox@@frame{\color{#2}}{#3}{#4}{#5}}%
     }%
     \remove@to@nnil
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@checkcolor}
+%    \begin{macrocode}
+\def\adjbox@checkcolor{%
+    \ifcase0%
+        \expandafter\ifx\csname ver@xcolor.sty\endcsname\relax
+        \expandafter\ifx\csname ver@color.sty\endcsname\relax
+        \expandafter\ifx\csname ver@xxcolor.sty\endcsname\relax 1\fi\fi\fi
+    \relax
+        \global\let\adjbox@checkcolor\relax
+    \else
+        \PackageError{adjustbox}{Using a macro, envrionment or key with color\MessageBreak requires a color package to be loaded manually.\MessageBreak Recommended is 'xcolor' but 'color' is ok, too}{}.
+    \fi
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1117,6 +1136,7 @@
 % or \MacroArgs{<model>}{<color>}.
 %    \begin{macrocode}
 \define@key\adjbox@fam{bgcolor}{%
+    \adjbox@checkcolor
     \@ifnextchar\bgroup{%
         \adjbox@bgcolor
     }{%
@@ -1146,6 +1166,7 @@
 % which gives the user more flexibility.
 %    \begin{macrocode}
 \define@key\adjbox@fam{bgcolor*}{%
+    \adjbox@checkcolor
     \adjbox@Gin@add{\@collectbox{\adjbox@@bgcolor{#1}}}%
 }
 %    \end{macrocode}
