@@ -308,7 +308,6 @@
         \Gin@clipfalse
       }{}%
     \ifGin@clip
-      \GXT@warn{No clipping support in XeTeX yet}%
       \if!\Gin@vllx\Gin@vlly\Gin@vurx\Gin@vury!%
       \else
         \let\GXT@clipend\GXT@DoClipEnd
@@ -354,12 +353,38 @@
   \advance\dimen@ -\Gin@vlly\p@
   \ht\@tempboxa\strip@pt\dimen@ bp\relax
 %  \ht\@tempboxa\dimen@ \relax
-  %  when clipping is implemented for XeTeX
-  %  make the changes here:
+  % Clip box to its official size
+  \GXT@clipbox\@tempboxa
   \box\@tempboxa
 }
 
+% Clipping support added by Martin Scharrer and Joseph Wright, Nov 2011
+% under the LPPL v1.0 or later.
+\def\GXT@clipbox#1{%
+  \setbox#1=\hbox{%
+    \Gin@defaultbp\WIDTH{\wd#1}%
+    \Gin@defaultbp\DEPTH{\dp#1}%
+    \@tempdima\ht#1%
+    \advance\@tempdima\dp#1%
+    \Gin@defaultbp\TOTALHEIGHT{\@tempdima}%
+    \special{pdf:content q }%
+      \special{%
+        pdf:literal direct
+            0 -\DEPTH\space \WIDTH\space \TOTALHEIGHT\space re
+      }%
+      \special{pdf:literal direct W }%
+      \special{pdf:literal direct n }%
+        \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
+          \special{pdf:content q }%
+            \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
+              \box#1%
+          \special{pdf:literal direct Q }%
+    \special{pdf:literal direct Q }%
+  }%
+}
+% End of clipping code
 
+%
 \def\Gread@QTm#1{\IfFileExists{\Gin@base.bb}%
    {\Gread@eps{\Gin@base.bb}}%
    {\G@measure@QTm{\Gin@base}{\Gin@ext}}%
