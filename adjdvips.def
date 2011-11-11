@@ -15,19 +15,34 @@
 % \begin{macro}{\@clipbox}
 %    \begin{macrocode}
 \def\@clipbox#1#2#3#4#5{%
-  \@trimbox{#1}{#2}{#3}{#4}{#5}%
-  \sbox#5{%
-    \special{ps: gsave}%
-    \hbox to 0pt{%
-        \raise-\dp#5\hbox{\special{ps: /llx currentpoint pop def /lly currentpoint exch pop def}}%
-        \hskip \wd#5%
-        \raise \ht#5\hbox{\special{ps: /urx currentpoint pop def /ury currentpoint exch pop def}}%
-        \hss
+    \@trimbox{#1}{#2}{#3}{#4}{#5}%
+    \setbox#5=\hbox{%
+        \edef\HEIGHT{-\strip@pt\ht#5\space}%
+        \edef\DEPTH{\strip@pt\dp#5\space}%
+        \edef\WIDTH{\strip@pt\wd#5\space}%
+        \special{%
+            ps:
+              /mtrxc matrix currentmatrix def 
+              currentpoint gsave
+              translate
+              Resolution 72 div VResolution 72 div
+              scale
+              newpath
+              0 0 moveto
+              0 \HEIGHT lineto
+              \WIDTH \HEIGHT lineto
+              \WIDTH \DEPTH  lineto
+              0      \DEPTH  lineto
+              closepath
+              clip
+             % 0 \DEPTH \WIDTH \HEIGHT
+             % rectclip
+              newpath
+              mtrxc setmatrix 
+        }%
+        \box#5%
+        \special{ps: grestore }%
     }%
-    \special{ps: llx lly urx llx sub ury lly sub rectclip}%
-    \box#5%
-    \special{ps: grestore}%
-  }%
 }
 %    \end{macrocode}
 % \end{macro}
