@@ -17,17 +17,16 @@
 %
 % \begin{macro}{\@trimbox}
 %    \begin{macrocode}
-\def\@clipbox#1#2#3#4#5{%
-    \@trimbox{#1}{#2}{#3}{#4}{#5}%
-    \setbox#5\hbox{\begin{pgfpicture}%
-        \pgfpathmoveto{\pgfqpoint\z@{-\dp#5}}%
-        \pgfpathlineto{\pgfqpoint\z@{\ht#5}}%
-        \pgfpathlineto{\pgfqpoint{\wd#5}{\ht#5}}%
-        \pgfpathlineto{\pgfqpoint{\wd#5}{-\dp#5}}%
+\def\@cliptoboxdim#1{%
+    \setbox#1\hbox{\begin{pgfpicture}%
+        \pgfpathmoveto{\pgfqpoint\z@{-\dp#1}}%
+        \pgfpathlineto{\pgfqpoint\z@{\ht#1}}%
+        \pgfpathlineto{\pgfqpoint{\wd#1}{\ht#1}}%
+        \pgfpathlineto{\pgfqpoint{\wd#1}{-\dp#1}}%
         \pgfpathclose
         \pgfusepathqclip
         \pgfset{inner sep=\z@,outer sep=\z@,minimum size=\z@}%
-        \pgfnode{rectangle}{base west}{\usebox#5}{}{}%
+        \pgfnode{rectangle}{base west}{\usebox#1}{}{}%
         \pgfsetbaselinepointnow{\pgfpoint\z@\z@}%
     \end{pgfpicture}}%
 }

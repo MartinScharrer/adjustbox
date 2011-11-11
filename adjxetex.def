@@ -14,13 +14,12 @@
 %
 % \begin{macro}{\@clipbox}
 %    \begin{macrocode}
-\def\@clipbox#1#2#3#4#5{%
-    \@trimbox{#1}{#2}{#3}{#4}{#5}%
-    \setbox#5=\hbox{%
-        \Gin@defaultbp\WIDTH{\wd#5}%
-        \Gin@defaultbp\DEPTH{\dp#5}%
-        \@tempdima\ht#5%
-        \advance\@tempdima\dp#5%
+\def\@cliptoboxdim#1{%
+    \setbox#1=\hbox{%
+        \Gin@defaultbp\WIDTH{\wd#1}%
+        \Gin@defaultbp\DEPTH{\dp#1}%
+        \@tempdima\ht#1%
+        \advance\@tempdima\dp#1%
         \Gin@defaultbp\TOTALHEIGHT{\@tempdima}%
         \special{pdf:content q }%
             \special{%
@@ -32,7 +31,7 @@
               \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
                 \special{pdf:content q }%
                   \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
-                    \box#5%
+                    \box#1%
                 \special{pdf:literal direct Q }%
         \special{pdf:literal direct Q }%
     }%

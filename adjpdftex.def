@@ -12,12 +12,13 @@
 %    \end{macrocode}
 %
 %
-% \begin{macro}{\@clipbox}
+% \begin{macro}{\@cliptoboxdim}
+% Uses a PDF X-Object which has the side-effect of clipping.
+% TODO: Rewrite to use clipping path?
 %    \begin{macrocode}
-\def\@clipbox#1#2#3#4#5{%
-    \@trimbox{#1}{#2}{#3}{#4}{#5}%
-    \pdfxform#5%
-    \setbox#5=\hbox{%
+\def\@cliptoboxdim#1{%
+    \pdfxform#1%
+    \setbox#1=\hbox{%
         \pdfrefxform\pdflastxform
     }%
 }

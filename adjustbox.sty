@@ -403,7 +403,8 @@
 % \subsubsection{Low-level trim and clip boxes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% \begin{macro}{\@trimbox}
+% \begin{macro}{\@trimbox}[5]{<tllx>}{<tlly>}{<turx>}{<tury>}{<box register>
+% Removes the four length for the left, bottom, right and top from the official size of the box register.
 %    \begin{macrocode}
 \def\@trimbox#1#2#3#4#5{%
     \setbox#5=\hbox{%
@@ -432,17 +433,15 @@
 %
 %
 % \begin{macro}{\@clipbox}
+% Clips the box using the given trim amounts.
+% For this the box is first trimmed and then clipped to its official size using a driver dependent macro.
 %    \begin{macrocode}
 \def\@clipbox#1#2#3#4#5{%
     \@trimbox{#1}{#2}{#3}{#4}{#5}%
-    \pdfxform#5%
-    \setbox#5=\hbox{%
-        \pdfrefxform\pdflastxform
-    }%
+    \@cliptoboxdim{#5}%
 }
 %    \end{macrocode}
 % \end{macro}
-%
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsection{Driver}

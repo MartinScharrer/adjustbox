@@ -12,15 +12,15 @@
 %    \end{macrocode}
 %
 %
-% \begin{macro}{\@clipbox}
+% \begin{macro}{\@cliptoboxdim}[1]{box register to clip}
+% Clips to official box dimension.
 %    \begin{macrocode}
-\def\@clipbox#1#2#3#4#5{%
-    \@trimbox{#1}{#2}{#3}{#4}{#5}%
-    \setbox#5=\hbox{%
-        \adjsetlength\@tempdima{\ht#5+\dp#5}%
+\def\@cliptoboxdim#1{%
+    \setbox#1=\hbox{%
+        \adjsetlength\@tempdima{\ht#1+\dp#1}%
         \edef\TOTALHEIGHT{-\strip@pt\@tempdima\space}%
-        \edef\DEPTH{\strip@pt\dp#5\space}%
-        \edef\WIDTH{\strip@pt\wd#5\space}%
+        \edef\DEPTH{\strip@pt\dp#1\space}%
+        \edef\WIDTH{\strip@pt\wd#1\space}%
         \special{%
             ps:
               /mtrxc matrix currentmatrix def 
@@ -33,7 +33,7 @@
               newpath
               mtrxc setmatrix 
         }%
-        \box#5%
+        \box#1%
         \special{ps: grestore }%
     }%
 }
