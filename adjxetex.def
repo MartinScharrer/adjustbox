@@ -21,7 +21,6 @@
         \adjbox@settobp\HEIGHT{\ht#5}%
         \adjbox@settobp\DEPTH{\dp#5}%
         \special{pdf:content q }%
-          \special{pdf:literal direct q }%
             \special{%
                 pdf:literal direct
                   0 0 m 0 \HEIGHT\space l \WIDTH\space \HEIGHT\space l
@@ -29,14 +28,11 @@
               }%
             \special{pdf:literal direct W }%
             \special{pdf:literal direct n }%
-            \special{pdf:literal direct q }%
               \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
                 \special{pdf:content q }%
                   \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
                     \hbox{\box#5}%
                 \special{pdf:literal direct Q }%
-            \special{pdf:literal direct Q }%
-          \special{pdf:literal direct Q }%
         \special{pdf:literal direct Q }%
     }%
 }
