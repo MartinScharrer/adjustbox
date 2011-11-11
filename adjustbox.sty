@@ -451,16 +451,11 @@
 % is used if its exists. Otherwise either the default \texttt{pdftex} implementation or the \pkg{pgf} fall-back driver
 % is used.
 %    \begin{macrocode}
-\RequirePackage{ifpdf}
 \InputIfFileExists{\adjbox@driver}{%
     \PackageInfo{adjustbox}{Using driver '\adjbox@driver'.}%
 }{%
-    \ifpdf
-        \PackageInfo{adjustbox}{Using default pdftex driver.}
-    \else
-        \input{adjpgf.def}%
-        \PackageInfo{adjustbox}{Using fall-back PGF driver.}
-    \fi
+    \input{adjpgf.def}%
+    \PackageInfo{adjustbox}{Using fall-back PGF driver.}
 }
 %    \end{macrocode}
 %

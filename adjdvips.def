@@ -1,0 +1,37 @@
+% \iffalse
+%<!COPYRIGHT>
+% \fi
+%    \begin{macrocode}
+\ProvidesFile{adjdvips.def}[%
+%<!DATE>
+%<!VERSION>
+%<*DRIVER>
+    2099/01/01 develop
+%</DRIVER>
+    adjustbox clip driver for dvips]
+%    \end{macrocode}
+%
+%
+% \begin{macro}{\@clipbox}
+%    \begin{macrocode}
+\def\@clipbox#1#2#3#4#5{%
+  \@trimbox{#1}{#2}{#3}{#4}{#5}%
+  \sbox#5{%
+    \special{ps: gsave}%
+    \hbox to 0pt{%
+        \raise-\dp#5\hbox{\special{ps: /llx currentpoint pop def /lly currentpoint exch pop def}}%
+        \hskip \wd#5%
+        \raise \ht#5\hbox{\special{ps: /urx currentpoint pop def /ury currentpoint exch pop def}}%
+        \hss
+    }%
+    \special{ps: llx lly urx llx sub ury lly sub rectclip}%
+    \box#5%
+    \special{ps: grestore}%
+  }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \iffalse
+% vim: ft=tex
+% \fi

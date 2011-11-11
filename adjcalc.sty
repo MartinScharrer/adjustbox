@@ -71,6 +71,9 @@
     \def\adjbox@default##1##2{%
         \@defaultunits##1=\glueexpr##2 \adjbox@defaultunit\relax\@nnil
     }%
+    \def\adjbox@settobp##1##2{%
+        \edef##1{\strip@pt\dimexpr0.99626\glueexpr##2\relax\relax}%
+    }%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -91,6 +94,13 @@
             \calc@assign@skip{##2}{##3}%
         \fi
     }%
+    \def\adjbox@settobp##1##2{%
+        \begingroup
+        \setlength{\@tempdima}{##2}%
+        \@tempdima=0.99626\@tempdima
+        \edef\@tempa{\endgroup\def\noexpand##1{\strip@pt\@tempdima}}%
+        \@tempa
+    }%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -108,6 +118,9 @@
         \let\pgfmathpostparse\pgfmathscaleresult
         \pgfmathparse{##2}%
         ##1=\pgfmathresult pt\relax
+    }%
+    \def\adjbox@settobp##1##2{%
+        \pgfmathsetmacro##1{0.99626*(##2)}%
     }%
 }
 %    \end{macrocode}

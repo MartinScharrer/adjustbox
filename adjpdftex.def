@@ -1,0 +1,29 @@
+% \iffalse
+%<!COPYRIGHT>
+% \fi
+%    \begin{macrocode}
+\ProvidesFile{adjpdftex.def}[%
+%<!DATE>
+%<!VERSION>
+%<*DRIVER>
+    2099/01/01 develop
+%</DRIVER>
+    adjustbox clip driver for pdftex]
+%    \end{macrocode}
+%
+%
+% \begin{macro}{\@clipbox}
+%    \begin{macrocode}
+\def\@clipbox#1#2#3#4#5{%
+    \@trimbox{#1}{#2}{#3}{#4}{#5}%
+    \pdfxform#5%
+    \setbox#5=\hbox{%
+        \pdfrefxform\pdflastxform
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \iffalse
+% vim: ft=tex
+% \fi

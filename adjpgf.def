@@ -1,3 +1,16 @@
+% \iffalse
+%<!COPYRIGHT>
+% \fi
+%    \begin{macrocode}
+\ProvidesFile{adjpgf.def}[%
+%<!DATE>
+%<!VERSION>
+%<*DRIVER>
+    2099/01/01 develop
+%</DRIVER>
+    adjustbox fall-back clip driver using PGF]
+%    \end{macrocode}
+%
 %    \begin{macrocode}
 \RequirePackage{pgf}
 %    \end{macrocode}
@@ -20,5 +33,7 @@
 }
 %    \end{macrocode}
 % \end{macro}
-%<VIM> vim: ft=tex
 %
+% \iffalse
+% vim: ft=tex
+% \fi
