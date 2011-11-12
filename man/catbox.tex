@@ -1,0 +1,73 @@
+\documentclass{article}
+% Copyright (C) 2001 by Martin Scharrer <martin@scharrer.me>, Nov 12th 2011
+% This is free code under the LPPL v1.3 or later version OR the CC BY-SA 3.0
+
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{collectbox}
+
+\makeatletter
+\newcommand\catcodebox[1]{%
+    \@catcodebox#1\@nnil
+}
+\def\@catcodebox{%
+    \futurelet\@let@token\@@catcodebox
+}
+\def\@@catcodebox{%
+    \ifx\@let@token\@sptoken
+        \expandafter\@@catcodebox@space
+    \else
+        \expandafter\@@@catcodebox
+    \fi
+}
+\def\@@catcodebox@space{%
+    \afterassignment\@@catcodebox@@space
+    \let\@let@token= %
+}
+\def\@@catcodebox@@space{%
+    \@@@catcodebox{ }%
+}
+\def\@@@catcodebox#1{%
+    \ifx\@nnil#1\relax\else
+    \begingroup
+    \if\noexpand#1\relax
+        \edef\thecatcode{16}%
+    \else
+        \edef\thecatcode{\the\catcode`#1}%
+    \fi
+    \sbox\collectedbox{\ifnum\thecatcode=11\else\ifnum\thecatcode=12\else\normalfont\ttfamily\fi\fi\string#1}%
+    \begin{tikzpicture}[>=latex,semitransparent,ultra thin,baseline=(BOX.base)]
+        % Save example text in box
+        \def\HEIGHT{\the\ht\collectedbox}
+        \def\TOTALHEIGHT{\the\totalheight}
+        \def\WIDTH{\the\wd\collectedbox}
+        \def\DEPTH{\the\dp\collectedbox}
+        % Text node:
+        \node [inner sep=0pt,anchor=base west,opacity=1] (BOX) {\usebox\collectedbox};
+        \useasboundingbox;
+        % Baseline
+        \draw (0,0) -- (\WIDTH,0);
+        % Box
+        \draw (0,-\DEPTH) rectangle (\WIDTH,\HEIGHT);
+        % Origin
+        \fill (0,0) circle (2\pgflinewidth);
+        \node [inner ysep=.2pt,inner xsep=0pt,anchor=north east] at (\WIDTH,-\DEPTH)
+            {\scalebox{.2}{\tiny\thecatcode}};
+    \end{tikzpicture}%
+    \endgroup
+    \expandafter\@catcodebox
+    \fi
+}
+\makeatletter
+
+\begin{document}
+
+\catcodebox{ABC x cyi}
+
+\itshape
+\catcodebox{ABC x c\relax yi}
+
+\itshape
+\catcodebox{ABC$x$&cy~i_\_}
+
+\end{document}
