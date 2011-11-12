@@ -1,0 +1,103 @@
+\documentclass{article}
+% Copyright (C) 2001 by Martin Scharrer <martin@scharrer.me>, Nov 12th 2011
+% This is free code under the LPPL v1.3 or later version OR the CC BY-SA 3.0
+
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{collectbox}
+
+\makeatletter
+\newcommand\markbox{%
+    \collectboxcheckenv{markbox}%
+    \collectbox\@markbox
+}
+\def\@markbox{%
+    \begingroup
+    \sffamily\tiny
+    \begin{tikzpicture}[>=latex,semitransparent]
+        % Save example text in box
+        \def\HEIGHT{\the\ht\collectedbox}
+        \def\TOTALHEIGHT{\the\totalheight}
+        \def\WIDTH{\the\wd\collectedbox}
+        \def\DEPTH{\the\dp\collectedbox}
+        % Text node:
+        \node [inner sep=0pt,anchor=base west,opacity=1] {\usebox\collectedbox};
+        \useasboundingbox;
+        % Baseline
+        \draw (0,0) -- (\WIDTH,0);
+        % Box
+        \draw (0,-\DEPTH) rectangle (\WIDTH,\HEIGHT);
+        % Origin
+        \fill (0,0) circle (.25ex);
+        % Dimensions
+        \path (-.5ex,0) -- +(0,-\DEPTH)  node [midway,left] {\DEPTH};
+        \path (-.5ex,0) -- +(0, \HEIGHT) node [midway,left] {\HEIGHT};
+        \path (\WIDTH,-\DEPTH) ++(.5ex,0) -- +(0,\TOTALHEIGHT) node [midway,right] {\TOTALHEIGHT};
+        \path (0,-\DEPTH) ++(0,-.5ex) -- +(\WIDTH,0) node [midway,below] {\WIDTH};
+    \end{tikzpicture}%
+    \endgroup
+}
+\makeatletter
+
+\begin{document}
+\markbox{Xy}
+
+\vspace{1cm}
+
+\begin{markbox}
+    \tabular{ccc}
+      A & B & CC \\
+      A & B & CC \\
+      A & B & CC \\
+    \endtabular
+\end{markbox}
+
+\vspace{1cm}
+
+\begin{markbox}
+    \begin{minipage}{5cm}
+        text text text text text text text text text text
+        text text text text text text text text text text
+        text text text text text text text text text text
+        text text text text text text text text text text
+        text text text text text text text text text texty
+    \end{minipage}%
+\end{markbox}
+
+\vspace{1cm}
+
+\begin{markbox}
+    \begin{minipage}[b]{5cm}
+        text text text text text text text text text text
+        text text text text text text text text text text
+        text text text text text text text text text text
+        text text text text text text text text text text
+        text text text text text text text text text texty
+    \end{minipage}%
+\end{markbox}
+
+\vspace{1cm}
+
+\begin{markbox}
+    \begin{minipage}[t]{5cm}
+        text text text text text text text text text text
+        text text text text text text text text text text
+        text text text text text text text text text text
+        text text text text text text text text text text
+        text text text text text text text text text texty
+    \end{minipage}%
+\end{markbox}
+
+\vspace{1cm}
+
+\markbox{\includegraphics[width=5cm]{tiger}}
+
+\vspace{1cm}
+
+\markbox{\includegraphics[width=5cm,angle=180]{tiger}}
+
+\vspace{1cm}
+
+\markbox{\includegraphics[width=5cm,angle=100]{tiger}}
+
+\end{document}
