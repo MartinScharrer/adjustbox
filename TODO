@@ -1,5 +1,8 @@
 TODOs / Ideas:
 
+ * Fix for 'calc' option: \adjbox@default
+ * Move trim and clip code to own package
+ * Think about adjcalc again
  * Same for foreground: bgimage?
  * Might be generalised to allow overlays (\overlaybox{<background content>}{<foreground content>})
  * Redesign manual to put more emphasis on the adjustbox keys.
