@@ -129,7 +129,6 @@
 % \begin{macro}{\adjustbox@@@trimclip}
 %    \begin{macrocode}
 \def\adjustbox@@@trimclip{%
-    \Gin@viewport@code
     \ifGin@clip
         \expandafter\@clipbox
     \else
@@ -183,6 +182,7 @@
 %
 %
 % \begin{macro}{\adjbox@@viewport}
+% Turns viewport coordinates into trim coordinates.
 %    \begin{macrocode}
 \def\adjbox@@viewport{%
     %\advance\adjbox@tllx by -\z@
