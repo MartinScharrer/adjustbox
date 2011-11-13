@@ -86,6 +86,10 @@
     \DeclareRobustCommand\adjaddtolength[1]{\calc@assign@skip{\advance ##1}}%
     \DeclareRobustCommand\adjsetcounter[2]{\@ifundefined{c@##1}{\@nocounterr{##1}}{\calc@assign@count{\global\csname c@##1\endcsname}{##2}}}%
     \DeclareRobustCommand\adjaddtocounter[2]{\@ifundefined{c@##1}{\@nocounterr{##1}}{\calc@assign@count{\global\advance\csname c@##1\endcsname}{##2}}}%
+    \def\adjbox@default##1##2{%
+        \afterassignment\adjbox@checkdefault
+        ##1=##2 \adjbox@defaultunit\relax\@nnil{##1}{##2}%
+    }%
     \def\adjbox@checkdefault##1\@nnil##2##3{%
         \ifx\relax##1\relax\else
             \calc@assign@skip{##2}{##3}%
