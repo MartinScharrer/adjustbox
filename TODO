@@ -1,6 +1,5 @@
 TODOs / Ideas:
 
- * Fix for 'calc' option: \adjbox@default
  * Move trim and clip code to own package
  * Think about adjcalc again
  * Same for foreground: bgimage?
