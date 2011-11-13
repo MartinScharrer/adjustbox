@@ -87,8 +87,27 @@
     \DeclareRobustCommand\adjsetcounter[2]{\@ifundefined{c@##1}{\@nocounterr{##1}}{\calc@assign@count{\global\csname c@##1\endcsname}{##2}}}%
     \DeclareRobustCommand\adjaddtocounter[2]{\@ifundefined{c@##1}{\@nocounterr{##1}}{\calc@assign@count{\global\advance\csname c@##1\endcsname}{##2}}}%
     \def\adjbox@default##1##2{%
-        \afterassignment\adjbox@checkdefault
-        ##1=##2 \adjbox@defaultunit\relax\@nnil{##1}{##2}%
+        \begingroup
+        \message{^^J\detokenize{##2}^^J}%
+        \def\calc@post@scan####1!{%
+            \def\@tempa{####1}%
+            \ifx\@tempa\@empty
+              \endgroup% to end calc processing
+              % is number only
+              \global\@adjbox@needsdefaulttrue
+            \else
+              \endgroup% to end calc processing
+              % full expression
+              \global\@adjbox@needsdefaultfalse
+            \fi
+        }%
+        \calc@assign@skip{##1}{##2 \adjbox@defaultunit}%
+        \endgroup
+        \if@adjbox@needsdefault
+            ##1=##2 \adjbox@defaultunit\relax
+        \else
+            \calc@assign@skip{##1}{##2}%
+        \fi
     }%
     \def\adjbox@checkdefault##1\@nnil##2##3{%
         \ifx\relax##1\relax\else
@@ -96,6 +115,7 @@
         \fi
     }%
 }
+\newif\if@adjbox@needsdefault
 %    \end{macrocode}
 % \end{macro}
 %
