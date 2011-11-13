@@ -1,7 +1,7 @@
 % \iffalse meta-comment
 %<=*COPYRIGHT>
-%% Copyright (C) 2011 by Martin Scharrer <martin@scharrer-online.de>
-%% ---------------------------------------------------------------------------
+%% Copyright (C) 2011 by Martin Scharrer <martin@scharrer.me>
+%% ------------------------------------------------------------------
 %% This work may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either version 1.3
 %% of this license or (at your option) any later version.
@@ -128,6 +128,7 @@
 }%
 \makeatother
 \colorlet{exampleborder}{black!33}
+\def\Descsep{\par\vskip-2.5ex\relax}
 
 %\EnableCrossrefs
 %\CodelineIndex
@@ -142,7 +143,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{2207}
+% \CheckSum{0}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -220,9 +221,9 @@
 %
 % \subsection{Dependencies}
 % The \pkg{adjustbox} package requires the author's other package \pkg{collectbox}, as well as the packages \pkg{xkeyval}, \pkg{graphicx} and \pkg{ifpdf}.
-% Further packages are required for certain operations, but are not loaded directly by this package, but must rather be loaded manually when these operations are used.
-% This means that for operations which use colors the \pkg{xcolor} package must also be loaded. The experimental |split| and |pagebreak| features also require
-% the \pkg{storebox} package.
+% The \pkg{varwidth} package is automatically loaded if installed, otherwise the \Key{varwidth} and \Key{stack} keys are disables as well as \Macro\stackbox/\env{stackbox}.
+% For features which use colors the \pkg{xcolor} package must also be loaded manually (the \pkg{color} package is fine, too).
+% The experimental |split| and |pagebreak| features also require the \pkg{storebox} package.
 %
 % \section{Package Option}\label{sec:options}
 % Following v0.5 from 2011/08/13 this package accepts the following package options. Some of them can also be used as
@@ -281,79 +282,30 @@
 %      have no affect. This might change in future versions of this package.
 % \end{description}
 %
-% \def\height{height}
-% \def\width{width}
-% \def\totalheight{totalheight}
-% \def\depth{depth}
-% \def\factor{factor}
-% \def\xfactor{x-factor}
-% \def\yfactor{y-factor}
-% \def\Angle{angle}
-% \def\options{options}
+% \subsection{Verbatim Support}\label{sec:verbatim}
+% The macros read the content as a horizontal \TeX{} box and not as an macro argument in order to support verbatim content.
+% This functionality is now provided as dedicated package \pkg{collectbox} which can also be used independently.
+% This means that the braces around the content can also be written as \Macro\bgroup and \Macro\egroup:
+% \begin{macroquote}
+%   \trimbox{1 2 3 4}\AlsoMacro\bgroup~<content>\AlsoMacro\egroup
+% \end{macroquote}
+% Special care is taken to allow the \meta{text} to be a single macro (except \Macro\bgroup) without any braces:
+% \begin{macroquote}
+%   \clipbox{1 2 3 4}\AlsoMacro\somemacro
+% \end{macroquote}
+% This is to support the questionable habit of some \LaTeX{} users to drop the braces for single token arguments.
+% All environments support verbatim content.
 %
 % \section{Usage}
-% This section describes the usage of the provided macros, which are outlined in \autoref{sec:basicmacros}.
-% Possible advanced values for the macro arguments are mentioned in \autoref{sec:argval}. The existing verbatim support
-% is explained in \autoref{sec:verbatim}. Finally \autoref{sec:alternatives} compares the existing macros with the 
-% corresponding options of \Macro\adjustbox.
-% Further box modification macros and keys are described in \autoref{sec:moremacros} and \autoref{sec:newkeys}, respectively.
+% This sections explains the existing features of this package.
+% Most features are available as matching macro, environment and key.
 %
-% It is recommended to also read the \emph{Graphics Guide} (\pkg{grfguide}, i.e.~the manual of the \pkg{graphics}/|x| packages),
-% to understand the existing options for \Macro\includegraphics. 
-%
-% \Needspace*{7\baselineskip}
-% \subsection{Basic Box Modification Macros}\label{sec:basicmacros}
-% This section lists the provided macros \Macro\clipbox and \Macro\trimbox missing in the \pkg{graphicx} package
-% as well as the general \Macro\adjustbox macro.  If the package is loaded with the \opt{minimal} option no further macros or keys are defined.
-%
-% \subsubsection*{Trim Box Content}
-% \vskip-\lastskip
-% \DescribeMacro\trimbox{<all sites>}{<content>}
-% \DescribeMacro\trimbox{<left/right>~<top/bottom>}{<content>}
-% \DescribeMacro\trimbox{<llx>~<lly>~<urx>~<ury>}{<content>}
-% \DescribeMacro\trimbox*{<llx>~<lly>~<urx>~<ury>}{<content>}
-% The macro \Macro\trimbox trims the given amount from the lower left (ll) and the upper right (ur) corner of
-% the box. This means that the amount \meta{llx} is trimmed from the left side, \meta{lly} from the bottom and
-% \meta{urx} and \meta{ury} from the right and top of the box, respectively.
-% If only one value is given it will be used for all four sites.
-% If only two values are given the first one will be used for the left and right side (llx, urx) and the second for the bottom and top side (lly, ury).
-% Trimming means that the official size of the box is reduced, but no material
-% is actual removed. The material in the trimmed areas simply swaps over the official border.
-%
-% If the starred version is used the four coordinates are taken as the \Key{viewport} instead, i.e. the box
-% is trimmed to the rectangle described by the coordinates. In this case using all four values must be specified.
-%
-%
-% \DescribeEnv[<content>]{trimbox}{<1, 2 or 4 trim values>}
-% \vspace{-\baselineskip}
-% \DescribeEnv[<content>]{trimbox*}{<llx>~<lly>~<urx>~<ury>}
-% The \env{trimbox} and \env{trimbox*} environments do the same as the corresponding macros.
 % Special care is taken so that the macros and the environments can have the same name.
-% Because of this the star can be either part of the name or an optional argument.
-% Also the plain\TeX{} syntax for environments (|\trimbox ... \endtrimbox|) can not be used
-% because it will trigger \Macro\trimbox as a macro. 
+% For starred environments the star can be either part of the name or an optional argument.
+% Also the plain\TeX{} syntax for environments (|\foobar ... \endfoobar|) can not be used
+% because it will trigger \Macro\foobar as a macro.
 %
-%
-% \subsubsection*{Clip Box Content}
-% \vskip-\lastskip
-% \DescribeMacro\clipbox{<all sites>}{<content>}
-% \DescribeMacro\clipbox{<left/right>~<top/bottom>}{<content>}
-% \DescribeMacro\clipbox{<llx>~<lly>~<urx>~<ury>}{<content>}
-% \DescribeMacro\clipbox*{<llx>~<lly>~<urx>~<ury>}{<content>}
-% The \Macro\clipbox macro works like the \Macro\trimbox and trims the given amounts from the \meta{text}.
-% However, in addition the trimmed material is also clipped, i.e. it is not shown in the final document.
-% Note that the material will still be part of the output file but is simply not shown.
-% It might be exported using special tools, so using \Macro\clipbox\relax (or \Macro\includegraphics[clip,trim=...])
-% to censor classified information would be a bad idea.
-% The starred version will again use the given coordinates as \Key{viewport}. 
-%
-% \DescribeEnv[<content>]{clipbox}{<1, 2 or 4 trim values>}
-% \vspace{-\baselineskip}
-% \DescribeEnv[<content>]{clipbox*}{<llx>~<lly>~<urx>~<ury>}
-% The environment versions of \Macro\clipbox and \Macro\clipbox*. The same rules as for the trimming environments apply.
-%
-%
-% \subsubsection*{Adjust Box Content}
+% \subsection{Adjust Box Content}
 % \vskip-\lastskip
 % \DescribeMacro\adjustbox{<key/value pairs>}{<content>}
 % The \Macro\adjustbox macro is the general form of all box modifying macros mentioned in the introduction.
@@ -363,7 +315,7 @@
 % There is no starred version of this macro. See also \autoref{tab:alternatives} for a comparison of \Macro\adjustbox
 % with the other macros.
 %
-% \DescribeEnv[<content>]{adjustbox}{<includegraphics \options>}
+% \DescribeEnv[<content>]{adjustbox}{<key=value, \ldots>}
 % The environment version of \Macro\adjustbox.
 %
 % \subsubsection*{Adjust Images}
@@ -385,40 +337,50 @@
 % It is possible to redefine \Macro\includegraphics to use/be \Macro\adjincludegraphics and this is done by
 % the \opt{Export} option (not to be confused with the \opt{export} option).
 %
+% \subsubsection{Setting keys globally}
+%
+% \DescribeMacro\adjustboxset{<global keys to be executed \emph{before} local keys>}
+% \DescribeMacro\adjustboxset*{<global keys to be executed \emph{after} local keys>}
+% Using these two macros all keys can be set globally, i.e.\ for all future \Macro\adjustbox macros and \env{adjustbox} environments.
+% Note that these settings are actually \emph{local} to the current \TeX\ group and only really global if used in the preamble or outside any group.
+% The normal macro will place all given keys before the keys used in first argument of \Macro\adjustbox\ / \env{adjustbox},
+% while the starred version will place them afterwards.
+%
+% If these macros are used several times there keys are accumulated. This happens in the given order for the normal version and in reversed order for the starred version,
+% i.e.\ the keys of further \Macro\adjustboxset or \Macro\adjustboxset* are always added so they face inwards.
+% If used without any keys but an empty argument, all keys previously set with the same macro are removed (from the current \TeX\ scope).
+% This means \Macro\adjustboxset{} clears all keys set be previously usages of \Macro\adjustboxset{<keys>} and \Macro\adjustboxset*{} clears all set by \Macro\adjustboxset*{<keys>}.
+% Such resets are again local to the current \TeX\ group.
 %
 %
-% \clearpage
-% \section*{Examples}
-% The following examples show the application of the aforementioned macros on an example text.
-% The result is placed in a tight, colored frame box to show the resulting dimensions.
-% \begingroup
-% \def\examplecontent{\begin{tabular}{@{}|c|c|@{}}
-%       \hline
-%       A & B \\
-%       \hline
-%       C & D \\
-%       \hline
-%   \end{tabular}^^A
-% }
-% \fboxsep=0pt%
-% \def\Fbox{\fcolorbox{red}{white}}%
-% \def\X{\vspace*{20pt}}%
-% \par\bigskip\noindent
-% \begin{tabular}{@{}lc}
-%   \X\Macro\example      & \Fbox{\examplecontent} \\
-%   \X\Macro\trimbox{10 5 10 5}{\AlsoMacro\example} & \Fbox{\trimbox{10 5 10 5}{\examplecontent}} \\
-%   \X\Macro\clipbox{10 5 10 5}{\AlsoMacro\example} & \Fbox{\clipbox{10 5 10 5}{\examplecontent}} \\
-%   \X\Macro\trimbox*{15 5 25 30}{\AlsoMacro\example} & \Fbox{\trimbox*{15 5 25 30}{\examplecontent}} \\
-%   \X\Macro\clipbox*{15 5 25 30}{\AlsoMacro\example} & \Fbox{\clipbox*{15 5 25 30}{\examplecontent}} \\
-%   \X\Macro\adjustbox{trim=10 5 10 5,angle=45}{\AlsoMacro\example} & \Fbox{\adjustbox{trim=10 5 10 5,angle=45}{\examplecontent}} \\
-%   \X\Macro\adjustbox{scale=1.5}{\AlsoMacro\example} & \Fbox{\adjustbox{scale=1.5}{\examplecontent}} \\
-%   \X\Macro\adjustbox{width=180pt,height=20pt}{\AlsoMacro\example} & \Fbox{\adjustbox{width=40pt,height=10pt}{\examplecontent}} \\
-%   \X\Macro\adjustbox{width=180pt,height=20pt,keepaspectratio}{\AlsoMacro\example} & \Fbox{\adjustbox{width=40pt,height=10pt,keepaspectratio}{\examplecontent}} \\
-% \end{tabular}
-% \endgroup
+% \begin{examples}
+% The macros:
+% \begin{macroquote}
+% \adjustboxset{keya=1} \\
+% \adjustboxset*{keyc=3}\\
+% \adjustbox{keyb=2}{content}
+% \end{macroquote}
+% are effectively the same as:
+% \begin{macroquote}
+% \adjustbox{keya=1,keyb=2,keyc=3}{content}
+% \end{macroquote}
+% \par\medskip\noindent
+% The macros:
+% \begin{macroquote}
+% \adjustboxset{keya=1,keyb=2} \\
+% \adjustboxset{keyc=3,keyd=4} \\
+% \adjustboxset*{keyg=7,keyh=8}\\
+% \adjustboxset*{keyi=9,keyj=10}\\
+% \adjustbox{keye=5,keyf=6}{content}
+% \end{macroquote}
+% are effectively the same as:
+% \begin{codequote}
+%   \AlsoMacro\adjustbox'{keya=1,keyb=2,keyc=3,keyd=4,keye=5,keyf=6,'\\
+%            !\hskip0pt!'            keyi=9,keyj=10,keyg=7,keyh=8}'{content}
+% \end{codequote}
+% \end{examples}
 %
-% \clearpage
-% \subsection{Argument Values}\label{sec:argval}
+% \subsubsection{Argument Values}\label{sec:argval}
 % All\marginpar{Parsing} length values given in the arguments of all macros and keys provided by this package are parsed by and advanced version of
 % \Macro\setlength (called \Macro\adjsetlength) which uses either $\epsilon$-\TeX\ expressions (default), the \pkg{calc} package (default fall-back)
 % or the \Macro\pgfmathparse of the \pkg{pgf} package.
@@ -444,68 +406,100 @@
 % key (which is also usable as global package option).
 %
 %
-% \subsection{Verbatim Support}\label{sec:verbatim}
-% The macros read the \meta{text} as \TeX{} \Macro\hbox and not as an macro argument in order to support verbatim content.
-% This functionality is now provided as dedicated package \pkg{collectbox} which can also be used independently.
-% This means that the braces around the content can also be written as \Macro\bgroup and \Macro\egroup:
-% \begin{macroquote}
-%   \trimbox{1 2 3 4}\AlsoMacro\bgroup~<content>\AlsoMacro\egroup
-% \end{macroquote}
-% Special care is taken to allow the \meta{text} to be a single macro (except \Macro\bgroup) without any braces:
-% \begin{macroquote}
-%   \clipbox{1 2 3 4}\AlsoMacro\somemacro
-% \end{macroquote}
-% This is to support the questionable habit of some \LaTeX{} users to drop the braces for single token arguments.
-% All environments support verbatim content.
-%
-% \clearpage
-% \subsection{Alternatives for existing Macros}\label{sec:alternatives}
-% The flexible \Macro\adjustbox can also be used as an alternative to existing macros from the \pkg{graphics} package as shown by Table~\ref{tab:alternatives}.
-% Because it is longer then the originals this is only of benefit if combinations are to be replaced or verbatim text must be supported.
-%
-% \begin{table}[!hb]
-% \belowcaptionskip\abovecaptionskip
-% \colorlet{optional}{black}
-% \caption{Alternatives for existing Macros}
-% \label{tab:alternatives}
-% \hbox to \linewidth{\hss
-% \begin{tabular}{ll}
-%   \toprule
-%   Original Macro (w/o content argument)  &  Alternative \Macro\adjustbox keys \\
-%   \midrule
-%   \Macro\rotatebox{<angle>}                  & \MacroArgs'angle='<angle>  \\
-%                                              & \MacroArgs'rotate='<angle>  \\
-%   \Macro\scalebox{<factor>}                  & \MacroArgs'scale='<factor>  \\
-%   \Macro\scalebox{<x-factor>}[<y-factor>]    & \MacroArgs'width='<x-factor>\AlsoMacro\width',height='<y-factor>\AlsoMacro\height  \\
-%   \Macro\reflectbox                          & \MacroArgs'reflect'  \\
-%                                              & \MacroArgs'width=-'\AlsoMacro\width',height='\AlsoMacro\height  \\
-%   \Macro\resizebox{<width>}{<height>}        & \MacroArgs'width='<width>',height='<height>  \\
-%   \Macro\resizebox*{<width>}{<totalheight>}  & \MacroArgs'width='<width>',totalheight='<totalheight>  \\
-%   \Macro\trimbox{<llx>~<lly>~<urx>~<ury>}    & \MacroArgs'trim='<llx>~<lly>~<urx>~<ury>  \\
-%                                              & \MacroArgs'Trim='<llx>~<lly>~<urx>~<ury>  \\
-%   \Macro\trimbox*{<llx>~<lly>~<urx>~<ury>}   & \MacroArgs'viewport='<llx>~<lly>~<urx>~<ury>  \\
-%                                              & \MacroArgs'Viewport='<llx>~<lly>~<urx>~<ury>  \\
-%   \Macro\clipbox{<llx>~<lly>~<urx>~<ury>}    & \MacroArgs'trim='<llx>~<lly>~<urx>~<ury>,clip  \\
-%                                              & \MacroArgs'Clip='<llx>~<lly>~<urx>~<ury>  \\
-%   \Macro\clipbox*{<llx>~<lly>~<urx>~<ury>}   & \MacroArgs'viewport='<llx>~<lly>~<urx>~<ury>,clip  \\
-%                                              & \MacroArgs'Clip*='<llx>~<lly>~<urx>~<ury>  \\
-%   \bottomrule
-% \end{tabular}%
-% \hss}%
-% \end{table}
 %
 %
+% \subsection{Trimming and Clipping}
+% Material can be trimmed (the official size is made smaller, so the remaining material
+% laps over the official boundaries) and clipped (overlapping material is not displayed).
+% The original keys provided by \pkg{graphicx} are also mentioned here for comparison.
 %
-% \subsection{Further Box Modification Macros}\label{sec:moremacros}
-% This section lists further macros which are also defined unless the package is loaded with the \opt{minimal} option.
-% Note that the authors other package \pkg{realboxes} provides variants of existing box macros
-% defined by the \LaTeX\ core or common packages like \pkg{graphicx}. Like the box macros here this variants allow for verbatim content
-% because they read it as real box and not as macro arguments.
+%
+% \DescribeMacro\trimbox{<llx>~<lly>~<urx>~<ury>}{<content>}
+% \DescribeMacro\trimbox{<all sites>}{<content>}
+% \DescribeMacro\trimbox{<left/right>~<top/bottom>}{<content>}
+% \DescribeMacro\trimbox*{<llx>~<lly>~<urx>~<ury>}{<content>}
+% The macro \Macro\trimbox trims the given amount from the lower left (ll) and the upper right (ur) corner of
+% the box. This means that the amount \meta{llx} is trimmed from the left side, \meta{lly} from the bottom and
+% \meta{urx} and \meta{ury} from the right and top of the box, respectively.
+% If only one value is given it will be used for all four sites.
+% If only two values are given the first one will be used for the left and right side (llx, urx) and the second for the bottom and top side (lly, ury).
+%
+% If the starred version is used the four coordinates are taken as the \Key{viewport} instead, i.e. the box
+% is trimmed to the rectangle described by the coordinates. In this case using all four values must be specified.
+%
+%
+% \DescribeEnv[<content>]{trimbox}{<1, 2 or 4 trim values>}
+% \vspace{-\baselineskip}
+% \DescribeEnv[<content>]{trimbox*}{<llx>~<lly>~<urx>~<ury>}
+% The \env{trimbox} and \env{trimbox*} environments do the same as the corresponding macros.
+%
+% \DescribeKey{trim}'='<llx>~<lly>~<urx>~<ury>
+% \DescribeKey{trim}'='<all sites>
+% \DescribeKey{trim}'='<left/right>~<top/bottom>
+% This key represents the original \Key{trim} key of \Macro\includegraphics.
+% It always trims the original content independent from its position.
+%
+% \DescribeKey{viewport}'='<llx>~<lly>~<urx>~<ury>
+% This key represents the original \Key{viewport} key of \Macro\includegraphics.
+% It always trims the original content to the given view port independent from its position.
+%
+% \DescribeKey{Trim}'='<llx>~<lly>~<urx>~<ury>
+% \DescribeKey{Trim}'='<all sites>
+% \DescribeKey{Trim}'='<left/right>~<top/bottom>
+% \DescribeKey{Viewport}'='<llx>~<lly>~<urx>~<ury>
+% The normal \Key{trim} and \Key{viewport} keys
+% as described earlier are applied on the original content before any resizing
+% or other effects. This is because for \Macro\includegraphics the trimming is done by the internal graphic driver,
+% while the effects can be applied later (but can also be driver dependent).
+% If the \Key{trim} and \Key{viewport} keys are used multiple times the last values will be used for the trimming, i.e. the content is only 
+% trimmed once. The upper case variants \Key{trim} and \Key{viewport} will wrap the content internally in a \Macro\trimbox or \Macro\trimbox*\relax
+% macro which can be applied multiple times, e.g.\ before and after the content is rotated.
+% These two keys awaits the same format as the original keys. However, the \Key{clip} key has no effect on them.
+%
+%
+% \DescribeMacro\clipbox{<all sites>}{<content>}
+% \DescribeMacro\clipbox{<left/right>~<top/bottom>}{<content>}
+% \DescribeMacro\clipbox{<llx>~<lly>~<urx>~<ury>}{<content>}
+% \DescribeMacro\clipbox*{<llx>~<lly>~<urx>~<ury>}{<content>}
+% The \Macro\clipbox macro works like the \Macro\trimbox and trims the given amounts from the \meta{text}.
+% However, in addition the trimmed material is also clipped, i.e. it is not shown in the final document.
+% Note that the material will still be part of the output file but is simply not shown.
+% It might be exported using special tools, so using \Macro\clipbox\relax (or \Macro\includegraphics[clip,trim=...])
+% to censor classified information would be a bad idea.
+% The starred version will again use the given coordinates as \Key{viewport}. 
+%
+% \DescribeEnv[<content>]{clipbox}{<1, 2 or 4 trim values>}
+% \vspace{-\baselineskip}
+% \DescribeEnv[<content>]{clipbox*}{<llx>~<lly>~<urx>~<ury>}
+% The environment versions of \Macro\clipbox and \Macro\clipbox*. The same rules as for the trimming environments apply.
+%
+%
+% \DescribeKey{clip}
+% This boolean key represents the original \Key{clip} key of \Macro\includegraphics.
+% It is intended to be used to make \Key{trim} or \Key{viewport} clip the trimmed material.
+%
+% \DescribeKey{Clip}'='<llx>~<lly>~<urx>~<ury>
+% \DescribeKey{Clip}'='<all sites>
+% \DescribeKey{Clip}'='<left/right>~<top/bottom>
+% \DescribeKey{Clip*}'='<llx>~<lly>~<urx>~<ury>
+% As stated above the \Key{clip} boolean key
+% which will make the default \Key{trim} and \Key{viewport} keys clip the trimmed content, has no effect
+% on the \Key{trim} and \Key{viewport} keys. Instead \Key{Clip} and \Key{Clip*} are provided which wrap the content internally in a \Macro\clipbox or 
+% \Macro\clipbox*\relax macro. They can be used several times.
+%
+%
+% \subsection{Margins}
 %
 % \DescribeMacro\marginbox{<all sites>}{<content>}
 % \DescribeMacro\marginbox{<left/right>~<top/bottom>}{<content>}
 % \DescribeMacro\marginbox{<llx>~<lly>~<urx>~<ury>}{<content>}
-% This macro can be used to add a margin (white space) around the content. It can be seen as the opposite of \Macro\trim.
+% \Descsep
+% \DescribeEnv[<content>]{marginbox*}{<1, 2 or 4 margin values>}
+% \Descsep
+% \DescribeKey{margin}'='<all sites>
+% \DescribeKey{margin}'='<left/right>~<top/bottom>
+% \DescribeKey{margin}'='<llx>~<lly>~<urx>~<ury>
+% This feature can be used to add a margin (white space) around the content. It can be seen as the opposite of \Macro\trim.
 % The original baseline of the content is preserved because \meta{lly} is added to the depth.
 % It is also available as \env{marginbox} environment and also usable as \Key{margin} option (see below).
 %
@@ -519,6 +513,12 @@
 % \DescribeMacro\marginbox'*'{<all sites>}{<content>}
 % \DescribeMacro\marginbox'*'{<left/right>~<top/bottom>}{<content>}
 % \DescribeMacro\marginbox'*'{<llx>~<lly>~<urx>~<ury>}{<content>}
+% \Descsep
+% \DescribeEnv[<content>]{marginbox}{<1, 2 or 4 margin values>}
+% \Descsep
+% \DescribeKey{margin*}'='<all sites>
+% \DescribeKey{margin*}'='<left/right>~<top/bottom>
+% \DescribeKey{margin*}'='<llx>~<lly>~<urx>~<ury>
 % This starred version is almost identical to the normal \Macro\marginbox, but also raises the content by the \MacroArgs<lly>
 % amount, so that the original depth instead of the original baseline is preserved.
 % Note that while \Macro\marginbox is basically the opposite of \Macro\trim, \Macro\marginbox* is not the opposite of \Macro\trim*.
@@ -530,6 +530,9 @@
 %   \end{examplecode}
 % \end{example}
 %
+%
+%
+% \subsection{Minimum and Maximum Size}
 %
 % \DescribeMacro\minsizebox{<width>}{<height>}{<content>}
 % \DescribeMacro\minsizebox'*'{<width>}{<totalheight>}{<content>}
@@ -589,145 +592,72 @@
 %   \end{examplecode}
 % \end{examples}
 %
-% \DescribeMacro\lapbox[<width>]{<lap amount>}{<content>}
-% This macro is a generalisation of the \LaTeX\ core macros \Macro\rlap{<content>} and \Macro\llap{<content>} which lap the
-% text to the right or left without taking any official space. The \Macro\lapbox macro can be used to only partially lap
-% the content to the right (positive amount) or left (negative amount). As with all macros of this package the original width
-% can be references using \Macro\width. The resulting official width of the box is normally the original width minus the absolute
-% lap amount. However, it can also be set explicitly using the option argument.
-% It is also possible to use lap amount which absolute values are larger than the original width. In this case the resulting
-% official width will be zero by default and the content will padded with the required white space.
-% Note that the lap amount always states the distance between the right side of the official box and the right side of the actual
-% content for positive amounts or the distance between the left side of the official box and the left side of the actual content 
-% for negative values.
+%
+% \DescribeKey{min width}'='<width>
+% \DescribeKey{max width}'='<width>
+% \DescribeKey{min height}'='<height>
+% \DescribeKey{max height}'='<height>
+% \DescribeKey{min totalheight}'='<total height>
+% \DescribeKey{max totalheight}'='<total height>
+% These keys allow to set the minimum and maximum width, height or totalheight of the content.
+% The current size of the content is measured and the content is resized if the constraint is not already met,
+% otherwise the content is unchanged. Multiple usages of these keys are checked one after each other, and therefore
+% it is possible that a later one is undoing the size changes of an earlier one.
+% A good example is \Key{max width}'='\AlsoMacro\textwidth which will limit large content to the text width but will not affect smaller
+% content.
+%
+% \DescribeKey{min size}'='{<width>}{<height>}
+% \DescribeKey{max size}'='{<width>}{<height>}
+% \DescribeKey{min totalsize}'='{<width>}{<total height>}
+% \DescribeKey{max totalsize}'='{<width>}{<total height>}
+% These keys allow to specify the minimum or maximum width and (total)height of the content together,
+% which is more efficient than using the width and (total)height keys described earlier.
+%
+%
+% \subsubsection{Scaling}
+%
+% \DescribeMacro\scalebox{<h-factor>}[<v-factor>]{<content>}
+% With only the mandatory argument the content is evenly scaled accordantly to the given factor. With the optional argument
+% a different vertical scaling factor can be given.
+% This macro is provided by the loaded \pkg{graphicx} package and only mentioned here for the sake of completeness.
+% The content is read as normal macro argument and therefore can't hold verbatim or similar special material.
+% An alternative which boxes the content directly is provided by the author's other package \pkg{realboxes} as \Macro\Scalebox and
+% as \env{Scalebox} environment.
+%
+% \DescribeKey{scale}'='<factor>
+% \DescribeKey{scale}'='{<h-factor>}{<v-factor>}
+% The normal \Key{scale} key of \pkg{graphicx} only allows for one scale factor which is used for both the horizontal and vertical scaling.
+% With \pkg{adjustbox} it is also possible to provide the horizontal and vertical scale factors separately.
 %
 % \begin{examples}
-%   General lapping:
 %   \begin{examplecode}
-%   \lapbox{1cm}{Some Text}
+%   \adjustbox{scale=2}{Some text!}
 %   \end{examplecode}
-%   \vspace{-2\smallskipamount}%
 %   \begin{examplecode}
-%   \lapbox{-1cm}{Some Text}
+%   \adjustbox{scale={2}{1}}{Some text!}
 %   \end{examplecode}
-%   \vspace{-2\smallskipamount}%
-%   \begin{examplecode}
-%   \lapbox[4cm]{1cm}{Some Text}
-%   \end{examplecode}
-%   \vspace{-2\smallskipamount}%
-%   \begin{examplecode}
-%   \lapbox[3cm]{2cm}{Some Text}
-%   \end{examplecode}
-%   \vspace{\smallskipamount}%
-%   Like \Macro\rlap:
-%   \vspace{-\smallskipamount}%
-%   \begin{examplecode}
-%   \lapbox[0pt]{\width}{Some Text}
-%   \end{examplecode}
-%   \vspace{\smallskipamount}%
-%   Like \Macro\llap:
-%   \vspace{-\smallskipamount}%
-%   \begin{examplecode}
-%   \lapbox[0pt]{-\width}{Some Text}
-%   \end{examplecode}
-%   \vspace{\smallskipamount}%
-%   A centering \Macro\clap macro can be achieved using:
-%   \vspace{-\smallskipamount}%
-%   \begin{examplecode}
-%   \lapbox[0pt]{-.5\width}{Some Text}
-%   \end{examplecode}
-%   \vspace{-2\smallskipamount}%
-%   \begin{examplecode}
-%   \lapbox[0pt]{.5\width}{Some Text}
-%   \end{examplecode}
-%
 % \end{examples}
 %
+% \DescribeMacro\reflectbox{<content>}
+% Reflects the content like \Macro\scalebox{-1}[1] would do.
+% This macro is provided by the loaded \pkg{graphicx} package and only mentioned here for the sake of completeness.
+% The content is read as normal macro argument and therefore can't hold verbatim or similar special material.
+% An alternative which boxes the content directly is provided by the author's other package \pkg{realboxes} as \Macro\Reflectbox and
+% as \env{Reflectbox} environment.
 %
-% \DescribeMacro\phantombox{<width>}{<height>}{<depth>}
-% This macro produces an empty box with the given width, height and depth.
-% It is equivalent to \Macro\phantom{\AlsoMacro\rule['-'<depth>]{<width>}{<height>'+'<depth>}} but more efficient and more user friendly.
-%
-% \begin{example}
-%   \begin{examplecode}
-%   Before \fbox{\phantombox{1cm}{2ex}{1ex}} After
-%   \end{examplecode}
-% \end{example}
-%
-%
-% \subsection{New keys for \cs{adjustbox} and \cs{includegraphics}}\label{sec:newkeys}
-% This section lists provided keys usable as \Macro\adjustbox options and, if the \opt{export} package option was used, also as \Macro\includegraphics options.
-% If the package is loaded with the \opt{minimal} option this code is skipped.
-%
-% \subsubsection{Setting keys globally}
-%
-% \DescribeMacro\adjustboxset{<global keys to be executed \emph{before} local keys>}
-% \DescribeMacro\adjustboxset*{<global keys to be executed \emph{after} local keys>}
-% Using these two macros all keys can be set globally, i.e.\ for all future \Macro\adjustbox macros and \env{adjustbox} environments.
-% Note that these settings are actually \emph{local} to the current \TeX\ group and only really global if used in the preamble or outside any group.
-% The normal macro will place all given keys before the keys used in first argument of \Macro\adjustbox\ / \env{adjustbox},
-% while the starred version will place them afterwards.
-%
-% If these macros are used several times there keys are accumulated. This happens in the given order for the normal version and in reversed order for the starred version,
-% i.e.\ the keys of further \Macro\adjustboxset or \Macro\adjustboxset* are always added so they face inwards.
-% If used without any keys but an empty argument, all keys previously set with the same macro are removed (from the current \TeX\ scope).
-% This means \Macro\adjustboxset{} clears all keys set be previously usages of \Macro\adjustboxset{<keys>} and \Macro\adjustboxset*{} clears all set by \Macro\adjustboxset*{<keys>}.
-% Such resets are again local to the current \TeX\ group.
+% \DescribeKey{reflect}
+% This reflects the content by using \Macro\reflectbox internally, which is identical to \Macro\scalebox{-1}[1],
+% i.e.\ this key is identical to \Key{scale}'='{-1}{1}.
 %
 %
 % \begin{examples}
-% The macros:
-% \begin{macroquote}
-% \adjustboxset{keya=1} \\
-% \adjustboxset*{keyc=3}\\
-% \adjustbox{keyb=2}{content}
-% \end{macroquote}
-% are effectively the same as:
-% \begin{macroquote}
-% \adjustbox{keya=1,keyb=2,keyc=3}{content}
-% \end{macroquote}
-% \par\medskip\noindent
-% The macros:
-% \begin{macroquote}
-% \adjustboxset{keya=1,keyb=2} \\
-% \adjustboxset{keyc=3,keyd=4} \\
-% \adjustboxset*{keyg=7,keyh=8}\\
-% \adjustboxset*{keyi=9,keyj=10}\\
-% \adjustbox{keye=5,keyf=6}{content}
-% \end{macroquote}
-% are effectively the same as:
-% \begin{codequote}
-%   \AlsoMacro\adjustbox'{keya=1,keyb=2,keyc=3,keyd=4,keye=5,keyf=6,'\\
-%            !\hskip0pt!'            keyi=9,keyj=10,keyg=7,keyh=8}'{content}
-% \end{codequote}
+%   \begin{examplecode}
+%   \adjustbox{reflect}{Some text!}
+%   \end{examplecode}
 % \end{examples}
 %
-% \subsubsection{Trimming and Clipping}
 %
-% \DescribeKey{Trim}'='<all sites>
-% \DescribeKey{Trim}'='<left/right>~<top/bottom>
-% \DescribeKey{Trim}'='<llx>~<lly>~<urx>~<ury>
-% \DescribeKey{Viewport}'='<llx>~<lly>~<urx>~<ury>
-% The normal \Key{trim} and \Key{viewport} keys
-% as described earlier are applied on the original content before any resizing
-% or other effects. This is because for \Macro\includegraphics the trimming is done by the internal graphic driver,
-% while the effects can be applied later (but can also be driver dependent).
-% If the \Key{trim} and \Key{viewport} keys are used multiple times the last values will be used for the trimming, i.e. the content is only 
-% trimmed once. The upper case variants \Key{trim} and \Key{viewport} will wrap the content internally in a \Macro\trimbox or \Macro\trimbox*\relax
-% macro which can be applied multiple times, e.g.\ before and after the content is rotated.
-% These two keys awaits the same format as the original keys. However, the \Key{clip} key has no effect on them.
-%
-% \DescribeKey{Clip}'='<all sites>
-% \DescribeKey{Clip}'='<left/right>~<top/bottom>
-% \DescribeKey{Clip}'='<llx>~<lly>~<urx>~<ury>
-% \DescribeKey{Clip*}'='<llx>~<lly>~<urx>~<ury>
-% As stated above the \Key{clip} boolean key
-% which will make the default \Key{trim} and \Key{viewport} keys clip the trimmed content, has no effect
-% on the \Key{trim} and \Key{viewport} keys. Instead \Key{Clip} and \Key{Clip*} are provided which wrap the content internally in a \Macro\clipbox or 
-% \Macro\clipbox*\relax macro. They can be used several times.
-%
-%
-% \subsubsection{Frame and Margin}
+% \subsubsection{Frame}
 %
 % \DescribeKey{fbox}
 % \DescribeKey{fbox}'='<rule width>
@@ -798,93 +728,8 @@
 %   \end{examplecode}
 % \end{example}
 %
-% \DescribeKey{margin}'='<all sites>
-% \DescribeKey{margin}'='<left/right>~<top/bottom>
-% \DescribeKey{margin}'='<llx>~<lly>~<urx>~<ury>
-% This key can be used to add a margin (white space) around the content (using \Macro\marginbox).
-% It can be seen as the opposite of \Key{trim} (and in fact is implemented
-% almost identical to it with negated signs). The four values are added to the left, bottom, right and top side of the content, respectively.
-% The original baseline of the content is preserved by adding \meta{lly} to the depth.
-% If negative values are given the content is actually trimmed, but this will lead to wrong results if the absolute values are bigger
-% than the available amount. This is particularly a problem with the depth. The \Key{trim} and \Key{trim} code will handle this case correctly, however.
 %
-% \DescribeKey{margin*}'='<all sites>
-% \DescribeKey{margin*}'='<left/right>~<top/bottom>
-% \DescribeKey{margin*}'='<llx>~<lly>~<urx>~<ury>
-% Like \Key{margin} but also raises the content by \meta{lly} and therefore preserves the original depth and not the original baseline.
-%
-% \subsubsection{Size/Scaling}
-%
-% \DescribeKey{min width}'='<width>
-% \DescribeKey{max width}'='<width>
-% \DescribeKey{min height}'='<height>
-% \DescribeKey{max height}'='<height>
-% \DescribeKey{min totalheight}'='<total height>
-% \DescribeKey{max totalheight}'='<total height>
-% These keys allow to set the minimum and maximum width, height or totalheight of the content.
-% The current size of the content is measured and the content is resized if the constraint is not already met,
-% otherwise the content is unchanged. Multiple usages of these keys are checked one after each other, and therefore
-% it is possible that a later one is undoing the size changes of an earlier one.
-% A good example is \Key{max width}'='\AlsoMacro\textwidth which will limit large content to the text width but will not affect smaller
-% content.
-%
-% \DescribeKey{min size}'='{<width>}{<height>}
-% \DescribeKey{max size}'='{<width>}{<height>}
-% \DescribeKey{min totalsize}'='{<width>}{<total height>}
-% \DescribeKey{max totalsize}'='{<width>}{<total height>}
-% These keys allow to specify the minimum or maximum width and (total)height of the content together,
-% which is more efficient than using the width and (total)height keys described earlier.
-%
-% \DescribeKey{scale}'='<factor>
-% \DescribeKey{scale}'='{<h-factor>}{<v-factor>}
-% The normal \Key{scale} key of \pkg{graphicx} only allows for one scale factor which is used for both the horizontal and vertical scaling.
-% With \pkg{adjustbox} it is also possible to provide the horizontal and vertical scale factors separately.
-%
-% \DescribeKey{reflect}
-% This reflects the content by using \Macro\reflectbox internally, which is identical to \Macro\scalebox{-1}[1],
-% i.e.\ this key is identical to \Key{scale}'='{-1}{1}.
-%
-%
-% \begin{examples}
-%   \begin{examplecode}
-%   \adjustbox{reflect}{\sffamily OTTO}
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \adjustbox{reflect}{\sffamily ANNA}
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \adjustbox{reflect}{Some text!}
-%   \end{examplecode}
-% \end{examples}
-%
-% \subsubsection{Positioning and Alignment}
-%
-% \DescribeKey{raise}'='<amount>
-% \DescribeKey{raise}'='{<amount>}{<height>}
-% \DescribeKey{raise}'='{<amount>}{<height>}{<depth>}
-% This key uses 
-% \Macro\raisebox{<amount>}{\ldots} to raise the content upwards for the given \meta{amount} (length).
-% A negative length moves the content down.
-% The two optional arguments of \Macro\raisebox{<amount>}[<height>][<depth>]{\ldots}\relax are also available
-% as optional brace arguments. They can be used to set the official height and depth of the content.
-% This is also possible using the \Key{set height} and \Key{set depth} keys.
-%
-% \begin{examples}
-%   \begin{examplecode}
-%   Is \adjustbox{raise=1ex}{higher}
-%   than the normal text
-%   \end{examplecode}
-%   \begin{examplecode}
-%   Is \adjustbox{raise={1ex}{\height}}{higher}
-%   than the normal text but sill has 
-%   its original official height
-%   \end{examplecode}
-%   \begin{examplecode}
-%   Is \adjustbox{raise={1ex}{1ex}{0pt}}{higher and 
-%   \rotatebox{-90}{deeper}} but with limited official
-%   height and no depth.
-%   \end{examplecode}
-% \end{examples}
+% \subsection{Vertical Alignment}
 %
 % \DescribeKey{valign}'='<letter>
 % This key allows to vertically align the content to the top, middle and bottom.  The uppercase letters |T|, |M| and |B|
@@ -943,6 +788,34 @@
 % \endgroup
 %
 %
+% \DescribeKey{raise}'='<amount>
+% \DescribeKey{raise}'='{<amount>}{<height>}
+% \DescribeKey{raise}'='{<amount>}{<height>}{<depth>}
+% This key uses 
+% \Macro\raisebox{<amount>}{\ldots} to raise the content upwards for the given \meta{amount} (length).
+% A negative length moves the content down.
+% The two optional arguments of \Macro\raisebox{<amount>}[<height>][<depth>]{\ldots}\relax are also available
+% as optional brace arguments. They can be used to set the official height and depth of the content.
+% This is also possible using the \Key{set height} and \Key{set depth} keys.
+%
+% \begin{examples}
+%   \begin{examplecode}
+%   Is \adjustbox{raise=1ex}{higher}
+%   than the normal text
+%   \end{examplecode}
+%   \begin{examplecode}
+%   Is \adjustbox{raise={1ex}{\height}}{higher}
+%   than the normal text but sill has 
+%   its original official height
+%   \end{examplecode}
+%   \begin{examplecode}
+%   Is \adjustbox{raise={1ex}{1ex}{0pt}}{higher and 
+%   \rotatebox{-90}{deeper}} but with limited official
+%   height and no depth.
+%   \end{examplecode}
+% \end{examples}
+%
+%
 % \DescribeKey{set height}'='<height>
 % This sets the official height of the content without actual changing it. This can be seen as a form of trimming.
 % It uses the same internal code as\\
@@ -979,6 +852,141 @@
 %       with \raisebox{-1ex}{depth}}}
 %   \end{examplecode}
 % \end{example}
+% 
+%
+% \subsection{Horizontal Alignment}
+%
+% \DescribeKey{center}
+% \DescribeKey{center}'='<width>
+% This key places 
+% the content in a horizontal box which is by default \Macro\linewidth wide (i.e.\ as wide as a normal text paragraph)
+% and centers it in it. The effect is very similar to \Macro\centerline. The original content is unchanged, but simply identical
+% white space is added as a left and right margin. This is useful if the content is a figure or table and can be used as a replacement
+% for \Macro\centering. One important difference is that the content will then have the given width which might influence (sub-)caption
+% placement.
+% If the content is wider than the available width it will stick out on both sides equally without causing an overfull hbox warning.
+% Note that when \Macro\adjustbox paragraph is used at the beginning of a paragraph the normal paragraph indention is added, which
+% will push the while box to the right and might cause an overfull line. In such cases a \Macro\noindent must be added beforehand.
+% The \env{adjustbox} environment already uses this macro.
+%
+% \begin{examples}
+%   \begin{examplecode}
+%   \adjustbox{center}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{center=5cm}{Some content}
+%   \end{examplecode}
+% \end{examples}
+%
+%
+% \DescribeKey{right}
+% \DescribeKey{right}'='<width>
+% Like \Key{center} this key
+% places the content in a box with the given width (by default \Macro\linewidth) but right aligns it.
+% If the content is wider than the available width it will stick out into the left side without causing an overfull hbox warning.
+%
+% \begin{examples}
+%   \begin{examplecode}
+%   \adjustbox{right}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{right=5cm}{Some content}
+%   \end{examplecode}
+% \end{examples}
+%
+%
+% \DescribeKey{left}
+% \DescribeKey{left}'='<width>
+% Like \Key{center} this key
+% places the content in a box with the given width (by default \Macro\linewidth) but left aligns it.
+% If the content is wider than the available width it will stick out into the right side without causing an overfull hbox warning.
+%
+% \begin{examples}
+%   \begin{examplecode}
+%   \adjustbox{left}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{left=5cm}{Some content}
+%   \end{examplecode}
+% \end{examples}
+%
+%
+% \DescribeKey{inner}
+% \DescribeKey{inner}'='<width>
+% Like \Key{center}, \Key{left} and \Key{right} this key 
+% places the content in a box with the given width (by default \Macro\linewidth) but aligns it towards the inner margin.
+% If the content is wider than the available width it will stick into the outer margin without causing an overfull hbox warning.
+% In |twoside| mode this key is equal to \Key{left} for odd pages and equal to \Key{right} for even pages.
+% For |oneside| mode it is always equal to \Key{center}, because there is no inner or outer margin.
+% Note that the page-is-odd test might not always lead to correct results for some material close to a page boundary, because \TeX\
+% might not have decided on which page it will be placed. This can be improved by loading the \pkg{changepage} package with the 
+% \opt{strict} option, which uses a reference to determine the correct page number (and requires the usual additional compiler run).
+%
+%
+% \DescribeKey{outer}
+% \DescribeKey{outer}'='<width>
+% Identical to \Key{inner} but aligns the content towards the outer margin.
+% If the content is wider than the available width it will stick into the outer inner without causing an overfull hbox warning.
+%
+%
+% \subsection{Lapping}
+% The following features can be used to make the content lap over its left or right boundary. This is basically the same 
+% as trimming, but provides a different, more dedicated interface.
+%
+% \DescribeMacro\lapbox[<width>]{<lap amount>}{<content>}
+% This macro is a generalisation of the \LaTeX\ core macros \Macro\rlap{<content>} and \Macro\llap{<content>} which lap the
+% text to the right or left without taking any official space. The \Macro\lapbox macro can be used to only partially lap
+% the content to the right (positive amount) or left (negative amount). As with all macros of this package the original width
+% can be references using \Macro\width. The resulting official width of the box is normally the original width minus the absolute
+% lap amount. However, it can also be set explicitly using the option argument.
+% It is also possible to use lap amount which absolute values are larger than the original width. In this case the resulting
+% official width will be zero by default and the content will padded with the required white space.
+% Note that the lap amount always states the distance between the right side of the official box and the right side of the actual
+% content for positive amounts or the distance between the left side of the official box and the left side of the actual content 
+% for negative values.
+%
+% \begin{examples}
+%   General lapping:
+%   \begin{examplecode}
+%   \lapbox{1cm}{Some Text}
+%   \end{examplecode}
+%   \vspace{-2\smallskipamount}%
+%   \begin{examplecode}
+%   \lapbox{-1cm}{Some Text}
+%   \end{examplecode}
+%   \vspace{-2\smallskipamount}%
+%   \begin{examplecode}
+%   \lapbox[4cm]{1cm}{Some Text}
+%   \end{examplecode}
+%   \vspace{-2\smallskipamount}%
+%   \begin{examplecode}
+%   \lapbox[3cm]{2cm}{Some Text}
+%   \end{examplecode}
+%   \vspace{\smallskipamount}%
+%   Like \Macro\rlap:
+%   \vspace{-\smallskipamount}%
+%   \begin{examplecode}
+%   \lapbox[0pt]{\width}{Some Text}
+%   \end{examplecode}
+%   \vspace{\smallskipamount}%
+%   Like \Macro\llap:
+%   \vspace{-\smallskipamount}%
+%   \begin{examplecode}
+%   \lapbox[0pt]{-\width}{Some Text}
+%   \end{examplecode}
+%   \vspace{\smallskipamount}%
+%   A centering \Macro\clap macro can be achieved using:
+%   \vspace{-\smallskipamount}%
+%   \begin{examplecode}
+%   \lapbox[0pt]{-.5\width}{Some Text}
+%   \end{examplecode}
+%   \vspace{-2\smallskipamount}%
+%   \begin{examplecode}
+%   \lapbox[0pt]{.5\width}{Some Text}
+%   \end{examplecode}
+%
+% \end{examples}
+%
 %
 % \DescribeKey{lap}'='<lap amount>
 % \DescribeKey{lap}'='{<length>}{<lap amount>}
@@ -1023,79 +1031,9 @@
 %   \end{examplecode}
 % \end{examples}
 %
-% \DescribeKey{center}
-% \DescribeKey{center}'='<width>
-% This key places 
-% the content in a horizontal box which is by default \Macro\linewidth wide (i.e.\ as wide as a normal text paragraph)
-% and centers it in it. The effect is very similar to \Macro\centerline. The original content is unchanged, but simply identical
-% white space is added as a left and right margin. This is useful if the content is a figure or table and can be used as a replacement
-% for \Macro\centering. One important difference is that the content will then have the given width which might influence (sub-)caption
-% placement.
-% If the content is wider than the available width it will stick out on both sides equally without causing an overfull hbox warning.
-% Note that when \Macro\adjustbox paragraph is used at the beginning of a paragraph the normal paragraph indention is added, which
-% will push the while box to the right and might cause an overfull line. In such cases a \Macro\noindent must be added beforehand.
-% The \env{adjustbox} environment already uses this macro.
-%
-% \begin{examples}
-%   \begin{examplecode}
-%   \adjustbox{center}{Some content}
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \adjustbox{center=5cm}{Some content}
-%   \end{examplecode}
-% \end{examples}
-%
-% \DescribeKey{right}
-% \DescribeKey{right}'='<width>
-% Like \Key{center} this key
-% places the content in a box with the given width (by default \Macro\linewidth) but right aligns it.
-% If the content is wider than the available width it will stick out into the left side without causing an overfull hbox warning.
-%
-% \begin{examples}
-%   \begin{examplecode}
-%   \adjustbox{right}{Some content}
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \adjustbox{right=5cm}{Some content}
-%   \end{examplecode}
-% \end{examples}
 %
 %
-% \DescribeKey{left}
-% \DescribeKey{left}'='<width>
-% Like \Key{center} this key
-% places the content in a box with the given width (by default \Macro\linewidth) but left aligns it.
-% If the content is wider than the available width it will stick out into the right side without causing an overfull hbox warning.
-%
-% \begin{examples}
-%   \begin{examplecode}
-%   \adjustbox{left}{Some content}
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \adjustbox{left=5cm}{Some content}
-%   \end{examplecode}
-% \end{examples}
-%
-%
-%
-% \DescribeKey{inner}
-% \DescribeKey{inner}'='<width>
-% Like \Key{center}, \Key{left} and \Key{right} this key 
-% places the content in a box with the given width (by default \Macro\linewidth) but aligns it towards the inner margin.
-% If the content is wider than the available width it will stick into the outer margin without causing an overfull hbox warning.
-% In |twoside| mode this key is equal to \Key{left} for odd pages and equal to \Key{right} for even pages.
-% For |oneside| mode it is always equal to \Key{center}, because there is no inner or outer margin.
-% Note that the page-is-odd test might not always lead to correct results for some material close to a page boundary, because \TeX\
-% might not have decided on which page it will be placed. This can be improved by loading the \pkg{changepage} package with the 
-% \opt{strict} option, which uses a reference to determine the correct page number (and requires the usual additional compiler run).
-%
-% \DescribeKey{outer}
-% \DescribeKey{outer}'='<width>
-% Identical to \Key{inner} but aligns the content towards the outer margin.
-% If the content is wider than the available width it will stick into the outer inner without causing an overfull hbox warning.
-%
-%
-% \subsubsection{Adding a background}
+% \subsubsection{Background}
 %
 % \DescribeKey{bgcolor}'='<color>
 % \DescribeKey{bgcolor}'='{<model>}{<color>}
@@ -1170,6 +1108,7 @@
 %       {\textcolor{green}{\rule{20pt}{20pt}}}
 %   \end{examplecode}
 % \end{example}
+%
 %
 % \subsection{Minipage or other inner environments which change the processing of the content}\label{sec:inner}
 % The following keys set the way the content is processed before it is stored it in a box.
@@ -1296,7 +1235,22 @@
 % \DescribeKey{Execute}'='<code>
 % Simply executes the code immediately. This is done in the key processing phase for inner environments (see \autoref{sec:inner}) and is intended mostly for debugging purposes.
 % Only previously used special keys for modifying the boxing of the content will have an effect yet.  % All other keys are not yet processed.
+% 
 %
+% \section{Other}
+%
+% \DescribeMacro\phantombox{<width>}{<height>}{<depth>}
+% This macro produces an empty box with the given width, height and depth.
+% It is equivalent to \Macro\phantom{\AlsoMacro\rule['-'<depth>]{<width>}{<height>'+'<depth>}} but more efficient and more user friendly.
+%
+% \begin{example}
+%   \begin{examplecode}
+%   Before \fbox{\phantombox{1cm}{2ex}{1ex}} After
+%   \end{examplecode}
+% \end{example}
+%
+%
+% \StopEventually{}
 % \subsection{Experimental Keys}
 % The following features are experimental and may not work correctly yet.
 % At the moment the \pkg{storebox} package must be loaded manually for this keys.
@@ -1331,7 +1285,8 @@
 % The key version of \Macro\pagebreakbox. There should no be any further keys used afterwards, because they will interfere with the page breaks.
 %
 %
-% \StopEventually{}
+%
+%
 % \clearpage
 % \section{Implementation}
 % \setcounter{lstnumber}{1}
