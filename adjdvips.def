@@ -14,6 +14,10 @@
 %
 % \begin{macro}{\@cliptoboxdim}[1]{box register to clip}
 % Clips to official box dimension.
+%
+% The following clipping code was suggested by
+% Joseph Wright (LaTeX3 project), but slightly modified
+% for this package.
 %    \begin{macrocode}
 \def\@cliptoboxdim#1{%
     \setbox#1=\hbox{%

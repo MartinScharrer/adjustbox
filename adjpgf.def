@@ -15,7 +15,8 @@
 \RequirePackage{pgf}
 %    \end{macrocode}
 %
-% \begin{macro}{\@trimbox}
+% \begin{macro}{\@cliptoboxdim}
+% Clips to official box dimension.
 %    \begin{macrocode}
 \def\@cliptoboxdim#1{%
     \setbox#1\hbox{\begin{pgfpicture}%

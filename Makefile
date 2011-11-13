@@ -11,7 +11,7 @@ export CONTRIBUTION VERSION NAME EMAIL SUMMARY DIRECTORY DONOTANNOUNCE ANNOUNCE 
 MAINDTX       = ${CONTRIBUTION}.dtx
 DTXFILES      = ${MAINDTX}
 INSFILES      = ${CONTRIBUTION}.ins
-LTXFILES      = ${CONTRIBUTION}.sty adjpgf.def adjcalc.sty adjgrfx.sty
+LTXFILES      = ${CONTRIBUTION}.sty adjpgf.def adjdvips.def adjxetex.def adjpdftex.def adjcalc.sty adjgrfx.sty
 LTXDOCFILES   = ${CONTRIBUTION}.pdf README
 LTXSRCFILES   = ${DTXFILES} ${INSFILES}
 PLAINFILES    = #${CONTRIBUTION}.tex

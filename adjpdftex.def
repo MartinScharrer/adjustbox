@@ -13,6 +13,8 @@
 %
 %
 % \begin{macro}{\@cliptoboxdim}
+% Clips to official box dimension.
+%
 % Uses a PDF X-Object which has the side-effect of clipping.
 % TODO: Rewrite to use clipping path?
 %    \begin{macrocode}
