@@ -16,12 +16,15 @@
 \def\WIDTH{\wd\mybox}
 \def\DEPTH{\dp\mybox}
 \def\LLX{.15\WIDTH}
-\def\LLY{\DEPTH+.15\HEIGHT}
+\def\LLY{.4\DEPTH}
 \def\URX{.15\WIDTH}
-\def\URY{.25\HEIGHT}
+\def\URY{(\HEIGHT+.25\DEPTH)}
 %
-%\usebox\mybox
-%\rlap{\trimbox{{\LLX} {\LLY} {\URX} {\URY}}{\usebox\mybox}}\clipbox{{\LLX} {\LLY} {\URX} {\URY}}{\color{blue}{\text}}
+%\leavevmode
+%\rlap{\hbox to \wd\mybox{\hrulefill}}\usebox\mybox
+%\rlap{\hbox to \wd\mybox{\hrulefill}}\rlap{\trimbox{{\LLX} {\LLY} {\URX} {\URY}}{\usebox\mybox}}\clipbox{{\LLX} {\LLY} {\URX} {\URY}}{\color{blue}{\text}}
+%\sbox0{\clipbox{{\LLX} {\LLY} {\URX} {\URY}}{\color{blue}{\text}}}%
+%ht=\the\ht0, dp=\the\dp0, wd=\the\wd0
 \begin{tikzpicture}[font=\sffamily,>=latex]
    % Extensions lines for dimensions (drawn here to be below other material)
    \draw [gray,thin]
@@ -57,8 +60,8 @@
     \draw [->] (\LLX,-\DEPTH)   -- ++(0,\LLY) node [right,midway] {\scriptsize llx};
     \draw [->] (0,-\DEPTH+\LLY) -- ++(\LLX,0) node [above,midway] {\scriptsize lly};
     \draw (\LLX,-\DEPTH+\LLY) -- ([shift={(-\URX,0)}]\WIDTH,-\DEPTH+\LLY);
-    \draw [->] (\LLX+.2\WIDTH,-\DEPTH+\LLY) -- (\LLX+.2\WIDTH,0) node [right,midway] {\scriptsize moves down};
-    \path [fill=white,draw] (\LLX,-\DEPTH+\LLY) circle (1pt);
+    \draw [->] (\LLX+.2\WIDTH,{\HEIGHT-\URY}) -- (\LLX+.2\WIDTH,0) node [pos=0.4,below right] {\scriptsize moves up};
+    \path [fill=white,draw] (\LLX,{\HEIGHT-\URY}) circle (1pt);
     \draw [->]
         ([shift={(-\URX,0)}]\WIDTH,\HEIGHT) --
         ([shift={(-\URX,-\URY)}]\WIDTH,\HEIGHT)
