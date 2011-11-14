@@ -395,10 +395,18 @@
 % \DescribeMacros
 %    \hbox{\Macro\width~~~\Macro\height~~~\Macro\depth~~~\Macro\totalheight}%
 % \endDescribeMacros
-% These \LaTeX{} lengths hold the original dimension of \meta{text} and can be used as part of the arguments to \Macro\adjustbox, \Macro\trimbox and \Macro\clipbox.
+% These \LaTeX{} lengths hold the current dimensions of the content and can be used as part all length arguments.
+% When the size of the content is changed by a key these lengths will be adjusted to hold the new size for all further keys.
 % The totalheight is the height plus depth. With the \pkg{patch} option these lengths can also be used for \Macro\includegraphics.
 %
-% If\marginpar{Default unit} no unit is provided for of the bounding box coordinates (llx, lly, urx, ury) then PostScript points
+% \DescribeMacros
+%    \hbox{\Macro\Width~~~\Macro\Height~~~\Macro\Depth~~~\Macro\Totalheight}%
+% \endDescribeMacros
+% These \LaTeX{} lengths hold the original dimension of original unchanged content and are not modified.
+% They are useful if the size of the content is modified by several keys, but further keys should still work relative to the original content.
+%
+% \subsubsection*{Default unit}
+% If no unit is provided for of the bounding box coordinates (llx, lly, urx, ury) in the trim and clip features then PostScript points
 % (\emph{big points}, bp, $72\,\text{bp}=1\,\text{inch}$) are used, as it is the default behaviour
 % of the \Key{trim} and \Key{viewport} options of \pkg{graphicx}'s \Macro\includegraphics. Note that \pkg{graphicx} converts all values, independent if a unit is provided or not,
 % internally to bp, because graphics where traditionally stored in Encapsulated PostScript (EPS) files. The more modern PDF files also use bp instead of pt.
