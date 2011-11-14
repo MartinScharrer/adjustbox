@@ -215,6 +215,47 @@
 % \end{macro}
 %
 %
+%
+% \begin{macro}{\@trimbox}[5]{<tllx>}{<tlly>}{<turx>}{<tury>}{<box register>
+% Removes the four length for the left, bottom, right and top from the official size of the box register.
+%    \begin{macrocode}
+\def\@viewportbox#1#2#3#4#5{%
+    \setbox#5=\hbox{%
+        %
+        % llx
+        \tc@tempdim=#1\relax
+        \hskip-\tc@tempdim
+        %
+        % lly
+        \tc@tempdim=#2\relax
+        \dp#5-\tc@tempdim
+        %
+        % urx
+        \tc@tempdim=#3\relax
+        \wd#5\tc@tempdim
+        %
+        % ury
+        \tc@tempdim=#4\relax
+        \ht#5\tc@tempdim
+        %
+        % Adjust baseline if required
+        \ifdim\dp#5<\z@
+            \raise\dp#5%
+        \else
+        \ifdim\ht#5<\z@
+            \lower\ht#5%
+        \fi\fi
+        \box#5%
+    }%
+    % Ensure that all dimensions are non-negative
+    \ifdim\dp#5<\z@ \dp#5=\z@ \fi
+    \ifdim\wd#5<\z@ \wd#5=\z@ \fi
+    \ifdim\ht#5<\z@ \ht#5=\z@ \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
 % \begin{macro}{\@clipbox}
 % Clips the box using the given trim amounts.
 % For this the box is first trimmed and then clipped to its official size using a driver dependent macro.
