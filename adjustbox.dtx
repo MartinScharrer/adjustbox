@@ -24,10 +24,10 @@
 %<*driver>
 \ProvidesFile{adjustbox.dtx}[%
 %<=*DATE>
-    2011/10/30
+    2011/11/14
 %<=/DATE>
 %<=*VERSION>
-    v0.7
+    v0.8
 %<=/VERSION>
     DTX file for the adjustbox package]
 \documentclass[a4paper]{ydoc}[2011/08/11]
@@ -171,6 +171,25 @@
 % \changes{v0.6}{2011/09/04}{Added tabular support.}
 % \changes{v0.6a}{2011/10/29}{Fixed issue with keys affecting the content in an unwanted way.}
 % \changes{v0.7}{2011/10/30}{Added \cs{adjustboxset} and \cs{adjustimage} macros.}
+% \changes{v0.8}{2011/11/14}{
+%     Added driver files for dvips and xelatex. Moved pdftex driver code to own file.
+%     Fixed and improved default unit code for the \opt{calc} option.
+%     Changed \cs{adjustimage} code to use internals of \cs{includegraphics}. This allows the redefinition of \cs{includegraphics}.
+%     Added manual for \Key{bgcolor} and added \Key{bgcolor*}.
+%     Changed \Key{bgimage} to use \cs{adjustimage}.
+%     Added manual entries for \Key{cfbox} and \Key{cframe}.
+%     Removed loading of non-mandatory \pkg{storebox} package for now.
+%     Added \Key{set vsize}.
+%     Added shortcuts \Key{rlap} and \Key{llap}.
+%     Added \adjincludegraphics and the Export option.
+%     Fix for \Key{innerenv} argument.
+%     Added lengths \cs{Width}, \cs{Height}, \cs{Depth} and \cs{Totalheight} for the original dimensions of the content.
+%     Added own \cs{raisebox} variant to support math expressions even for \cs{includegraphics}.
+%     Some code cleanup.
+%     Added \Key{varwidth} key as an alternative to \Key{minipage}.
+%     Added \stackbox and \Key{stack} key and \env{stackbox} environment (similar to \cs{shortstack})
+%     Added check for \pkg{xcolor} package.
+% }
 %
 % \GetFileInfo{adjustbox.dtx}
 %
@@ -1185,6 +1204,35 @@
 %   \end{adjustbox}
 %   \end{examplecode}
 % \end{examples}
+%
+%
+% \DescribeKey{stack}
+% \DescribeKey{stack}'='<horizontal alignment>
+% \DescribeKey{stack}'='{<horizontal alignment>}{<vertical alignment>}
+% \Descsep
+% \DescribeMacro\stackbox!\optionaloff![<horizontal alignment>][<vertical alignment>]{<content>}
+% \Descsep
+% \DescribeEnv[<content>]{stackbox}[<horizontal alignment>][<vertical alignment>]
+% The \Key{stack} key and its corresponding macro and environment can be used to stack multiple lines similar to the \Macro\shortstack macro, but
+% both the horizontal and vertical alignment can be selected by a single letter each. Also a proper baseline skip is inserted.
+% This is implemented using the \env{varwidth} environment which is based on the \env{minipage} environment.
+% Its maximal width arguments is fixed internally to \Macro\linewidth.
+%
+% Possible horizontal alignments are: "l" (left), "r" (right), "c" (centered, default), "j" (justified).
+% Possible vertical alignments are the same as for \env{minipage}: "t" (top baseline), "b" (bottom baseline, default), "c" (vertical centered).
+% Because these arguments are always single letters the "{ }" around them can be skipped, so that the value can simple be two concatenated letters.
+%
+% \begin{example}
+%   \begin{examplecode}
+%   .\adjustbox{stack}{A\\B\\CC}.
+%   \end{examplecode}
+%   \begin{examplecode}
+%   .\adjustbox{stack=r}{A\\B\\CC}.
+%   \end{examplecode}
+%   \begin{examplecode}
+%   .\adjustbox{stack=ct}{A\\B\\CC}.
+%   \end{examplecode}
+% \end{example}
 %
 %
 % \DescribeKey{innerenv}'='<environment name>
