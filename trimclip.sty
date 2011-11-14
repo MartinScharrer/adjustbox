@@ -1,0 +1,244 @@
+%    \begin{macrocode}
+\ProvidesPackage{trimclip}
+\RequirePackage{graphicx}[1999/02/16]
+\RequirePackage{collectbox}[2011/08/22]
+%    \end{macrocode}
+%
+% \end{macro}
+%
+%
+% \begin{key}{adjbox}{viewport}
+%    \begin{macrocode}
+\define@key{adjbox}{viewport}{%
+    \def\adjustbox@content{%
+        \adjbox@parse@v{#1}%
+        \adjbox@@viewport
+        \adjustbox@@@trimclip
+    }%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{trim}
+%    \begin{macrocode}
+\define@key{adjbox}{trim}{%
+    \def\adjustbox@content{%
+        \adjbox@parse@v{#1}%
+        \adjustbox@@@trimclip
+    }%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\adjustbox@@@trimclip}
+%    \begin{macrocode}
+\def\adjustbox@@@trimclip{%
+    \ifGin@clip
+        \expandafter\@clipbox
+    \else
+        \expandafter\@trimbox
+    \fi
+        \adjbox@tllx
+        \adjbox@tlly
+        \adjbox@turx
+        \adjbox@tury
+        \collectedbox
+    \usebox\collectedbox
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \begin{macro}{\adjbox@parse@v}
+%    \begin{macrocode}
+\def\adjbox@parse@v#1{%
+    \adjbox@parse@@v#1 {} {} {} \\%
+}
+\def\adjbox@parse@@v#1 #2 #3 #4 #5\\{%
+  \adjbox@default\adjbox@tllx{#1}%
+  \ifx\@nnil#2\@nnil
+    \adjbox@tlly\adjbox@tllx
+    \adjbox@turx\adjbox@tllx
+    \adjbox@tury\adjbox@tlly
+  \else
+    \adjbox@default\adjbox@tlly{#2}%
+    \ifx\@nnil#3\@nnil
+      \adjbox@turx\adjbox@tllx
+      \adjbox@tury\adjbox@tlly
+    \else
+      \adjbox@default\adjbox@turx{#3}%
+      \adjbox@default\adjbox@tury{#4}%
+    \fi
+  \fi
+}%
+%%\newdimen\adjbox@llx
+%%\newdimen\adjbox@lly
+%%\newdimen\adjbox@urx
+%%\newdimen\adjbox@ury
+\newdimen\adjbox@tllx
+\newdimen\adjbox@tlly
+\newdimen\adjbox@turx
+\newdimen\adjbox@tury
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \begin{macro}{\adjbox@@viewport}
+% Turns viewport coordinates into trim coordinates.
+%    \begin{macrocode}
+\def\adjbox@@viewport{%
+    %\advance\adjbox@tllx by -\z@
+    \advance\adjbox@tlly by  \dp\collectedbox
+    \advance\adjbox@turx by -\wd\collectedbox
+    \advance\adjbox@tury by -\ht\collectedbox
+    \adjbox@turx=-\adjbox@turx
+    \adjbox@tury=-\adjbox@tury
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\trimbox}
+%    \begin{macrocode}
+\newcommand\trimbox{%
+    \collectboxcheckenv{trimbox}%
+    \@ifstar
+        \trimbox@s
+        \trimbox@
+}
+\def\trimbox@#1{%
+    \collectbox{\trimbox@@\@trimbox{#1}}%
+}
+\def\trimbox@s#1{%
+    \collectbox{\trimbox@@{\adjbox@@viewport\@trimbox}{#1}}%
+}
+\def\trimbox@@#1#2{%
+    \adjbox@parse@v{#2}%
+    #1%
+        \adjbox@tllx
+        \adjbox@tlly
+        \adjbox@turx
+        \adjbox@tury
+        \collectedbox
+    \usebox\collectedbox
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{environment}{trimbox*}
+%    \begin{macrocode}
+\expandafter\newcommand\expandafter*\csname trimbox*\endcsname{%
+    \@collectboxisenv{trimbox*}%
+    \trimbox@s
+}
+%    \end{macrocode}
+% \end{environment}
+%
+%
+% \begin{macro}{\clipbox}
+%    \begin{macrocode}
+\newcommand\clipbox{%
+    \collectboxcheckenv{clipbox}%
+    \@ifstar
+        \clipbox@s
+        \clipbox@
+}
+\def\clipbox@#1{%
+    \collectbox{\trimbox@@\@clipbox{#1}}%
+}
+\def\clipbox@s#1{%
+    \collectbox{\trimbox@@{\adjbox@@viewport\@clipbox}{#1}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{environment}{clipbox*}
+%    \begin{macrocode}
+\expandafter\newcommand\expandafter*\csname clipbox*\endcsname{%
+    \@collectboxisenv{clipbox*}%
+    \clipbox@s
+}
+%    \end{macrocode}
+% \end{environment}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsubsection{Low-level trim and clip boxes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \begin{macro}{\@trimbox}[5]{<tllx>}{<tlly>}{<turx>}{<tury>}{<box register>
+% Removes the four length for the left, bottom, right and top from the official size of the box register.
+%    \begin{macrocode}
+\let\tc@tempdim\@tempdima
+\def\@trimbox#1#2#3#4#5{%
+    \setbox#5=\hbox{%
+        %
+        % llx
+        \tc@tempdim=#1\relax
+        \hskip-\tc@tempdim
+        %
+        % lly
+        \tc@tempdim=#2\relax
+        \advance\tc@tempdim-\dp#5
+        \dp#5-\tc@tempdim
+        %
+        % urx
+        \tc@tempdim=#3\relax
+        \advance\tc@tempdim-\wd#5
+        \wd#5-\tc@tempdim
+        %
+        % ury
+        \tc@tempdim=#4\relax
+        \advance\tc@tempdim-\ht#5
+        \ht#5-\tc@tempdim
+        %
+        % Adjust baseline if required
+        \ifdim\dp#5<\z@
+            \raise\dp#5%
+        \else
+        \ifdim\ht#5<\z@
+            \lower\ht#5%
+        \fi\fi
+        \box#5%
+    }%
+    % Ensure that all dimensions are non-negative
+    \ifdim\dp#5<\z@ \dp#5=\z@ \fi
+    \ifdim\wd#5<\z@ \wd#5=\z@ \fi
+    \ifdim\ht#5<\z@ \ht#5=\z@ \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@clipbox}
+% Clips the box using the given trim amounts.
+% For this the box is first trimmed and then clipped to its official size using a driver dependent macro.
+%    \begin{macrocode}
+\def\@clipbox#1#2#3#4#5{%
+    \@trimbox{#1}{#2}{#3}{#4}{#5}%
+    \@cliptoboxdim{#5}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Driver}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The clipping support is output driver dependent. The driver selected by \pkg{graphics} is used and a definition file
+% is used if its exists. Otherwise either the default \texttt{pdftex} implementation or the \pkg{pgf} fall-back driver
+% is used.
+%    \begin{macrocode}
+\InputIfFileExists{adj\Gin@driver}{%
+    \PackageInfo{adjustbox}{Using driver 'adj\Gin@driver'.}%
+}{%
+    \input{adjpgf.def}%
+    \PackageInfo{adjustbox}{Using fall-back PGF driver.}
+}
+%    \end{macrocode}
+%
+%
