@@ -81,6 +81,8 @@
 % \begin{macro}{\tc@lly}
 % \begin{macro}{\tc@urx}
 % \begin{macro}{\tc@ury}
+% Dimension registers for the four trim/viewport values.
+% Legend: ll = lower left, ur = upper right.
 %    \begin{macrocode}
 \newdimen\tc@llx
 \newdimen\tc@lly
@@ -167,6 +169,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%
 % \begin{environment}{marginbox*}[1]{Margins as space separated values (like for 'trim')}
 %    \begin{macrocode}
 \expandafter\newcommand\expandafter*\csname marginbox*\endcsname{%
@@ -177,25 +180,10 @@
 % \end{environment}
 %
 %
-% \begin{macro}{\marginbox@@s}
-% (1) Parse margins (must be done here to allow the user to use the original box dimensions).
-% (2) Change box margins and (3) raise the box by the bottom margin to preserve original depth.
-%    \begin{macrocode}
-\def\marginbox@@s#1{%
-    \adjbox@parse@v{#1}%
-    \@marginbox
-        \adjbox@tllx
-        \adjbox@tlly
-        \adjbox@turx
-        \adjbox@tury
-        \collectedbox
-    \raise\adjbox@tlly\copy\collectedbox
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
 % \begin{macro}{\@trimclip}[2]{<trim/viewport/clip macro>}{<values>}
+% General macro which parses the values and feeds it to the given lower-level macro.
+% Finally the box is typeset. This macro will always be used inside a group
+% created by \Macro\@collectbox.
 %    \begin{macrocode}
 \def\@trimclip#1#2{%
     \tc@readvalues{#2}%
@@ -213,7 +201,7 @@
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsubsection{Low-level trim and clip boxes}
+% \subsubsection{Low-level commands}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
@@ -386,6 +374,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%
 % \begin{macro}{\@clipvpbox}
 % Clips the box using the given trim amounts.
 % For this the box is first trimmed and then clipped to its official size using a driver dependent macro.
@@ -396,6 +385,8 @@
 }
 %    \end{macrocode}
 % \end{macro}
+%
+%
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsection{Driver}
