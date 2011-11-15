@@ -149,6 +149,51 @@
 % \end{environment}
 %
 %
+% \begin{macro}{\marginbox}[1]{Margins as space separated values (like for 'trim')}
+% Collect box first.
+%    \begin{macrocode}
+\newcommand\marginbox{%
+    \collectboxcheckenv{marginbox}%
+    \@ifstar
+        \marginbox@s
+        \marginbox@
+}
+\def\marginbox@#1{%
+    \@collectbox{\@trimclip\@marginbox{#1}}%
+}
+\def\marginbox@s#1{%
+    \@collectbox{\@trimclip\@marginraisebox{#1}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{environment}{marginbox*}[1]{Margins as space separated values (like for 'trim')}
+%    \begin{macrocode}
+\expandafter\newcommand\expandafter*\csname marginbox*\endcsname{%
+    \@collectboxisenv{marginbox*}%
+    \marginbox@s
+}
+%    \end{macrocode}
+% \end{environment}
+%
+%
+% \begin{macro}{\marginbox@@s}
+% (1) Parse margins (must be done here to allow the user to use the original box dimensions).
+% (2) Change box margins and (3) raise the box by the bottom margin to preserve original depth.
+%    \begin{macrocode}
+\def\marginbox@@s#1{%
+    \adjbox@parse@v{#1}%
+    \@marginbox
+        \adjbox@tllx
+        \adjbox@tlly
+        \adjbox@turx
+        \adjbox@tury
+        \collectedbox
+    \raise\adjbox@tlly\copy\collectedbox
+}
+%    \end{macrocode}
+% \end{macro}
+%
 %
 % \begin{macro}{\@trimclip}[2]{<trim/viewport/clip macro>}{<values>}
 %    \begin{macrocode}
@@ -235,6 +280,72 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%
+%
+% \begin{macro}{\@marginbox}
+% Adds the given margins to the depth, width and height.
+% The left margin is created by an horizontal skip.
+% This implementation assumes that the margins are positive and no special checks are added.
+% While negative margins will trim some margin off, this will not lead to correct results if this amounts
+% are larger than the existing dimensions. For this the \Macro\@trimbox macro should be used.
+%    \begin{macrocode}
+\def\@marginbox#1#2#3#4#5{%
+    \setbox#1=\hbox{%
+        %
+        \tc@llx=#2\relax
+        \tc@lly=#3\relax
+        \advance\tc@lly\dp#1%
+        \tc@urx=#4\relax
+        \advance\tc@urx\wd#1%
+        \tc@ury=#5\relax
+        \advance\tc@ury\ht#1%
+        %
+        % Set dimensions now.
+        % This allows that the arguments can refer
+        % to the original dimensions without issues.
+        \hskip\tc@llx
+        \dp#1\tc@lly
+        \wd#1\tc@urx
+        \ht#1\tc@ury
+        %
+        \box#1%
+    }%
+    \tc@correctdims{#1}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@marginraisebox}
+% Like \Macro\@marginbox but raises the box accordant to the bottom margin,
+% so that the original depth is kept.
+%    \begin{macrocode}
+\def\@marginraisebox#1#2#3#4#5{%
+    \setbox#1=\hbox{%
+        %
+        \tc@llx=#2\relax
+        \tc@lly=#3\relax
+        \raise\tc@lly\hbox{%
+        \advance\tc@lly\dp#1%
+        \tc@urx=#4\relax
+        \advance\tc@urx\wd#1%
+        \tc@ury=#5\relax
+        \advance\tc@ury\ht#1%
+        %
+        % Set dimensions now.
+        % This allows that the arguments can refer
+        % to the original dimensions without issues.
+        \hskip\tc@llx
+        \dp#1\tc@lly
+        \wd#1\tc@urx
+        \ht#1\tc@ury
+        %
+        \box#1%
+        }%
+    }%
+    \tc@correctdims{#1}%
+}
+%    \end{macrocode}
+% \end{macro}
 %
 % \begin{macro}{\@trimbox}[5]{<box register>}{<tllx>}{<tlly>}{<turx>}{<tury>}
 % Removes the four length for the left, bottom, right and top from the official size of the box register.
