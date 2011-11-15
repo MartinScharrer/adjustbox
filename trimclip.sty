@@ -2,18 +2,20 @@
 \ProvidesPackage{trimclip}
 \RequirePackage{graphicx}[1999/02/16]
 \RequirePackage{collectbox}[2011/08/22]
+\RequirePackage{adjcalc}
 %    \end{macrocode}
-%
-% \end{macro}
-%
 %
 % \begin{key}{adjbox}{viewport}
 %    \begin{macrocode}
 \define@key{adjbox}{viewport}{%
     \def\adjustbox@content{%
-        \adjbox@parse@v{#1}%
-        \adjbox@@viewport
-        \adjustbox@@@trimclip
+        \@trimclip{%
+            \ifGin@clip
+                \expandafter\@clipvpbox
+            \else
+                \expandafter\@viewportbox
+            \fi
+        }{#1}%
     }%
 }
 %    \end{macrocode}
@@ -24,81 +26,70 @@
 %    \begin{macrocode}
 \define@key{adjbox}{trim}{%
     \def\adjustbox@content{%
-        \adjbox@parse@v{#1}%
-        \adjustbox@@@trimclip
+        \@trimclip{%
+            \ifGin@clip
+                \expandafter\@clipbox
+            \else
+                \expandafter\@trimbox
+            \fi
+        }{#1}%
     }%
 }
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{macro}{\adjustbox@@@trimclip}
+% \begin{macro}{\tc@readvalues}
+% Reads the four values for trim, viewport and clip.
+% Valid inputs are:
+%  4 values directly,
+%  1 value which is taken four times,
+%  2 values which is taken for left/right and top/bottom.
 %    \begin{macrocode}
-\def\adjustbox@@@trimclip{%
-    \ifGin@clip
-        \expandafter\@clipbox
-    \else
-        \expandafter\@trimbox
-    \fi
-        \collectedbox
-        \adjbox@tllx
-        \adjbox@tlly
-        \adjbox@turx
-        \adjbox@tury
-    \usebox\collectedbox
+\def\tc@readvalues#1{%
+    \tc@@readvalues#1 {} {} {} \\%
 }
 %    \end{macrocode}
 % \end{macro}
 %
 %
-%
-% \begin{macro}{\adjbox@parse@v}
+% \begin{macro}{\tc@@readvalues}
+% TODO: rename \adjbox@default to \adjcalc@default
 %    \begin{macrocode}
-\def\adjbox@parse@v#1{%
-    \adjbox@parse@@v#1 {} {} {} \\%
-}
-\def\adjbox@parse@@v#1 #2 #3 #4 #5\\{%
-  \adjbox@default\adjbox@tllx{#1}%
+\def\tc@@readvalues#1 #2 #3 #4 #5\\{%
+  \adjbox@default\tc@llx{#1}%
   \ifx\@nnil#2\@nnil
-    \adjbox@tlly\adjbox@tllx
-    \adjbox@turx\adjbox@tllx
-    \adjbox@tury\adjbox@tlly
+    \tc@lly\rc@llx
+    \tc@urx\tc@llx
+    \tc@ury\tc@llx
   \else
-    \adjbox@default\adjbox@tlly{#2}%
+    \adjbox@default\tc@lly{#2}%
     \ifx\@nnil#3\@nnil
-      \adjbox@turx\adjbox@tllx
-      \adjbox@tury\adjbox@tlly
+      \tc@urx\tc@llx
+      \tc@ury\tc@lly
     \else
-      \adjbox@default\adjbox@turx{#3}%
-      \adjbox@default\adjbox@tury{#4}%
+      \adjbox@default\tc@urx{#3}%
+      \adjbox@default\tc@ury{#4}%
     \fi
   \fi
 }%
-%%\newdimen\adjbox@llx
-%%\newdimen\adjbox@lly
-%%\newdimen\adjbox@urx
-%%\newdimen\adjbox@ury
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\tc@llx}
+% \begin{macro}{\tc@lly}
+% \begin{macro}{\tc@urx}
+% \begin{macro}{\tc@ury}
+%    \begin{macrocode}
 \newdimen\tc@llx
 \newdimen\tc@lly
 \newdimen\tc@urx
 \newdimen\tc@ury
 %    \end{macrocode}
 % \end{macro}
-%
-%
-%
-% \begin{macro}{\adjbox@@viewport}
-% Turns viewport coordinates into trim coordinates.
-%    \begin{macrocode}
-\def\adjbox@@viewport{%
-    %\advance\adjbox@tllx by -\z@
-    \advance\adjbox@tlly by  \dp\collectedbox
-    \advance\adjbox@turx by -\wd\collectedbox
-    \advance\adjbox@tury by -\ht\collectedbox
-    \adjbox@turx=-\adjbox@turx
-    \adjbox@tury=-\adjbox@tury
-}
-%    \end{macrocode}
+% \end{macro}
+% \end{macro}
 % \end{macro}
 %
 %
@@ -111,23 +102,14 @@
         \trimbox@
 }
 \def\trimbox@#1{%
-    \collectbox{\trimbox@@\@trimbox{#1}}%
+    \collectbox{\@trimclip\@trimbox{#1}}%
 }
 \def\trimbox@s#1{%
-    \collectbox{\trimbox@@{\adjbox@@viewport\@trimbox}{#1}}%
-}
-\def\trimbox@@#1#2{%
-    \adjbox@parse@v{#2}%
-    #1%
-        \adjbox@tllx
-        \adjbox@tlly
-        \adjbox@turx
-        \adjbox@tury
-        \collectedbox
-    \usebox\collectedbox
+    \collectbox{\@trimclip\@viewportbox{#1}}%
 }
 %    \end{macrocode}
 % \end{macro}
+%
 %
 % \begin{environment}{trimbox*}
 %    \begin{macrocode}
@@ -148,10 +130,10 @@
         \clipbox@
 }
 \def\clipbox@#1{%
-    \collectbox{\trimbox@@{\@clipbox}{#1}}%
+    \collectbox{\@trimclip\@clipbox{#1}}%
 }
 \def\clipbox@s#1{%
-    \collectbox{\trimbox@@{\adjbox@@viewport\@clipbox}{#1}}%
+    \collectbox{\@trimclip\@clipvpbox{#1}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -167,13 +149,31 @@
 % \end{environment}
 %
 %
+%
+% \begin{macro}{\@trimclip}[2]{<trim/viewport/clip macro>}{<values>}
+%    \begin{macrocode}
+\def\@trimclip#1#2{%
+    \tc@readvalues{#2}%
+    #1%
+        \collectedbox
+        \tc@llx
+        \tc@lly
+        \tc@urx
+        \tc@ury
+    \usebox\collectedbox
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsubsection{Low-level trim and clip boxes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 % \begin{macro}{\tc@correctbaseline}
-% Adjust baseline if required
+% Adjust baseline if required by negative depth or height.
 %    \begin{macrocode}
 \def\tc@correctbaseline#1{%
 %    \end{macrocode}
@@ -214,11 +214,11 @@
         %
         \tc@llx=#2\relax
         \tc@lly=#3\relax
-        \advance\tc@lly-\dp#1
+        \advance\tc@lly-\dp#1%
         \tc@urx=#4\relax
-        \advance\tc@urx-\wd#1
+        \advance\tc@urx-\wd#1%
         \tc@ury=#5\relax
-        \advance\tc@ury-\ht#1
+        \advance\tc@ury-\ht#1%
         %
         % Set dimensions now.
         % This allows that the arguments can refer
