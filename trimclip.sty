@@ -324,8 +324,6 @@
         %
         \tc@llx=#2\relax
         \tc@lly=#3\relax
-        \raise\tc@lly\hbox{%
-        \advance\tc@lly\dp#1%
         \tc@urx=#4\relax
         \advance\tc@urx\wd#1%
         \tc@ury=#5\relax
@@ -335,12 +333,14 @@
         % This allows that the arguments can refer
         % to the original dimensions without issues.
         \hskip\tc@llx
-        \dp#1\tc@lly
         \wd#1\tc@urx
         \ht#1\tc@ury
-        %
-        \box#1%
-        }%
+        % Copy original tty values (ury is taken as temp dimension)
+        \tc@ury=\tc@lly
+        \advance\tc@lly\dp#1%
+        \dp#1\tc@lly
+        % Raise bu original tty value (now in ury)
+        \raise\tc@ury\box#1%
     }%
     \tc@correctdims{#1}%
 }
