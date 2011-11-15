@@ -367,19 +367,15 @@
     \@tempdima\ht#1%
     \advance\@tempdima\dp#1%
     \Gin@defaultbp\TOTALHEIGHT{\@tempdima}%
-    \special{pdf:content q }%
+    \special{pdf:bcontent }%
       \special{%
         pdf:literal direct
             0 -\DEPTH\space \WIDTH\space \TOTALHEIGHT\space re
       }%
       \special{pdf:literal direct W }%
       \special{pdf:literal direct n }%
-        \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
-          \special{pdf:content q }%
-            \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
-              \box#1%
-          \special{pdf:literal direct Q }%
-    \special{pdf:literal direct Q }%
+        \box#1%
+    \special{pdf:econtent }%
   }%
 }
 % End of clipping code
