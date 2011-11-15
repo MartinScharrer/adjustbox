@@ -1,23 +1,16 @@
 % Test if this package was loaded as package or as file (as part of 'adjustbox'):
 %    \begin{macrocode}
-\begingroup
-\def\@tempa{adjcalc}
-\expandafter
-\endgroup
-\ifx\@tempa\@currname
-    \ProvidesPackage{adjcalc}[2011/08/07 v1.0 Provides advanced setlength with multiple back-ends (calc, etex, pgfmath)]
-    \RequirePackage{xkeyval}
-\fi
+\ProvidesPackage{adjcalc}[2011/08/07 v1.0 Provides advanced setlength with multiple back-ends (calc, etex, pgfmath)]
+\RequirePackage{xkeyval}
 %    \end{macrocode}
 %
 %
 %
-% Use e-TeX by default if available, otherwise LaTeX (maybe with \pkg{calc})
+% Use e-TeX by default if available, otherwise the \pkg{calc} package.
 %    \begin{macrocode}
-\AtEndOfPackage{\adjcalc@atend}
 \def\adjcalc@atend{%
 \begingroup
-\expandafter\ifx\csname eTeXversion\endcsname\relax
+\expandafter\ifx\csname glueexpr\endcsname\relax
     \endgroup
     \RequirePackage{calc}%
     \adjcalc@calc
@@ -38,16 +31,34 @@
 \def\adjcalc@overwrite{\AtEndOfPackage{\adjcalc@overwrite}}
 %    \end{macrocode}
 %
+% The initial default unit is `|bp|' like for \pkg{graphicx}.
+%    \begin{macrocode}
+    \def\adjcalc@defaultunit{bp}%
+%    \end{macrocode}
+%
+%
 % Options:
 %    \begin{macrocode}
-\DeclareOptionX<adjbox>{pgfmath}{\adjcalc@pgfmath}
-\DeclareOptionX<adjbox>{etex}{\adjcalc@etex}
-\DeclareOptionX<adjbox>{calc}{\adjcalc@calc}
-\DeclareOptionX<adjbox>{none}{\let\adjcalc@atend\relax\def\adjsetlength{\setlength}\let\adjcalc@overwrite\relax}
-\DeclareOptionX<adjbox>{overwrite}{\adjcalc@overwrite}
-\ProcessOptionsX*<adjbox>
-\disable@keys{adjbox}{none}
+\DeclareOptionX<adjcalc>{pgfmath}{\adjcalc@pgfmath}
+\DeclareOptionX<adjcalc>{etex}{\adjcalc@etex}
+\DeclareOptionX<adjcalc>{calc}{\adjcalc@calc}
+\DeclareOptionX<adjcalc>{none}{\let\adjcalc@atend\relax\def\adjsetlength{\setlength}\let\adjcalc@overwrite\relax}
+\DeclareOptionX<adjcalc>{overwrite}{\adjcalc@overwrite}
+\DeclareOptionX<adjcalc>{defaultunit}[bp]{\def\adjcalc@defaultunit{#1}}
+\ProcessOptionsX*<adjcalc>
+\disable@keys{adjcalc}{none}
 %    \end{macrocode}
+%
+%
+% \begin{macro}{\adjcalcset}
+% User level settings macro.
+%    \begin{macrocode}
+\def\adjcalcset{%
+    \setkeys{adjcalc}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
 %
 % \begin{macro}{\adjcalc@etex}
 %    \begin{macrocode}
@@ -68,13 +79,16 @@
             {\@nocounterr{##1}}%
             {\global\advance\csname c@##1\endcsname\numexpr(##2)\relax}%
     }%
-    \def\adjbox@default##1##2{%
-        \@defaultunits##1=\glueexpr##2 \adjbox@defaultunit\relax\@nnil
+    \def\adjsetlengthdefault##1##2{%
+        \@defaultunits##1=\glueexpr##2 \adjcalc@defaultunit\relax\@nnil
     }%
 }
 %    \end{macrocode}
 % \end{macro}
 %
+%    \begin{macrocode}
+\newif\if@adjcalc@needsdefault
+%    \end{macrocode}
 %
 %
 % \begin{macro}{\adjcalc@calc}
@@ -86,7 +100,7 @@
     \DeclareRobustCommand\adjaddtolength[1]{\calc@assign@skip{\advance ##1}}%
     \DeclareRobustCommand\adjsetcounter[2]{\@ifundefined{c@##1}{\@nocounterr{##1}}{\calc@assign@count{\global\csname c@##1\endcsname}{##2}}}%
     \DeclareRobustCommand\adjaddtocounter[2]{\@ifundefined{c@##1}{\@nocounterr{##1}}{\calc@assign@count{\global\advance\csname c@##1\endcsname}{##2}}}%
-    \def\adjbox@default##1##2{%
+    \def\adjsetlengthdefault##1##2{%
         \begingroup
         \message{^^J\detokenize{##2}^^J}%
         \def\calc@post@scan####1!{%
@@ -94,28 +108,27 @@
             \ifx\@tempa\@empty
               \endgroup% to end calc processing
               % is number only
-              \global\@adjbox@needsdefaulttrue
+              \global\@adjcalc@needsdefaulttrue
             \else
               \endgroup% to end calc processing
               % full expression
-              \global\@adjbox@needsdefaultfalse
+              \global\@adjcalc@needsdefaultfalse
             \fi
         }%
-        \calc@assign@skip{##1}{##2 \adjbox@defaultunit}%
+        \calc@assign@skip{##1}{##2 \adjcalc@defaultunit}%
         \endgroup
-        \if@adjbox@needsdefault
-            ##1=##2 \adjbox@defaultunit\relax
+        \if@adjcalc@needsdefault
+            ##1=##2 \adjcalc@defaultunit\relax
         \else
             \calc@assign@skip{##1}{##2}%
         \fi
     }%
-    \def\adjbox@checkdefault##1\@nnil##2##3{%
+    \def\adjcalc@checkdefault##1\@nnil##2##3{%
         \ifx\relax##1\relax\else
             \calc@assign@skip{##2}{##3}%
         \fi
     }%
 }
-\newif\if@adjbox@needsdefault
 %    \end{macrocode}
 % \end{macro}
 %
@@ -127,8 +140,8 @@
     \DeclareRobustCommand\adjaddtolength{\pgfmathaddtolength}%
     \DeclareRobustCommand\adjsetcounter{\pgfmathsetcounter}%
     \DeclareRobustCommand\adjaddtocounter{\pgfmathaddtocounter}%
-    \def\adjbox@default##1##2{%
-        \edef\pgfmathresultunitscale{1\adjbox@defaultunit}%
+    \def\adjsetlengthdefault##1##2{%
+        \edef\pgfmathresultunitscale{1\adjcalc@defaultunit}%
         \let\pgfmathpostparse\pgfmathscaleresult
         \pgfmathparse{##2}%
         ##1=\pgfmathresult pt\relax
@@ -149,3 +162,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% Execute at-end code.
+%    \begin{macrocode}
+\adjcalc@atend
+%    \end{macrocode}
