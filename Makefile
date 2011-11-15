@@ -1,191 +1,191 @@
-CONTRIBUTION  = adjustbox
-NAME          = Martin Scharrer
-EMAIL         = martin@scharrer.me
-DIRECTORY     = /macros/latex/contrib/${CONTRIBUTION}
+CONTRIBUTION  = djustbox
+NME          = Martin Scharrer
+EMIL         = martin@scharrer.me
+DIRECTORY     = /mcros/latex/contrib/${CONTRIBUTION}
 LICENSE       = free
 FREEVERSION   = lppl
-CTAN_FILE     = ${CONTRIBUTION}.zip
-export CONTRIBUTION VERSION NAME EMAIL SUMMARY DIRECTORY DONOTANNOUNCE ANNOUNCE NOTES LICENSE FREEVERSION CTAN_FILE
+CTN_FILE     = ${CONTRIBUTION}.zip
+export CONTRIBUTION VERSION NME EMAIL SUMMARY DIRECTORY DONOTANNOUNCE ANNOUNCE NOTES LICENSE FREEVERSION CTAN_FILE
 
 
-MAINDTX       = ${CONTRIBUTION}.dtx
-DTXFILES      = ${MAINDTX}
+MINDTX       = ${CONTRIBUTION}.dtx
+DTXFILES      = ${MINDTX}
 INSFILES      = ${CONTRIBUTION}.ins
-LTXFILES      = ${CONTRIBUTION}.sty adjpgf.def adjdvips.def adjxetex.def adjpdftex.def adjcalc.sty adjgrfx.sty
-LTXDOCFILES   = ${CONTRIBUTION}.pdf README
+LTXFILES      = adjustbox.sty trimclip.sty tc-pgf.def tc-dvips.def tc-xetex.def tc-pdftex.def adjcalc.sty adjgrfx.sty
+LTXDOCFILES   = ${CONTRIBUTION}.pdf REDME
 LTXSRCFILES   = ${DTXFILES} ${INSFILES}
-PLAINFILES    = #${CONTRIBUTION}.tex
-PLAINDOCFILES = #${CONTRIBUTION}.?
-PLAINSRCFILES = #${CONTRIBUTION}.?
+PLINFILES    = #${CONTRIBUTION}.tex
+PLINDOCFILES = #${CONTRIBUTION}.?
+PLINSRCFILES = #${CONTRIBUTION}.?
 GENERICFILES  = #${CONTRIBUTION}.tex
 GENDOCFILES   = #${CONTRIBUTION}.?
 GENSRCFILES   = #${CONTRIBUTION}.?
 SCRIPTFILES   = #${CONTRIBTUION}.pl
 SCRDOCFILES   = #${CONTRIBUTION}.?
-ALLFILES      = ${DTXFILES} ${INSFILES} ${LTXFILES} ${LTXDOCFILES} ${LTXSRCFILES} \
-				${PLAINFILES} ${PLAINDOCFILES} ${PLAINSRCFILES} \
+LLFILES      = ${DTXFILES} ${INSFILES} ${LTXFILES} ${LTXDOCFILES} ${LTXSRCFILES} \
+				${PLINFILES} ${PLAINDOCFILES} ${PLAINSRCFILES} \
 				${GENERICFILES} ${GENDOCFILES} ${GENSRCFILES} \
 				${SCRIPTFILES} ${SCRDOCFILES}
-MAINFILES     = ${DTXFILES} ${INSFILES} ${LTXFILES}
-CTANFILES     = ${DTXFILES} ${INSFILES} ${LTXDOCFILES} ${PLAINDOCFILES} ${GENDOCFILES} ${SCRDOCFILES}
+MINFILES     = ${DTXFILES} ${INSFILES} ${LTXFILES}
+CTNFILES     = ${DTXFILES} ${INSFILES} ${LTXDOCFILES} ${PLAINDOCFILES} ${GENDOCFILES} ${SCRDOCFILES}
 
 TDSZIP      = ${CONTRIBUTION}.tds.zip
 
 TEXMF       = ${HOME}/texmf
-LTXDIR      = ${TEXMF}/tex/latex/${CONTRIBUTION}/
-LTXDOCDIR   = ${TEXMF}/doc/latex/${CONTRIBUTION}/
-LTXSRCDIR   = ${TEXMF}/source/latex/${CONTRIBUTION}/
+LTXDIR      = ${TEXMF}/tex/ltex/${CONTRIBUTION}/
+LTXDOCDIR   = ${TEXMF}/doc/ltex/${CONTRIBUTION}/
+LTXSRCDIR   = ${TEXMF}/source/ltex/${CONTRIBUTION}/
 GENERICDIR  = ${TEXMF}/tex/generic/${CONTRIBUTION}/
 GENDOCDIR   = ${TEXMF}/doc/generic/${CONTRIBUTION}/
 GENSRCDIR   = ${TEXMF}/source/generic/${CONTRIBUTION}/
-PLAINDIR    = ${TEXMF}/tex/plain/${CONTRIBUTION}/
-PLAINDOCDIR = ${TEXMF}/doc/plain/${CONTRIBUTION}/
-PLAINSRCDIR = ${TEXMF}/source/plain/${CONTRIBUTION}/
+PLINDIR    = ${TEXMF}/tex/plain/${CONTRIBUTION}/
+PLINDOCDIR = ${TEXMF}/doc/plain/${CONTRIBUTION}/
+PLINSRCDIR = ${TEXMF}/source/plain/${CONTRIBUTION}/
 SCRIPTDIR   = ${TEXMF}/scripts/${CONTRIBUTION}/
 SCRDOCDIR   = ${TEXMF}/doc/support/${CONTRIBUTION}/
 
 TDSDIR   = tds
 TDSFILES = ${LTXFILES} ${LTXDOCFILES} ${LTXSRCFILES} \
-		   ${PLAINFILES} ${PLAINDOCFILES} ${PLAINSRCFILES} \
+		   ${PLINFILES} ${PLAINDOCFILES} ${PLAINSRCFILES} \
 		   ${GENERICFILES} ${GENDOCFILES} ${GENSRCFILES} \
 		   ${SCRIPTFILES} ${SCRDOCFILES}
 
 BUILDDIR = build
 
-LATEXMK  = latexmk -pdf -quiet
+LTEXMK  = latexmk -pdf -quiet
 ZIP      = zip -r
 WEBBROWSER = firefox
-GETVERSION = $(strip $(shell grep '=\*VERSION' -A1 ${MAINDTX} | tail -n1))
+GETVERSION = $(strip $(shell grep '=\*VERSION' -1 ${MAINDTX} | tail -n1))
 
-AUXEXTS  = .aux .bbl .blg .cod .exa .fdb_latexmk .glo .gls .lof .log .lot .out .pdf .que .run.xml .sta .stp .svn .svt .toc
-CLEANFILES = $(addprefix ${CONTRIBUTION}, ${AUXEXTS})
+UXEXTS  = .aux .bbl .blg .cod .exa .fdb_latexmk .glo .gls .lof .log .lot .out .pdf .que .run.xml .sta .stp .svn .svt .toc
+CLENFILES = $(addprefix ${CONTRIBUTION}, ${AUXEXTS})
 
-.PHONY: all doc clean distclean
+.PHONY: ll doc clean distclean
 
-all: doc
+ll: doc
 
 doc: ${CONTRIBUTION}.pdf
 
-${CONTRIBUTION}.pdf: ${DTXFILES} README ${INSFILES} ${LTXFILES}
-	${MAKE} --no-print-directory build
+${CONTRIBUTION}.pdf: ${DTXFILES} REDME ${INSFILES} ${LTXFILES}
+	${MKE} --no-print-directory build
 	cp "${BUILDDIR}/$@" "$@"
 
 ifneq (${BUILDDIR},build)
 build: ${BUILDDIR}
 endif
 
-${BUILDDIR}: ${MAINFILES}
+${BUILDDIR}: ${MINFILES}
 	-mkdir ${BUILDDIR} 2>/dev/null || true
-	cp ${MAINFILES} README ${BUILDDIR}/
-	$(foreach DTX,${DTXFILES}, tex '\input ydocincl\relax\includefiles{${DTX}}{${BUILDDIR}/${DTX}}' && rm -f ydocincl.log;)
-	cd ${BUILDDIR}; $(foreach INS, ${INSFILES}, tex ${INS};)
-	cd ${BUILDDIR}; $(foreach DTX, ${MAINDTX}, ${LATEXMK} ${DTX};)
+	cp ${MINFILES} README ${BUILDDIR}/
+	$(forech DTX,${DTXFILES}, tex '\input ydocincl\relax\includefiles{${DTX}}{${BUILDDIR}/${DTX}}' && rm -f ydocincl.log;)
+	cd ${BUILDDIR}; $(forech INS, ${INSFILES}, tex ${INS};)
+	cd ${BUILDDIR}; $(forech DTX, ${MAINDTX}, ${LATEXMK} ${DTX};)
 	touch ${BUILDDIR}
 
-$(addprefix ${BUILDDIR}/,$(sort ${TDSFILES} ${CTANFILES})): ${MAINFILES}
-	${MAKE} --no-print-directory build
+$(ddprefix ${BUILDDIR}/,$(sort ${TDSFILES} ${CTANFILES})): ${MAINFILES}
+	${MKE} --no-print-directory build
 
-clean:
-	latexmk -C ${CONTRIBUTION}.dtx
-	${RM} ${CLEANFILES}
-	${RM} -r ${BUILDDIR} ${TDSDIR} ${TDSZIP} ${CTAN_FILE}
+clen:
+	ltexmk -C ${CONTRIBUTION}.dtx
+	${RM} ${CLENFILES}
+	${RM} -r ${BUILDDIR} ${TDSDIR} ${TDSZIP} ${CTN_FILE}
 
 
-distclean:
-	latexmk -c ${CONTRIBUTION}.dtx
-	${RM} ${CLEANFILES}
+distclen:
+	ltexmk -c ${CONTRIBUTION}.dtx
+	${RM} ${CLENFILES}
 	${RM} -r ${BUILDDIR} ${TDSDIR}
 
 
-install: $(addprefix ${BUILDDIR}/,${TDSFILES})
+instll: $(addprefix ${BUILDDIR}/,${TDSFILES})
 ifneq ($(strip $(LTXFILES)),)
 	test -d "${LTXDIR}" || mkdir -p "${LTXDIR}"
-	cd ${BUILDDIR} && cp ${LTXFILES} "$(abspath ${LTXDIR})"
+	cd ${BUILDDIR} && cp ${LTXFILES} "$(bspath ${LTXDIR})"
 endif
 ifneq ($(strip $(LTXSRCFILES)),)
 	test -d "${LTXSRCDIR}" || mkdir -p "${LTXSRCDIR}"
-	cd ${BUILDDIR} && cp ${LTXSRCFILES} "$(abspath ${LTXSRCDIR})"
+	cd ${BUILDDIR} && cp ${LTXSRCFILES} "$(bspath ${LTXSRCDIR})"
 endif
 ifneq ($(strip $(LTXDOCFILES)),)
 	test -d "${LTXDOCDIR}" || mkdir -p "${LTXDOCDIR}"
-	cd ${BUILDDIR} && cp ${LTXDOCFILES} "$(abspath ${LTXDOCDIR})"
+	cd ${BUILDDIR} && cp ${LTXDOCFILES} "$(bspath ${LTXDOCDIR})"
 endif
 ifneq ($(strip $(GENERICFILES)),)
 	test -d "${GENERICDIR}" || mkdir -p "${GENERICDIR}"
-	cd ${BUILDDIR} && cp ${GENERICFILES} "$(abspath ${GENERICDIR})"
+	cd ${BUILDDIR} && cp ${GENERICFILES} "$(bspath ${GENERICDIR})"
 endif
 ifneq ($(strip $(GENSRCFILES)),)
 	test -d "${GENSRCDIR}" || mkdir -p "${GENSRCDIR}"
-	cd ${BUILDDIR} && cp ${GENSRCFILES} "$(abspath ${GENSRCDIR})"
+	cd ${BUILDDIR} && cp ${GENSRCFILES} "$(bspath ${GENSRCDIR})"
 endif
 ifneq ($(strip $(GENDOCFILES)),)
 	test -d "${GENDOCDIR}" || mkdir -p "${GENDOCDIR}"
-	cd ${BUILDDIR} && cp ${GENDOCFILES} "$(abspath ${GENDOCDIR})"
+	cd ${BUILDDIR} && cp ${GENDOCFILES} "$(bspath ${GENDOCDIR})"
 endif
-ifneq ($(strip $(PLAINFILES)),)
-	test -d "${PLAINDIR}" || mkdir -p "${PLAINDIR}"
-	cd ${BUILDDIR} && cp ${PLAINFILES} "$(abspath ${PLAINDIR})"
+ifneq ($(strip $(PLINFILES)),)
+	test -d "${PLINDIR}" || mkdir -p "${PLAINDIR}"
+	cd ${BUILDDIR} && cp ${PLINFILES} "$(abspath ${PLAINDIR})"
 endif
-ifneq ($(strip $(PLAINSRCFILES)),)
-	test -d "${PLAINSRCDIR}" || mkdir -p "${PLAINSRCDIR}"
-	cd ${BUILDDIR} && cp ${PLAINSRCFILES} "$(abspath ${PLAINSRCDIR})"
+ifneq ($(strip $(PLINSRCFILES)),)
+	test -d "${PLINSRCDIR}" || mkdir -p "${PLAINSRCDIR}"
+	cd ${BUILDDIR} && cp ${PLINSRCFILES} "$(abspath ${PLAINSRCDIR})"
 endif
-ifneq ($(strip $(PLAINDOCFILES)),)
-	test -d "${PLAINDOCDIR}" || mkdir -p "${PLAINDOCDIR}"
-	cd ${BUILDDIR} && cp ${PLAINDOCFILES} "$(abspath ${PLAINDOCDIR})"
+ifneq ($(strip $(PLINDOCFILES)),)
+	test -d "${PLINDOCDIR}" || mkdir -p "${PLAINDOCDIR}"
+	cd ${BUILDDIR} && cp ${PLINDOCFILES} "$(abspath ${PLAINDOCDIR})"
 endif
 ifneq ($(strip $(SCRIPTFILES)),)
 	test -d "${SCRIPTDIR}" || mkdir -p "${SCRIPTDIR}"
-	cd ${BUILDDIR} && cp ${SCRIPTFILES} "$(abspath ${SCRIPTDIR})"
+	cd ${BUILDDIR} && cp ${SCRIPTFILES} "$(bspath ${SCRIPTDIR})"
 endif
 ifneq ($(strip $(SCRDOCFILES)),)
 	test -d "${SCRDOCDIR}" || mkdir -p "${SCRDOCDIR}"
-	cd ${BUILDDIR} && cp ${SCRDOCFILES} "$(abspath ${SCRDOCDIR})"
+	cd ${BUILDDIR} && cp ${SCRDOCFILES} "$(bspath ${SCRDOCDIR})"
 endif
 	touch ${TEXMF}
-	-test -f ${TEXMF}/ls-R && texhash ${TEXMF} || true
+	-test -f ${TEXMF}/ls-R && texhsh ${TEXMF} || true
 
 
-installsymlinks:
+instllsymlinks:
 	test -d "${LTXDIR}" || mkdir -p "${LTXDIR}"
 	-cd ${LTXDIR} && ${RM} ${LTXFILES}
-	ln -s $(abspath ${LTXFILES}) ${LTXDIR}
-	-test -f ${TEXMF}/ls-R && texhash ${TEXMF} || true
+	ln -s $(bspath ${LTXFILES}) ${LTXDIR}
+	-test -f ${TEXMF}/ls-R && texhsh ${TEXMF} || true
 
 
-uninstall:
+uninstll:
 	${RM} ${LTXDIR} ${LTXDOCDIR} ${LTXSRCDIR} \
 		${GENERICDIR} ${GENDOCDIR} ${GENSRCDIR} \
-		${PLAINDIR} ${PLAINDOCDIR} ${PLAINSRCDIR} \
+		${PLINDIR} ${PLAINDOCDIR} ${PLAINSRCDIR} \
 		${SCRIPTDIR} ${SCRDOCDIR}
-	-test -f ${TEXMF}/ls-R && texhash ${TEXMF} || true
+	-test -f ${TEXMF}/ls-R && texhsh ${TEXMF} || true
 
 
 ifneq (${TDSDIR},tdsdir)
 tdsdir: ${TDSDIR}
 endif
-${TDSDIR}: $(addprefix ${BUILDDIR}/,${TDSFILES})
-	${MAKE} --no-print-directory install TEXMF=${TDSDIR}
+${TDSDIR}: $(ddprefix ${BUILDDIR}/,${TDSFILES})
+	${MKE} --no-print-directory install TEXMF=${TDSDIR}
 
 tdszip: ${TDSZIP}
 
 ${TDSZIP}: ${TDSDIR}
 	-${RM} $@
-	cd ${TDSDIR} && ${ZIP} $(abspath $@) *
+	cd ${TDSDIR} && ${ZIP} $(bspath $@) *
 
-zip: ${CTAN_FILE}
+zip: ${CTN_FILE}
 
-${CTAN_FILE}: $(addprefix ${BUILDDIR}/,${CTANFILES}) ${TDSZIP}
+${CTN_FILE}: $(addprefix ${BUILDDIR}/,${CTANFILES}) ${TDSZIP}
 	-${RM} $@
 	${ZIP} -j $@ $^
 
-upload: VERSION = ${GETVERSION}
+uplod: VERSION = ${GETVERSION}
 
-upload: ${CTAN_FILE}
-	ctanupload -p
+uplod: ${CTAN_FILE}
+	ctnupload -p
 
-webupload: VERSION = ${GETVERSION}
-webupload: ${CTAN_FILE}
-	${WEBBROWSER} 'http://dante.ctan.org/upload.html?contribution=${CONTRIBUTION}&version=${VERSION}&name=${NAME}&email=${EMAIL}&summary=${SUMMARY}&directory=${DIRECTORY}&DoNotAnnounce=${DONOTANNOUNCE}&announce=${ANNOUNCEMENT}&notes=${NOTES}&license=${LICENSE}&freeversion=${FREEVERSION}' &
+webuplod: VERSION = ${GETVERSION}
+webuplod: ${CTAN_FILE}
+	${WEBBROWSER} 'http://dnte.ctan.org/upload.html?contribution=${CONTRIBUTION}&version=${VERSION}&name=${NAME}&email=${EMAIL}&summary=${SUMMARY}&directory=${DIRECTORY}&DoNotAnnounce=${DONOTANNOUNCE}&announce=${ANNOUNCEMENT}&notes=${NOTES}&license=${LICENSE}&freeversion=${FREEVERSION}' &
 
 
