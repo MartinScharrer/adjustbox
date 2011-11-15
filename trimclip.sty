@@ -171,49 +171,83 @@
 % \subsubsection{Low-level trim and clip boxes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% \begin{macro}{\@trimbox}[5]{<tllx>}{<tlly>}{<turx>}{<tury>}{<box register>
-% Removes the four length for the left, bottom, right and top from the official size of the box register.
 %    \begin{macrocode}
-\let\tc@tempdim\@tempdima
-\def\@trimbox#1#2#3#4#5{%
-    \setbox#5=\hbox{%
-        %
-        % llx
-        \tc@tempdim=#1\relax
-        \hskip-\tc@tempdim
-        %
-        % lly
-        \tc@tempdim=#2\relax
-        \advance\tc@tempdim-\dp#5
-        \dp#5-\tc@tempdim
-        %
-        % urx
-        \tc@tempdim=#3\relax
-        \advance\tc@tempdim-\wd#5
-        \wd#5-\tc@tempdim
-        %
-        % ury
-        \tc@tempdim=#4\relax
-        \advance\tc@tempdim-\ht#5
-        \ht#5-\tc@tempdim
-        %
-        % Adjust baseline if required
-        \ifdim\dp#5<\z@
-            \raise\dp#5%
-        \else
-        \ifdim\ht#5<\z@
-            \lower\ht#5%
-        \fi\fi
-        \box#5%
-    }%
-    % Ensure that all dimensions are non-negative
-    \ifdim\dp#5<\z@ \dp#5=\z@ \fi
-    \ifdim\wd#5<\z@ \wd#5=\z@ \fi
-    \ifdim\ht#5<\z@ \ht#5=\z@ \fi
+\let\tc@tempdima\@tempdima
+\let\tc@tempdimb\@tempdimb
+\let\tc@tempdimc\@tempdimc
+%    \end{macrocode}
+%
+% \begin{macro}{\tc@correctbaseline}
+% Adjust baseline if required
+%    \begin{macrocode}
+\def\tc@correctbaseline#1{%
+%    \end{macrocode}
+% If depth is negative lower the box to get zero depth
+%    \begin{macrocode}
+    \ifdim\dp#1<\z@
+        \raise\dp#1%
+    \else
+%    \end{macrocode}
+% Else if height is negative lower the box to get zero height
+%    \begin{macrocode}
+    \ifdim\ht#1<\z@
+        \lower\ht#1%
+    \fi\fi
+    \box#1%
+}%
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\tc@correctdims}
+% Ensure that all dimensions are non-negative.
+%    \begin{macrocode}
+\def\tc@correctdims#1{%
+    \ifdim\dp#1<\z@ \dp#1=\z@ \fi
+    \ifdim\wd#1<\z@ \wd#1=\z@ \fi
+    \ifdim\ht#1<\z@ \ht#1=\z@ \fi
 }
 %    \end{macrocode}
 % \end{macro}
 %
+%
+% \begin{macro}{\@trimbox}[5]{<tllx>}{<tlly>}{<turx>}{<tury>}{<box register>
+% Removes the four length for the left, bottom, right and top from the official size of the box register.
+%    \begin{macrocode}
+\def\@trimbox#1#2#3#4#5{%
+    \setbox#5=\hbox{%
+        %
+        % llx
+        % Shift to the left
+        \tc@tempdima=#1\relax
+        \hskip-\tc@tempdima
+        %
+        % Subtract values from dimensions
+        % lly
+        \tc@tempdima=#2\relax
+        \advance\tc@tempdima-\dp#5
+        %
+        % urx
+        \tc@tempdimb=#3\relax
+        \advance\tc@tempdimb-\wd#5
+        %
+        % ury
+        \tc@tempdimc=#4\relax
+        \advance\tc@tempdimc-\ht#5
+        %
+        % Set dimensions now.
+        % This allows that the arguments can refer
+        % to the original dimensions without issues.
+        \dp#5-\tc@tempdima
+        \wd#5-\tc@tempdimb
+        \ht#5-\tc@tempdimc
+        %
+        \tc@correctbaseline{#5}%
+    }%
+    \tc@correctdims{#5}%
+}
+%    \end{macrocode}
+% \end{macro}
 %
 %
 % \begin{macro}{\@trimbox}[5]{<tllx>}{<tlly>}{<turx>}{<tury>}{<box register>
@@ -223,34 +257,26 @@
     \setbox#5=\hbox{%
         %
         % llx
-        \tc@tempdim=#1\relax
-        \hskip-\tc@tempdim
+        \tc@tempdima=#1\relax
+        \hskip-\tc@tempdima
         %
         % lly
-        \tc@tempdim=#2\relax
-        \dp#5-\tc@tempdim
-        %
+        \tc@tempdima=#2\relax
         % urx
-        \tc@tempdim=#3\relax
-        \wd#5\tc@tempdim
-        %
+        \tc@tempdimb=#3\relax
         % ury
-        \tc@tempdim=#4\relax
-        \ht#5\tc@tempdim
+        \tc@tempdimc=#4\relax
         %
-        % Adjust baseline if required
-        \ifdim\dp#5<\z@
-            \raise\dp#5%
-        \else
-        \ifdim\ht#5<\z@
-            \lower\ht#5%
-        \fi\fi
-        \box#5%
+        % Set dimensions now.
+        % This allows that the arguments can refer
+        % to the original dimensions without issues.
+        \dp#5-\tc@tempdima
+        \wd#5\tc@tempdimb
+        \ht#5\tc@tempdimc
+        %
+        \tc@correctbaseline{#5}%
     }%
-    % Ensure that all dimensions are non-negative
-    \ifdim\dp#5<\z@ \dp#5=\z@ \fi
-    \ifdim\wd#5<\z@ \wd#5=\z@ \fi
-    \ifdim\ht#5<\z@ \ht#5=\z@ \fi
+    \tc@correctdims{#5}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -267,6 +293,17 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\@clipvpbox}
+% Clips the box using the given trim amounts.
+% For this the box is first trimmed and then clipped to its official size using a driver dependent macro.
+%    \begin{macrocode}
+\def\@clipvpbox#1#2#3#4#5{%
+    \@viewportbox{#1}{#2}{#3}{#4}{#5}%
+    \@cliptoboxdim{#5}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsection{Driver}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -274,11 +311,11 @@
 % is used if its exists. Otherwise either the default \texttt{pdftex} implementation or the \pkg{pgf} fall-back driver
 % is used.
 %    \begin{macrocode}
-\InputIfFileExists{adj\Gin@driver}{%
-    \PackageInfo{adjustbox}{Using driver 'adj\Gin@driver'.}%
+\InputIfFileExists{tc-\Gin@driver}{%
+    \PackageInfo{trimclip}{Using driver 'tc-\Gin@driver'.}%
 }{%
-    \input{adjpgf.def}%
-    \PackageInfo{adjustbox}{Using fall-back PGF driver.}
+    \input{tc-pgf.def}%
+    \PackageInfo{trimclip}{Using fall-back PGF driver.}
 }
 %    \end{macrocode}
 %
