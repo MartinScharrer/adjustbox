@@ -54,22 +54,21 @@
 %
 %
 % \begin{macro}{\tc@@readvalues}
-% TODO: rename \adjbox@default to \adjcalc@default
 %    \begin{macrocode}
 \def\tc@@readvalues#1 #2 #3 #4 #5\\{%
-  \adjbox@default\tc@llx{#1}%
+  \adjsetlengthdefault\tc@llx{#1}%
   \ifx\@nnil#2\@nnil
     \tc@lly\rc@llx
     \tc@urx\tc@llx
     \tc@ury\tc@llx
   \else
-    \adjbox@default\tc@lly{#2}%
+    \adjsetlengthdefault\tc@lly{#2}%
     \ifx\@nnil#3\@nnil
       \tc@urx\tc@llx
       \tc@ury\tc@lly
     \else
-      \adjbox@default\tc@urx{#3}%
-      \adjbox@default\tc@ury{#4}%
+      \adjsetlengthdefault\tc@urx{#3}%
+      \adjsetlengthdefault\tc@ury{#4}%
     \fi
   \fi
 }%
