@@ -40,11 +40,11 @@
     \else
         \expandafter\@trimbox
     \fi
+        \collectedbox
         \adjbox@tllx
         \adjbox@tlly
         \adjbox@turx
         \adjbox@tury
-        \collectedbox
     \usebox\collectedbox
 }
 %    \end{macrocode}
@@ -211,72 +211,72 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@trimbox}[5]{<tllx>}{<tlly>}{<turx>}{<tury>}{<box register>
+% \begin{macro}{\@trimbox}[5]{<box register>}{<tllx>}{<tlly>}{<turx>}{<tury>}
 % Removes the four length for the left, bottom, right and top from the official size of the box register.
 %    \begin{macrocode}
 \def\@trimbox#1#2#3#4#5{%
-    \setbox#5=\hbox{%
+    \setbox#1=\hbox{%
         %
         % llx
         % Shift to the left
-        \tc@tempdima=#1\relax
+        \tc@tempdima=#2\relax
         \hskip-\tc@tempdima
         %
         % Subtract values from dimensions
         % lly
-        \tc@tempdima=#2\relax
-        \advance\tc@tempdima-\dp#5
+        \tc@tempdima=#3\relax
+        \advance\tc@tempdima-\dp#1
         %
         % urx
-        \tc@tempdimb=#3\relax
-        \advance\tc@tempdimb-\wd#5
+        \tc@tempdimb=#4\relax
+        \advance\tc@tempdimb-\wd#1
         %
         % ury
-        \tc@tempdimc=#4\relax
-        \advance\tc@tempdimc-\ht#5
+        \tc@tempdimc=#5\relax
+        \advance\tc@tempdimc-\ht#1
         %
         % Set dimensions now.
         % This allows that the arguments can refer
         % to the original dimensions without issues.
-        \dp#5-\tc@tempdima
-        \wd#5-\tc@tempdimb
-        \ht#5-\tc@tempdimc
+        \dp#1-\tc@tempdima
+        \wd#1-\tc@tempdimb
+        \ht#1-\tc@tempdimc
         %
-        \tc@correctbaseline{#5}%
+        \tc@correctbaseline{#1}%
     }%
-    \tc@correctdims{#5}%
+    \tc@correctdims{#1}%
 }
 %    \end{macrocode}
 % \end{macro}
 %
 %
-% \begin{macro}{\@trimbox}[5]{<tllx>}{<tlly>}{<turx>}{<tury>}{<box register>
+% \begin{macro}{\@trimbox}[5]{<box register>}{<tllx>}{<tlly>}{<turx>}{<tury>}
 % Removes the four length for the left, bottom, right and top from the official size of the box register.
 %    \begin{macrocode}
 \def\@viewportbox#1#2#3#4#5{%
-    \setbox#5=\hbox{%
+    \setbox#1=\hbox{%
         %
         % llx
-        \tc@tempdima=#1\relax
+        \tc@tempdima=#2\relax
         \hskip-\tc@tempdima
         %
         % lly
-        \tc@tempdima=#2\relax
+        \tc@tempdima=#3\relax
         % urx
-        \tc@tempdimb=#3\relax
+        \tc@tempdimb=#4\relax
         % ury
-        \tc@tempdimc=#4\relax
+        \tc@tempdimc=#5\relax
         %
         % Set dimensions now.
         % This allows that the arguments can refer
         % to the original dimensions without issues.
-        \dp#5-\tc@tempdima
-        \wd#5\tc@tempdimb
-        \ht#5\tc@tempdimc
+        \dp#1-\tc@tempdima
+        \wd#1\tc@tempdimb
+        \ht#1\tc@tempdimc
         %
-        \tc@correctbaseline{#5}%
+        \tc@correctbaseline{#1}%
     }%
-    \tc@correctdims{#5}%
+    \tc@correctdims{#1}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -288,7 +288,7 @@
 %    \begin{macrocode}
 \def\@clipbox#1#2#3#4#5{%
     \@trimbox{#1}{#2}{#3}{#4}{#5}%
-    \@cliptoboxdim{#5}%
+    \@cliptoboxdim{#1}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -299,7 +299,7 @@
 %    \begin{macrocode}
 \def\@clipvpbox#1#2#3#4#5{%
     \@viewportbox{#1}{#2}{#3}{#4}{#5}%
-    \@cliptoboxdim{#5}%
+    \@cliptoboxdim{#1}%
 }
 %    \end{macrocode}
 % \end{macro}
