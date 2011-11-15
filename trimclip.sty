@@ -78,10 +78,10 @@
 %%\newdimen\adjbox@lly
 %%\newdimen\adjbox@urx
 %%\newdimen\adjbox@ury
-\newdimen\adjbox@tllx
-\newdimen\adjbox@tlly
-\newdimen\adjbox@turx
-\newdimen\adjbox@tury
+\newdimen\tc@llx
+\newdimen\tc@lly
+\newdimen\tc@urx
+\newdimen\tc@ury
 %    \end{macrocode}
 % \end{macro}
 %
@@ -148,7 +148,7 @@
         \clipbox@
 }
 \def\clipbox@#1{%
-    \collectbox{\trimbox@@\@clipbox{#1}}%
+    \collectbox{\trimbox@@{\@clipbox}{#1}}%
 }
 \def\clipbox@s#1{%
     \collectbox{\trimbox@@{\adjbox@@viewport\@clipbox}{#1}}%
@@ -171,11 +171,6 @@
 % \subsubsection{Low-level trim and clip boxes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%    \begin{macrocode}
-\let\tc@tempdima\@tempdima
-\let\tc@tempdimb\@tempdimb
-\let\tc@tempdimc\@tempdimc
-%    \end{macrocode}
 %
 % \begin{macro}{\tc@correctbaseline}
 % Adjust baseline if required
@@ -217,30 +212,21 @@
 \def\@trimbox#1#2#3#4#5{%
     \setbox#1=\hbox{%
         %
-        % llx
-        % Shift to the left
-        \tc@tempdima=#2\relax
-        \hskip-\tc@tempdima
-        %
-        % Subtract values from dimensions
-        % lly
-        \tc@tempdima=#3\relax
-        \advance\tc@tempdima-\dp#1
-        %
-        % urx
-        \tc@tempdimb=#4\relax
-        \advance\tc@tempdimb-\wd#1
-        %
-        % ury
-        \tc@tempdimc=#5\relax
-        \advance\tc@tempdimc-\ht#1
+        \tc@llx=#2\relax
+        \tc@lly=#3\relax
+        \advance\tc@lly-\dp#1
+        \tc@urx=#4\relax
+        \advance\tc@urx-\wd#1
+        \tc@ury=#5\relax
+        \advance\tc@ury-\ht#1
         %
         % Set dimensions now.
         % This allows that the arguments can refer
         % to the original dimensions without issues.
-        \dp#1-\tc@tempdima
-        \wd#1-\tc@tempdimb
-        \ht#1-\tc@tempdimc
+        \hskip-\tc@llx
+        \dp#1-\tc@lly
+        \wd#1-\tc@urx
+        \ht#1-\tc@ury
         %
         \tc@correctbaseline{#1}%
     }%
@@ -256,23 +242,19 @@
 \def\@viewportbox#1#2#3#4#5{%
     \setbox#1=\hbox{%
         %
-        % llx
-        \tc@tempdima=#2\relax
-        \hskip-\tc@tempdima
-        %
-        % lly
-        \tc@tempdima=#3\relax
-        % urx
-        \tc@tempdimb=#4\relax
-        % ury
-        \tc@tempdimc=#5\relax
+        % Assign values
+        \tc@llx=#2\relax
+        \tc@lly=#3\relax
+        \tc@urx=#4\relax
+        \tc@ury=#5\relax
         %
         % Set dimensions now.
         % This allows that the arguments can refer
         % to the original dimensions without issues.
-        \dp#1-\tc@tempdima
-        \wd#1\tc@tempdimb
-        \ht#1\tc@tempdimc
+        \hskip-\tc@llx
+        \dp#1-\tc@lly
+        \wd#1\tc@urx
+        \ht#1\tc@ury
         %
         \tc@correctbaseline{#1}%
     }%
