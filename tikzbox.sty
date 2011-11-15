@@ -1,0 +1,37 @@
+%    \begin{macrocode}
+\RequirePackage{tikz}
+\RequirePackage{collectbox}
+\tikzset{%
+    tikzbox/.style={baseline={(0,0)}},
+    tikzbox node/.style={anchor=base west,inner sep=0pt,outer sep=0pt,minimum size=0pt},
+}
+%    \end{macrocode}
+%
+% \begin{macro}{\tikzbox}
+%    \begin{macrocode}
+\newcommand{\tikzbox}[2][]{%
+    \collectboxcheckenv{tikzbox}%
+    \@collectbox{\@tikzbox{#1}{#2}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@tikzbox}
+%    \begin{macrocode}
+\def\@tikzbox#1#2{%
+    \tikz [tikzbox,#1] \node [tikzbox node,#2] {\BOXCONTENT};%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\transparencybox}
+%    \begin{macrocode}
+\newcommand{\transparencybox}[1]{%
+    \collectboxcheckenv{transparencybox}%
+    \@collectbox{\@tikzbox{opacity={#1}}{}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
