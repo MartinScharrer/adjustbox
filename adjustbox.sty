@@ -789,10 +789,10 @@
 %    \begin{macrocode}
 \def\adjbox@@raisebox#1#2#3{%
     \ifx\@nnil#1\@nnil
-        \setbox\@tempboxa\box\collectedbox
+        \setbox\@tempboxa\copy\collectedbox
     \else
         \adjsetlength\@tempdima{#1}%
-        \sbox\@tempboxa{\raise\@tempdima\box\collectedbox}%
+        \setbox\@tempboxa\hbox{\raise\@tempdima\copy\collectedbox}%
     \fi
     \ifx\@nnil#2\@nnil\else
         \adjsetlength\@tempdima{#2}%
