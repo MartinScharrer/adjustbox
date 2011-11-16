@@ -12,13 +12,14 @@
     Adjusting TeX boxes (trim, clip, ...)]
 %    \end{macrocode}
 %
+% Load the packages required for the options.
 %    \begin{macrocode}
 \RequirePackage{xkeyval}
+\RequirePackage{adjcalc}
+%    \end{macrocode}
 %
-\DeclareOptionX<adjbox>{defaultunit}{%
-    \PassOptionsToPackage{defaultunit=#1}{adjcalc}
-}
-%
+% Declare normal options.
+%    \begin{macrocode}
 \def\adjbox@fam{adjbox}
 \DeclareOptionX<adjbox>{export}{\def\adjbox@fam{Gin}}
 \DeclareOptionX<adjbox>{Export}{\AtEndOfPackage{\let\includegraphics\adjincludegraphics}}
@@ -34,22 +35,46 @@
          Load the 'trimclip' package if only trim and clip macros are required%
     }%
 }
-%
-\DeclareOptionX<adjbox>{pgf}{\PassOptionsToPackage{pgf}{trimclip}}
-\DeclareOptionX<adjbox>{PGF}{\PassOptionsToPackage{pgf}{trimclip}\PassOptionsToPackage{pgf}{adjcalc}}
-\DeclareOptionX<adjbox>*{\PassOptionsToPackage\CurrentOption{graphicx}}
-%
-\let\adjbox@maybeend\relax
-\ProcessOptionsX*<adjbox>
-\disable@keys{adjbox}{patch,export,PGF,minimal}
-\let\KV@adjbox@pgf\@undefined
 %    \end{macrocode}
 %
+% Declare the options which must be passed to \pkg{adjcalc} in a special form,
+% because they require extra packages. This must be this way becayse \pkg{adjcalc}
+% is already loaded.
 %    \begin{macrocode}
+\DeclareOptionX<adjbox>{pgfmath}{\AtEndOfPackage{\RequirePackage{pgf}\adjcalcset{pgfmath}}}
+\DeclareOptionX<adjbox>{calc}{\AtEndOfPackage{\RequirePackage{calc}\adjcalcset{calc}}}
+%    \end{macrocode}
+%
+% Handle the special \opt{pgf} and \opt{PGF} options.
+%    \begin{macrocode}
+\DeclareOptionX<adjbox>{pgf}{\PassOptionsToPackage{pgf}{trimclip}}
+\DeclareOptionX<adjbox>{PGF}{\PassOptionsToPackage{pgf}{trimclip}\PassOptionsToPackage{pgf}{adjcalc}}
+%    \end{macrocode}
+%
+% Pass all other options to \pkg{graphicx}.
+%    \begin{macrocode}
+\DeclareOptionX*{\PassOptionsToPackage\CurrentOption{graphicx}}
+%    \end{macrocode}
+%
+% Process all options. Unknown options are checked for \pkg{adjcalc} options.
+%    \begin{macrocode}
+\ProcessOptionsX*<adjbox,adjcalc>\relax
+%    \end{macrocode}
+%
+% Disable all at-package-loading options.
+% Delete the special wrapper options so that the real keys of \pkg{adjcalc} are used inside the document.
+% (The options can be reused as normal keys.)
+%    \begin{macrocode}
+\disable@keys{adjbox}{patch,export,PGF,minimal}
+\let\KV@adjbox@pgfmath\@undefined
+\let\KV@adjbox@calc\@undefined
+%    \end{macrocode}
+%
+% Load the required packages.
+%    \begin{macrocode}
+\RequirePackage{trimclip}
 \RequirePackage{graphicx}[1999/02/16]
 \RequirePackage{collectbox}[2011/08/22]
-\RequirePackage{adjcalc}
-\RequirePackage{trimclip}
 %    \end{macrocode}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

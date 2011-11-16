@@ -102,7 +102,6 @@
     \DeclareRobustCommand\adjaddtocounter[2]{\@ifundefined{c@##1}{\@nocounterr{##1}}{\calc@assign@count{\global\advance\csname c@##1\endcsname}{##2}}}%
     \def\adjsetlengthdefault##1##2{%
         \begingroup
-        \message{^^J\detokenize{##2}^^J}%
         \def\calc@post@scan####1!{%
             \def\@tempa{####1}%
             \ifx\@tempa\@empty
