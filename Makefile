@@ -8,7 +8,7 @@ CTAN_FILE     = ${CONTRIBUTION}.zip
 export CONTRIBUTION VERSION NAME EMAIL SUMMARY DIRECTORY DONOTANNOUNCE ANNOUNCE NOTES LICENSE FREEVERSION CTAN_FILE
 
 
-MAINDTX       = ${CONTRIBUTION}.dtx
+MAINDTX       = adjustbox.dtx adjcalc.dtx trimclip.dtx
 DTXFILES      = ${MAINDTX}
 INSFILES      = ${CONTRIBUTION}.ins
 LTXFILES      = adjustbox.sty trimclip.sty tc-pgf.def tc-dvips.def tc-xetex.def tc-pdftex.def adjcalc.sty adjgrfx.sty
