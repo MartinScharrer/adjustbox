@@ -1,0 +1,379 @@
+% \iffalse meta-comment
+%<=*COPYRIGHT>
+%% Copyright (C) 2011 by Martin Scharrer <martin@scharrer.me>
+%% ------------------------------------------------------------------
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%%
+%% The Current Maintainer of this work is Martin Scharrer.
+%%
+%% This work consists of the files adjustbox.dtx, adjustbox.ins
+%% and the derived file adjustbox.sty.
+%%
+%<=/COPYRIGHT>
+% \fi
+%
+% \iffalse
+%<*driver>
+\ProvidesFile{trimclip.dtx}[%
+%<=*DATE>
+    2011/11/14
+%<=/DATE>
+%<=*VERSION>
+    v1.0
+%<=/VERSION>
+    DTX file for the trimclip package]
+\documentclass[a4paper]{ydoc}[2011/11/16]
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{fourier}
+\usepackage{newverbs}
+\MakeSpecialShortVerb\qverb\"
+%\AtBeginDocument{\MakeShortMacroArgs\`\relax}
+%\AtEndDocument{\DeleteShortVerb\`}
+\GetFileInfo{trimclip.dtx}
+\usepackage{trimclip}[\filedate]
+\normalmarginpar
+
+\renewenvironment{example}[1][Example:]{%
+    \subsubsection*{#1}%
+}{%
+    \par
+}
+\newenvironment{examples}[1][Examples:]{%
+    \subsubsection*{#1}%
+}{%
+    \par
+}
+\optionaloff
+
+\lstdefinelanguage{none}{}%
+\lstdefinelanguage{adjustbox}{%
+  moretexcs={%
+      begin,end,adjustbox
+  },
+  emph={%
+      frame,fbox,cframe,cfbox,minipage,raise
+  },
+}%
+
+\lstdefinestyle{examplecode}{%
+    basicstyle=\ttfamily\small,
+    numbers=none,language=none,
+    classoffset=1,
+    morekeywords={begin,end},
+    keywordstyle=\bfseries,
+    classoffset=0,
+    morekeywords={adjustbox,minsizebox,maxsizebox,lapbox,marginbox,phantombox},
+    keywordstyle=\macrodescstyle,
+    emph={viewport, trim, Trim, Viewport, Clip, Clip*, frame, fbox, cframe, cfbox, reflect, lap, margin, margin*, dpi,
+    pxdim, execute, raise, valign, bgcolor, set, height, depth, vsize, width, totalheight, center, left, right, outer, inner, min, max,
+    size, totalsize,
+    minipage, innerenv, innercode, env, Addcode, addcode, precode, Precode, appcode, angle, scale, height, width, totalheight, resolution,
+    },
+    emphstyle=\keydescstyle,
+}
+
+\makeatletter
+\def\PrintExample{%
+  \begingroup
+  \par\smallskip\noindent
+  \leavevmode
+  \BoxExample
+  \@tempdima=\textwidth
+  \advance\@tempdima by -\wd\examplecodebox\relax
+  \advance\@tempdima by -\wd\exampleresultbox\relax
+  \advance\@tempdima by -15pt\relax
+  \ifdim\@tempdima>\bigskipamount
+    \hbox to \textwidth{%
+     \null\hss
+     \minipage[c]{\wd\examplecodebox}\usebox\examplecodebox\endminipage
+     \hfill\hskip\bigskipamount\hfill
+     \minipage[c]{\wd\exampleresultbox}%
+        \EXAMPLERESULT
+     \endminipage
+     \hss\null
+     }%
+  \else
+    \vbox{%
+        \leftline{\usebox\examplecodebox}%
+        \vspace{\bigskipamount}%
+        \rightline{\EXAMPLERESULT}%
+    }%
+  \fi
+  \par\smallskip
+  \endgroup
+}
+\def\EXAMPLERESULT{%
+    \leavevmode\hbox{%
+    \textcolor{exampleborder}{%
+        \boxframe
+            {\dimexpr\wd\exampleresultbox+2\fboxrule\relax}%
+            {\dimexpr\ht\exampleresultbox+\fboxrule\relax}%
+            {\dimexpr\dp\exampleresultbox+\fboxrule\relax}%
+        \hskip-\wd\exampleresultbox
+        \hskip-\fboxrule
+    }%
+    \usebox\exampleresultbox
+    }%
+}%
+\makeatother
+\colorlet{exampleborder}{black!33}
+\def\Descsep{\par\vskip-2.5ex\relax}
+
+%\EnableCrossrefs
+%\CodelineIndex
+%\RecordChanges
+\OnlyDescription
+\renewcommand{\bottomfraction}{0.5}
+\begin{document}
+ \DocInput{trimclip.dtx}
+  \PrintChanges
+  %\newpage\PrintIndex
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{0}
+%
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+%
+% \changes{v1.0}{2011/11/16}{First version after extraction from \pkg{adjustbox} package.}
+%
+% \GetFileInfo{trimclip.dtx}
+%
+% \DoNotIndex{\newcommand,\newenvironment,\def,\edef,\xdef,\gdef,\let}
+% \bundle{adjustbox}
+% \author{Martin Scharrer}
+% \email{martin@scharrer-online.de}
+% \ydocpdfsettings
+% \maketitle
+%
+% \makeatletter
+% \def\LATeX{\texorpdfstring{(L\kern -.36em{\sbox \z@ T\vbox to\ht \z@ {\hbox {\check@mathfonts
+%  \fontsize \sf@size \z@ \math@fontsfalse \selectfont A}\vss }}\kern -.15em)\TeX}{(La)TeX}}
+% \makeatother
+%
+% \begin{abstract}
+%  This package extends the standard \pkg{graphics} package by providing the missing \Macro\trimbox and \Macro\clipbox macros to
+%  trim and clip arbitrary \TeX\ material.
+%
+%  These macros use the \pkg{collectbox} package to allow for verbatim content. Equivalent environments are also provided.
+%  The trim operation is implemented in pure \TeX\ and a set of driver files are provided to implement the output format specific clip operation.
+%  A fall-back driver based on the \pkg{pgf} package will be used for all unsupported output formats or compilers.
+% \end{abstract}
+%
+% \section{Introduction}
+% The standard \LaTeX{} package \pkg{graphicx} allows to scale, resize and rotate either images or text (i.e.\ any \TeX\ content).
+% For text the macros \Macro\scalebox, \Macro\resizebox and \Macro\rotatebox can be used, while 
+% equivalent keys exists \Macro\includegraphics.
+% However, while it is possible to trim and clip images using the |trim|, |viewport| and |clip| keys, no equivalent macros are provided.
+% This package closes this gap by defining the macros \Macro\trimbox and \Macro\clipbox. As an extra the macro \Macro\marginbox is also provided.
+% It can be seen as an inverted \Macro\trimbox, expanding the official size of the content instead of reducing it.
+%
+% The macros provided by this package differ in three aspects from the macros defined by \pkg{graphicx}.
+% The content argument is actually read directly as a horizontal box and not as a macro argument, even when the syntax looks the same.
+% This allows for arbitrary content including special things like verbatim material.
+% Furthermore, for every macro there is an equivalent environment with the same name. Special care is taken to allow the same name for both, which is normally not allowed.
+% Finally, the lengths arguments of the macros can contain algebraic expressions to calculate the used length. This is only possible with the \pkg{graphicx} macros
+% if the \pkg{calc} package is loaded. However, the \pkg{trimclip} macros use the \pkg{adjcalc} wrapper package which either uses $\epsilon$-\TeX\ primitives, \pkg{calc} or \pkg{pgfmath}
+% to provide this feature.
+%
+%
+% \section{Dependencies}
+% This package uses the author's other packages \pkg{collectbox} (to collect the content as a real box) and \pkg{adjcalc} (to allow for math expressions for lengths).
+% The latter is part of the same \pkg{adjustbox} bundle and should have be installed together with \pkg{trimclip}.
+%
+% \section{Drivers}
+% The clip operation can not be done using general \TeX\ commands, but is rather output format specific.
+% The clipped material is actually included unclipped and the output file (i.e.\ PDF or PS file) contains format specific instructions,
+% so that the document viewer will clip the content when the document is displayed.
+% Depending on the used compilation work-flow (like |pdflatex|, |latex|+|dvips| or |latex|+|dvipdfm|, etc.) this clipping instructions must be
+% passed in a different way. In order to support all of these, dedicated driver files are provided which hold the specific low-level instructions.
+% This requirement should also be known to most users from the \pkg{graphics/x}, \pkg{(x)color} or \pkg{hyperref} packages which also require output format specific low-level instructions to implement 
+% their features.
+%
+% A set of driver files for the most common used \LaTeX\ compilers is provided with this package (see \autoref{sec:options} for a list).
+% If no suitable driver file is found, the \pkg{pgf} package is used instead to implement the clip operation.
+% This (large) package comes with its own set of driver files and should cover any other \LaTeX\ compilers.
+%
+% \section{Package Options}\label{sec:options}
+% Normally the package should be loaded without any options. A suitable driver should be automatically selected.
+% However, it accepts the following options to select the used driver manually.
+% Any other option is passed to the \pkg{graphics} package and the driver selected by it is used.
+% However, this does not work if \pkg{graphics} was already loaded before. In this case 
+% the (unknown) option is taken as driver and a file `\MacroArgs'tc-'<option>'.def'\relax' is loaded if it exits.
+% If not, the default PGF fall-back driver is used. PGF comes with a own set of drivers but is large and can be considered a significant overhead if used only for rectangular clipping.
+%
+% \begin{description}
+%   \def\Option#1{\item[{{\normalfont\opt{#1}}}]}%
+%   \Option{pdftex} Use the |pdftex| driver. This driver is automatically selected for |pdflatex| and |lualatex| and should not be used for any other \LaTeX\ compiler.
+%   \Option{dvips} Use the |dvips| driver. This driver is automatically selected for |latex|.
+%   \Option{xetex} Use the |xetex| driver. This driver is automatically selected for |xelatex|.
+%   \Option{dvipdfm} Use the |xetex| driver which is also compatible with |dvipdfm|.
+%   \Option{dvipdfmx} Use the |xetex| driver which is also compatible with |dvipdfmx|.
+%   \Option{pgf} Use the fall-back PGF driver explicitly. This makes sense if issue with another driver are encountered.
+% \end{description}
+%
+% It should be noted that choosing an incorrect driver will lead to clip operation not being applied (they act like trim operations)
+% and may lead to a broken output file.
+%
+%
+% \section{Argument Values}\label{sec:argval}
+% All macros and their matching environments require four length values which are used to change the left, bottom, right and top side of the content.
+% Because of the used \pkg{adjcalc} package complicated algebraic expressions can be used to calculate these amounts.
+% Like the |trim| or |viewport| keys of \Macro\includegraphics these length must be separated by spaces.
+% Note that if a previous length expression ends in a macro any trailing spaces will be removed by \TeX.
+% Therefore it is required to wrap this \emph{complete} length expression in braces. See the usage section for examples.
+% It is also possible to only provide a single length which is used for all four sides or only two lengths which are taken for the left/right as well as bottom/top side.
+% This simplifies symmetric operations and got inspired by CSS.
+%
+% If a length value is a simple number without a unit, a default unit is substituted (usually `|bp|', \emph{big points}, the standard PostScript and PDF unit).
+% This default unit can be changed using \Macro\adjcalc{'defaultunit='<unit>} or completely disabled (\MacroArgs<unit>'=none'). See the \pkg{adjcalc} manual for more details.
+%
+% The length values can contain the following macros to refer to the original size of the content:
+%
+% \DescribeMacros
+%    \hbox{\Macro\width~~~\Macro\height~~~\Macro\depth~~~\Macro\totalheight}%
+% \endDescribeMacros
+% These \LaTeX{} lengths hold the original dimensions of the content and can be used to make relative changes.
+% Like any other length registers they can be used with a factor, e.g.\ \MacroArgs'.5'\AlsoMacro\width to refer to half the natural width
+% of the content.
+%
+%
+%
+% \section{Usage}
+%
+% \subsection*{Trimming}
+% \DescribeMacro\trimbox{<llx>~<lly>~<urx>~<ury>}{<content>}
+% \DescribeMacro\trimbox{<all sites>}{<content>}
+% \DescribeMacro\trimbox{<left/right>~<top/bottom>}{<content>}
+% \DescribeMacro\trimbox*{<llx>~<lly>~<urx>~<ury>}{<content>}
+% The macro \Macro\trimbox trims the given amount from the lower left (ll) and the upper right (ur) corner of
+% the box. This means that the amount \meta{llx} is trimmed from the left side, \meta{lly} from the bottom and
+% \meta{urx} and \meta{ury} from the right and top of the box, respectively.
+% If only one value is given it will be used for all four sites.
+% If only two values are given the first one will be used for the left and right side (llx, urx) and the second for the bottom and top side (lly, ury).
+%
+% If the starred version is used the four coordinates are taken as the \Key{viewport} instead, i.e. the box
+% is trimmed to the rectangle described by the coordinates. In this case all four values must be specified explicitly.
+%
+%
+% \DescribeEnv[<content>]{trimbox}{<1, 2 or 4 trim values>}
+% \vspace{-\baselineskip}
+% \DescribeEnv[<content>]{trimbox*}{<llx>~<lly>~<urx>~<ury>}
+% The \env{trimbox} and \env{trimbox*} environments do the same as the corresponding macros.
+%
+%
+%
+% \subsection*{Clipping}
+% \DescribeMacro\clipbox{<llx>~<lly>~<urx>~<ury>}{<content>}
+% \DescribeMacro\clipbox{<all sites>}{<content>}
+% \DescribeMacro\clipbox{<left/right>~<top/bottom>}{<content>}
+% \DescribeMacro\clipbox*{<llx>~<lly>~<urx>~<ury>}{<content>}
+% The \Macro\clipbox macro works like the \Macro\trimbox and trims the given amounts from the \meta{text}.
+% However, in addition the trimmed material is also clipped, i.e. it is not shown in the final document.
+% Note that the material will still be part of the output file but is simply not shown.
+% The full content can still be exported using special tools, so using \Macro\clipbox\relax (or \Macro\includegraphics[clip,trim=...])
+% to censor classified information would be a bad idea.
+% The starred version will again use the given coordinates as viewport.
+%
+% \DescribeEnv[<content>]{clipbox}{<1, 2 or 4 trim values>}
+% \vspace{-\baselineskip}
+% \DescribeEnv[<content>]{clipbox*}{<llx>~<lly>~<urx>~<ury>}
+% The environment versions of \Macro\clipbox and \Macro\clipbox*. The same rules as for the trimming environments apply.
+%
+%
+% \subsection*{Margin}
+% \DescribeMacro\marginbox{<all sites>}{<content>}
+% \DescribeMacro\marginbox{<left/right>~<top/bottom>}{<content>}
+% \DescribeMacro\marginbox{<llx>~<lly>~<urx>~<ury>}{<content>}
+% \Descsep
+% \DescribeEnv[<content>]{marginbox*}{<1, 2 or 4 margin values>}
+% This macro and environment can be used to add a margin (white space) around the content. It can be seen as the opposite of \Macro\trimbox.
+% The original baseline of the content is preserved because \meta{lly} is added to the depth.
+%
+% \begin{example}
+%   \begin{examplecode}
+%   Before \fbox{\marginbox{1ex 2ex 3ex 4ex}{Text}} After
+%   \end{examplecode}
+% \end{example}
+%
+%
+% \DescribeMacro\marginbox'*'{<all sites>}{<content>}
+% \DescribeMacro\marginbox'*'{<left/right>~<top/bottom>}{<content>}
+% \DescribeMacro\marginbox'*'{<llx>~<lly>~<urx>~<ury>}{<content>}
+% \Descsep
+% \DescribeEnv[<content>]{marginbox}{<1, 2 or 4 margin values>}
+% This starred version is almost identical to the normal \Macro\marginbox, but also raises the content by the \MacroArgs<lly>
+% amount, so that the original depth is preserved instead of the original baseline.
+% Note that while \Macro\marginbox is basically the opposite of \Macro\trimbox, \Macro\marginbox* is not the opposite of \Macro\trimbox*.
+%
+% \begin{example}
+%   \begin{examplecode}
+%   Before \fbox{\marginbox*{1ex 2ex 3ex 4ex}{Text}} After
+%   \end{examplecode}
+% \end{example}
+%
+%
+% \section{Details}
+% This section explains the details about the trim and clip implementations.
+% It should give the interested reader a deeper understanding of the operations and the behaviour in normal and edge cases.
+%
+% (Coming soon)
+%
+% \StopEventually{}
+% \clearpage
+% \section{Implementation}
+% \setcounter{lstnumber}{1}
+%
+%
+% \iffalse
+%<@trimclip.sty>
+% \fi
+%
+% \subsection{Driver files}
+%
+% \iffalse
+%<@tc-pgf.def>
+% \fi
+%
+% \iffalse
+%<@tc-pdftex.def>
+% \fi
+%
+%
+% \iffalse
+%<@tc-dvips.def>
+% \fi
+%
+%
+% \iffalse
+%<@tc-xetex.def>
+% \fi
+%
+% \Finale
+% \endinput
