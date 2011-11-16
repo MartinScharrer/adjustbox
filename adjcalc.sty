@@ -33,7 +33,7 @@
 %
 % The initial default unit is `|bp|' like for \pkg{graphicx}.
 %    \begin{macrocode}
-    \def\adjcalc@defaultunit{bp}%
+\def\adjcalc@defaultunit{bp}%
 %    \end{macrocode}
 %
 %
@@ -44,7 +44,24 @@
 \DeclareOptionX<adjcalc>{calc}{\adjcalc@calc}
 \DeclareOptionX<adjcalc>{none}{\let\adjcalc@atend\relax\def\adjsetlength{\setlength}\let\adjcalc@overwrite\relax}
 \DeclareOptionX<adjcalc>{overwrite}{\adjcalc@overwrite}
-\DeclareOptionX<adjcalc>{defaultunit}[bp]{\def\adjcalc@defaultunit{#1}}
+\DeclareOptionX<adjcalc>{defaultunit}[bp]{%
+    \begingroup
+    \def\@tempa{#1}%
+    \def\@tempb{none}%
+    \ifx\@tempa\@tempb% 'none':
+        \endgroup
+        \def\adjsetlengthdefault{\adjsetlength}%
+    \else
+        \ifx\@tempb\adjcalc@defaultunit
+            \endgroup
+            % was 'none' before
+            \let\adjsetlengthdefault\adjsetlengthdefault@
+        \else
+            \endgroup
+        \fi
+    \fi
+    \def\adjcalc@defaultunit{#1}%
+}
 \ProcessOptionsX*<adjcalc>
 \disable@keys{adjcalc}{none}
 %    \end{macrocode}
@@ -79,9 +96,10 @@
             {\@nocounterr{##1}}%
             {\global\advance\csname c@##1\endcsname\numexpr(##2)\relax}%
     }%
-    \def\adjsetlengthdefault##1##2{%
+    \def\adjsetlengthdefault@##1##2{%
         \@defaultunits##1=\glueexpr##2 \adjcalc@defaultunit\relax\@nnil
     }%
+    \let\adjsetlengthdefault\adjsetlengthdefault@
 }
 %    \end{macrocode}
 % \end{macro}
@@ -100,7 +118,7 @@
     \DeclareRobustCommand\adjaddtolength[1]{\calc@assign@skip{\advance ##1}}%
     \DeclareRobustCommand\adjsetcounter[2]{\@ifundefined{c@##1}{\@nocounterr{##1}}{\calc@assign@count{\global\csname c@##1\endcsname}{##2}}}%
     \DeclareRobustCommand\adjaddtocounter[2]{\@ifundefined{c@##1}{\@nocounterr{##1}}{\calc@assign@count{\global\advance\csname c@##1\endcsname}{##2}}}%
-    \def\adjsetlengthdefault##1##2{%
+    \def\adjsetlengthdefault@##1##2{%
         \begingroup
         \def\calc@post@scan####1!{%
             \def\@tempa{####1}%
@@ -127,6 +145,7 @@
             \calc@assign@skip{##2}{##3}%
         \fi
     }%
+    \let\adjsetlengthdefault\adjsetlengthdefault@
 }
 %    \end{macrocode}
 % \end{macro}
@@ -139,12 +158,13 @@
     \DeclareRobustCommand\adjaddtolength{\pgfmathaddtolength}%
     \DeclareRobustCommand\adjsetcounter{\pgfmathsetcounter}%
     \DeclareRobustCommand\adjaddtocounter{\pgfmathaddtocounter}%
-    \def\adjsetlengthdefault##1##2{%
+    \def\adjsetlengthdefault@##1##2{%
         \edef\pgfmathresultunitscale{1\adjcalc@defaultunit}%
         \let\pgfmathpostparse\pgfmathscaleresult
         \pgfmathparse{##2}%
         ##1=\pgfmathresult pt\relax
     }%
+    \let\adjsetlengthdefault\adjsetlengthdefault@
 }
 %    \end{macrocode}
 % \end{macro}
