@@ -11,7 +11,7 @@ export CONTRIBUTION VERSION NAME EMAIL SUMMARY DIRECTORY DONOTANNOUNCE ANNOUNCE 
 MAINDTX       = adjustbox.dtx adjcalc.dtx trimclip.dtx
 DTXFILES      = ${MAINDTX}
 INSFILES      = ${CONTRIBUTION}.ins
-LTXFILES      = adjustbox.sty trimclip.sty tc-pgf.def tc-dvips.def tc-xetex.def tc-pdftex.def adjcalc.sty adjgrfx.sty
+LTXFILES      = adjustbox.sty trimclip.sty tc-pgf.def tc-dvips.def tc-xetex.def tc-pdftex.def adjcalc.sty
 LTXDOCFILES   = ${CONTRIBUTION}.pdf README
 LTXSRCFILES   = ${DTXFILES} ${INSFILES}
 PLAINFILES    = #${CONTRIBUTION}.tex
