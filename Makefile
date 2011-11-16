@@ -8,11 +8,12 @@ CTAN_FILE     = ${CONTRIBUTION}.zip
 export CONTRIBUTION VERSION NAME EMAIL SUMMARY DIRECTORY DONOTANNOUNCE ANNOUNCE NOTES LICENSE FREEVERSION CTAN_FILE
 
 
-MAINDTX       = adjustbox.dtx adjcalc.dtx trimclip.dtx
-DTXFILES      = ${MAINDTX}
+MAINDTXS      = adjustbox.dtx adjcalc.dtx trimclip.dtx
+MAINPDFS      = $(subst .dtx,.pdf,${MAINDTXS})
+DTXFILES      = ${MAINDTXS}
 INSFILES      = ${CONTRIBUTION}.ins
 LTXFILES      = adjustbox.sty trimclip.sty tc-pgf.def tc-dvips.def tc-xetex.def tc-pdftex.def adjcalc.sty
-LTXDOCFILES   = ${CONTRIBUTION}.pdf README
+LTXDOCFILES   = ${MAINPDFS} README
 LTXSRCFILES   = ${DTXFILES} ${INSFILES}
 PLAINFILES    = #${CONTRIBUTION}.tex
 PLAINDOCFILES = #${CONTRIBUTION}.?
@@ -55,7 +56,7 @@ BUILDDIR = build
 LATEXMK  = latexmk -pdf -quiet
 ZIP      = zip -r
 WEBBROWSER = firefox
-GETVERSION = $(strip $(shell grep '=\*VERSION' -A1 ${MAINDTX} | tail -n1))
+GETVERSION = $(strip $(shell grep '=\*VERSION' -A1 ${MAINDTXS} | tail -n1))
 
 AUXEXTS  = .aux .bbl .blg .cod .exa .fdb_latexmk .glo .gls .lof .log .lot .out .pdf .que .run.xml .sta .stp .svn .svt .toc
 CLEANFILES = $(addprefix ${CONTRIBUTION}, ${AUXEXTS})
@@ -64,9 +65,9 @@ CLEANFILES = $(addprefix ${CONTRIBUTION}, ${AUXEXTS})
 
 all: doc
 
-doc: ${CONTRIBUTION}.pdf
+doc: ${MAINPDFS}
 
-${CONTRIBUTION}.pdf: ${DTXFILES} README ${INSFILES} ${LTXFILES}
+${MAINPDFS}: ${DTXFILES} README ${INSFILES} ${LTXFILES}
 	${MAKE} --no-print-directory build
 	cp "${BUILDDIR}/$@" "$@"
 
@@ -79,7 +80,7 @@ ${BUILDDIR}: ${MAINFILES}
 	cp ${MAINFILES} README ${BUILDDIR}/
 	$(foreach DTX,${DTXFILES}, tex '\input ydocincl\relax\includefiles{${DTX}}{${BUILDDIR}/${DTX}}' && rm -f ydocincl.log;)
 	cd ${BUILDDIR}; $(foreach INS, ${INSFILES}, tex ${INS};)
-	cd ${BUILDDIR}; $(foreach DTX, ${MAINDTX}, ${LATEXMK} ${DTX};)
+	cd ${BUILDDIR}; $(foreach DTX, ${MAINDTXS}, ${LATEXMK} ${DTX};)
 	touch ${BUILDDIR}
 
 $(addprefix ${BUILDDIR}/,$(sort ${TDSFILES} ${CTANFILES})): ${MAINFILES}
