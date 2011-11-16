@@ -8,6 +8,7 @@
 % Copyright (C) 2001 by Martin Scharrer <martin@scharrer.me>, Nov 12th 2011
 % This is free code under the LPPL v1.3 or later version OR the CC BY-SA 3.0
 \begin{tikzpicture}[font=\sffamily,>=latex]
+   \newcommand\Cs[1]{\texttt{\scriptsize\textbackslash #1}}
    % Save example text in box
    \sbox\mybox{\pgfinterruptpicture\sffamily\color{black!25}\scalebox{10}{Xy}\endpgfinterruptpicture}
    \def\HEIGHT{\ht\mybox}
@@ -15,9 +16,9 @@
    \def\DEPTH{\dp\mybox}
    % Extensions lines for dimensions (drawn here to be below other material)
    \draw [gray,thin]
-        (0,0)       -- +(-3.5ex,0)
-        (0,\HEIGHT) -- +(-3.5ex,0)
-        (0,-\DEPTH) -- +(-3.5ex,0)
+        (0,0)            -- +(-3.5ex,0)
+        (0,\HEIGHT)      -- +(-3.5ex,0)
+        (0,-\DEPTH)      -- +(-3.5ex,0)
         (\WIDTH,\HEIGHT) -- +(3.5ex,0)
         (\WIDTH,-\DEPTH) -- +(3.5ex,0)
         (0,-\DEPTH)      -- +(0,-3.5ex)
@@ -33,10 +34,15 @@
    \path [fill=white,draw=black] (0,0) circle (1pt);
    \draw [<-,shorten <=2pt] (0,0) -- (2ex,-2ex) -- +(.5ex,0) node [right=-0.5ex] {origin};
    % Dimensions
-   \draw [->] (-2.5ex,0) -- +(0,-\DEPTH)  node [midway,left] {depth};
-   \draw [->] (-2.5ex,0) -- +(0, \HEIGHT) node [midway,left] {height};
-   \draw [<->] (\WIDTH,-\DEPTH) ++(2.5ex,0) -- +(0,\DEPTH+\HEIGHT) node [midway,right] {totalheight};
-   \draw [<->] (0,-\DEPTH) ++(0,-2.5ex) -- +(\WIDTH,0) node [midway,below] {width};
+   \tikzset{inner sep=5pt}
+   \draw [->] (-2.5ex,0) -- +(0,-\DEPTH)  node [pos=1.1,left,align=left]
+        {depth\\\Cs{depth}\\\Cs{dp}\Cs{br}};
+   \draw [->] (-2.5ex,0) -- +(0, \HEIGHT) node [pos=.4,left,align=left]
+        {height\\\Cs{height}\\\Cs{ht}\Cs{br}};
+   \draw [<->] (\WIDTH,-\DEPTH) ++(2.5ex,0) -- +(0,\DEPTH+\HEIGHT) node [midway,right,align=left]
+        {totalheight\\\Cs{totalheight}};
+   \draw [<->] (0,-\DEPTH) ++(0,-2.5ex) -- +(\WIDTH,0) node [midway,below,align=left]
+        {width\\\Cs{width}\\\Cs{wd}\Cs{br}};
    \fill (-2.5ex,0) circle (.5pt);
 \end{tikzpicture}
 \end{document}

@@ -35,6 +35,9 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{fourier}
+\usepackage{standalone}
+\usepackage{tikz}
+\newsavebox\mybox
 \usepackage{newverbs}
 \MakeSpecialShortVerb\qverb\"
 %\AtBeginDocument{\MakeShortMacroArgs\`\relax}
@@ -196,7 +199,7 @@
 %
 % The macros provided by this package differ in three aspects from the macros defined by \pkg{graphicx}.
 % The content argument is actually read directly as a horizontal box and not as a macro argument, even when the syntax looks the same.
-% This allows for arbitrary content including special things like verbatim material.
+% This allows for arbitrary content including special things like verbatim material. It is allowed to replace the "{ }" around the content with \Macro\bgroup and \Macro\egroup.
 % Furthermore, for every macro there is an equivalent environment with the same name. Special care is taken to allow the same name for both, which is normally not allowed.
 % Finally, the lengths arguments of the macros can contain algebraic expressions to calculate the used length. This is only possible with the \pkg{graphicx} macros
 % if the \pkg{calc} package is loaded. However, the \pkg{trimclip} macros use the \pkg{adjcalc} wrapper package which either uses $\epsilon$-\TeX\ primitives, \pkg{calc} or \pkg{pgfmath}
@@ -344,6 +347,44 @@
 % It should give the interested reader a deeper understanding of the operations and the behaviour in normal and edge cases.
 %
 % (Coming soon)
+%
+% \begin{figure}
+%   \centering
+%   {\catcode`\%=14\relax\input{man/box}}
+%   \caption{Box dimensions. Shown are also the \LaTeX\ macros and the \TeX\ primitives. Here \cs{br} stands for a box register.
+%       Note that the depth is a positive values on its own downwards pointed axes.
+%   }\label{fig:boxdim}
+% \end{figure}
+%
+% \begin{figure}
+%   \centering
+%   {\catcode`\%=14\relax\input{man/trim}}
+%   \caption{Trimming. The four values are removed from each side.}\label{fig:trim}
+% \end{figure}
+%
+% \begin{figure}
+%   \centering
+%   {\catcode`\%=14\relax\input{man/trim2}}
+%   \caption{Trimming with \texttt{lly}$>$depth. In this case the resulting box moves up to the original baseline.}\label{fig:trim2}
+% \end{figure}
+%
+% \begin{figure}
+%   \centering
+%   {\catcode`\%=14\relax\input{man/trim3}}
+%   \caption{Trimming with \texttt{ury}$>$height. In this case the resulting box falls down to the original baseline}\label{fig:trim2}
+% \end{figure}
+%
+% \begin{figure}
+%   \centering
+%   {\catcode`\%=14\relax\input{man/viewport}}
+%   \caption{Viewport with \texttt{lly}$>$0pt. The \texttt{ll} and \texttt{ur} values are taken from the origin. The baseline is the vertical zero reference.}\label{fig:viewport}
+% \end{figure}
+%
+% \begin{figure}
+%   \centering
+%   {\catcode`\%=14\relax\input{man/viewport2}}
+%   \caption{Viewport with \texttt{lly}$<$0pt. In this case the viewport ranges into the depth of the original box.}
+% \end{figure}
 %
 % \StopEventually{}
 % \clearpage

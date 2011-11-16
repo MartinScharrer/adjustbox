@@ -40,10 +40,6 @@
    \node [inner sep=0pt,anchor=base west] {\usebox\mybox};
    % Baseline
    \draw (0,0) -- (\WIDTH,0);% node [above,midway] {baseline};
-   % Box
-   \draw [thick] (0,-\DEPTH) rectangle (\WIDTH,\HEIGHT);
-   % Origin
-   \path [fill=white,draw=black] (0,0) circle (1pt);
    %\draw [<-,shorten <=2pt] (0,0) -- (2ex,-2ex) -- +(.5ex,0) node [right=-0.5ex] {origin};
    % Dimensions
    \draw [->] (-2.5ex,0) -- +(0,-\DEPTH)  node [midway,left] {depth};
@@ -56,9 +52,11 @@
         \clip ([shift={(\LLX,\LLY)}]0,-\DEPTH) rectangle ([shift={(-\URX,-\URY)}]\WIDTH,\HEIGHT);
         \node [inner sep=0pt,anchor=base west,semitransparent,color=blue] {\text};
     \end{scope}
+   %\draw [->,.!45] (\WIDTH,\HEIGHT) -- ++(-\URX,{-\URY});
+   %\draw [->,.!45] (0,-\DEPTH)      -- ++(\LLX,\LLY);
     \draw ([shift={(\LLX,\LLY)}]0,-\DEPTH) rectangle ([shift={(-\URX,-\URY)}]\WIDTH,\HEIGHT);
-    \draw [->] (\LLX,-\DEPTH)   -- ++(0,\LLY) node [right,midway] {\scriptsize llx};
-    \draw [->] (0,-\DEPTH+\LLY) -- ++(\LLX,0) node [above,midway] {\scriptsize lly};
+    \draw [->] (\LLX,-\DEPTH)   -- ++(0,\LLY) node [right,midway] {\scriptsize lly};
+    \draw [->] (0,-\DEPTH+\LLY) -- ++(\LLX,0) node [above,midway] {\scriptsize llx};
     \draw (\LLX,-\DEPTH+\LLY) -- ([shift={(-\URX,0)}]\WIDTH,-\DEPTH+\LLY);
     \draw [->] (\LLX+.2\WIDTH,{\HEIGHT-\URY}) -- (\LLX+.2\WIDTH,0) node [pos=0.4,below right] {\scriptsize moves up};
     \path [fill=white,draw] (\LLX,{\HEIGHT-\URY}) circle (1pt);
@@ -73,5 +71,9 @@
         node [below,midway] {\scriptsize urx}
     ;
    \end{scope}
+   % Box
+   \draw [thick] (0,-\DEPTH) rectangle (\WIDTH,\HEIGHT);
+   % Origin
+   \path [fill=white,draw=black] (0,0) circle (1pt);
 \end{tikzpicture}
 \end{document}
