@@ -1,17 +1,39 @@
 %    \begin{macrocode}
 \ProvidesPackage{trimclip}
-\RequirePackage{xkeyval}
 %    \end{macrocode}
 %
 %    \begin{macrocode}
 \def\tc@driver{tc-\Gin@driver}
-\DeclareOptionX<trimclip>{pgf}{\def\tc@driver{tc-pgf.def}}
-\DeclareOptionX*{\PassOptionsToPackage\CurrentOption{graphicx}}
-\ProcessOptionsX*<trimclip>
+\DeclareOption{pgf}{\def\tc@driver{tc-pgf.def}}
+\DeclareOption{pdftex}{\def\tc@driver{tc-pdftex.def}}
+\DeclareOption{xetex}{\def\tc@driver{tc-xetex.def}}
+\DeclareOption{dvips}{\def\tc@driver{tc-dvips.def}}
+\DeclareOption{dvipdfm}{\def\tc@driver{tc-xetex.def}}
+\DeclareOption{dvipdf}{\def\tc@driver{tc-xetex.def}}
+\DeclareOption*{%
+    \@ifpackageloaded{graphics}{%
+        \edef\tc@driver{tc-\CurrentOption.def}%
+        \begingroup
+        \edef\@tempa{\CurrentOption.def}%
+        \ifx\@tempa\Gin@driver\else
+            \let\on@line\@gobble
+            \PackageWarning{trimclip}{%
+                A different clipping driver was requested than the\MessageBreak
+                one used for 'graphics'! This is not recommended\MessageBreak
+                and can lead to defect output files.%
+            }%
+        \fi
+        \endgroup
+    }{%
+        \def\tc@driver{tc-\Gin@driver}%
+        \PassOptionsToPackage\CurrentOption{graphics}%
+    }%
+}
+\ProcessOptions*\relax
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\RequirePackage{graphicx}[1999/02/16]
+\RequirePackage{graphics}[1999/02/16]
 \RequirePackage{collectbox}[2011/08/22]
 \RequirePackage{adjcalc}
 %    \end{macrocode}
@@ -373,10 +395,12 @@
 % is used.
 %    \begin{macrocode}
 \InputIfFileExists{\tc@driver}{%
-    \PackageInfo{trimclip}{Using driver '\tc@driver'.}%
+    {\let\on@line\@gobble
+    \PackageInfo{trimclip}{Using driver '\tc@driver'.}}%
 }{%
     \input{tc-pgf.def}%
-    \PackageInfo{trimclip}{Using fall-back PGF driver.}
+    {\let\on@line\@gobble
+    \PackageInfo{trimclip}{No clip driver '\tc@driver' available.\MessageBreak Using fall-back PGF driver.}}%
 }
 %    \end{macrocode}
 %
