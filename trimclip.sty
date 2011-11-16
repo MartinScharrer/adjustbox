@@ -16,40 +16,6 @@
 %    \end{macrocode}
 %
 %
-% \begin{key}{adjbox}{viewport}
-%    \begin{macrocode}
-\define@key{adjbox}{viewport}{%
-    \def\adjustbox@content{%
-        \@trimclip{%
-            \ifGin@clip
-                \expandafter\@clipvpbox
-            \else
-                \expandafter\@viewportbox
-            \fi
-        }{#1}%
-    }%
-}
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{key}{adjbox}{trim}
-%    \begin{macrocode}
-\define@key{adjbox}{trim}{%
-    \def\adjustbox@content{%
-        \@trimclip{%
-            \ifGin@clip
-                \expandafter\@clipbox
-            \else
-                \expandafter\@trimbox
-            \fi
-        }{#1}%
-    }%
-}
-%    \end{macrocode}
-% \end{key}
-%
-%
 % \begin{macro}{\tc@readvalues}
 % Reads the four values for trim, viewport and clip.
 % Valid inputs are:
