@@ -36,7 +36,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage{fourier}
 \usepackage{standalone}
+\usepackage{flafter}
 \usepackage{tikz}
+\usetikzlibrary{calc}
 \newsavebox\mybox
 \usepackage{newverbs}
 \MakeSpecialShortVerb\qverb\"
@@ -124,6 +126,8 @@
             {\dimexpr\dp\exampleresultbox+\fboxrule\relax}%
         \hskip-\wd\exampleresultbox
         \hskip-\fboxrule
+        \rule[-.25\fboxrule]{\wd\exampleresultbox}{.5\fboxrule}%
+        \hskip-\wd\exampleresultbox
     }%
     \usebox\exampleresultbox
     }%
@@ -131,6 +135,15 @@
 \makeatother
 \colorlet{exampleborder}{black!33}
 \def\Descsep{\par\vskip-2.5ex\relax}
+
+\def\examplecontent{\raisebox{-4pt}{\begin{tabular}[b]{@{}|c|c|@{}}
+      \hline
+      A & B \\
+      \hline
+      C & D \\
+      \hline
+  \end{tabular}%
+}}
 
 %\EnableCrossrefs
 %\CodelineIndex
@@ -270,7 +283,8 @@
 %
 % \section{Usage}
 %
-% \subsection*{Trimming}
+% \subsection{Trimming}
+% \vspace{-\medskipamount}
 % \DescribeMacro\trimbox{<llx>~<lly>~<urx>~<ury>}{<content>}
 % \DescribeMacro\trimbox{<all sites>}{<content>}
 % \DescribeMacro\trimbox{<left/right>~<top/bottom>}{<content>}
@@ -284,6 +298,42 @@
 % If the starred version is used the four coordinates are taken as the \Key{viewport} instead, i.e. the box
 % is trimmed to the rectangle described by the coordinates. In this case all four values must be specified explicitly.
 %
+% \begin{examples}
+%   \begin{examplecode}
+%   \examplecontent
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \trimbox{2pt 3pt 2pt 3pt}{\examplecontent}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \trimbox{2pt 3pt}{\examplecontent}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \trimbox{2pt}{\examplecontent}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \trimbox{{.5\width} {.5\totalheight} 2pt 2pt}
+%       {\examplecontent}
+%   \end{examplecode}
+%   \medskip
+%   \begin{examplecode}
+%   \trimbox*{5pt 0pt 3em 2em}{\examplecontent}
+%   \end{examplecode}
+%   \medskip
+%   \begin{examplecode}
+%   \trimbox*{5pt -2pt 3em 2em}{\examplecontent}
+%   \end{examplecode}
+%   \medskip
+%   \begin{examplecode}
+%   \trimbox*{5pt 10pt 3em 2em}{\examplecontent}
+%   \end{examplecode}
+%   \bigskip
+%   \bigskip
+%   \begin{examplecode}
+%   \trimbox*{5pt -3pt 3em -1pt}{\examplecontent}
+%   \end{examplecode}
+% \end{examples}
+%
 %
 % \DescribeEnv[<content>]{trimbox}{<1, 2 or 4 trim values>}
 % \vspace{-\baselineskip}
@@ -292,7 +342,8 @@
 %
 %
 %
-% \subsection*{Clipping}
+% \subsection{Clipping}
+% \vspace{-\medskipamount}
 % \DescribeMacro\clipbox{<llx>~<lly>~<urx>~<ury>}{<content>}
 % \DescribeMacro\clipbox{<all sites>}{<content>}
 % \DescribeMacro\clipbox{<left/right>~<top/bottom>}{<content>}
@@ -309,8 +360,46 @@
 % \DescribeEnv[<content>]{clipbox*}{<llx>~<lly>~<urx>~<ury>}
 % The environment versions of \Macro\clipbox and \Macro\clipbox*. The same rules as for the trimming environments apply.
 %
+% \begin{examples}
+%   \begin{examplecode}
+%   \examplecontent
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \clipbox{2pt 3pt 2pt 3pt}{\examplecontent}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \clipbox{2pt 3pt}{\examplecontent}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \clipbox{2pt}{\examplecontent}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \clipbox{{.5\width} {.5\totalheight} 2pt 2pt}
+%       {\examplecontent}
+%   \end{examplecode}
+%   \medskip
+%   \begin{examplecode}
+%   \clipbox*{5pt 0pt 3em 2em}{\examplecontent}
+%   \end{examplecode}
+%   \medskip
+%   \begin{examplecode}
+%   \clipbox*{5pt -2pt 3em 2em}{\examplecontent}
+%   \end{examplecode}
+%   \medskip
+%   \begin{examplecode}
+%   \clipbox*{5pt 10pt 3em 2em}{\examplecontent}
+%   \end{examplecode}
+%   \bigskip
+%   \bigskip
+%   \begin{examplecode}
+%   \clipbox*{5pt -3pt 3em -1pt}{\examplecontent}
+%   \end{examplecode}
+% \end{examples}
 %
-% \subsection*{Margin}
+%
+% \clearpage
+% \subsection{Margin}
+% \vspace{-\medskipamount}
 % \DescribeMacro\marginbox{<all sites>}{<content>}
 % \DescribeMacro\marginbox{<left/right>~<top/bottom>}{<content>}
 % \DescribeMacro\marginbox{<llx>~<lly>~<urx>~<ury>}{<content>}
@@ -342,6 +431,7 @@
 % \end{example}
 %
 %
+% \clearpage
 % \section{Details}
 % This section explains the details about the trim and clip implementations.
 % It should give the interested reader a deeper understanding of the operations and the behaviour in normal and edge cases.
@@ -384,6 +474,23 @@
 %   \centering
 %   {\catcode`\%=14\relax\input{man/viewport2}}
 %   \caption{Viewport with \texttt{lly}$<$0pt. In this case the viewport ranges into the depth of the original box.}
+% \end{figure}
+%
+% \begin{figure}
+%   \centering
+%   {\catcode`\%=14\relax\input{man/margin}}
+%   \caption{Marginbox. The \texttt{llx} and \texttt{urx} are added to the left and right and increase the width. The \texttt{ury} is added to the height
+%   and \texttt{lly} to the depth of the box. This keeps the baseline at the original position.}
+%   \label{fig:margin}
+% \end{figure}
+%
+% \begin{figure}
+%   \centering
+%   {\catcode`\%=14\relax\input{man/margin2}}
+%   \caption{Marginbox*. In addition to the normal margin the content
+%   is also raised by \texttt{lly}, so that the original depth is preserved.
+%   This effectively moves the baseline down.}
+%   \label{fig:margin}
 % \end{figure}
 %
 % \StopEventually{}

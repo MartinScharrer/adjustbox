@@ -1,6 +1,7 @@
 \documentclass{standalone}
 
 \usepackage{tikz}
+\usetikzlibrary{calc}
 \usepackage{adjustbox}
 \newsavebox\mybox
 
@@ -73,5 +74,13 @@
    \draw [thick] (0,-\DEPTH) rectangle (\WIDTH,\HEIGHT);
    % Origin
    \path [fill=white,draw=black] (0,0) circle (1pt);
+   % Center inner box
+   \path let
+        \p1 = (current bounding box.south west),
+        \p2 = (current bounding box.north east),
+        \p3 = (0,-\DEPTH),
+        \p4 = (\WIDTH,\HEIGHT)
+   in
+        (\x3-\x2+\x4,\y3) rectangle (\x4+\x3-\x1,\y4);
 \end{tikzpicture}
 \end{document}
