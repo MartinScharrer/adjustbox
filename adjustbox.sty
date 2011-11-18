@@ -1385,20 +1385,31 @@
 % \begin{macro}{\stackbox}
 %    \begin{macrocode}
 \newcommand*\stackbox[1][c]{%
-   \collectboxcheckenv{stackbox}%
-   \@testopt{\@stackbox{#1}}{b}%
+    \collectboxcheckenv{stackbox}%
+    \@ifnextchar[%]
+        {\@stackbox{#1}}%
+        {\@@stackbox{#1}{b}[]}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@stackbox}
+% Read the third optional argument
+%    \begin{macrocode}
+\def\@stackbox#1[#2]{%
+    \@testopt{\@@stackbox{#1}{#2}}{}%
 }
 %    \end{macrocode}
 % \end{macro}
 %
 %
-% \begin{macro}{\@stackbox}
+% \begin{macro}{\@@stackbox}
 % The \env{varwidth} environment is used because it is much simpler to use than \env{tabular}.
 % The horizontal alignment is done by the usual text align macros.
 %    \begin{macrocode}
-\def\@stackbox#1[#2]{%
+\def\@@stackbox#1#2[#3]{%
     \collectbox@
-        {\begin{varwidth}[#2]{\linewidth}\csname adjbox@halign@#1\endcsname}
+        {\begin{varwidth}[#2]{\linewidth}\csname adjbox@halign@#1\endcsname#3}
         \BOXCONTENT
         {\end{varwidth}}%
 }
@@ -1408,8 +1419,8 @@
 %
 % \begin{key}{ADJBOX}{stack}
 %    \begin{macrocode}
-\define@key{ADJBOX}{stack}[{}{}]{%
-    \adjbox@stack#1{}{}\@nnil
+\define@key{ADJBOX}{stack}[{}{}{}]{%
+    \adjbox@stack#1{}{}{}\@nnil
 }
 %    \end{macrocode}
 % \end{key}
@@ -1417,14 +1428,14 @@
 %
 % \begin{macro}{\adjbox@stack}
 %    \begin{macrocode}
-\def\adjbox@stack#1#2#3\@nnil{%
+\def\adjbox@stack#1#2#3#4\@nnil{%
     \ifx\@nnil#1\@nnil
-        \adjbox@@stack{c}{b}%
+        \adjbox@@stack{c}{b}{}%
     \else
     \ifx\@nnil#2\@nnil
-        \adjbox@@stack{#1}{b}%
+        \adjbox@@stack{#1}{b}{}%
     \else
-        \adjbox@@stack{#1}{#2}%
+        \adjbox@@stack{#1}{#2}{#3}%
     \fi\fi
 }
 %    \end{macrocode}
@@ -1433,8 +1444,8 @@
 %
 % \begin{macro}{\adjbox@@stack}
 %    \begin{macrocode}
-\def\adjbox@@stack#1#2{%
-    \def\adjbox@collectbox##1{\collectbox@{\begin{varwidth}[#2]{\linewidth}\csname adjbox@halign@#1\endcsname}{##1}{\end{varwidth}}}%
+\def\adjbox@@stack#1#2#3{%
+    \def\adjbox@collectbox##1{\collectbox@{\begin{varwidth}[#2]{\linewidth}\csname adjbox@halign@#1\endcsname#3}{##1}{\end{varwidth}}}%
 }
 %    \end{macrocode}
 % \end{macro}
