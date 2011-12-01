@@ -15,15 +15,28 @@
 % \begin{macro}{\@cliptoboxdim}
 % Clips to official box dimension.
 %
-% Uses a PDF X-Object which has the side-effect of clipping.
-% TODO: Rewrite to use clipping path?
+% Uses now \Macro\pdfliteral because \Macro\pdfxform does not support
+% transparencies and patterns with TikZ.
 %    \begin{macrocode}
 \def\@cliptoboxdim#1{%
-    \pdfxform#1%
     \setbox#1=\hbox{%
-        \pdfrefxform\pdflastxform
+        \Gin@defaultbp\WIDTH{\wd#1}%
+        \Gin@defaultbp\DEPTH{\dp#1}%
+        \@tempdima\ht#1%
+        \advance\@tempdima\dp#1%
+        \Gin@defaultbp\TOTALHEIGHT{\@tempdima}%
+        \pdfsave
+            \pdfliteral direct {%
+                0 -\DEPTH\space \WIDTH\space \TOTALHEIGHT\space re W n
+            }%
+            \hbox to 0pt{\copy#1\hss}%
+        \pdfrestore
+        \hskip \wd#1
     }%
 }
+\endinput
+%%
+%% End of file `adjpdftex.def'.
 %    \end{macrocode}
 % \end{macro}
 %
