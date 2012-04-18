@@ -143,6 +143,8 @@
 % The typesetting of the content is finally done by executing the token register.
 %    \begin{macrocode}
 \newcommand\adjustbox[1]{%
+    \begingroup
+    \let\collectbox@mode\relax
     \collectboxcheckenv{adjustbox}%
     \begingroup
     \adjbox@setkeys{#1}%
@@ -189,6 +191,7 @@
     \setkeys{adjbox,Gin,adjcalc}{#1}%
     \adjbox@esetsize
     \the\toks@
+    \endgroup
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1614,6 +1617,32 @@
         \adjbox@addenv{#1}\@nnil%
         \remove@to@nnil
     }#1\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{figure}
+%    \begin{macrocode}
+\define@key\adjbox@fam{figure}[]{%
+    \@ifnextchar{[}{%
+        \adjbox@@figure
+    }{%
+        \adjbox@figure
+    }#1\@nnil
+}
+\def\adjbox@figure#1\@nnil{%
+    \ifx\@nnil#1\@nnil
+        \adjbox@@@figure{}%
+    \else
+        \adjbox@@@figure{\caption{#1}}%
+    \fi
+}
+\def\adjbox@@figure#1\@nnil{%
+    \adjbox@@@figure{\caption#1}%
+}
+\def\adjbox@@@figure#1{%
+    \def\@tempa{\begin{figure}}%
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\the\toks@#1\end{figure}}%
 }
 %    \end{macrocode}
 % \end{key}
