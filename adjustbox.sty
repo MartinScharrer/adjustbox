@@ -1621,33 +1621,55 @@
 %    \end{macrocode}
 % \end{key}
 %
+% \begin{key}{adjbox}{label}
+%    \begin{macrocode}
+\define@key\adjbox@fam{label}{%
+    \def\adjbox@label{\label{#1}}%
+}
+\let\adjbox@label\@empty
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{caption}
+%    \begin{macrocode}
+\define@key\adjbox@fam{caption}{%
+    \@ifnextchar{[}{%
+        \adjbox@def@caption
+    }{%
+        \adjbox@def@@caption
+    }#1\@nnil
+}
+\def\adjbox@def@@caption#1\@nnil{%
+    \def\adjbox@caption{\caption{#1}}%
+}
+\def\adjbox@def@caption[#1]#2\@nnil{%
+    \def\adjbox@caption{\caption[#1]{#2}}%
+}
+\let\adjbox@caption\@empty
+%    \end{macrocode}
+% \end{key}
+%
+%
 % \begin{key}{adjbox}{figure}
 %    \begin{macrocode}
 \define@key\adjbox@fam{figure}[]{%
     \Gin@esetsize
     \@tempswafalse
-    \@ifnextchar{[}{%
-        \adjbox@@figure
-    }{%
-        \adjbox@figure
-    }#1\@nnil
-}
-\def\adjbox@figure#1\@nnil{%
     \ifx\@nnil#1\@nnil
-        \adjbox@@@figure{}%
+        \expandafter\expandafter\expandafter\adjbox@figure
+        \expandafter\expandafter\expandafter{\expandafter\adjbox@caption\adjbox@label}{}%
     \else
-        \adjbox@@@figure{\caption{#1}}%
+        \expandafter\expandafter\expandafter\adjbox@figure
+        \expandafter\expandafter\expandafter{\expandafter\adjbox@caption\adjbox@label}{[#1]}%
     \fi
 }
-\def\adjbox@@figure#1\@nnil{%
-    \adjbox@@@figure{\caption#1}%
-}
-\def\adjbox@@@figure#1{%
-    \def\@tempa{\begin{figure}}%
+\def\adjbox@figure#1#2{%
+    \def\@tempa{\begin{figure}#2}%
     \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\the\toks@#1\end{figure}}%
 }
 %    \end{macrocode}
 % \end{key}
+%
 %
 %
 % \begin{macro}{\adjust@addenv}
