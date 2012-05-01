@@ -516,7 +516,7 @@
 % \Macro\clipbox*\relax macro. They can be used several times.
 %
 %
-% \subsection{Margins}
+% \subsection{Margins and Vertical Spacing}
 %
 % \DescribeMacro\marginbox{<all sites>}{<content>}
 % \DescribeMacro\marginbox{<left/right>~<top/bottom>}{<content>}
@@ -562,10 +562,18 @@
 % \end{example}
 %
 %
-% \DescribeKey{vskip}'='<above/below>
-% \DescribeKey{vskip}'='<above>~<below>
-% The \Key{vskip} key adds a vertical skip before and after the content.
-% This is done using \Key{margin} internally and not using \TeX's \Macro\vskip.
+% \DescribeKey{vspace}'='<above/below>
+% \DescribeKey{vspace}'='<above>~<below>
+% The \Key{vspace} key adds a vertical space before and after the content.
+% This is done by adding paragraph breaks and \Macro\vspace macros.
+% The key therefore forces vertical mode around the content. Adding further keys after \Key{vspace} will force
+% restricted horizontal mode again and ignore the vertical space added. For this situation \Key{margin} is better
+% suited.
+%
+% \DescribeKey{vspace*}'='<above/below>
+% \DescribeKey{vspace*}'='<above>~<below>
+% Identical to \Key{vspace} but uses \Macro\vspace'*' instead. 
+% The difference is that the vertical space is not ignored at page breaks, but its full amount is always forced.
 %
 %
 % \subsection{Minimum and Maximum Size}
