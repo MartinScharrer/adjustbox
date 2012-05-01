@@ -791,20 +791,33 @@
 %    \end{macrocode}
 % \end{key}
 %
-% \begin{key}{adjbox}{vskip}
+% \begin{key}{adjbox}{vspace}
 %    \begin{macrocode}
-\define@key\adjbox@fam{vskip}{%
-    \adjbox@vskip#1 {} \@nnil
-}
-\def\adjbox@vskip#1 #2 #3\@nnil{%
-    \ifx\@nnil#2\@nnil
-        \adjbox@Gin@Add{\marginbox@{0pt {#1} 0pt {#1}}}%
-    \else
-        \adjbox@Gin@Add{\marginbox@{0pt {#2} 0pt {#1}}}%
-    \fi
+\define@key\adjbox@fam{vspace}{%
+    \adjbox@vskip#1 {} \@nnil{}%
 }
 %    \end{macrocode}
 % \end{key}
+%
+% \begin{key}{adjbox}{vspace*}
+%    \begin{macrocode}
+\define@key\adjbox@fam{vspace*}{%
+    \adjbox@vskip#1 {} \@nnil*%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{macro}{\adjbox@vskip}
+%    \begin{macrocode}
+\def\adjbox@vskip#1 #2 #3\@nnil#4{%
+    \ifx\@nnil#2\@nnil
+        \adjust@addcode{\par\vspace#4{#1}\noindent}{\par\vspace#4{#1}}%
+    \else
+        \adjust@addcode{\par\vspace#4{#1}\noindent}{\par\vspace#4{#2}}%
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
 %
 %
 % \begin{key}{adjbox}{dpi}
@@ -1724,7 +1737,7 @@
     \@tempswatrue
     \adjust@@addcode#1{}\@nnil%
 }
-\def\adjust@@addcode#1#2#3\@nnil{%
+\long\def\adjust@@addcode#1#2#3\@nnil{%
     \ifx\@nnil#3\@nnil
         \adjust@addcode{#1}{#2}%
     \else
@@ -1763,7 +1776,7 @@
 %
 % \begin{macro}{\adjust@addcode}
 %    \begin{macrocode}
-\def\adjust@addcode#1#2{%
+\long\def\adjust@addcode#1#2{%
     \def\@tempa{#1}%
     \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}#2}%
 }%

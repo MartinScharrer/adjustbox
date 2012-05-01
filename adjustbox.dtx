@@ -529,7 +529,9 @@
 % \DescribeKey{margin}'='<llx>~<lly>~<urx>~<ury>
 % This feature can be used to add a margin (white space) around the content. It can be seen as the opposite of \Macro\trim.
 % The original baseline of the content is preserved because \meta{lly} is added to the depth.
-% It is also available as \env{marginbox} environment and also usable as \Key{margin} option (see below).
+% It is also available as \env{marginbox} environment and also usable as \Key{margin} key.
+% An alternative name of \Key{margin} is \Key{padding}.
+% It can be used to more visually distinguish an inner margin from an outer margin in the presents of a frame.
 %
 % \begin{example}
 %   \begin{examplecode}
@@ -551,6 +553,7 @@
 % amount, so that the original depth instead of the original baseline is preserved.
 % Note that while \Macro\marginbox is basically the opposite of \Macro\trim, \Macro\marginbox* is not the opposite of \Macro\trim*.
 % Instead it also takes the same values as the normal value and not view port values like \Macro\trim*.
+% An alternative name of \Key{margin*} is \Key{padding*}.
 %
 % \begin{example}
 %   \begin{examplecode}
@@ -558,6 +561,11 @@
 %   \end{examplecode}
 % \end{example}
 %
+%
+% \DescribeKey{vskip}'='<above/below>
+% \DescribeKey{vskip}'='<above>~<below>
+% The \Key{vskip} key adds a vertical skip before and after the content.
+% This is done using \Key{margin} internally and not using \TeX's \Macro\vskip.
 %
 %
 % \subsection{Minimum and Maximum Size}
