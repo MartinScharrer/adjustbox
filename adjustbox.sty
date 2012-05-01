@@ -775,6 +775,37 @@
 %    \end{macrocode}
 % \end{key}
 %
+% \begin{key}{adjbox}{padding}
+%    \begin{macrocode}
+\define@key\adjbox@fam{padding}{%
+    \adjbox@Gin@Add{\marginbox@{#1}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{padding*}
+%    \begin{macrocode}
+\define@key\adjbox@fam{padding*}{%
+    \adjbox@Gin@Add{\marginbox@s{#1}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{vskip}
+%    \begin{macrocode}
+\define@key\adjbox@fam{vskip}{%
+    \adjbox@vskip#1 {} \@nnil
+}
+\def\adjbox@vskip#1 #2 #3\@nnil{%
+    \ifx\@nnil#2\@nnil
+        \adjbox@Gin@Add{\marginbox@{0pt {#1} 0pt {#1}}}%
+    \else
+        \adjbox@Gin@Add{\marginbox@{0pt {#2} 0pt {#1}}}%
+    \fi
+}
+%    \end{macrocode}
+% \end{key}
+%
 %
 % \begin{key}{adjbox}{dpi}
 %    \begin{macrocode}
