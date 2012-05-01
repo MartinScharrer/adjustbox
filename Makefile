@@ -77,6 +77,7 @@ endif
 
 ${BUILDDIR}: ${MAINFILES}
 	-mkdir ${BUILDDIR} 2>/dev/null || true
+	test -e ${BUILDDIR}/man || ln -s ${PWD}/man ${BUILDDIR}
 	cp ${MAINFILES} README ${BUILDDIR}/
 	$(foreach DTX,${DTXFILES}, tex '\input ydocincl\relax\includefiles{${DTX}}{${BUILDDIR}/${DTX}}' && rm -f ydocincl.log;)
 	cd ${BUILDDIR}; $(foreach INS, ${INSFILES}, tex ${INS};)
