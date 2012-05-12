@@ -1714,6 +1714,31 @@
 %    \end{macrocode}
 % \end{key}
 %
+% \begin{key}{adjbox}{nofloat}
+%    \begin{macrocode}
+\define@key\adjbox@fam{nofloat}[figure]{%
+    \Gin@esetsize
+    \@tempswafalse
+    \def\@tempa{\adjust@addcode{\adjnofloat{#1}}}%
+    \expandafter\expandafter\expandafter
+    \@tempa\expandafter\expandafter\expandafter{\expandafter\adjbox@caption\adjbox@label\endadjnofloat}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{environment}{adjustbox}
+%    \begin{macrocode}
+\newenvironment{adjnofloat}[1]{%
+    \trivlist
+    \def\@captype{#1}%
+    \item\relax
+    \leavevmode
+}{%
+    \endtrivlist
+}
+%    \end{macrocode}
+% \end{environment}
 %
 %
 % \begin{macro}{\adjust@addenv}
