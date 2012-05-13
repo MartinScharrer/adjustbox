@@ -199,34 +199,43 @@
 % \makeatother
 %
 % \begin{abstract}
-%  This package extends the standard \pkg{graphics} package by providing the missing \Macro\trimbox and \Macro\clipbox macros to
-%  trim and clip arbitrary \TeX\ material.
+% This package extends the standard \pkg{graphicx} package by providing the missing \Macro\trimbox and \Macro\clipbox
+% macros to trim and clip arbitrary \TeX\ material. It is part of the \pkg{adjustbox} bundle.
 %
-%  These macros use the \pkg{collectbox} package to allow for verbatim content. Equivalent environments are also provided.
-%  The trim operation is implemented in pure \TeX\ and a set of driver files are provided to implement the output format specific clip operation.
-%  A fall-back driver based on the \pkg{pgf} package will be used for all unsupported output formats or compilers.
+% The macros of this package use the \pkg{collectbox} package to allow for verbatim content.  Equivalent environments
+% are also provided.  The trim operation is implemented in pure \TeX\ and a set of driver files are provided to
+% implement the output format specific clip operation.  A fall-back driver based on the \pkg{pgf} package will be used
+% for all unsupported output formats or compilers.
 % \end{abstract}
 %
 % \section{Introduction}
-% The standard \LaTeX{} package \pkg{graphicx} allows to scale, resize and rotate either images or text (i.e.\ any \TeX\ content).
-% For text the macros \Macro\scalebox, \Macro\resizebox and \Macro\rotatebox can be used, while 
-% equivalent keys exists \Macro\includegraphics.
-% However, while it is possible to trim and clip images using the |trim|, |viewport| and |clip| keys, no equivalent macros are provided.
-% This package closes this gap by defining the macros \Macro\trimbox and \Macro\clipbox. As an extra the macro \Macro\marginbox is also provided.
-% It can be seen as an inverted \Macro\trimbox, expanding the official size of the content instead of reducing it.
+% The standard \LaTeX{} package \pkg{graphicx}\footnote{Actually it is the \pkg{graphics} package, but 
+% this is assumed to be completely superseded by its extension \pkg{graphicx}.}
+% allows to scale, resize and rotate either images or text (i.e.\ any \TeX\ content).  For text the macros
+% \Macro\scalebox, \Macro\resizebox and \Macro\rotatebox can be used, while equivalent keys exists
+% \Macro\includegraphics.  However, while it is possible to trim and clip images using the \Key{trim}, \Key{viewport}
+% and \Key{clip} keys, no equivalent macros are provided.  This package closes this gap by defining the macros
+% \Macro\trimbox and \Macro\clipbox. As an extra the macro \Macro\marginbox is also provided.  It can be seen as an
+% inverted \Macro\trimbox, expanding the official size of the content instead of reducing it.
+% Originally these macros were included in the \pkg{adjustbox} package together with the general \Macro\adjustbox macro.
+% However, the fundamental clip and trim macros and their driver files are now packed into this minimalistic package,
+% so that other packages can reuse its functionality without the need to load the ever-growing \pkg{adjustbox} package.
 %
-% The macros provided by this package differ in three aspects from the macros defined by \pkg{graphicx}.
-% The content argument is actually read directly as a horizontal box and not as a macro argument, even when the syntax looks the same.
-% This allows for arbitrary content including special things like verbatim material. It is allowed to replace the "{ }" around the content with \Macro\bgroup and \Macro\egroup.
-% Furthermore, for every macro there is an equivalent environment with the same name. Special care is taken to allow the same name for both, which is normally not allowed.
-% Finally, the lengths arguments of the macros can contain algebraic expressions to calculate the used length. This is only possible with the \pkg{graphicx} macros
-% if the \pkg{calc} package is loaded. However, the \pkg{trimclip} macros use the \pkg{adjcalc} wrapper package which either uses $\epsilon$-\TeX\ primitives, \pkg{calc} or \pkg{pgfmath}
-% to provide this feature.
+% The macros provided by this package differ in three aspects from the macros defined by \pkg{graphicx}.  The content
+% argument is actually read directly as a horizontal box and not as a macro argument, even when the syntax looks the
+% same.  This allows for arbitrary content including special things like verbatim material. It is allowed to replace the
+% "{ }" around the content with \Macro\bgroup and \Macro\egroup.  Furthermore, for every macro there is an equivalent
+% environment with the same name. Special care is taken to allow the same name for both, which is normally not allowed.
+% Finally, the lengths arguments of the macros can contain algebraic expressions to calculate the used length. This is
+% only possible with the \pkg{graphicx} macros if the \pkg{calc} package is loaded. However, the \pkg{trimclip} macros
+% use the \pkg{adjcalc} wrapper package which either uses $\epsilon$-\TeX\ primitives, \pkg{calc} or \pkg{pgfmath} to
+% provide this feature.
 %
 %
 % \section{Dependencies}
-% This package uses the author's other packages \pkg{collectbox} (to collect the content as a real box) and \pkg{adjcalc} (to allow for math expressions for lengths).
-% The latter is part of the same \pkg{adjustbox} bundle and should have be installed together with \pkg{trimclip}.
+% This package uses the author's other packages \pkg{collectbox} (to collect the content as a real box) and
+% \pkg{adjcalc} (to allow for math expressions for lengths).  The latter is part of the same \pkg{adjustbox} bundle and
+% should have be installed together with \pkg{trimclip}.
 %
 % \section{Drivers}
 % The clip operation can not be done using general \TeX\ commands, but is rather output format specific.
