@@ -362,7 +362,7 @@
 % The \env{trimbox} and \env{trimbox*} environments do the same as the corresponding macros.
 %
 %
-%
+% \Needspace*{10\baselineskip}
 % \subsection{Clipping}
 % \vspace{-\medskipamount}
 % \DescribeMacro\clipbox{<llx>~<lly>~<urx>~<ury>}{<content>}
@@ -406,19 +406,14 @@
 %   \begin{examplecode}
 %   \clipbox*{5pt -2pt 3em 2em}{\examplecontent}
 %   \end{examplecode}
-%   \medskip
 %   \begin{examplecode}
 %   \clipbox*{5pt 10pt 3em 2em}{\examplecontent}
 %   \end{examplecode}
-%   \bigskip
-%   \bigskip
 %   \begin{examplecode}
 %   \clipbox*{5pt -3pt 3em -1pt}{\examplecontent}
 %   \end{examplecode}
 % \end{examples}
 %
-%
-% \clearpage
 % \subsection{Margin}
 % \vspace{-\medskipamount}
 % \DescribeMacro\marginbox{<all sites>}{<content>}
@@ -458,7 +453,8 @@
 % ^^A It should give the interested reader a deeper understanding of the operations and the behaviour in normal and edge cases.
 % The box dimensions, trim values and change of the baseline for different scenarios are visualized by the following figures.
 %
-%
+% \tikzset{semitransparent/.style={}}
+% \tikzset{opacity/.style={}}
 % \begin{figure}[!bt]
 %   \centering
 %   {\catcode`\%=14\relax\input{box}}
