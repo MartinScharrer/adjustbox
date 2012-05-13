@@ -1,6 +1,6 @@
 CONTRIBUTION  = adjustbox
 NAME          = Martin Scharrer
-EMAIL         = martin@scharrer.me
+EMAIL         = martin@scharrer-online.de
 DIRECTORY     = /macros/latex/contrib/${CONTRIBUTION}
 LICENSE       = free
 FREEVERSION   = lppl
@@ -15,7 +15,6 @@ INSFILES      = ${CONTRIBUTION}.ins
 LTXFILES      = adjustbox.sty trimclip.sty tc-pgf.def tc-dvips.def tc-xetex.def tc-pdftex.def adjcalc.sty
 LTXDOCFILES   = ${MAINPDFS} README
 LTXSRCFILES   = ${DTXFILES} ${INSFILES} 
-#box.tex compare.tex margin2.tex margin.tex trim2.tex trim3.tex trim.tex viewport2.tex viewport.tex
 PLAINFILES    = #${CONTRIBUTION}.tex
 PLAINDOCFILES = #${CONTRIBUTION}.?
 PLAINSRCFILES = #${CONTRIBUTION}.?
