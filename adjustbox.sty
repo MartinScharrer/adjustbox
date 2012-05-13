@@ -32,8 +32,10 @@
 \DeclareOptionX<adjbox>{minimal}{%
     \PackageWarning{adjustbox}{%
          The 'minimal' option is now deprecated.\MessageBreak
-         Load the 'trimclip' package if only trim and clip macros are required%
+         Load the 'trimclip' package if only trim and clip\MessageBreak
+         macros are required\@gobble
     }%
+    \let\adjustbox@minimal\endinput
 }
 %    \end{macrocode}
 %
@@ -72,9 +74,10 @@
 %
 % Load the required packages.
 %    \begin{macrocode}
-\RequirePackage{trimclip}
 \RequirePackage{graphicx}[1999/02/16]
 \RequirePackage{collectbox}[2012/05/13]
+\RequirePackage{trimclip}
+{\csname adjustbox@minimal\endcsname}
 %    \end{macrocode}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
