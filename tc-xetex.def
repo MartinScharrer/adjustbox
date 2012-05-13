@@ -1,16 +1,13 @@
-% \iffalse
-%<!COPYRIGHT>
-% \fi
 %    \begin{macrocode}
-\ProvidesFile{adjpdftex.def}[%
+%<!COPYRIGHT>
+\ProvidesFile{tc-xetex.def}[%
 %<!DATE>
 %<!VERSION>
 %<*DRIVER>
     2099/01/01 develop
 %</DRIVER>
-    adjustbox clip driver for pdftex]
+    Clipping driver for xetex]
 %    \end{macrocode}
-%
 %
 % \begin{macro}{\@cliptoboxdim}
 % Clips to official box dimension.
@@ -40,6 +37,4 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \iffalse
-% vim: ft=tex
-% \fi
+%^^A vim: ft=tex

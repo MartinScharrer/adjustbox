@@ -1,14 +1,12 @@
-% \iffalse
-%<!COPYRIGHT>
-% \fi
 %    \begin{macrocode}
-\ProvidesFile{adjpdftex.def}[%
+%<!COPYRIGHT>
+\ProvidesFile{tc-pdftex.def}[%
 %<!DATE>
 %<!VERSION>
 %<*DRIVER>
     2099/01/01 develop
 %</DRIVER>
-    adjustbox clip driver for pdftex]
+    Clipping driver for pdftex]
 %    \end{macrocode}
 %
 %
@@ -34,11 +32,7 @@
         \hskip \wd#1
     }%
 }
-%%
-%% End of file `adjpdftex.def'.
 %    \end{macrocode}
 % \end{macro}
 %
-% \iffalse
-% vim: ft=tex
-% \fi
+%^^A vim: ft=tex

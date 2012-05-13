@@ -1,14 +1,12 @@
-% \iffalse
-%<!COPYRIGHT>
-% \fi
 %    \begin{macrocode}
-\ProvidesFile{adjdvips.def}[%
+%<!COPYRIGHT>
+\ProvidesFile{tc-dvips.def}[%
 %<!DATE>
 %<!VERSION>
 %<*DRIVER>
     2099/01/01 develop
 %</DRIVER>
-    adjustbox clip driver for dvips]
+    Clipping driver for dvips]
 %    \end{macrocode}
 %
 %
@@ -44,6 +42,4 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \iffalse
-% vim: ft=tex
-% \fi
+%^^A vim: ft=tex

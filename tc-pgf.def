@@ -1,14 +1,12 @@
-% \iffalse
-%<!COPYRIGHT>
-% \fi
 %    \begin{macrocode}
-\ProvidesFile{adjpgf.def}[%
+%<!COPYRIGHT>
+\ProvidesFile{tc-pgf.def}[%
 %<!DATE>
 %<!VERSION>
 %<*DRIVER>
     2099/01/01 develop
 %</DRIVER>
-    adjustbox fall-back clip driver using PGF]
+    trimclip fall-back clipping driver using PGF]
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -34,6 +32,4 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \iffalse
-% vim: ft=tex
-% \fi
+%^^A vim: ft=tex
