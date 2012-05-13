@@ -1721,11 +1721,30 @@
 %    \end{macrocode}
 % \end{key}
 %
+% \begin{key}{adjbox}{float}
+%    \begin{macrocode}
+\define@key\adjbox@fam{float}{%
+    \let\adjustbox@noindent\relax
+    \@ifnextchar\bgroup{%
+        \adjbox@float
+    }{%
+        \adjbox@float{#1}\@nnil
+        \remove@to@nnil
+    }#1\@nnil
+}
+\def\adjbox@float{%
+    \expandafter\expandafter
+    \expandafter\adjbox@@float\expandafter\expandafter\expandafter{\expandafter\adjbox@caption\adjbox@label}%
+}
+\def\adjbox@@float#1#2#3\@nnil{%
+    \adjust@addcode{\begin{#2}#3}{#1\end{#2}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
 % \begin{key}{adjbox}{nofloat}
 %    \begin{macrocode}
 \define@key\adjbox@fam{nofloat}[figure]{%
-    \Gin@esetsize
-    \@tempswafalse
     \def\@tempa{\adjust@addcode{\adjnofloat{#1}}}%
     \expandafter\expandafter\expandafter
     \@tempa\expandafter\expandafter\expandafter{\expandafter\adjbox@caption\adjbox@label\endadjnofloat}%
