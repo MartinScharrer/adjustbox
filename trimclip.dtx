@@ -149,7 +149,12 @@
 %\CodelineIndex
 %\RecordChanges
 \OnlyDescription
-\renewcommand{\bottomfraction}{0.5}
+\renewcommand\topfraction{.9}
+\renewcommand\bottomfraction{.9}
+\renewcommand\textfraction{.1}
+\renewcommand\floatpagefraction{.5}
+\renewcommand\dbltopfraction{.7}
+\renewcommand\dblfloatpagefraction{.5}
 \begin{document}
  \DocInput{trimclip.dtx}
   \PrintChanges
@@ -433,12 +438,12 @@
 %
 % \clearpage
 % \section{Details}
-% This section explains the details about the trim and clip implementations.
-% It should give the interested reader a deeper understanding of the operations and the behaviour in normal and edge cases.
+% ^^A This section explains the details about the trim and clip implementations.
+% ^^A It should give the interested reader a deeper understanding of the operations and the behaviour in normal and edge cases.
+% The box dimensions, trim values and change of the baseline for different scenarios are visualized by the following figures.
 %
-% (Coming soon)
 %
-% \begin{figure}
+% \begin{figure}[!bt]
 %   \centering
 %   {\catcode`\%=14\relax\input{man/box}}
 %   \caption{Box dimensions. Shown are also the \LaTeX\ macros and the \TeX\ primitives. Here \cs{br} stands for a box register.
@@ -446,7 +451,7 @@
 %   }\label{fig:boxdim}
 % \end{figure}
 %
-% \begin{figure}
+% \begin{figure}[!bt]
 %   \centering
 %   {\catcode`\%=14\relax\input{man/trim}}
 %   \caption{Trimming. The four values are removed from each side.}\label{fig:trim}
