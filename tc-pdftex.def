@@ -34,7 +34,6 @@
         \hskip \wd#1
     }%
 }
-\endinput
 %%
 %% End of file `adjpdftex.def'.
 %    \end{macrocode}

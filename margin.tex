@@ -1,3 +1,4 @@
+%<*standalone>
 \documentclass{standalone}
 
 \usepackage{tikz}
@@ -8,8 +9,9 @@
 % Diagram of the TeX box model and its dimensions
 % Copyright (C) 2001 by Martin Scharrer <martin@scharrer.me>, Nov 12th 2011
 % This is free code under the LPPL v1.3 or later version OR the CC BY-SA 3.0
+%</standalone>
 \begin{tikzpicture}[font=\sffamily,>=latex]
-   % Save example text in box
+% Save example text in box
    \def\text{\scalebox{10}{Xy}}
    \sbox\mybox{\pgfinterruptpicture\sffamily\color{black!25}\scalebox{10}{Xy}\endpgfinterruptpicture}
    \def\HEIGHT{\ht\mybox}
@@ -19,19 +21,19 @@
    \def\LLY{.5\DEPTH}
    \def\URX{.15\WIDTH}
    \def\URY{.25\HEIGHT}
-   % Text node:
+% Text node:
    \node [inner sep=0pt,anchor=base west] {\usebox\mybox};
-   % Baseline
+% Baseline
    \draw (0,0) -- (\WIDTH,0);% node [above,midway] {baseline};
-   %\draw [<-,shorten <=2pt] (0,0) -- (2ex,-2ex) -- +(.5ex,0) node [right=-0.5ex] {origin};
-   % Dimensions
+%\draw [<-,shorten <=2pt] (0,0) -- (2ex,-2ex) -- +(.5ex,0) node [right=-0.5ex] {origin};
+% Dimensions
    \begin{scope}[blue,every node/.append style={inner sep=2pt}]
     \begin{scope}
         \draw ([shift={(-\LLX,-\LLY)}]0,-\DEPTH) rectangle ([shift={(\URX,\URY)}]\WIDTH,\HEIGHT);
-       %\node [inner sep=0pt,anchor=base west,semitransparent,color=blue] {\text};
+%\node [inner sep=0pt,anchor=base west,semitransparent,color=blue] {\text};
     \end{scope}
-   %\draw [->,.!45] (\WIDTH,\HEIGHT) -- ++(-\URX,-\URY);
-   %\draw [->,.!45] (0,-\DEPTH) -- ++(\LLX,\LLY);
+%\draw [->,.!45] (\WIDTH,\HEIGHT) -- ++(-\URX,-\URY);
+%\draw [->,.!45] (0,-\DEPTH) -- ++(\LLX,\LLY);
     \draw [->] (.5\WIDTH,-\DEPTH) -- ++(0,-\LLY) node [right,midway] {\scriptsize lly};
     \draw [->] (0,.5*\HEIGHT-.5*\DEPTH) -- ++(-\LLX,0) node [above,midway] {\scriptsize llx};
     \draw (-\LLX,0) -- ([shift={(+\URX,0)}]\WIDTH,0);
@@ -39,11 +41,11 @@
     \draw [->] (\WIDTH,.5*\HEIGHT-.5*\DEPTH) -- ++(\URX,0) node [above,midway] {\scriptsize urx};
     \path [fill=white,draw] (-\LLX,0) circle (1pt);
    \end{scope}
-   % Box
+% Box
    \draw [thick] (0,-\DEPTH) rectangle (\WIDTH,\HEIGHT);
-   % Origin
+% Origin
    \path [fill=white,draw=black] (0,0) circle (1pt);
-   % Center inner box
+% Center inner box
    \path let
         \p1 = (current bounding box.south west),
         \p2 = (current bounding box.north east),
@@ -52,4 +54,6 @@
    in
         (\x3-\x2+\x4,\y3) rectangle (\x4+\x3-\x1,\y4);
 \end{tikzpicture}
+%<*standalone>
 \end{document}
+%</standalone>

@@ -445,7 +445,7 @@
 %
 % \begin{figure}[!bt]
 %   \centering
-%   {\catcode`\%=14\relax\input{man/box}}
+%   {\catcode`\%=14\relax\input{box}}
 %   \caption{Box dimensions. Shown are also the \LaTeX\ macros and the \TeX\ primitives. Here \cs{br} stands for a box register.
 %       Note that the depth is a positive values on its own downwards pointed axes.
 %   }\label{fig:boxdim}
@@ -453,37 +453,37 @@
 %
 % \begin{figure}[!bt]
 %   \centering
-%   {\catcode`\%=14\relax\input{man/trim}}
+%   {\catcode`\%=14\relax\input{trim}}
 %   \caption{Trimming. The four values are removed from each side.}\label{fig:trim}
 % \end{figure}
 %
 % \begin{figure}
 %   \centering
-%   {\catcode`\%=14\relax\input{man/trim2}}
+%   {\catcode`\%=14\relax\input{trim2}}
 %   \caption{Trimming with \texttt{lly}$>$depth. In this case the resulting box moves up to the original baseline.}\label{fig:trim2}
 % \end{figure}
 %
 % \begin{figure}
 %   \centering
-%   {\catcode`\%=14\relax\input{man/trim3}}
+%   {\catcode`\%=14\relax\input{trim3}}
 %   \caption{Trimming with \texttt{ury}$>$height. In this case the resulting box falls down to the original baseline}\label{fig:trim2}
 % \end{figure}
 %
 % \begin{figure}
 %   \centering
-%   {\catcode`\%=14\relax\input{man/viewport}}
+%   {\catcode`\%=14\relax\input{viewport}}
 %   \caption{Viewport with \texttt{lly}$>$0pt. The \texttt{ll} and \texttt{ur} values are taken from the origin. The baseline is the vertical zero reference.}\label{fig:viewport}
 % \end{figure}
 %
 % \begin{figure}
 %   \centering
-%   {\catcode`\%=14\relax\input{man/viewport2}}
+%   {\catcode`\%=14\relax\input{viewport2}}
 %   \caption{Viewport with \texttt{lly}$<$0pt. In this case the viewport ranges into the depth of the original box.}
 % \end{figure}
 %
 % \begin{figure}
 %   \centering
-%   {\catcode`\%=14\relax\input{man/margin}}
+%   {\catcode`\%=14\relax\input{margin}}
 %   \caption{Marginbox. The \texttt{llx} and \texttt{urx} are added to the left and right and increase the width. The \texttt{ury} is added to the height
 %   and \texttt{lly} to the depth of the box. This keeps the baseline at the original position.}
 %   \label{fig:margin}
@@ -491,7 +491,7 @@
 %
 % \begin{figure}
 %   \centering
-%   {\catcode`\%=14\relax\input{man/margin2}}
+%   {\catcode`\%=14\relax\input{margin2}}
 %   \caption{Marginbox*. In addition to the normal margin the content
 %   is also raised by \texttt{lly}, so that the original depth is preserved.
 %   This effectively moves the baseline down.}
@@ -530,3 +530,42 @@
 %
 % \Finale
 % \endinput
+%
+% ^^A Standalone figures:
+%
+% \iffalse
+%<@box.tex>
+% \fi
+%
+% \iffalse
+%<@compare.tex>
+% \fi
+%
+% \iffalse
+%<@margin2.tex>
+% \fi
+%
+% \iffalse
+%<@margin.tex>
+% \fi
+%
+% \iffalse
+%<@trim2.tex>
+% \fi
+%
+% \iffalse
+%<@trim3.tex>
+% \fi
+%
+% \iffalse
+%<@trim.tex>
+% \fi
+%
+% \iffalse
+%<@viewport2.tex>
+% \fi
+%
+% \iffalse
+%<@viewport.tex>
+% \fi
+%

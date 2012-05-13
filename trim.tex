@@ -1,3 +1,4 @@
+%<*standalone>
 \documentclass{standalone}
 
 \usepackage{tikz}
@@ -5,11 +6,12 @@
 \newsavebox\mybox
 
 \begin{document}
+%</standalone>
 % Diagram of the TeX box model and its dimensions
 % Copyright (C) 2001 by Martin Scharrer <martin@scharrer.me>, Nov 12th 2011
 % This is free code under the LPPL v1.3 or later version OR the CC BY-SA 3.0
 \begin{tikzpicture}[font=\sffamily,>=latex]
-   % Save example text in box
+% Save example text in box
    \def\text{\scalebox{10}{Xy}}
    \sbox\mybox{\pgfinterruptpicture\sffamily\color{black!25}\scalebox{10}{Xy}\endpgfinterruptpicture}
    \def\HEIGHT{\ht\mybox}
@@ -19,7 +21,7 @@
    \def\LLY{.5\DEPTH}
    \def\URX{.15\WIDTH}
    \def\URY{.25\HEIGHT}
-   % Extensions lines for dimensions (drawn here to be below other material)
+% Extensions lines for dimensions (drawn here to be below other material)
    \draw [gray,thin]
         (0,0)       -- +(-3.5ex,0)
         (0,\HEIGHT) -- +(-3.5ex,0)
@@ -29,12 +31,12 @@
         (0,-\DEPTH)      -- +(0,-3.5ex)
         (\WIDTH,-\DEPTH) -- +(0,-3.5ex)
    ;
-   % Text node:
+% Text node:
    \node [inner sep=0pt,anchor=base west] {\usebox\mybox};
-   % Baseline
+% Baseline
    \draw (0,0) -- (\WIDTH,0);% node [above,midway] {baseline};
-   %\draw [<-,shorten <=2pt] (0,0) -- (2ex,-2ex) -- +(.5ex,0) node [right=-0.5ex] {origin};
-   % Dimensions
+%\draw [<-,shorten <=2pt] (0,0) -- (2ex,-2ex) -- +(.5ex,0) node [right=-0.5ex] {origin};
+% Dimensions
    \draw [->] (-2.5ex,0) -- +(0,-\DEPTH)  node [midway,left] {depth};
    \draw [->] (-2.5ex,0) -- +(0, \HEIGHT) node [midway,left] {height};
    \draw [<->] (\WIDTH,-\DEPTH) ++(2.5ex,0) -- +(0,\DEPTH+\HEIGHT) node [midway,right] {totalheight};
@@ -45,8 +47,8 @@
         \clip ([shift={(\LLX,\LLY)}]0,-\DEPTH) rectangle ([shift={(-\URX,-\URY)}]\WIDTH,\HEIGHT);
         \node [inner sep=0pt,anchor=base west,semitransparent,color=blue] {\text};
     \end{scope}
-   %\draw [->,.!45] (\WIDTH,\HEIGHT) -- ++(-\URX,-\URY);
-   %\draw [->,.!45] (0,-\DEPTH) -- ++(\LLX,\LLY);
+%\draw [->,.!45] (\WIDTH,\HEIGHT) -- ++(-\URX,-\URY);
+%\draw [->,.!45] (0,-\DEPTH) -- ++(\LLX,\LLY);
     \draw ([shift={(\LLX,\LLY)}]0,-\DEPTH) rectangle ([shift={(-\URX,-\URY)}]\WIDTH,\HEIGHT);
     \draw [->] (\LLX,-\DEPTH)   -- ++(0,\LLY) node [right,midway] {\scriptsize lly};
     \draw [->] (0,-\DEPTH+\LLY) -- ++(\LLX,0) node [above,midway] {\scriptsize llx};
@@ -63,11 +65,11 @@
     ;
     \path [fill=white,draw] (\LLX,0) circle (1pt);
    \end{scope}
-   % Box
+% Box
    \draw [thick] (0,-\DEPTH) rectangle (\WIDTH,\HEIGHT);
-   % Origin
+% Origin
    \path [fill=white,draw=black] (0,0) circle (1pt);
-   % Center inner box
+% Center inner box
    \path let
         \p1 = (current bounding box.south west),
         \p2 = (current bounding box.north east),
@@ -76,4 +78,6 @@
    in
         (\x3-\x2+\x4,\y3) rectangle (\x4+\x3-\x1,\y4);
 \end{tikzpicture}
+%<*standalone>
 \end{document}
+%</standalone>
