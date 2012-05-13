@@ -238,29 +238,34 @@
 % should have be installed together with \pkg{trimclip}.
 %
 % \section{Drivers}
-% The clip operation can not be done using general \TeX\ commands, but is rather output format specific.
-% The clipped material is actually included unclipped and the output file (i.e.\ PDF or PS file) contains format specific instructions,
-% so that the document viewer will clip the content when the document is displayed.
-% Depending on the used compilation work-flow (like |pdflatex|, |latex|+|dvips| or |latex|+|dvipdfm|, etc.) this clipping instructions must be
-% passed in a different way. In order to support all of these, dedicated driver files are provided which hold the specific low-level instructions.
-% This requirement should also be known to most users from the \pkg{graphics/x}, \pkg{(x)color} or \pkg{hyperref} packages which also require output format specific low-level instructions to implement 
-% their features.
+% The clip operation can not be implemented using general \TeX\ commands, but is rather output format specific.  The
+% clipped material is actually included unclipped and the output file (i.e.\ PDF or PS file) contains format specific
+% instructions, so that the document viewer will clip the content when the document is displayed.  Depending on the used
+% compilation work-flow (like |pdflatex|, |latex|+|dvips| or |latex|+|dvipdfm|, etc.) this clipping instructions must be
+% passed in a different way. In order to support all of these, dedicated driver files are provided which hold the
+% specific low-level instructions.  This requirement should also be known to most users from the \pkg{graphics/x},
+% \pkg{(x)color} or \pkg{hyperref} packages which also require output format specific low-level instructions to
+% implement their features.
 %
-% A set of driver files for the most common used \LaTeX\ compilers is provided with this package (see \autoref{sec:options} for a list).
-% If no suitable driver file is found, the \pkg{pgf} package is used instead to implement the clip operation.
-% This (large) package comes with its own set of driver files and should cover any other \LaTeX\ compilers.
+% A set of driver files for the most common used \LaTeX\ compilers is provided with this package (see
+% \autoref{sec:options} for a list).  If no suitable driver file is found, the \pkg{pgf} package is used instead to
+% implement the clip operation.  This (large) package comes with its own set of driver files and should cover any other
+% \LaTeX\ compilers. The \pkg{trimclip} drivers were inspired by the \pkg{graphic/x} and \pkg{pgf} driver code and 
+% were written by Joseph Wright of the \LaTeX3 project and Martin Scharrer (the author of this package).
 %
 % \section{Package Options}\label{sec:options}
-% Normally the package should be loaded without any options. A suitable driver should be automatically selected.
-% However, it accepts the following options to select the used driver manually.
-% Any other option is passed to the \pkg{graphics} package and the driver selected by it is used.
-% However, this does not work if \pkg{graphics} was already loaded before. In this case 
-% the (unknown) option is taken as driver and a file `\MacroArgs'tc-'<option>'.def'\relax' is loaded if it exits.
-% If not, the default PGF fall-back driver is used. PGF comes with a own set of drivers but is large and can be considered a significant overhead if used only for rectangular clipping.
+% Normally the package should be loaded without any options. A suitable driver will then automatically be selected.
+% However, the package accepts the following options to select the used driver manually.  Any other option is passed to the
+% \pkg{graphicx} package and the driver selected by it is used.  However, this does not work if \pkg{graphicx} or
+% \pkg{graphics} was already loaded before. In this case any unknown option is taken as driver and a file
+% `\MacroArgs'tc-'<option>'.def'\relax' is loaded if it exits.  If not, the default PGF fall-back driver is used. PGF
+% comes with a own set of drivers but is large and can be considered a significant overhead if used only for rectangular
+% clipping.
 %
 % \begin{description}
 %   \def\Option#1{\item[{{\normalfont\opt{#1}}}]}%
-%   \Option{pdftex} Use the |pdftex| driver. This driver is automatically selected for |pdflatex| and |lualatex| and should not be used for any other \LaTeX\ compiler.
+%   \Option{pdftex} Use the |pdftex| driver. This driver is automatically selected for |pdflatex| and |lualatex|
+%                   and should not be used for any other \LaTeX\ compilers.
 %   \Option{dvips} Use the |dvips| driver. This driver is automatically selected for |latex|.
 %   \Option{xetex} Use the |xetex| driver. This driver is automatically selected for |xelatex|.
 %   \Option{dvipdfm} Use the |xetex| driver which is also compatible with |dvipdfm|.
@@ -268,8 +273,8 @@
 %   \Option{pgf} Use the fall-back PGF driver explicitly. This makes sense if issue with another driver are encountered.
 % \end{description}
 %
-% It should be noted that choosing an incorrect driver will lead to clip operation not being applied (they act like trim operations)
-% and may lead to a broken output file.
+% It should be noted that choosing an incorrect driver will lead to clip operation not being applied (they act like trim
+% operations) and may lead to a broken output file.
 %
 %
 % \section{Argument Values}\label{sec:argval}
