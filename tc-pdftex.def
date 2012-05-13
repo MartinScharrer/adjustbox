@@ -1,14 +1,7 @@
 %    \begin{macrocode}
 %<!COPYRIGHT>
-\ProvidesFile{tc-pdftex.def}[%
-%<!DATE>
-%<!VERSION>
-%<*DRIVER>
-    2099/01/01 develop
-%</DRIVER>
-    Clipping driver for pdftex]
+\ProvidesFile{tc-pdftex.def}[2012/05/13 v1.0 Clipping driver for pdftex]
 %    \end{macrocode}
-%
 %
 % \begin{macro}{\@cliptoboxdim}
 % Clips to official box dimension.

@@ -1,12 +1,6 @@
 %    \begin{macrocode}
 %<!COPYRIGHT>
-\ProvidesFile{tc-xetex.def}[%
-%<!DATE>
-%<!VERSION>
-%<*DRIVER>
-    2099/01/01 develop
-%</DRIVER>
-    Clipping driver for xetex]
+\ProvidesFile{tc-xetex.def}[2012/05/13 v1.0 Clipping driver for xetex]
 %    \end{macrocode}
 %
 % \begin{macro}{\@cliptoboxdim}

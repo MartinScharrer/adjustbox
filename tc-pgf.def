@@ -1,12 +1,6 @@
 %    \begin{macrocode}
 %<!COPYRIGHT>
-\ProvidesFile{tc-pgf.def}[%
-%<!DATE>
-%<!VERSION>
-%<*DRIVER>
-    2099/01/01 develop
-%</DRIVER>
-    trimclip fall-back clipping driver using PGF]
+\ProvidesFile{tc-pgf.def}[2012/05/13 v1.0 trimclip fall-back clipping driver using PGF]
 %    \end{macrocode}
 %
 %    \begin{macrocode}

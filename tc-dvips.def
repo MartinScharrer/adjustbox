@@ -1,14 +1,7 @@
 %    \begin{macrocode}
 %<!COPYRIGHT>
-\ProvidesFile{tc-dvips.def}[%
-%<!DATE>
-%<!VERSION>
-%<*DRIVER>
-    2099/01/01 develop
-%</DRIVER>
-    Clipping driver for dvips]
+\ProvidesFile{tc-dvips.def}[2012/05/13 v1.0 Clipping driver for dvips]
 %    \end{macrocode}
-%
 %
 % \begin{macro}{\@cliptoboxdim}[1]{box register to clip}
 % Clips to official box dimension.
