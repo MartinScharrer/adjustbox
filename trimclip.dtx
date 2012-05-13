@@ -278,26 +278,28 @@
 %
 %
 % \section{Argument Values}\label{sec:argval}
-% All macros and their matching environments require four length values which are used to change the left, bottom, right and top side of the content.
-% Because of the used \pkg{adjcalc} package complicated algebraic expressions can be used to calculate these amounts.
-% Like the |trim| or |viewport| keys of \Macro\includegraphics these length must be separated by spaces.
-% Note that if a previous length expression ends in a macro any trailing spaces will be removed by \TeX.
-% Therefore it is required to wrap this \emph{complete} length expression in braces. See the usage section for examples.
-% It is also possible to only provide a single length which is used for all four sides or only two lengths which are taken for the left/right as well as bottom/top side.
-% This simplifies symmetric operations and got inspired by CSS.
+% All macros of this package and their matching environments require four length values which are used to change the
+% left, bottom, right and top side of the content.  Because of the used \pkg{adjcalc} package complicated algebraic
+% expressions can be used to calculate these amounts.  Like the |trim| or |viewport| keys of \Macro\includegraphics
+% these length must be separated by spaces.  Note that if a previous length expression ends in a macro any trailing
+% spaces will be removed by \TeX.  Therefore it is required to wrap this \emph{complete} length expression in braces.
+% Several examples of this are shown in the \emph{Usage} section.
+% It is also possible to only provide a single length which is used for all four
+% sides or only two lengths which are taken for the left/right as well as bottom/top side.  This simplifies symmetric
+% operations and got inspired by Cascading Style Sheets (CSS) used to style websites.
 %
-% If a length value is a simple number without a unit, a default unit is substituted (usually `|bp|', \emph{big points}, the standard PostScript and PDF unit).
-% This default unit can be changed using \Macro\adjcalc{'defaultunit='<unit>} or completely disabled (\MacroArgs<unit>'=none'). See the \pkg{adjcalc} manual for more details.
+% If a length value is a simple number without a unit, a default unit is substituted (usually `|bp|', \emph{big points},
+% the standard PostScript and PDF unit).  This default unit can be changed using \Macro\adjcalc{'defaultunit='<unit>} or
+% completely disabled (\MacroArgs'defaultunit=none'). See the \pkg{adjcalc} manual for more details.
 %
 % The length values can contain the following macros to refer to the original size of the content:
 %
 % \DescribeMacros
 %    \hbox{\Macro\width~~~\Macro\height~~~\Macro\depth~~~\Macro\totalheight}%
 % \endDescribeMacros
-% These \LaTeX{} lengths hold the original dimensions of the content and can be used to make relative changes.
-% Like any other length registers they can be used with a factor, e.g.\ \MacroArgs'.5'\AlsoMacro\width to refer to half the natural width
-% of the content.
-%
+% These \LaTeX{} lengths hold the original dimensions of the content and can be used to make relative changes.  Like any
+% other length registers they can be used with a factor, e.g.\ \MacroArgs'.5'\AlsoMacro\width to refer to half the
+% natural width of the content.
 %
 %
 % \section{Usage}
