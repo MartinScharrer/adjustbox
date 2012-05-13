@@ -19,14 +19,14 @@
             \let\on@line\@gobble
             \PackageWarning{trimclip}{%
                 A different clipping driver was requested than the\MessageBreak
-                one used for 'graphicx'! This is not recommended\MessageBreak
+                one used for 'graphics/x'! This is not recommended\MessageBreak
                 and can lead to defect output files.%
             }%
         \fi
         \endgroup
     }{%
         \def\tc@driver{tc-\Gin@driver}%
-        \PassOptionsToPackage\CurrentOption{graphics}%
+        \PassOptionsToPackage\CurrentOption{graphicx}%
     }%
 }
 \ProcessOptions*\relax
@@ -400,7 +400,7 @@
 }{%
     \input{tc-pgf.def}%
     {\let\on@line\@gobble
-    \PackageInfo{trimclip}{No clip driver '\tc@driver' available.\MessageBreak Using fall-back PGF driver.}}%
+    \PackageInfo{trimclip}{No clipping driver '\tc@driver' available.\MessageBreak Using fall-back PGF driver.}}%
 }
 %    \end{macrocode}
 %
