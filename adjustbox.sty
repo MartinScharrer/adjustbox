@@ -145,7 +145,11 @@
 \newcommand\adjustbox[1]{%
     \begingroup
     \let\collectbox@mode\relax
+    \let\collectbox@noindent\relax
     \collectboxcheckenv{adjustbox}%
+    \ifcollectboxenv\else
+        \let\adjustbox@noindent\relax
+    \fi
     \begingroup
     \adjbox@setkeys{#1}%
     \expandafter\expandafter\expandafter
@@ -167,6 +171,7 @@
 \def\adjbox@setkeys{%
     \setkeys*{ADJBOX}%
 }
+\let\adjustbox@noindent\noindent
 %    \end{macrocode}
 % \end{environment}
 %
@@ -190,6 +195,7 @@
     \def\setlength{\adjsetlength}%
     \setkeys{adjbox,Gin,adjcalc}{#1}%
     \adjbox@esetsize
+    \adjustbox@noindent
     \the\toks@
     \endgroup
 }
@@ -1699,6 +1705,7 @@
 \define@key\adjbox@fam{figure}[]{%
     \Gin@esetsize
     \@tempswafalse
+    \let\adjustbox@noindent\relax
     \ifx\@nnil#1\@nnil
         \expandafter\expandafter\expandafter\adjbox@figure
         \expandafter\expandafter\expandafter{\expandafter\adjbox@caption\adjbox@label}{}%
