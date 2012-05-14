@@ -1,7 +1,7 @@
 % \iffalse meta-comment
 %<=*COPYRIGHT>
-%% Copyright (C) 2011 by Martin Scharrer <martin@scharrer.me>
-%% ------------------------------------------------------------------
+%% Copyright (C) 2011-2012 by Martin Scharrer <martin@scharrer-online.de>
+%% ----------------------------------------------------------------------
 %% This work may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either version 1.3
 %% of this license or (at your option) any later version.
@@ -14,8 +14,10 @@
 %%
 %% The Current Maintainer of this work is Martin Scharrer.
 %%
-%% This work consists of the files adjustbox.dtx, adjustbox.ins
-%% and the derived file adjustbox.sty.
+%% This work consists of the files trimclip.dtx, trimclip.ins
+%% and the derived files trimclip.sty,
+%% tc-dvips.def, tc-pdftex.def, tc-pgf.def and tc-xetex.def.
+%% Further author information are located in the .def files.
 %%
 %<=/COPYRIGHT>
 % \fi
@@ -24,29 +26,29 @@
 %<*driver>
 \ProvidesFile{trimclip.dtx}[%
 %<=*DATE>
-    2011/11/14
+    2012/05/14
 %<=/DATE>
 %<=*VERSION>
     v1.0
 %<=/VERSION>
     DTX file for the trimclip package]
 \documentclass[a4paper]{ydoc}[2011/11/16]
-\usepackage{amsmath}
-\usepackage[T1]{fontenc}
+\GetFileInfo{trimclip.dtx}
+\usepackage{trimclip}[\filedate]
+
 \usepackage[utf8]{inputenc}
-\usepackage{fourier}
 \usepackage{standalone}
+
+%\AtBeginDocument{\MakeShortMacroArgs\`\relax}
+%\AtEndDocument{\DeleteShortVerb\`}
+%
+\normalmarginpar
+
 \usepackage{flafter}
+
 \usepackage{tikz}
 \usetikzlibrary{calc}
 \newsavebox\mybox
-\usepackage{newverbs}
-\MakeSpecialShortVerb\qverb\"
-%\AtBeginDocument{\MakeShortMacroArgs\`\relax}
-%\AtEndDocument{\DeleteShortVerb\`}
-\GetFileInfo{trimclip.dtx}
-\usepackage{trimclip}[\filedate]
-\normalmarginpar
 
 \renewenvironment{example}[1][Example:]{%
     \subsubsection*{#1}%
@@ -79,12 +81,6 @@
     classoffset=0,
     morekeywords={adjustbox,minsizebox,maxsizebox,lapbox,marginbox,phantombox},
     keywordstyle=\macrodescstyle,
-    emph={viewport, trim, Trim, Viewport, Clip, Clip*, frame, fbox, cframe, cfbox, reflect, lap, margin, margin*, dpi,
-    pxdim, execute, raise, valign, bgcolor, set, height, depth, vsize, width, totalheight, center, left, right, outer, inner, min, max,
-    size, totalsize,
-    minipage, innerenv, innercode, env, Addcode, addcode, precode, Precode, appcode, angle, scale, height, width, totalheight, resolution,
-    },
-    emphstyle=\keydescstyle,
 }
 
 \makeatletter
@@ -190,6 +186,7 @@
 % \bundle{adjustbox}
 % \author{Martin Scharrer}
 % \email{martin@scharrer-online.de}
+% ^^A\repository{https://bitbucket.org/martin_scharrer/adjustbox}
 % \ydocpdfsettings
 % \maketitle
 %
@@ -200,20 +197,17 @@
 %
 % \begin{abstract}
 % This package extends the standard \pkg{graphicx} package by providing the missing \Macro\trimbox and \Macro\clipbox
-% macros to trim and clip arbitrary \TeX\ material. It is part of the \pkg{adjustbox} bundle.
-%
-% The macros of this package use the \pkg{collectbox} package to allow for verbatim content.  Equivalent environments
-% are also provided.  The trim operation is implemented in pure \TeX\ and a set of driver files are provided to
-% implement the output format specific clip operation.  A fall-back driver based on the \pkg{pgf} package will be used
-% for all unsupported output formats or compilers.
+% macros to trim and clip arbitrary \TeX\ material.
+% The macros allow for verbatim content. Equivalent environments are also provided.
+% The package comes with own clipping drivers for all common output formats as well as a \pkg{pgf} fall-back driver.
 % \end{abstract}
 %
 % \section{Introduction}
-% The standard \LaTeX{} package \pkg{graphicx}\footnote{Actually it is the \pkg{graphics} package, but 
-% this is assumed to be completely superseded by its extension \pkg{graphicx}.}
+% The standard \LaTeX{} package \pkg{graphicx}.^^A\footnote{Actually it is the \pkg{graphics} package, but 
+% ^^Athis is assumed to be completely superseded by its extension \pkg{graphicx}.}
 % allows to scale, resize and rotate either images or text (i.e.\ any \TeX\ content).  For text the macros
-% \Macro\scalebox, \Macro\resizebox and \Macro\rotatebox can be used, while equivalent keys exists
-% \Macro\includegraphics.  However, while it is possible to trim and clip images using the \Key{trim}, \Key{viewport}
+% \Macro\scalebox, \Macro\resizebox and \Macro\rotatebox can be used, while equivalent keys exist for the
+% \Macro\includegraphics macro.  However, while it is possible to trim and clip images using the \Key{trim}, \Key{viewport}
 % and \Key{clip} keys, no equivalent macros are provided.  This package closes this gap by defining the macros
 % \Macro\trimbox and \Macro\clipbox. As an extra the macro \Macro\marginbox is also provided.  It can be seen as an
 % inverted \Macro\trimbox, expanding the official size of the content instead of reducing it.
@@ -448,10 +442,10 @@
 %
 %
 % \clearpage
-% \section{Details}
+% \section{Diagrams}
 % ^^A This section explains the details about the trim and clip implementations.
 % ^^A It should give the interested reader a deeper understanding of the operations and the behaviour in normal and edge cases.
-% The box dimensions, trim values and change of the baseline for different scenarios are visualized by the following figures.
+% The box dimensions, trim values and change of the baseline for different scenarios are visualized by the following diagrams.
 %
 % \begin{figure}[!bt]
 %   \centering
