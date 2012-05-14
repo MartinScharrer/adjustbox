@@ -288,8 +288,6 @@
 % optional keys for macros.
 %
 % \begin{description}\def\oitem#1{\item[{\normalfont\opt{#1}}]}
-%   \oitem{minimal} Only define the minimal set of macros, i.e.\ \Macro\trimbox, \Macro\clipbox and \Macro\adjustbox as
-%       with previous versions before v0.5.
 %   \oitem{export} Export the now keys of \Macro\adjustbox also to \Macro\includegraphics so that they can be used for
 %       images as well. This option is meaningless if \opt{minimal} was used.
 %   \oitem{pgf} Uses the \pkg{pgf} package for all clip operations. This overrides all automatically detected drivers.
@@ -367,11 +365,12 @@
 % \vskip-\lastskip
 % \DescribeMacro\adjustimage{<key=value, \ldots>}{<image filename>}
 % This macro can be used as an extension of \Macro\includegraphics.
-% While \Macro\adjustbox is based on the same interface as \Macro\includegraphics it provides more keys and allows global keys
-% set by \Macro\adjustboxset. Most keys can be exported to \Macro\includegraphics using the \opt{export} option, but there is no support
-% for global keys\footnote{However some keys, but not all, can be set globally using \Macro\setkeys{Gin}{<includegraphic key=value pairs>}}.
-% Therefore it can make sense to use \Macro\adjustbox{<key/value pairs>}{\AlsoMacro\includegraphics{<filename>}}, which
-% is the definition of \Macro\adjustimage.
+% While \Macro\adjustbox is based on the same interface as \Macro\includegraphics it provides more keys and allows
+% global keys set by \Macro\adjustboxset. Most keys can be exported to \Macro\includegraphics using the \opt{export}
+% option, but there is no support for global keys\footnote{However some keys, but not all, can be set globally using
+% \Macro\setkeys{Gin}{<includegraphic key=value pairs>}}.  Therefore it can make sense to use
+% \Macro\adjustbox{<key/value pairs>}{\AlsoMacro\includegraphics{<filename>}}, which is the definition of
+% \Macro\adjustimage.
 % However, it does not use \Macro\includegraphics directly, but an internal macro, to allow the redefinition of
 % \Macro\includegraphics.
 % This macro does not require the \opt{export} option and therefore helps to avoid option clashes
@@ -379,9 +378,9 @@
 %
 %
 % \DescribeMacro\adjincludegraphics[<key/value pairs>]{<image filename>}
-% Like \Macro\adjustimage but in the same format as \Macro\includegraphics, i.e.\ with an optional argument.
-% This macro allows to use all features of \Macro\adjustbox on images, however special care must be taken if the values include `|[ ]|'.
-% In this case either the whole value or the while optional argument must be wrapped in `|{ }|':
+% Like \Macro\adjustimage but in the same format as \Macro\includegraphics, i.e.\ with an optional argument.  This macro
+% allows to use all features of \Macro\adjustbox on images, however special care must be taken if the values include
+% `|[ ]|'.  In this case either the whole value or the while optional argument must be wrapped in `|{ }|':
 % \Macro\adjincludegraphics['key='{[..]},...]{..} or \\\Macro\adjincludegraphics[{key=[..],...}]{..}. \\
 % It is possible to redefine \Macro\includegraphics to \Macro\adjincludegraphics and this is done by
 % the \opt{Export} option (not to be confused with the \opt{export} option).
@@ -391,16 +390,17 @@
 % \vskip-\lastskip
 % \DescribeMacro\adjustboxset{<global keys to be executed \emph{before} local keys>}
 % \DescribeMacro\adjustboxset*{<global keys to be executed \emph{after} local keys>}
-% Using these two macros all keys can be set globally, i.e.\ for all future \Macro\adjustbox macros and \env{adjustbox} environments.
-% Note that these settings are actually \emph{local} to the current \TeX\ group and only really global if used in the preamble or outside any group.
-% The normal macro will place all given keys before the keys used in first argument of \Macro\adjustbox\ / \env{adjustbox},
-% while the starred version will place them afterwards.
+% Using these two macros all keys can be set globally, i.e.\ for all future \Macro\adjustbox macros and \env{adjustbox}
+% environments.  Note that these settings are actually \emph{local} to the current \TeX\ group and only really global if
+% used in the preamble or outside any group.  The normal macro will place all given keys before the keys used in first
+% argument of \Macro\adjustbox\ / \env{adjustbox}, while the starred version will place them afterwards.
 %
-% If these macros are used several times there keys are accumulated. This happens in the given order for the normal version and in reversed order for the starred version,
-% i.e.\ the keys of further \Macro\adjustboxset or \Macro\adjustboxset* are always added so they face inwards.
-% If used without any keys but an empty argument, all keys previously set with the same macro are removed (from the current \TeX\ scope).
-% This means \Macro\adjustboxset{} clears all keys set be previously usages of \Macro\adjustboxset{<keys>} and \Macro\adjustboxset*{} clears all set by \Macro\adjustboxset*{<keys>}.
-% Such resets are again local to the current \TeX\ group.
+% If these macros are used several times there keys are accumulated. This happens in the given order for the normal
+% version and in reversed order for the starred version, i.e.\ the keys of further \Macro\adjustboxset or
+% \Macro\adjustboxset* are always added so they face inwards.  If used without any keys but an empty argument, all keys
+% previously set with the same macro are removed (from the current \TeX\ scope).  This means \Macro\adjustboxset{}
+% clears all keys set be previously usages of \Macro\adjustboxset{<keys>} and \Macro\adjustboxset*{} clears all set by
+% \Macro\adjustboxset*{<keys>}.  Such resets are again local to the current \TeX\ group.
 %
 %
 % \begin{examples}
@@ -432,42 +432,47 @@
 %
 % ^^A )))2
 % \subsection{Argument Values}\label{sec:argval} ^^A (((2
-% All\marginpar{Parsing} length values given in the arguments of all macros and keys provided by this package are parsed by and advanced version of
-% \Macro\setlength\relax (called \Macro\adjsetlength) which uses either $\epsilon$-\TeX\ expressions (default), the \pkg{calc} package (default fall-back)
-% or the \Macro\pgfmathparse of the \pkg{pgf} package.
-% This allows for arithmetic expressions in these arguments. See the package options in \autoref{sec:options} to learn how to change the used length parser.
-% Note that early versions of this package used \Macro\pgfmathparse by default. Older documents therefore might need now use the \opt{pgfmath} option to compile correctly.
+% All\marginpar{Parsing} length values given in the arguments of all macros and keys provided by this package are parsed
+% by and advanced version of \Macro\setlength\relax (called \Macro\adjsetlength) which uses either $\epsilon$-\TeX\
+% expressions (default), the \pkg{calc} package (default fall-back) or the \Macro\pgfmathparse of the \pkg{pgf} package.
+% This allows for arithmetic expressions in these arguments. See the package options in \autoref{sec:options} to learn
+% how to change the used length parser.  Note that early versions of this package used \Macro\pgfmathparse by default.
+% Older documents therefore might need now use the \opt{pgfmath} option to compile correctly.
 %
-% Note\marginpar{Space=Separator} that the four values for \Macro\trimbox and \Macro\clipbox as well as for the \Key{trim} and \Key{viewport} option of \Macro\adjustbox
-% are separated by spaces. If the expression of any of this values holds a space or ends with a macro (eats trailing spaces!) it must be wrapped into braces "{ }".
+% Note\marginpar{Space=Separator} that the four values for \Macro\trimbox and \Macro\clipbox as well as for the
+% \Key{trim} and \Key{viewport} option of \Macro\adjustbox are separated by spaces. If the expression of any of this
+% values holds a space or ends with a macro (eats trailing spaces!) it must be wrapped into braces "{ }".
 %
 %
 % \DescribeMacros
 %    \hbox{\Macro\width~~~\Macro\height~~~\Macro\depth~~~\Macro\totalheight}%
 % \endDescribeMacros
-% These \LaTeX{} lengths hold the current dimensions of the content and can be used as part all length arguments.
-% When the size of the content is changed by a key these lengths will be adjusted to hold the new size for all further keys.
-% The totalheight is the height plus depth. With the \pkg{patch} option these lengths can also be used for \Macro\includegraphics.
+% These \LaTeX{} lengths hold the current dimensions of the content and can be used as part all length arguments.  When
+% the size of the content is changed by a key these lengths will be adjusted to hold the new size for all further keys.
+% The totalheight is the height plus depth. With the \pkg{patch} option these lengths can also be used for
+% \Macro\includegraphics.
 %
 % \DescribeMacros
 %    \hbox{\Macro\Width~~~\Macro\Height~~~\Macro\Depth~~~\Macro\Totalheight}%
 % \endDescribeMacros
-% These \LaTeX{} lengths hold the original dimension of original unchanged content and are not modified.
-% They are useful if the size of the content is modified by several keys, but further keys should still work relative to the original content.
+% These \LaTeX{} lengths hold the original dimension of original unchanged content and are not modified.  They are
+% useful if the size of the content is modified by several keys, but further keys should still work relative to the
+% original content.
 %
 % \subsubsection*{Default unit}
-% If no unit is provided for of the bounding box coordinates (llx, lly, urx, ury) in the trim and clip features then PostScript points
-% (\emph{big points}, bp, $72\,\text{bp}=1\,\text{inch}$) are used, as it is the default behaviour
-% of the \Key{trim} and \Key{viewport} options of \pkg{graphicx}'s \Macro\includegraphics. Note that \pkg{graphicx} converts all values, independent if a unit is provided or not,
-% internally to bp, because graphics where traditionally stored in Encapsulated PostScript (EPS) files. The more modern PDF files also use bp instead of pt.
-% Because the \pkg{adjustbox} package macros target \LATeX{} material and users will mostly use pt values this internal conversion to bp got disabled for them to 
-% avoid unnecessary rounding errors. Since v0.5 the default unit can be changed using the |defaultunit|\MacroArgs'='<unit>\relax
-% key (which is also usable as global package option).
+% If no unit is provided for of the bounding box coordinates (llx, lly, urx, ury) in the trim and clip features then
+% PostScript points (\emph{big points}, bp, $72\,\text{bp}=1\,\text{inch}$) are used, as it is the default behaviour of
+% the \Key{trim} and \Key{viewport} options of \pkg{graphicx}'s \Macro\includegraphics. Note that \pkg{graphicx}
+% converts all values, independent if a unit is provided or not, internally to bp, because graphics where traditionally
+% stored in Encapsulated PostScript (EPS) files. The more modern PDF files also use bp instead of pt.  Because the
+% \pkg{adjustbox} package macros target \LATeX{} material and users will mostly use pt values this internal conversion
+% to bp got disabled for them to avoid unnecessary rounding errors. Since v0.5 the default unit can be changed using the
+% |defaultunit|\MacroArgs'='<unit>\relax key (which is also usable as global package option).
 %
 % ^^A )))2
 % ^^A )))
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section{Keys and matching macros and environments} ^^A (((
+% \section{Adjustbox Keys} ^^A (((
 % This packages provides the following \Macro\adjustbox keys with matching macros and environments.
 %
 % \subsection{Trimming and Clipping} ^^A (((2
@@ -494,6 +499,15 @@
 % This key represents the original \Key{viewport} key of \Macro\includegraphics.
 % It always trims the original content to the given view port independent from its position.
 %
+% \DescribeKey{clip}
+% \DescribeKey{clip}'=true|false'
+% This boolean key represents the original \Key{clip} key of \Macro\includegraphics.
+% It is intended to be used to make \Key{trim} or \Key{viewport} clip the trimmed material.
+% Note that the material will still be part of the output file but is simply not shown.
+% It might be exported from the output file using special tools, so using it to censor classified information is a
+% bad idea.
+%
+%
 % \DescribeKey{Trim}'='<llx>~<lly>~<urx>~<ury>
 % \DescribeKey{Trim}'='<all sites>
 % \DescribeKey{Trim}'='<left/right>~<top/bottom>
@@ -508,83 +522,45 @@
 % has no effect on them.
 %
 %
-% \DescribeKey{clip}
-% \DescribeKey{clip}'=true|false'
-% This boolean key represents the original \Key{clip} key of \Macro\includegraphics.
-% It is intended to be used to make \Key{trim} or \Key{viewport} clip the trimmed material.
-%
-%
 % \DescribeKey{Clip}'='<llx>~<lly>~<urx>~<ury>
 % \DescribeKey{Clip}'='<all sites>
 % \DescribeKey{Clip}'='<left/right>~<top/bottom>
 % \DescribeKey{Clip*}'='<llx>~<lly>~<urx>~<ury>
-% As stated above the \Key{clip} boolean key
-% which will make the default \Key{trim} and \Key{viewport} keys clip the trimmed content, has no effect
-% on the \Key{trim} and \Key{viewport} keys. Instead \Key{Clip} and \Key{Clip*} are provided which wrap the content internally in a \Macro\clipbox or 
-% \Macro\clipbox*\relax macro. They can be used several times.
-%
-%
-% \DescribeMacro\clipbox{<all sites>}{<content>}
-% \DescribeMacro\clipbox{<left/right>~<top/bottom>}{<content>}
-% \DescribeMacro\clipbox{<llx>~<lly>~<urx>~<ury>}{<content>}
-% \DescribeMacro\clipbox*{<llx>~<lly>~<urx>~<ury>}{<content>}
-% The \Macro\clipbox macro works like the \Macro\trimbox and trims the given amounts from the \meta{text}.
-% However, in addition the trimmed material is also clipped, i.e. it is not shown in the final document.
-% Note that the material will still be part of the output file but is simply not shown.
-% It might be exported using special tools, so using \Macro\clipbox\relax (or \Macro\includegraphics[clip,trim=...])
-% to censor classified information would be a bad idea.
-% The starred version will again use the given coordinates as \Key{viewport}. 
-%
-% \DescribeEnv[<content>]{clipbox}{<1, 2 or 4 trim values>}
-% \vspace{-\baselineskip}
-% \DescribeEnv[<content>]{clipbox*}{<llx>~<lly>~<urx>~<ury>}
-% The environment versions of \Macro\clipbox and \Macro\clipbox*. The same rules as for the trimming environments apply.
+% The \Key{Clip} key will clip the given amounts from the current content and can be used several times if required.
+% The starred version will use the given coordinates as \Key{viewport}.
+% These keys work by wrapping the content internally in a \Macro\clipbox or \Macro\clipbox*\relax macro.
 %
 %
 %
 % ^^A )))2
 % \subsection{Margins and Vertical Spacing} ^^A (((2
 %
-% \DescribeMacro\marginbox{<all sites>}{<content>}
-% \DescribeMacro\marginbox{<left/right>~<top/bottom>}{<content>}
-% \DescribeMacro\marginbox{<llx>~<lly>~<urx>~<ury>}{<content>}
-% \Descsep
-% \DescribeEnv[<content>]{marginbox*}{<1, 2 or 4 margin values>}
-% \Descsep
 % \DescribeKey{margin}'='<all sites>
 % \DescribeKey{margin}'='<left/right>~<top/bottom>
 % \DescribeKey{margin}'='<llx>~<lly>~<urx>~<ury>
-% This feature can be used to add a margin (white space) around the content. It can be seen as the opposite of \Macro\trim.
+% This key can be used to add a margin (white space) around the content. It can be seen as the opposite of \Key{Trim}.
 % The original baseline of the content is preserved because \meta{lly} is added to the depth.
-% It is also available as \env{marginbox} environment and also usable as \Key{margin} key.
-% An alternative name of \Key{margin} is \Key{padding}.
-% It can be used to more visually distinguish an inner margin from an outer margin in the presents of a frame.
+% It is also available under the alternative name \Key{padding}, which can be used to more visually distinguish an inner
+% margin from an outer margin e.g.\ if a frame is added.
 %
 % \begin{example}
 %   \begin{examplecode}
-%   Before \fbox{\marginbox{1ex 2ex 3ex 4ex}{Text}} After
+%   Before \adjustbox{padding=1ex 2ex 3ex 4ex,frame,margin=1ex 2ex 3ex 4ex}{Text} After
 %   \end{examplecode}
 % \end{example}
 %
-%
-% \DescribeMacro\marginbox'*'{<all sites>}{<content>}
-% \DescribeMacro\marginbox'*'{<left/right>~<top/bottom>}{<content>}
-% \DescribeMacro\marginbox'*'{<llx>~<lly>~<urx>~<ury>}{<content>}
-% \Descsep
-% \DescribeEnv[<content>]{marginbox}{<1, 2 or 4 margin values>}
-% \Descsep
 % \DescribeKey{margin*}'='<all sites>
 % \DescribeKey{margin*}'='<left/right>~<top/bottom>
 % \DescribeKey{margin*}'='<llx>~<lly>~<urx>~<ury>
-% This starred version is almost identical to the normal \Macro\marginbox, but also raises the content by the \MacroArgs<lly>
-% amount, so that the original depth instead of the original baseline is preserved.
-% Note that while \Macro\marginbox is basically the opposite of \Macro\trim, \Macro\marginbox* is not the opposite of \Macro\trim*.
-% Instead it also takes the same values as the normal value and not view port values like \Macro\trim*.
+% This starred version is almost identical to the normal \Key{margin} key, but also raises the content by the \MacroArgs<lly>
+% amount, so that the original depth is preserved instead of the original baseline.
+% Note that while \Key{margin} is basically the opposite of \Key{Trim}, \Key{margin*} is not the opposite of \Key{Trim*}.
+% Instead it also takes the same values as the unstarred key and not viewport values like \Key{Trim*}.
 % An alternative name of \Key{margin*} is \Key{padding*}.
 %
 % \begin{example}
 %   \begin{examplecode}
-%   Before \fbox{\marginbox*{1ex 2ex 3ex 4ex}{Text}} After
+%   Before \adjustbox{padding*=1ex 2ex 3ex 4ex,frame,margin*=1ex 2ex 3ex 4ex}{Text} After
 %   \end{examplecode}
 % \end{example}
 %
@@ -592,10 +568,11 @@
 % \DescribeKey{vspace}'='<above/below>
 % \DescribeKey{vspace}'='<above>~<below>
 % The \Key{vspace} key adds a vertical space before and after the content.
-% This is done by adding paragraph breaks and \Macro\vspace macros.
-% The key therefore forces vertical mode around the content. Adding further keys after \Key{vspace} will force
-% restricted horizontal mode again and ignore the vertical space added. For this situation \Key{margin} is better
-% suited.
+% This is done by adding paragraph breaks and \Macro\vspace macros, which will yield better spacing between
+% paragraphs then when using the \Key{margin} key.
+% However \Key{vspace} forces vertical mode around the content. Adding further keys after \Key{vspace} will force
+% restricted horizontal mode again and the vertical space will be ignored. For this situation the \Key{margin} key is
+% better suited.
 %
 % \DescribeKey{vspace*}'='<above/below>
 % \DescribeKey{vspace*}'='<above>~<below>
