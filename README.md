@@ -1,0 +1,23 @@
+LaTeX bundle `adjustbox`
+=========================
+Copyright (c) 2011-2012 by Martin Scharrer <martin@scharrer-online.de>
+WWW: https://bitbucket.org/martin_scharrer/adjustbox (incl. bug tracker)
+
+This bundle contains the the `adjustbox` package and its auxiliary packages `trimclip` and `adjcalc`.
+The initial purpose of `adjustbox` was to supplement the standard `graphics/x` package, 
+which defines the macros `\resizebox`, `\scalebox` and `\rotatebox`, with the macros `\trimbox` and `\clipbox`.
+An additional `\marginbox` macro is also provided.
+These macros are now placed in the dedicated package `trimclip` which is loaded by `adjustbox`.
+The package comes with clipping driver files are provided for `pdftex` (incl. LuaLaTeX), `dvips` and `xetex`. A
+fall-back driver which uses the `pgf` package is still included. 
+The driver files got written by Joseph Wright (LaTeX3 project) and the package author.
+
+The main feature of `adjustbox` is the general `\adjustbox` macro which extends the `key=value`
+interface of `\includegraphics` from the `graphicx` package, and applies it to general text
+content. It also provides further text/box modifications keys, macros and envionments.
+
+All macros use the authors other package `collectbox` to read the content as box and not as
+macro argument. This allows for all forms of content including special material like verbatim content.
+A special feature of `collectbox` is used to provide matching environments with the identical names as the
+macros.
+

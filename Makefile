@@ -67,6 +67,9 @@ all: doc
 
 doc: ${MAINPDFS}
 
+README: README.md
+	${CP} $< $@
+
 ${MAINPDFS}: ${DTXFILES} README ${INSFILES} ${LTXFILES}
 	${MAKE} --no-print-directory build
 	cp "${BUILDDIR}/$@" "$@"
