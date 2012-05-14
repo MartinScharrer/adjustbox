@@ -68,7 +68,7 @@ all: doc
 doc: ${MAINPDFS}
 
 README: README.md
-	${CP} $< $@
+	sed 's/`//g' $< > $@
 
 ${MAINPDFS}: ${DTXFILES} README ${INSFILES} ${LTXFILES}
 	${MAKE} --no-print-directory build

@@ -16,6 +16,9 @@ The main feature of `adjustbox` is the general `\adjustbox` macro which extends 
 interface of `\includegraphics` from the `graphicx` package, and applies it to general text
 content. It also provides further text/box modifications keys, macros and envionments.
 
+Both `adjustbox` and `trimclip` use the `adjcalc` package to allow for algebraic expressions for all length
+arguments. The `adjcalc` package can use either e-TeX, the `calc` package or the `pgfmath` package.
+
 All macros use the authors other package `collectbox` to read the content as box and not as
 macro argument. This allows for all forms of content including special material like verbatim content.
 A special feature of `collectbox` is used to provide matching environments with the identical names as the
