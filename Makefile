@@ -78,7 +78,7 @@ ifneq (${BUILDDIR},build)
 build: ${BUILDDIR}
 endif
 
-${BUILDDIR}: ${MAINFILES}
+${BUILDDIR}: ${MAINFILES} README
 	-mkdir ${BUILDDIR} 2>/dev/null || true
 	cp ${LTXSRCFILES} README ${BUILDDIR}/
 	$(foreach DTX,${DTXFILES}, tex '\input ydocincl\relax\includefiles{${DTX}}{${BUILDDIR}/${DTX}}' && rm -f ydocincl.log;)
