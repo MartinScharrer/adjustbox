@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsection{Package header, options and dependencies}
+% \subsection{Package header, options and dependencies} ^^A (((
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %    \begin{macrocode}
 %<!COPYRIGHT>
@@ -80,10 +80,10 @@
 {\csname adjustbox@minimal\endcsname}
 %    \end{macrocode}
 %
+% ^^A )))
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsection{Basic commands}
+% \subsection{Basic commands} ^^A (((
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
 %
 % \begin{macro}{\adjustboxset}
 %    \begin{macrocode}
@@ -282,8 +282,11 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%
+%
+% ^^A )))
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsection{Keys for trim and viewport.}
+% \subsection{Keys for trimming, clipping, viewport and margin} ^^A (((
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
@@ -299,6 +302,15 @@
             \fi
         }{#1}%
     }%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{Viewport}
+%    \begin{macrocode}
+\define@key\adjbox@fam{Viewport}{%
+    \adjbox@Gin@Add{\trimbox@s{#1}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -321,177 +333,6 @@
 % \end{key}
 %
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsection{More box commands}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% \begin{macro}{\phantombox}[3]{width}{height}{depth}
-% Produces an empty box with the given width, height and depth.
-%    \begin{macrocode}
-\newcommand*\phantombox[3]{%
-    \begingroup
-    \adjsetlength\@tempdima{#1}%
-    \adjsetlength\@tempdimb{#2}%
-    \adjsetlength\@tempdimc{#3}%
-    \setbox\collectedbox\hbox{}%
-    \wd\collectedbox\@tempdima
-    \ht\collectedbox\@tempdimb
-    \dp\collectedbox\@tempdimc
-    \leavevmode
-    \box\collectedbox
-    \endgroup
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\minsizebox}
-%    \begin{macrocode}
-\newcommand*\minsizebox{%
-    \collectboxcheckenv{minsizebox}%
-    \@ifstar{\@minsizebox\totalheight}{\@minsizebox\height}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{environment}{minsizebox*}
-%    \begin{macrocode}
-\expandafter\newcommand\expandafter*\csname minsizebox*\endcsname{%
-    \@collectboxisenv{minsizebox*}%
-    \@minsizebox\totalheight
-}
-%    \end{macrocode}
-% \end{environment}
-%
-%
-% \begin{macro}{\@minsizebox}
-%    \begin{macrocode}
-\newcommand*\@minsizebox[3]{%
-    \@collectbox{\@minmaxsizebox>#1{#2}{#3}}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\maxsizebox}
-%    \begin{macrocode}
-\newcommand*\maxsizebox{%
-    \collectboxcheckenv{maxsizebox}%
-    \@ifstar{\@maxsizebox\totalheight}{\@maxsizebox\height}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{environment}{maxsizebox*}
-%    \begin{macrocode}
-\expandafter\newcommand\expandafter*\csname maxsizebox*\endcsname{%
-    \@collectboxisenv{maxsizebox*}%
-    \@maxsizebox\totalheight
-}
-%    \end{macrocode}
-% \end{environment}
-%
-%
-% \begin{macro}{\@maxsizebox}
-%    \begin{macrocode}
-\newcommand*\@maxsizebox[3]{%
-    \@collectbox{\@minmaxsizebox<#1{#2}{#3}}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\@minmaxsizebox}[4]{Compare sign \texttt{<} or \texttt{>}}{\cs{height} or \cs{totalheight}}{width}{height}
-% Used for all min/max-size boxes including the starred version. The first two arguments determine the style.
-%
-% The width and height values are expanded to allow for \Macro\ifdim or similar conditionals.
-%    \begin{macrocode}
-\newcommand*\@minmaxsizebox[4]{%
-    \edef\@tempa{#3}%
-    \edef\@tempb{#4}%
-    \ifcase0%
-%    \end{macrocode}
-% Do nothing if both values are `|!|', otherwise use case 1 if the height is to large/small (|#1|)
-% than the \Macro\height or \Macro\totalheight (|#2|).
-%    \begin{macrocode}
-    \ifx\@tempa\Gin@exclamation
-        \ifx\@tempb\Gin@exclamation
-        \else
-            \ifdim\@tempb#1#2%
-                1%
-            \fi
-        \fi
-    \else
-%    \end{macrocode}
-% If the width is given, but not the height, use case 2 if the width is to large/small (|#1|) than the native \Macro\width.
-%    \begin{macrocode}
-        \ifx\@tempb\Gin@exclamation
-            \ifdim\@tempa#1\width
-                2%
-            \fi
-        \else
-%    \end{macrocode}
-% If both values are given.
-% Use case 0-3 depending if the width and/or height is to large/small.
-%    \begin{macrocode}
-            \ifdim\@tempa#1\width
-                \ifdim\@tempb#1#2%
-                    3%
-                \else
-                    2%
-                \fi
-            \else
-                \ifdim\@tempb#1#2%
-                    1%
-                \fi
-            \fi
-        \fi
-    \fi
-%    \end{macrocode}
-%  Case 0: no scaling is needed. Insert content unchanged.
-%    \begin{macrocode}
-    \relax% 0
-        \BOXCONTENT
-%    \end{macrocode}
-%  Case 1: height needs scaling. Calculate factor and scale the content with it.
-%    \begin{macrocode}
-    \or
-        \adjsetlength\@tempdima\@tempb
-        \Gscale@div\@tempa\@tempdima#2%
-        \Gscale@box\@tempa[\@tempa]\BOXCONTENT
-%    \end{macrocode}
-%  Case 2: width needs scaling. Calculate factor and scale the content with it.
-%    \begin{macrocode}
-    \or
-        \adjsetlength\@tempdima\@tempa
-        \Gscale@div\@tempa\@tempdima\width
-        \Gscale@box\@tempa[\@tempa]\BOXCONTENT
-%    \end{macrocode}
-%  Case 3: both width and height need scaling.
-%  Both scale factors are calculated and the more extreme value is used.
-%    \begin{macrocode}
-    \or
-        \adjsetlength\@tempdima\@tempa
-        \Gscale@div\@tempa\@tempdima\width
-        \adjsetlength\@tempdima\@tempb
-        \Gscale@div\@tempb\@tempdima#2%
-        \ifdim\@tempa\p@#1\@tempb\p@
-            \let\@tempb\@tempa
-        \else
-            \let\@tempa\@tempb
-        \fi
-        \Gscale@box\@tempa[\@tempb]\BOXCONTENT
-    \fi
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsection{New \cs{includegraphics} and \cs{adjustbox} options}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
 % \begin{key}{adjbox}{Trim}
 %    \begin{macrocode}
 \define@key\adjbox@fam{Trim}{%
@@ -500,13 +341,6 @@
 %    \end{macrocode}
 % \end{key}
 %
-% \begin{key}{adjbox}{Viewport}
-%    \begin{macrocode}
-\define@key\adjbox@fam{Viewport}{%
-    \adjbox@Gin@Add{\trimbox@s{#1}}%
-}
-%    \end{macrocode}
-% \end{key}
 %
 % \begin{key}{adjbox}{Clip}
 %    \begin{macrocode}
@@ -515,6 +349,7 @@
 }
 %    \end{macrocode}
 % \end{key}
+%
 %
 % \begin{key}{adjbox}{Clip*}
 %    \begin{macrocode}
@@ -525,149 +360,46 @@
 % \end{key}
 %
 %
-% \begin{key}{adjbox}{frame}
-% As 0--3 arguments: rule width, (inner) separation and margin.
+% \begin{key}{adjbox}{margin}
 %    \begin{macrocode}
-\define@key\adjbox@fam{frame}[{{\fboxrule}}]{%
-    \adjbox@frame{\fboxsep\z@}#1 {} {} \relax\relax\@nnil
+\define@key\adjbox@fam{margin}{%
+    \adjbox@Gin@Add{\marginbox@{#1}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{margin*}
+%    \begin{macrocode}
+\define@key\adjbox@fam{margin*}{%
+    \adjbox@Gin@Add{\marginbox@s{#1}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{padding}
+% Alias for \Key{margin}.
+%    \begin{macrocode}
+\define@key\adjbox@fam{padding}{%
+    \adjbox@Gin@Add{\marginbox@{#1}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{padding*}
+% Alias for \Key{margin*}.
+%    \begin{macrocode}
+\define@key\adjbox@fam{padding*}{%
+    \adjbox@Gin@Add{\marginbox@s{#1}}%
 }
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{key}{adjbox}{fbox}
-% Same as \Key{frame} but with different default separation.
-%    \begin{macrocode}
-\define@key\adjbox@fam{fbox}[{{\fboxrule}}]{%
-    \adjbox@frame{}#1 {} {} {} \relax\relax\@nnil
-}
-%    \end{macrocode}
-% \end{key}
 %
-%
-% \begin{macro}{\adjbox@frame}
-%    \begin{macrocode}
-\def\adjbox@frame#1#2 #3 #4 #5\relax{%
-    \adjbox@Gin@Add{%
-        \@collectbox{#1\adjbox@@frame{}{#2}{#3}{#4}}%
-    }%
-    \remove@to@nnil
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{key}{adjbox}{cframe}
-%    \begin{macrocode}
-\define@key\adjbox@fam{cframe}{%
-    \adjbox@checkcolor
-    \adjbox@cframe{\fboxsep\z@}#1 {} {} {} \relax\relax\@nnil
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{key}{adjbox}{cfbox}
-%    \begin{macrocode}
-\define@key\adjbox@fam{cfbox}{%
-    \adjbox@checkcolor
-    \adjbox@cframe{}#1 {} {} {} \relax\relax\@nnil
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{macro}{\adjbox@cframe}
-%    \begin{macrocode}
-\def\adjbox@cframe#1#2 #3 #4 #5 #6\relax{%
-    \adjbox@Gin@Add{%
-        \@collectbox{#1\adjbox@@frame{\color{#2}}{#3}{#4}{#5}}%
-    }%
-    \remove@to@nnil
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjbox@checkcolor}
-%    \begin{macrocode}
-\def\adjbox@checkcolor{%
-    \ifcase0%
-        \expandafter\ifx\csname ver@xcolor.sty\endcsname\relax
-        \expandafter\ifx\csname ver@color.sty\endcsname\relax
-        \expandafter\ifx\csname ver@xxcolor.sty\endcsname\relax 1\fi\fi\fi
-    \relax
-        \global\let\adjbox@checkcolor\relax
-    \else
-        \PackageError{adjustbox}{Using a macro, envrionment or key with color\MessageBreak requires a color package to be loaded manually.\MessageBreak Recommended is 'xcolor' but 'color' is ok, too}{}.
-    \fi
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjbox@@frame}[4]{content}{rule width}{separation}{margin}
-%    \begin{macrocode}
-\def\adjbox@@frame#1#2#3#4{%
-    \ifx\@nnil#2\@nnil\else
-        \adjsetlength\fboxrule{#2}%
-    \fi
-    \ifx\@nnil#3\@nnil\else
-        \adjsetlength\fboxsep{#3}%
-    \fi
-    \adjsetlength\tc@llx{\fboxrule + \fboxsep}%
-    \@marginbox\collectedbox\tc@llx\tc@llx\tc@llx\tc@llx
-    \ifx\@nnil#4\@nnil\else
-      \setbox\collectedbox
-    \fi
-      \hbox\bgroup\color@setgroup
-        \BOXCONTENT
-        \hskip-\width
-        #1%
-        \adjbox@boxframe\width\height\depth
-      \color@endgroup\egroup
-    \ifx\@nnil#4\@nnil\else
-      \adjsetlength\tc@llx{#4}%
-      \@marginbox\collectedbox\tc@llx\tc@llx\tc@llx\tc@llx
-      \BOXCONTENT
-    \fi
-}
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\adjbox@boxframe}
-% Tries to reuse the definition of the \pkg{xcolor} package.
-% If it isn't loaded its definition is defined here.
-%
-% This code was taken from the \pkg{xcolor} package under the free LPPL license.
-%    \begin{macrocode}
-\let\adjbox@boxframe\boxframe
-\providecommand\adjbox@boxframe[3]{%
-    \hbox{%
-        \dimen@ #2%
-        \advance \dimen@ #3\relax
-        \lower #3\vbox {%
-            \hrule \@height \fboxrule
-            \@tempdima -0.5\fboxrule
-            \ifodd\fboxrule
-                \advance \@tempdima \m@ne sp
-            \fi
-            \kern \@tempdima
-            \hbox {%
-                \advance \dimen@ -\fboxrule
-                \vrule \@width \fboxrule \@height \dimen@ \@depth \z@
-                \@tempdima #1%
-                \advance \@tempdima -\tw@ \fboxrule
-                \kern \@tempdima
-                \vrule \@width \fboxrule \@height \dimen@ \@depth \z@
-            }%
-            \kern -0.5\fboxrule
-            \hrule \@height \fboxrule
-        }%
-    }%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Scaling and rotating keys} ^^A (((
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \begin{key}{adjbox}{scale}
 %    \begin{macrocode}
@@ -725,147 +457,119 @@
 % \end{key}
 %
 %
-% \begin{key}{adjbox}{lap}
+%
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Horizontal alignment keys} ^^A (((
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \begin{macro}{\adjbox@halign}
 %    \begin{macrocode}
-\define@key\adjbox@fam{lap}{%
-    \@ifnextchar\bgroup{%
-        \adjbox@lapbox
-    }{%
-        \adjbox@lapbox{#1}{}%
-    }#1{}{}\@nnil
+\def\adjbox@halign#1#2#3{%
+    \Gin@esetsize
+    \@tempswatrue
+    \adjsetlength\@tempdima{#1}%
+    \edef\@tempa{\leavevmode\hb@xt@\the\@tempdima}%
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\expandafter#2\the\toks@#3}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{key}{adjbox}{center}
+%    \begin{macrocode}
+\define@key\adjbox@fam{center}[\linewidth]{%
+    \adjbox@halign{#1}\hss\hss
 }
 %    \end{macrocode}
 % \end{key}
 %
-%
-% \begin{macro}{\adjbox@lapbox}
+% \begin{key}{adjbox}{left}
 %    \begin{macrocode}
-\def\adjbox@lapbox#1#2#3\@nnil{%
-    \ifx\@nnil#2\@nnil
-        \adjbox@Gin@Add{\lapbox{#1}}%
+\define@key\adjbox@fam{left}[\linewidth]{%
+    \adjbox@halign{#1}\relax\hss
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{right}
+%    \begin{macrocode}
+\define@key\adjbox@fam{right}[\linewidth]{%
+    \adjbox@halign{#1}\hss\relax
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{outer}
+%    \begin{macrocode}
+\define@key\adjbox@fam{outer}[\linewidth]{%
+    \def\@tempa{\adjbox@halign{#1}}%
+    \if@twoside
+      \adjbox@ifoddpage
+        {\@tempa\hss\relax}%
+        {\@tempa\relax\hss}%
     \else
-        \adjbox@Gin@Add{\lapbox[{#1}]{#2}}%
+        \@tempa\hss\hss
+    \fi
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{inner}
+%    \begin{macrocode}
+\define@key\adjbox@fam{inner}[\linewidth]{%
+    \def\@tempa{\adjbox@halign{#1}}%
+    \if@twoside
+      \adjbox@ifoddpage
+        {\@tempa\relax\hss}%
+        {\@tempa\hss\relax}%
+    \else
+        \@tempa\hss\hss
+    \fi
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{macro}{\adjbox@ifoddpage}
+%    \begin{macrocode}
+\def\adjbox@ifoddpage{%
+    \begingroup
+    \adjbox@checkoddpage
+    \expandafter\endgroup
+    \ifoddpage
+        \expandafter\@firstoftwo
+    \else
+        \expandafter\@secondoftwo
     \fi
 }
 %    \end{macrocode}
 % \end{macro}
 %
 %
-% \begin{key}{adjbox}{rlap}
+% \begin{macro}{\adjbox@checkoddpage}
 %    \begin{macrocode}
-\define@key\adjbox@fam{rlap}[]{%
-    \adjbox@Gin@Add{\lapbox{\width}}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{key}{adjbox}{llap}
-%    \begin{macrocode}
-\define@key\adjbox@fam{llap}[]{%
-    \adjbox@Gin@Add{\lapbox{-\width}}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{key}{adjbox}{margin}
-%    \begin{macrocode}
-\define@key\adjbox@fam{margin}{%
-    \adjbox@Gin@Add{\marginbox@{#1}}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{key}{adjbox}{margin*}
-%    \begin{macrocode}
-\define@key\adjbox@fam{margin*}{%
-    \adjbox@Gin@Add{\marginbox@s{#1}}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{key}{adjbox}{padding}
-%    \begin{macrocode}
-\define@key\adjbox@fam{padding}{%
-    \adjbox@Gin@Add{\marginbox@{#1}}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{key}{adjbox}{padding*}
-%    \begin{macrocode}
-\define@key\adjbox@fam{padding*}{%
-    \adjbox@Gin@Add{\marginbox@s{#1}}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{key}{adjbox}{vspace}
-%    \begin{macrocode}
-\define@key\adjbox@fam{vspace}{%
-    \adjbox@vskip#1 {} \@nnil{}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{key}{adjbox}{vspace*}
-%    \begin{macrocode}
-\define@key\adjbox@fam{vspace*}{%
-    \adjbox@vskip#1 {} \@nnil*%
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{macro}{\adjbox@vskip}
-%    \begin{macrocode}
-\def\adjbox@vskip#1 #2 #3\@nnil#4{%
-    \ifx\@nnil#2\@nnil
-        \adjust@addcode{\par\vspace#4{#1}\noindent}{\par\vspace#4{#1}}%
+\def\adjbox@checkoddpage{%
+    \ifodd\c@page
+        \oddpagetrue
     \else
-        \adjust@addcode{\par\vspace#4{#1}\noindent}{\par\vspace#4{#2}}%
+        \oddpagefalse
     \fi
-}
+}%
 %    \end{macrocode}
 % \end{macro}
 %
-%
-% \begin{key}{adjbox}{dpi}
 %    \begin{macrocode}
-\define@key\adjbox@fam{dpi}{%
-    \adjsetlength\pdfpxdimen{1in/(#1)}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{key}{adjbox}{pxdim}
-%    \begin{macrocode}
-\define@key\adjbox@fam{pxdim}{%
-    \adjsetlength\pdfpxdimen{#1}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-%
-%    \begin{macrocode}
-\define@key\adjbox@fam{execute}{%
-    #1%
-}
+\newif\ifoddpage
+\AtBeginDocument{%
+    \@ifpackageloaded{changepage}{\let\adjbox@checkoddpage\checkoddpage}%
+     {\@ifpackageloaded{chngpage}{\let\adjbox@checkoddpage\checkoddpage}{}}%
+}%
 %    \end{macrocode}
 %
-%    \begin{macrocode}
-\define@key\adjbox@fam{@debug}[]{%
-    \showthe\toks@
-}
-%    \end{macrocode}
 %
-%    \begin{macrocode}
-\define@key{ADJBOX}{Execute}{%
-    #1%
-}
-%    \end{macrocode}
-%
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Vertical alignment keys} ^^A (((
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \begin{key}{adjbox}{raise}
 %    \begin{macrocode}
@@ -1016,125 +720,10 @@
 % \end{macro}
 %
 %
-% \subsubsection{Background}
-%
-% \begin{key}{adjbox}{bgcolor}
-% Adds a colored box in the background.
-% |#1| are the argument to color, i.e. either \MacroArgs<color>
-% or \MacroArgs{<model>}{<color>}.
-%    \begin{macrocode}
-\define@key\adjbox@fam{bgcolor}{%
-    \adjbox@checkcolor
-    \@ifnextchar\bgroup{%
-        \adjbox@bgcolor
-    }{%
-        \adjbox@bgcolor{}{#1}%
-    }#1\@nnil
-}
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{macro}{\adjbox@bgcolor}
-% Parses the two possible arguments and adds the background color macro
-% to the token register.
-%    \begin{macrocode}
-\def\adjbox@bgcolor#1#2#3\@nnil{%
-    \ifx\@nnil#1\@nnil
-        \adjbox@Gin@add{\@collectbox{\adjbox@@bgcolor{\color{#2}}}}%
-    \else
-        \adjbox@Gin@add{\@collectbox{\adjbox@@bgcolor{\color[#1]{#2}}}}%
-    \fi
-}
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{key}{adjbox}{bgcolor*}
-% Adds a colored box in the background. It awaits a direct color macro,
-% which gives the user more flexibility.
-%    \begin{macrocode}
-\define@key\adjbox@fam{bgcolor*}{%
-    \adjbox@checkcolor
-    \adjbox@Gin@add{\@collectbox{\adjbox@@bgcolor{#1}}}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{macro}{\adjbox@@bgcolor}
-% This places a colored box (vrule) with the same dimensions than
-% the content, then compensates for the horizontal shift and places
-% the content. This is simpler and more direct than using \Macro\rlap
-% or a box macro from the \pkg{xcolor} package.
-%
-% The argument contains the color macro, e.g.\ \Macro\color{<color>}.
-%    \begin{macrocode}
-\def\adjbox@@bgcolor#1{%
-    \mbox{%
-        \hbox{%
-            #1%
-            \vrule\@width\width\@height\height\@depth\depth%
-        }%
-        \hskip-\width
-        \BOXCONTENT
-    }%
-}%
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\bgimagebox}
-%    \begin{macrocode}
-\newcommand*\bgimagebox[2][]{%
-    \collectboxcheckenv{bgimagebox}%
-    \@collectbox{\@bgimagebox{#1}{#2}}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\@bgimagebox}
-%    \begin{macrocode}
-\def\@bgimagebox#1#2{%
-    \mbox{%
-        \lower\depth\hbox{%
-            \edef\@tempa{\noexpand\adjustimage
-                {#1,width=\the\width,totalheight=\the\totalheight}%
-                {#2}%
-            }%
-            \@tempa
-        }%
-        \hskip-\width%
-        \BOXCONTENT
-    }%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{key}{adjbox}{bgimage}
-% One or two arguments, the first optional one are further \Macro\includegraphics keys.
-%    \begin{macrocode}
-\define@key{adjbox}{bgimage}{%
-    \@ifnextchar\bgroup{%
-        \adjbox@bgimage
-    }{%
-        \adjbox@bgimage{}{#1}%
-    }#1\@nnil
-}
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{macro}{\adjbox@bgimage}
-%    \begin{macrocode}
-\def\adjbox@bgimage#1#2#3\@nnil{%
-    \adjbox@Gin@add{\@collectbox{\@bgimagebox{#1}{#2}}}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \subsubsection{Set sizes}
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Set vertical sizes} ^^A (((
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \begin{key}{adjbox}{set height}
 %    \begin{macrocode}
@@ -1164,139 +753,44 @@
 % \end{key}
 %
 %
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Vertical spacing} ^^A (((
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% \begin{macro}{\adjbox@Gin@add}
+% \begin{key}{adjbox}{vspace}
 %    \begin{macrocode}
-\def\adjbox@Gin@add#1{%
-    \def\@tempa{#1}%
-    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
-}
-\def\adjbox@Gin@Add{%
-    \Gin@esetsize
-    \@tempswatrue
-    \adjbox@Gin@add
+\define@key\adjbox@fam{vspace}{%
+    \adjbox@vskip#1 {} \@nnil{}%
 }
 %    \end{macrocode}
-% \end{macro}
+% \end{key}
 %
-%
-% \begin{macro}{\adjbox@Gin@sizeadd}
-% Checks if key-value is actually two arguments. If not it is doubled.
-% E.g.: \verb+min size=\A+ is the same as  \verb+min size={\A}{\A}+
+% \begin{key}{adjbox}{vspace*}
 %    \begin{macrocode}
-\def\adjbox@Gin@sizeadd#1#2#3\relax{%
-    \ifx\@nnil#3\@nnil
-        \adjbox@Gin@add{#1{#2}{#2}}%
+\define@key\adjbox@fam{vspace*}{%
+    \adjbox@vskip#1 {} \@nnil*%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{macro}{\adjbox@vskip}
+%    \begin{macrocode}
+\def\adjbox@vskip#1 #2 #3\@nnil#4{%
+    \ifx\@nnil#2\@nnil
+        \adjust@addcode{\par\vspace#4{#1}\noindent}{\par\vspace#4{#1}}%
     \else
-        \adjbox@Gin@add{#1{#2}{#3}}%
+        \adjust@addcode{\par\vspace#4{#1}\noindent}{\par\vspace#4{#2}}%
     \fi
 }
 %    \end{macrocode}
 % \end{macro}
 %
 %
-%
-% \begin{macro}{\adjbox@halign}
-%    \begin{macrocode}
-\def\adjbox@halign#1#2#3{%
-    \Gin@esetsize
-    \@tempswatrue
-    \adjsetlength\@tempdima{#1}%
-    \edef\@tempa{\leavevmode\hb@xt@\the\@tempdima}%
-    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\expandafter#2\the\toks@#3}}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{key}{adjbox}{center}
-%    \begin{macrocode}
-\define@key\adjbox@fam{center}[\linewidth]{%
-    \adjbox@halign{#1}\hss\hss
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{key}{adjbox}{left}
-%    \begin{macrocode}
-\define@key\adjbox@fam{left}[\linewidth]{%
-    \adjbox@halign{#1}\relax\hss
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{key}{adjbox}{right}
-%    \begin{macrocode}
-\define@key\adjbox@fam{right}[\linewidth]{%
-    \adjbox@halign{#1}\hss\relax
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{key}{adjbox}{outer}
-%    \begin{macrocode}
-\define@key\adjbox@fam{outer}[\linewidth]{%
-    \def\@tempa{\adjbox@halign{#1}}%
-    \if@twoside
-      \adjbox@ifoddpage
-        {\@tempa\hss\relax}%
-        {\@tempa\relax\hss}%
-    \else
-        \@tempa\hss\hss
-    \fi
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{key}{adjbox}{inner}
-%    \begin{macrocode}
-\define@key\adjbox@fam{inner}[\linewidth]{%
-    \def\@tempa{\adjbox@halign{#1}}%
-    \if@twoside
-      \adjbox@ifoddpage
-        {\@tempa\relax\hss}%
-        {\@tempa\hss\relax}%
-    \else
-        \@tempa\hss\hss
-    \fi
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{macro}{\adjbox@ifoddpage}
-%    \begin{macrocode}
-\def\adjbox@ifoddpage{%
-    \begingroup
-    \adjbox@checkoddpage
-    \expandafter\endgroup
-    \ifoddpage
-        \expandafter\@firstoftwo
-    \else
-        \expandafter\@secondoftwo
-    \fi
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjbox@checkoddpage}
-%    \begin{macrocode}
-\def\adjbox@checkoddpage{%
-    \ifodd\c@page
-        \oddpagetrue
-    \else
-        \oddpagefalse
-    \fi
-}%
-%    \end{macrocode}
-% \end{macro}
-%
-%    \begin{macrocode}
-\newif\ifoddpage
-\AtBeginDocument{%
-    \@ifpackageloaded{changepage}{\let\adjbox@checkoddpage\checkoddpage}%
-     {\@ifpackageloaded{chngpage}{\let\adjbox@checkoddpage\checkoddpage}{}}%
-}%
-%    \end{macrocode}
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Minimum and maximum size keys and macros} ^^A (((
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \begin{key}{adjbox}{min width}
 %    \begin{macrocode}
@@ -1410,8 +904,637 @@
 % \end{key}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsubsection{Lap box}
+%
+% \begin{macro}{\minsizebox}
+%    \begin{macrocode}
+\newcommand*\minsizebox{%
+    \collectboxcheckenv{minsizebox}%
+    \@ifstar{\@minsizebox\totalheight}{\@minsizebox\height}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{environment}{minsizebox*}
+%    \begin{macrocode}
+\expandafter\newcommand\expandafter*\csname minsizebox*\endcsname{%
+    \@collectboxisenv{minsizebox*}%
+    \@minsizebox\totalheight
+}
+%    \end{macrocode}
+% \end{environment}
+%
+%
+% \begin{macro}{\@minsizebox}
+%    \begin{macrocode}
+\newcommand*\@minsizebox[3]{%
+    \@collectbox{\@minmaxsizebox>#1{#2}{#3}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\maxsizebox}
+%    \begin{macrocode}
+\newcommand*\maxsizebox{%
+    \collectboxcheckenv{maxsizebox}%
+    \@ifstar{\@maxsizebox\totalheight}{\@maxsizebox\height}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{environment}{maxsizebox*}
+%    \begin{macrocode}
+\expandafter\newcommand\expandafter*\csname maxsizebox*\endcsname{%
+    \@collectboxisenv{maxsizebox*}%
+    \@maxsizebox\totalheight
+}
+%    \end{macrocode}
+% \end{environment}
+%
+%
+% \begin{macro}{\@maxsizebox}
+%    \begin{macrocode}
+\newcommand*\@maxsizebox[3]{%
+    \@collectbox{\@minmaxsizebox<#1{#2}{#3}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@minmaxsizebox}[4]{Compare sign \texttt{<} or \texttt{>}}{\cs{height} or \cs{totalheight}}{width}{height}
+% Used for all min/max-size boxes including the starred version. The first two arguments determine the style.
+%
+% The width and height values are expanded to allow for \Macro\ifdim or similar conditionals.
+%    \begin{macrocode}
+\newcommand*\@minmaxsizebox[4]{%
+    \edef\@tempa{#3}%
+    \edef\@tempb{#4}%
+    \ifcase0%
+%    \end{macrocode}
+% Do nothing if both values are `|!|', otherwise use case 1 if the height is to large/small (|#1|)
+% than the \Macro\height or \Macro\totalheight (|#2|).
+%    \begin{macrocode}
+    \ifx\@tempa\Gin@exclamation
+        \ifx\@tempb\Gin@exclamation
+        \else
+            \ifdim\@tempb#1#2%
+                1%
+            \fi
+        \fi
+    \else
+%    \end{macrocode}
+% If the width is given, but not the height, use case 2 if the width is to large/small (|#1|) than the native \Macro\width.
+%    \begin{macrocode}
+        \ifx\@tempb\Gin@exclamation
+            \ifdim\@tempa#1\width
+                2%
+            \fi
+        \else
+%    \end{macrocode}
+% If both values are given.
+% Use case 0-3 depending if the width and/or height is to large/small.
+%    \begin{macrocode}
+            \ifdim\@tempa#1\width
+                \ifdim\@tempb#1#2%
+                    3%
+                \else
+                    2%
+                \fi
+            \else
+                \ifdim\@tempb#1#2%
+                    1%
+                \fi
+            \fi
+        \fi
+    \fi
+%    \end{macrocode}
+%  Case 0: no scaling is needed. Insert content unchanged.
+%    \begin{macrocode}
+    \relax% 0
+        \BOXCONTENT
+%    \end{macrocode}
+%  Case 1: height needs scaling. Calculate factor and scale the content with it.
+%    \begin{macrocode}
+    \or
+        \adjsetlength\@tempdima\@tempb
+        \Gscale@div\@tempa\@tempdima#2%
+        \Gscale@box\@tempa[\@tempa]\BOXCONTENT
+%    \end{macrocode}
+%  Case 2: width needs scaling. Calculate factor and scale the content with it.
+%    \begin{macrocode}
+    \or
+        \adjsetlength\@tempdima\@tempa
+        \Gscale@div\@tempa\@tempdima\width
+        \Gscale@box\@tempa[\@tempa]\BOXCONTENT
+%    \end{macrocode}
+%  Case 3: both width and height need scaling.
+%  Both scale factors are calculated and the more extreme value is used.
+%    \begin{macrocode}
+    \or
+        \adjsetlength\@tempdima\@tempa
+        \Gscale@div\@tempa\@tempdima\width
+        \adjsetlength\@tempdima\@tempb
+        \Gscale@div\@tempb\@tempdima#2%
+        \ifdim\@tempa\p@#1\@tempb\p@
+            \let\@tempb\@tempa
+        \else
+            \let\@tempa\@tempb
+        \fi
+        \Gscale@box\@tempa[\@tempb]\BOXCONTENT
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% ^^A )))
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Frame keys} ^^A (((
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+% \begin{key}{adjbox}{frame}
+% As 0--3 arguments: rule width, (inner) separation and margin.
+%    \begin{macrocode}
+\define@key\adjbox@fam{frame}[{{\fboxrule}}]{%
+    \adjbox@frame{\fboxsep\z@}#1 {} {} \relax\relax\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{fbox}
+% Same as \Key{frame} but with different default separation.
+%    \begin{macrocode}
+\define@key\adjbox@fam{fbox}[{{\fboxrule}}]{%
+    \adjbox@frame{}#1 {} {} {} \relax\relax\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\adjbox@frame}
+%    \begin{macrocode}
+\def\adjbox@frame#1#2 #3 #4 #5\relax{%
+    \adjbox@Gin@Add{%
+        \@collectbox{#1\adjbox@@frame{}{#2}{#3}{#4}}%
+    }%
+    \remove@to@nnil
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{key}{adjbox}{cframe}
+%    \begin{macrocode}
+\define@key\adjbox@fam{cframe}{%
+    \adjbox@checkcolor
+    \adjbox@cframe{\fboxsep\z@}#1 {} {} {} \relax\relax\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{cfbox}
+%    \begin{macrocode}
+\define@key\adjbox@fam{cfbox}{%
+    \adjbox@checkcolor
+    \adjbox@cframe{}#1 {} {} {} \relax\relax\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{macro}{\adjbox@cframe}
+%    \begin{macrocode}
+\def\adjbox@cframe#1#2 #3 #4 #5 #6\relax{%
+    \adjbox@Gin@Add{%
+        \@collectbox{#1\adjbox@@frame{\color{#2}}{#3}{#4}{#5}}%
+    }%
+    \remove@to@nnil
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@checkcolor}
+%    \begin{macrocode}
+\def\adjbox@checkcolor{%
+    \ifcase0%
+        \expandafter\ifx\csname ver@xcolor.sty\endcsname\relax
+        \expandafter\ifx\csname ver@color.sty\endcsname\relax
+        \expandafter\ifx\csname ver@xxcolor.sty\endcsname\relax 1\fi\fi\fi
+    \relax
+        \global\let\adjbox@checkcolor\relax
+    \else
+        \PackageError{adjustbox}{Using a macro, environment or key with color\MessageBreak
+                requires a color package to be loaded manually.\MessageBreak
+                Recommended is 'xcolor' but 'color' is ok, too}{}.
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@@frame}[4]{content}{rule width}{separation}{margin}
+%    \begin{macrocode}
+\def\adjbox@@frame#1#2#3#4{%
+    \ifx\@nnil#2\@nnil\else
+        \adjsetlength\fboxrule{#2}%
+    \fi
+    \ifx\@nnil#3\@nnil\else
+        \adjsetlength\fboxsep{#3}%
+    \fi
+    \adjsetlength\tc@llx{\fboxrule + \fboxsep}%
+    \@marginbox\collectedbox\tc@llx\tc@llx\tc@llx\tc@llx
+    \ifx\@nnil#4\@nnil\else
+      \setbox\collectedbox
+    \fi
+      \hbox\bgroup\color@setgroup
+        \BOXCONTENT
+        \hskip-\width
+        #1%
+        \adjbox@boxframe\width\height\depth
+      \color@endgroup\egroup
+    \ifx\@nnil#4\@nnil\else
+      \adjsetlength\tc@llx{#4}%
+      \@marginbox\collectedbox\tc@llx\tc@llx\tc@llx\tc@llx
+      \BOXCONTENT
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@boxframe}[3]{width}{height}{depth}
+% Tries to reuse the definition of the \pkg{xcolor} package.
+% If it isn't loaded its definition is defined here.
+%
+% This code was taken from the \pkg{xcolor} package under the free LPPL license.
+%    \begin{macrocode}
+\let\adjbox@boxframe\boxframe
+\providecommand\adjbox@boxframe[3]{%
+    \hbox{%
+        \dimen@ #2%
+        \advance \dimen@ #3\relax
+        \lower #3\vbox {%
+            \hrule \@height \fboxrule
+            \@tempdima -0.5\fboxrule
+            \ifodd\fboxrule
+                \advance \@tempdima \m@ne sp
+            \fi
+            \kern \@tempdima
+            \hbox {%
+                \advance \dimen@ -\fboxrule
+                \vrule \@width \fboxrule \@height \dimen@ \@depth \z@
+                \@tempdima #1%
+                \advance \@tempdima -\tw@ \fboxrule
+                \kern \@tempdima
+                \vrule \@width \fboxrule \@height \dimen@ \@depth \z@
+            }%
+            \kern -0.5\fboxrule
+            \hrule \@height \fboxrule
+        }%
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Density keys} ^^A (((
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \begin{key}{adjbox}{dpi}
+%    \begin{macrocode}
+\define@key\adjbox@fam{dpi}{%
+    \adjsetlength\pdfpxdimen{1in/(#1)}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{pxdim}
+%    \begin{macrocode}
+\define@key\adjbox@fam{pxdim}{%
+    \adjsetlength\pdfpxdimen{#1}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Code keys} ^^A (((
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%    \begin{macrocode}
+\define@key\adjbox@fam{execute}{%
+    #1%
+}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\define@key\adjbox@fam{@debug}[]{%
+    \showthe\toks@
+}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\define@key{ADJBOX}{Execute}{%
+    #1%
+}
+%    \end{macrocode}
+%
+%
+% \begin{key}{adjbox}{addcode}
+% Adds code before and after the current boxed content.
+% Syntax:~\Key{addcode}'='{<code before>}{<code afterwards>}
+%    \begin{macrocode}
+\define@key{adjbox}{Addcode}{%
+    \adjust@@addcode#1{}\@nnil%
+}
+\define@key{adjbox}{addcode}{%
+    \Gin@esetsize
+    \@tempswatrue
+    \adjust@@addcode#1{}\@nnil%
+}
+\long\def\adjust@@addcode#1#2#3\@nnil{%
+    \ifx\@nnil#3\@nnil
+        \adjust@addcode{#1}{#2}%
+    \else
+        \PackageError{adjustbox}{Incorrect input for key 'addcode={<code before>}{<code afterwards>}'!}%
+    \fi
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{precode}
+%    \begin{macrocode}
+\define@key{adjbox}{precode}{%
+    \Gin@esetsize
+    \@tempswatrue
+    \adjust@addcode{#1}{}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{Precode}
+% Same as \Key{precode} but does not set the size yet.
+%    \begin{macrocode}
+\define@key{adjbox}{Precode}{%
+    \adjust@addcode{#1}{}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{appcode}
+%    \begin{macrocode}
+\define@key{adjbox}{appcode}{%
+    \toks@\expandafter{\the\toks@#1}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{macro}{\adjust@addcode}
+%    \begin{macrocode}
+\long\def\adjust@addcode#1#2{%
+    \def\@tempa{#1}%
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}#2}%
+}%
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{key}{adjbox}{env}
+% Adds environment around boxed content
+%    \begin{macrocode}
+\define@key\adjbox@fam{env}{%
+    \@ifnextchar\bgroup{%
+        \adjbox@addenv
+    }{%
+        \adjbox@addenv{#1}\@nnil%
+        \remove@to@nnil
+    }#1\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{macro}{\adjust@addenv}
+%    \begin{macrocode}
+\def\adjbox@addenv#1#2\@nnil{%
+    \def\@tempa{\begin{#1}#2}%
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\the\toks@\end{#1}}%
+}%
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Background keys and macros} ^^A (((
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \begin{key}{adjbox}{bgcolor}
+% Adds a colored box in the background.
+% |#1| are the argument to color, i.e. either \MacroArgs<color>
+% or \MacroArgs{<model>}{<color>}.
+%    \begin{macrocode}
+\define@key\adjbox@fam{bgcolor}{%
+    \adjbox@checkcolor
+    \@ifnextchar\bgroup{%
+        \adjbox@bgcolor
+    }{%
+        \adjbox@bgcolor{}{#1}%
+    }#1\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\adjbox@bgcolor}
+% Parses the two possible arguments and adds the background color macro
+% to the token register.
+%    \begin{macrocode}
+\def\adjbox@bgcolor#1#2#3\@nnil{%
+    \ifx\@nnil#1\@nnil
+        \adjbox@Gin@add{\@collectbox{\adjbox@@bgcolor{\color{#2}}}}%
+    \else
+        \adjbox@Gin@add{\@collectbox{\adjbox@@bgcolor{\color[#1]{#2}}}}%
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{key}{adjbox}{bgcolor*}
+% Adds a colored box in the background. It awaits a direct color macro,
+% which gives the user more flexibility.
+%    \begin{macrocode}
+\define@key\adjbox@fam{bgcolor*}{%
+    \adjbox@checkcolor
+    \adjbox@Gin@add{\@collectbox{\adjbox@@bgcolor{#1}}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\adjbox@@bgcolor}
+% This places a colored box (vrule) with the same dimensions than
+% the content, then compensates for the horizontal shift and places
+% the content. This is simpler and more direct than using \Macro\rlap
+% or a box macro from the \pkg{xcolor} package.
+%
+% The argument contains the color macro, e.g.\ \Macro\color{<color>}.
+%    \begin{macrocode}
+\def\adjbox@@bgcolor#1{%
+    \mbox{%
+        \hbox{%
+            #1%
+            \vrule\@width\width\@height\height\@depth\depth%
+        }%
+        \hskip-\width
+        \BOXCONTENT
+    }%
+}%
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\bgimagebox}
+%    \begin{macrocode}
+\newcommand*\bgimagebox[2][]{%
+    \collectboxcheckenv{bgimagebox}%
+    \@collectbox{\@bgimagebox{#1}{#2}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@bgimagebox}
+%    \begin{macrocode}
+\def\@bgimagebox#1#2{%
+    \mbox{%
+        \lower\depth\hbox{%
+            \edef\@tempa{\noexpand\adjustimage
+                {#1,width=\the\width,totalheight=\the\totalheight}%
+                {#2}%
+            }%
+            \@tempa
+        }%
+        \hskip-\width%
+        \BOXCONTENT
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{key}{adjbox}{bgimage}
+% One or two arguments, the first optional one are further \Macro\includegraphics keys.
+%    \begin{macrocode}
+\define@key{adjbox}{bgimage}{%
+    \@ifnextchar\bgroup{%
+        \adjbox@bgimage
+    }{%
+        \adjbox@bgimage{}{#1}%
+    }#1\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\adjbox@bgimage}
+%    \begin{macrocode}
+\def\adjbox@bgimage#1#2#3\@nnil{%
+    \adjbox@Gin@add{\@collectbox{\@bgimagebox{#1}{#2}}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Internal code adding macros} ^^A (((
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+% \begin{macro}{\adjbox@Gin@add}
+%    \begin{macrocode}
+\def\adjbox@Gin@add#1{%
+    \def\@tempa{#1}%
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
+}
+\def\adjbox@Gin@Add{%
+    \Gin@esetsize
+    \@tempswatrue
+    \adjbox@Gin@add
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@Gin@sizeadd}
+% Checks if key-value is actually two arguments. If not it is doubled.
+% E.g.: \verb+min size=\A+ is the same as  \verb+min size={\A}{\A}+
+%    \begin{macrocode}
+\def\adjbox@Gin@sizeadd#1#2#3\relax{%
+    \ifx\@nnil#3\@nnil
+        \adjbox@Gin@add{#1{#2}{#2}}%
+    \else
+        \adjbox@Gin@add{#1{#2}{#3}}%
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Lapping keys and macros} ^^A (((
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \begin{key}{adjbox}{lap}
+%    \begin{macrocode}
+\define@key\adjbox@fam{lap}{%
+    \@ifnextchar\bgroup{%
+        \adjbox@lapbox
+    }{%
+        \adjbox@lapbox{#1}{}%
+    }#1{}{}\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\adjbox@lapbox}
+%    \begin{macrocode}
+\def\adjbox@lapbox#1#2#3\@nnil{%
+    \ifx\@nnil#2\@nnil
+        \adjbox@Gin@Add{\lapbox{#1}}%
+    \else
+        \adjbox@Gin@Add{\lapbox[{#1}]{#2}}%
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{key}{adjbox}{rlap}
+%    \begin{macrocode}
+\define@key\adjbox@fam{rlap}[]{%
+    \adjbox@Gin@Add{\lapbox{\width}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{llap}
+%    \begin{macrocode}
+\define@key\adjbox@fam{llap}[]{%
+    \adjbox@Gin@Add{\lapbox{-\width}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
 %
 % \begin{macro}{\lapbox}
 %    \begin{macrocode}
@@ -1446,9 +1569,9 @@
 % \end{macro}
 %
 %
-%
+% ^^A )))
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsubsection{Minibox and other Environments Keys}
+% \subsection{Keys for minibox and varwidth} ^^A (((
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \begin{key}{ADJBOX}{minipage}
@@ -1489,6 +1612,8 @@
 %
 % \begin{macro}{\adjbox@@page}
 % Sets collect-box command to use \env{minipage} or similar environment.
+%
+% The \Macro\setlength macro is change temporary for the \env{minipage} or \env{varwidth} environment.
 %    \begin{macrocode}
 \def\adjbox@@page#1#2\@nnil{%
     \def\adjbox@collectbox##1{\collectbox@{\adjbox@set\begin{#1}#2\adjbox@reset}{##1}{\end{#1}}}%
@@ -1497,6 +1622,7 @@
 % \end{macro}
 %
 % \begin{macro}{\adjbox@set}
+% Sets \Macro\setlength to \pkg{adjcalc} version.
 %    \begin{macrocode}
 \def\adjbox@set{%
     \let\adjbox@origsetlength\setlength
@@ -1507,12 +1633,19 @@
 %
 %
 % \begin{macro}{\adjbox@reset}
+% Resets \Macro\setlength to normal version.
 %    \begin{macrocode}
 \def\adjbox@reset{%
     \let\setlength\adjbox@origsetlength
 }
 %    \end{macrocode}
 % \end{macro}
+%
+%
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Stackbox keys and macros} ^^A (((
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 % \begin{macro}{\stackbox}
@@ -1550,6 +1683,23 @@
 % \end{macro}
 %
 %
+% \begin{macro}{\adjbox@halign@c}
+% \begin{macro}{\adjbox@halign@l}
+% \begin{macro}{\adjbox@halign@r}
+% \begin{macro}{\adjbox@halign@j}
+% Horizontal alignment macros.
+%    \begin{macrocode}
+\def\adjbox@halign@c{\centering}
+\def\adjbox@halign@l{\raggedright}
+\def\adjbox@halign@r{\raggedleft}
+\def\adjbox@halign@j{\let\\\newline}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+%
 % \begin{key}{ADJBOX}{stack}
 %    \begin{macrocode}
 \define@key{ADJBOX}{stack}[{}{}{}]{%
@@ -1578,25 +1728,14 @@
 % \begin{macro}{\adjbox@@stack}
 %    \begin{macrocode}
 \def\adjbox@@stack#1#2#3{%
-    \def\adjbox@collectbox##1{\collectbox@{\begin{varwidth}[#2]{\linewidth}\csname adjbox@halign@#1\endcsname#3}{##1}{\end{varwidth}}}%
+    \def\adjbox@collectbox##1{%
+        \collectbox@{%
+            \begin{varwidth}[#2]{\linewidth}%
+            \csname adjbox@halign@#1\endcsname#3%
+        }{##1}{\end{varwidth}}%
+    }%
 }
 %    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjbox@halign@c}
-% \begin{macro}{\adjbox@halign@l}
-% \begin{macro}{\adjbox@halign@r}
-% \begin{macro}{\adjbox@halign@j}
-%    \begin{macrocode}
-\def\adjbox@halign@c{\centering}
-\def\adjbox@halign@l{\raggedright}
-\def\adjbox@halign@r{\raggedleft}
-\def\adjbox@halign@j{\let\\\newline}
-%    \end{macrocode}
-% \end{macro}
-% \end{macro}
-% \end{macro}
 % \end{macro}
 %
 %
@@ -1612,6 +1751,13 @@
     }
 }%
 %    \end{macrocode}
+%
+%
+%
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{tabular and array keys} ^^A (((
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 % \begin{key}{ADJBOX}{tabular}
@@ -1677,6 +1823,13 @@
 % \end{macro}
 %
 %
+%
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Keys for inner environments and code} ^^A (((
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
 % \begin{key}{ADJBOX}{innerenv}
 %    \begin{macrocode}
 \define@key{ADJBOX}{innerenv}{%
@@ -1738,18 +1891,11 @@
 %
 %
 %
-% \begin{key}{adjbox}{env}
-%    \begin{macrocode}
-\define@key\adjbox@fam{env}{%
-    \@ifnextchar\bgroup{%
-        \adjbox@addenv
-    }{%
-        \adjbox@addenv{#1}\@nnil%
-        \remove@to@nnil
-    }#1\@nnil
-}
-%    \end{macrocode}
-% \end{key}
+%
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Float keys} ^^A (((
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \begin{key}{adjbox}{label}
 %    \begin{macrocode}
@@ -1833,7 +1979,8 @@
 % \end{key}
 %
 %
-% \begin{environment}{adjustbox}
+% \begin{environment}{adjnofloat}
+% Environment used for non-floats.
 %    \begin{macrocode}
 \newenvironment{adjnofloat}[1]{%
     \trivlist
@@ -1847,79 +1994,36 @@
 % \end{environment}
 %
 %
-% \begin{macro}{\adjust@addenv}
-%    \begin{macrocode}
-\def\adjbox@addenv#1#2\@nnil{%
-    \def\@tempa{\begin{#1}#2}%
-    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\the\toks@\end{#1}}%
-}%
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{key}{adjbox}{addcode}
-% Adds code before and after the current boxed content.
-% Syntax:~\Key{addcode}'='{<code before>}{<code afterwards>}
-%    \begin{macrocode}
-\define@key{adjbox}{Addcode}{%
-    \adjust@@addcode#1{}\@nnil%
-}
-\define@key{adjbox}{addcode}{%
-    \Gin@esetsize
-    \@tempswatrue
-    \adjust@@addcode#1{}\@nnil%
-}
-\long\def\adjust@@addcode#1#2#3\@nnil{%
-    \ifx\@nnil#3\@nnil
-        \adjust@addcode{#1}{#2}%
-    \else
-        \PackageError{adjustbox}{Incorrect input for key 'addcode={<code before>}{<code afterwards>}'!}%
-    \fi
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{key}{adjbox}{precode}
-%    \begin{macrocode}
-\define@key{adjbox}{precode}{%
-    \Gin@esetsize
-    \@tempswatrue
-    \adjust@addcode{#1}{}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{key}{adjbox}{Precode}
-% Same as \Key{precode} but does not set the size yet.
-%    \begin{macrocode}
-\define@key{adjbox}{Precode}{%
-    \adjust@addcode{#1}{}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{key}{adjbox}{appcode}
-%    \begin{macrocode}
-\define@key{adjbox}{appcode}{%
-    \toks@\expandafter{\the\toks@#1}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{macro}{\adjust@addcode}
-%    \begin{macrocode}
-\long\def\adjust@addcode#1#2{%
-    \def\@tempa{#1}%
-    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}#2}%
-}%
-%    \end{macrocode}
-% \end{macro}
-%
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Other macros} ^^A (((
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% \subsection{New, experimental macros and keys}
+% \begin{macro}{\phantombox}[3]{width}{height}{depth}
+% Produces an empty box with the given width, height and depth.
+%    \begin{macrocode}
+\newcommand*\phantombox[3]{%
+    \begingroup
+    \adjsetlength\@tempdima{#1}%
+    \adjsetlength\@tempdimb{#2}%
+    \adjsetlength\@tempdimc{#3}%
+    \setbox\collectedbox\hbox{}%
+    \wd\collectedbox\@tempdima
+    \ht\collectedbox\@tempdimb
+    \dp\collectedbox\@tempdimc
+    \leavevmode
+    \box\collectedbox
+    \endgroup
+}
+%    \end{macrocode}
+% \end{macro}
 %
 %
 %
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Experimental split and pagebreak keys and macros} ^^A (((
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %    \begin{macrocode}
 %%\RequirePackage{storebox}
@@ -2059,6 +2163,8 @@
 % \end{macro}
 %
 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % \begin{macro}{\pagebreakbox}
 %    \begin{macrocode}
 \newcommand\pagebreakbox{%
@@ -2140,3 +2246,5 @@
 % \end{macro}
 %
 %
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
