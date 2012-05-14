@@ -44,7 +44,6 @@
 \GetFileInfo{adjustbox.dtx}
 \usepackage{adjustbox}[\filedate]
 \usepackage{tikz}
-\normalmarginpar
 
 \renewenvironment{example}[1][Example:]{%
     \subsubsection*{#1}%
@@ -432,14 +431,14 @@
 %
 % ^^A )))2
 % \subsection{Argument Values}\label{sec:argval} ^^A (((2
-% All\marginpar{Parsing} length values given in the arguments of all macros and keys provided by this package are parsed
+% All length values given in the arguments of all macros and keys provided by this package are parsed
 % by and advanced version of \Macro\setlength\relax (called \Macro\adjsetlength) which uses either $\epsilon$-\TeX\
 % expressions (default), the \pkg{calc} package (default fall-back) or the \Macro\pgfmathparse of the \pkg{pgf} package.
 % This allows for arithmetic expressions in these arguments. See the package options in \autoref{sec:options} to learn
 % how to change the used length parser.  Note that early versions of this package used \Macro\pgfmathparse by default.
 % Older documents therefore might need now use the \opt{pgfmath} option to compile correctly.
 %
-% Note\marginpar{Space=Separator} that the four values for \Macro\trimbox and \Macro\clipbox as well as for the
+% Note that the four values for \Macro\trimbox and \Macro\clipbox as well as for the
 % \Key{trim} and \Key{viewport} option of \Macro\adjustbox are separated by spaces. If the expression of any of this
 % values holds a space or ends with a macro (eats trailing spaces!) it must be wrapped into braces "{ }".
 %
