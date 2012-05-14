@@ -147,6 +147,7 @@
 %    \begin{macrocode}
 \newcommand\adjustbox[1]{%
     \begingroup
+    \edef\adjbox@line{\the\inputlineno}%
     \let\collectbox@mode\relax
     \let\collectbox@noindent\relax
     \collectboxcheckenv{adjustbox}%
@@ -1015,6 +1016,8 @@
 % \end{macro}
 %
 %
+% \subsubsection{Background}
+%
 % \begin{key}{adjbox}{bgcolor}
 % Adds a colored box in the background.
 % |#1| are the argument to color, i.e. either \MacroArgs<color>
@@ -1079,6 +1082,59 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\bgimagebox}
+%    \begin{macrocode}
+\newcommand*\bgimagebox[2][]{%
+    \collectboxcheckenv{bgimagebox}%
+    \@collectbox{\@bgimagebox{#1}{#2}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@bgimagebox}
+%    \begin{macrocode}
+\def\@bgimagebox#1#2{%
+    \mbox{%
+        \lower\depth\hbox{%
+            \edef\@tempa{\noexpand\adjustimage
+                {#1,width=\the\width,totalheight=\the\totalheight}%
+                {#2}%
+            }%
+            \@tempa
+        }%
+        \hskip-\width%
+        \BOXCONTENT
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{key}{adjbox}{bgimage}
+% One or two arguments, the first optional one are further \Macro\includegraphics keys.
+%    \begin{macrocode}
+\define@key{adjbox}{bgimage}{%
+    \@ifnextchar\bgroup{%
+        \adjbox@bgimage
+    }{%
+        \adjbox@bgimage{}{#1}%
+    }#1\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\adjbox@bgimage}
+%    \begin{macrocode}
+\def\adjbox@bgimage#1#2#3\@nnil{%
+    \adjbox@Gin@add{\@collectbox{\@bgimagebox{#1}{#2}}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \subsubsection{Set sizes}
 %
 % \begin{key}{adjbox}{set height}
 %    \begin{macrocode}
@@ -1331,6 +1387,27 @@
 %    \end{macrocode}
 % \end{key}
 %
+% \begin{key}{adjbox}{warn width}
+%    \begin{macrocode}
+\define@key\adjbox@fam{warn width}[\linewidth]{%
+    \adjust@addcode{\@collectbox{%
+        \@tempdima=#1\relax
+        \ifdim\width>\@tempdima
+            \advance\@tempdima by -\width
+            \@tempdima=-\@tempdima
+            \typeout{Overfull \string\hbox\space (\the\@tempdima\space too wide) in adjustbox at
+                \ifnum\adjbox@line=\inputlineno
+                    line \adjbox@line
+                \else
+                    lines \adjbox@line--\the\inputlineno
+                \fi
+            }%
+        \fi
+        \BOXCONTENT
+    }}{}%
+}
+%    \end{macrocode}
+% \end{key}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsubsection{Lap box}
@@ -1843,57 +1920,6 @@
 %
 %
 %
-% \begin{macro}{\bgimagebox}
-%    \begin{macrocode}
-\newcommand*\bgimagebox[2][]{%
-    \collectboxcheckenv{bgimagebox}%
-    \@collectbox{\@bgimagebox{#1}{#2}}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\@bgimagebox}
-%    \begin{macrocode}
-\def\@bgimagebox#1#2{%
-    \mbox{%
-        \lower\depth\hbox{%
-            \edef\@tempa{\noexpand\adjustimage
-                {#1,width=\the\width,totalheight=\the\totalheight}%
-                {#2}%
-            }%
-            \@tempa
-        }%
-        \hskip-\width%
-        \BOXCONTENT
-    }%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{key}{adjbox}{bgimage}
-% One or two arguments, the first optional one are further \Macro\includegraphics keys.
-%    \begin{macrocode}
-\define@key{adjbox}{bgimage}{%
-    \@ifnextchar\bgroup{%
-        \adjbox@bgimage
-    }{%
-        \adjbox@bgimage{}{#1}%
-    }#1\@nnil
-}
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{macro}{\adjbox@bgimage}
-%    \begin{macrocode}
-\def\adjbox@bgimage#1#2#3\@nnil{%
-    \adjbox@Gin@add{\@collectbox{\@bgimagebox{#1}{#2}}}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
 %
 %    \begin{macrocode}
 %%\RequirePackage{storebox}
@@ -2112,4 +2138,5 @@
 \newcommand*\pagebreakboxoffset{\ht\strutbox}
 %    \end{macrocode}
 % \end{macro}
+%
 %
