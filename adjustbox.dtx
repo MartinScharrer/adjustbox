@@ -1,7 +1,7 @@
 % \iffalse meta-comment
 %<=*COPYRIGHT>
-%% Copyright (C) 2011 by Martin Scharrer <martin@scharrer.me>
-%% ------------------------------------------------------------------
+%% Copyright (C) 2011-2012 by Martin Scharrer <martin@scharrer-online.de>
+%% ----------------------------------------------------------------------
 %% This work may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either version 1.3
 %% of this license or (at your option) any later version.
@@ -20,6 +20,8 @@
 %<=/COPYRIGHT>
 % \fi
 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ^^A DRIVER (((
 % \iffalse
 %<*driver>
 \ProvidesFile{adjustbox.dtx}[%
@@ -142,7 +144,9 @@
 \end{document}
 %</driver>
 % \fi
-%
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ^^A Title page (((
 % \CheckSum{0}
 %
 % \CharacterTable
@@ -217,7 +221,9 @@
 %  Otherwise the \pkg{pgf} package is used for clipping, which supports both DVI/PS and PDF output.
 % \end{abstract}
 %
-% \section{Introduction}
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Introduction} ^^A (((
 % The standard \LaTeX{} package \pkg{graphicx} (the extended version of \pkg{graphics}) provides the macro \Macro\includegraphics[<options>]{<file name>} which can
 % be used to include graphic files. Several options can be used to scale, resize, rotate, trim and/or clip the graphic.
 % The macros \Macro\scalebox, \Macro\resizebox and \Macro\rotatebox are also provided to apply the corresponding 
@@ -229,7 +235,7 @@
 % Then a general \Macro\adjustbox macro which allows to combine many operations using a key=value syntax was added and further extended until it represented the main feature of this package.
 % Newly added keys are also provided as dedicated macros and corresponding environments.
 %
-% \subsection{Driver dependent clipping implementation}
+% \subsection{Driver dependent clipping implementation} ^^A (((2
 % The clipping operation depends on the output driver used, because it must be implemented as part of the
 % output format, e.g.\ using PDF instructions for a PDF output file.
 % Clipping is achieved by trimming the content and discarding any overlap.
@@ -243,13 +249,32 @@
 % and is automatically loaded by it.
 %
 %
-% \subsection{Dependencies}
+% ^^A )))2
+% \subsection{Dependencies} ^^A (((2
 % The \pkg{adjustbox} package and its \pkg{trimclip} sub-package require the author's other package \pkg{collectbox}, as well as the packages \pkg{xkeyval}, \pkg{graphicx} and \pkg{ifpdf}.
 % The \pkg{varwidth} package is automatically loaded if installed, otherwise the \Key{varwidth} and \Key{stack} keys are disables as well as \Macro\stackbox/\env{stackbox}.
 % For features which use colors the \pkg{xcolor} package must also be loaded manually (the \pkg{color} package is fine, too).
 % The experimental |split| and |pagebreak| features also require the \pkg{storebox} package.
 %
-% \section{Package Option}\label{sec:options}
+% ^^A )))2
+% \subsection{Verbatim Support}\label{sec:verbatim} ^^A (((2
+% The macros read the content as a horizontal \TeX{} box and not as an macro argument in order to support verbatim content.
+% This functionality is now provided as dedicated package \pkg{collectbox} which can also be used independently.
+% This means that the braces around the content can also be written as \Macro\bgroup and \Macro\egroup:
+% \begin{macroquote}
+%   \trimbox{1 2 3 4}\AlsoMacro\bgroup~<content>\AlsoMacro\egroup
+% \end{macroquote}
+% Special care is taken to allow the \meta{text} to be a single macro (except \Macro\bgroup) without any braces:
+% \begin{macroquote}
+%   \clipbox{1 2 3 4}\AlsoMacro\somemacro
+% \end{macroquote}
+% This is to support the questionable habit of some \LaTeX{} users to drop the braces for single token arguments.
+% All environments support verbatim content.
+%
+% ^^A )))2
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Package Options}\label{sec:options} ^^A (((
 % Following v0.5 from 2011/08/13 this package accepts the following package options. Some of them can also be used as
 % optional keys for macros.
 %
@@ -306,21 +331,9 @@
 %      have no affect. This might change in future versions of this package.
 % \end{description}
 %
-% \subsection{Verbatim Support}\label{sec:verbatim}
-% The macros read the content as a horizontal \TeX{} box and not as an macro argument in order to support verbatim content.
-% This functionality is now provided as dedicated package \pkg{collectbox} which can also be used independently.
-% This means that the braces around the content can also be written as \Macro\bgroup and \Macro\egroup:
-% \begin{macroquote}
-%   \trimbox{1 2 3 4}\AlsoMacro\bgroup~<content>\AlsoMacro\egroup
-% \end{macroquote}
-% Special care is taken to allow the \meta{text} to be a single macro (except \Macro\bgroup) without any braces:
-% \begin{macroquote}
-%   \clipbox{1 2 3 4}\AlsoMacro\somemacro
-% \end{macroquote}
-% This is to support the questionable habit of some \LaTeX{} users to drop the braces for single token arguments.
-% All environments support verbatim content.
-%
-% \section{Usage}
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Usage} ^^A (((
 % This sections explains the existing features of this package.
 % Most features are available as matching macro, environment and key.
 %
@@ -329,7 +342,8 @@
 % Also the plain\TeX{} syntax for environments (|\foobar ... \endfoobar|) can not be used
 % because it will trigger \Macro\foobar as a macro.
 %
-% \subsection{Adjust Box Content}
+% ^^A )))2
+% \subsection{Adjust Box Content} ^^A (((2
 % \vskip-\lastskip
 % \DescribeMacro\adjustbox{<key/value pairs>}{<content>}
 % The \Macro\adjustbox macro is the general form of all box modifying macros mentioned in the introduction.
@@ -440,8 +454,7 @@
 %
 %
 %
-%
-% \subsection{Trimming and Clipping}
+% \subsection{Trimming and Clipping} ^^A (((2
 % Material can be trimmed (the official size is made smaller, so the remaining material
 % laps over the official boundaries) and clipped (overlapping material is not displayed).
 % The original keys provided by \pkg{graphicx} are also mentioned here for comparison.
@@ -521,7 +534,8 @@
 % \Macro\clipbox*\relax macro. They can be used several times.
 %
 %
-% \subsection{Margins and Vertical Spacing}
+% ^^A )))2
+% \subsection{Margins and Vertical Spacing} ^^A (((2
 %
 % \DescribeMacro\marginbox{<all sites>}{<content>}
 % \DescribeMacro\marginbox{<left/right>~<top/bottom>}{<content>}
@@ -581,7 +595,8 @@
 % The difference is that the vertical space is not ignored at page breaks, but its full amount is always forced.
 %
 %
-% \subsection{Minimum and Maximum Size}
+% ^^A )))2
+% \subsection{Minimum and Maximum Size} ^^A (((2
 %
 % \DescribeMacro\minsizebox{<width>}{<height>}{<content>}
 % \DescribeMacro\minsizebox'*'{<width>}{<totalheight>}{<content>}
@@ -778,7 +793,8 @@
 % \end{example}
 %
 %
-% \subsection{Vertical Alignment}
+% ^^A )))2
+% \subsection{Vertical Alignment} ^^A (((2
 %
 % \DescribeKey{valign}'='<letter>
 % This key allows to vertically align the content to the top, middle and bottom.  The uppercase letters |T|, |M| and |B|
@@ -903,7 +919,8 @@
 % \end{example}
 % 
 %
-% \subsection{Horizontal Alignment}
+% ^^A )))2
+% \subsection{Horizontal Alignment} ^^A (((2
 %
 % \DescribeKey{center}
 % \DescribeKey{center}'='<width>
@@ -978,7 +995,8 @@
 % If the content is wider than the available width it will stick into the outer inner without causing an overfull hbox warning.
 %
 %
-% \subsection{Lapping}
+% ^^A )))2
+% \subsection{Lapping} ^^A (((2
 % The following features can be used to make the content lap over its left or right boundary. This is basically the same 
 % as trimming, but provides a different, more dedicated interface.
 %
@@ -1159,7 +1177,8 @@
 % \end{example}
 %
 %
-% \subsection{Minipage or other inner environments which change the processing of the content}\label{sec:inner}
+% ^^A )))2
+% \subsection{Minipage or other inner environments which change the processing of the content}\label{sec:inner} ^^A (((2
 % The following keys set the way the content is processed before it is stored it in a box.
 % These keys will overwrite each other and only the latest used key will take effect.
 % Because they affect the inner content directly their order relative to other, normal keys is not meaningful.
@@ -1285,7 +1304,8 @@
 %   \end{examplecode}
 % \end{example}
 %
-% \subsection{Adding own Code or Environments}
+% ^^A )))2
+% \subsection{Adding own Code or Environments} ^^A (((2
 %
 % \DescribeKey{env}'='<environment name>
 % \DescribeKey{env}'='{<environment name>}<environment options>
@@ -1315,7 +1335,8 @@
 % Only previously used special keys for modifying the boxing of the content will have an effect yet.  % All other keys are not yet processed.
 % 
 %
-% \section{Other}
+% ^^A )))2
+% \subsection{Other macros} ^^A (((2
 %
 % \DescribeMacro\phantombox{<width>}{<height>}{<depth>}
 % This macro produces an empty box with the given width, height and depth.
@@ -1328,8 +1349,8 @@
 % \end{example}
 %
 %
-% \StopEventually{}
-% \subsection{Experimental Keys}
+% ^^A )))2
+% \subsection{Experimental Keys} ^^A (((2
 % The following features are experimental and may not work correctly yet.
 % At the moment the \pkg{storebox} package must be loaded manually for this keys.
 %
@@ -1364,15 +1385,20 @@
 %
 %
 %
+% ^^A )))2
+% \StopEventually{}
 %
 % \clearpage
-% \section{Implementation}
+% ^^A )))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Implementation} ^^A (((
 % \setcounter{lstnumber}{1}
-%
 %
 % \iffalse
 %<@adjustbox.sty>
 % \fi
 %
+% ^^A )))
 % \Finale
 % \endinput
+% ^^A vim: foldenable foldmethod=marker foldmarker=(((,)))
