@@ -34,3 +34,4 @@ syntax: glob
 ?
 build
 tds
+README
