@@ -299,6 +299,7 @@
 %               but no additional keys and macros.
 %  \end{description}
 %
+% \noindent
 % The following options define the way length values are processed by the provided macros.
 % They are passed to the \Macro\adjcalcset macro of the \pkg{adjcalc} package and load any required packages.
 % These options can also be used as local keys on \Macro\adjustbox. See the \pkg{adjcalc} manual for more details on
@@ -335,6 +336,7 @@
 % The environment version of \Macro\adjustbox. A difference to the macro is that it includes \Macro\noindent 
 % to suppress paragraph indention.
 %
+% \Needspace*{5\baselineskip}
 % \subsection{Adjust Images}
 % \vskip-\lastskip
 % \DescribeMacro\adjustimage{<key=value, \ldots>}{<image filename>}
@@ -508,6 +510,7 @@
 %
 % ^^A )))2
 % \subsection{Margins and Vertical Spacing} ^^A (((2
+% \vspace{-\baselineskip}
 %
 % \DescribeKey{margin}'='<all sites>
 % \DescribeKey{margin}'='<left/right>~<top/bottom>
@@ -641,7 +644,9 @@
 %
 %
 % ^^A )))2
+% \Needspace*{8\baselineskip}
 % \subsection{Scaling} ^^A (((2
+% \vspace{-\baselineskip}
 %
 % \DescribeKey{scale}'='<factor>
 % \DescribeKey{scale}'='{<h-factor>}{<v-factor>}
@@ -1060,6 +1065,7 @@
 % ^^A )))3
 % ^^A )))2
 % \subsection{Background} ^^A (((2
+% \vspace{-\baselineskip}
 %
 % \DescribeKey{bgcolor}'='<color>
 % \DescribeKey{bgcolor}'='{<model>}{<color>}
@@ -1271,6 +1277,7 @@
 %
 % ^^A )))2
 % \subsection{Adding own Code or Environments} ^^A (((2
+% \vspace{-\baselineskip}
 %
 % \DescribeKey{env}'='<environment name>
 % \DescribeKey{env}'='{<environment name>}<environment options>
@@ -1302,7 +1309,7 @@
 %
 % ^^A )))2
 % \subsection{Phantom} ^^A (((2
-%
+% \vspace{-\baselineskip}
 %
 % \DescribeKey{phantom}
 % \DescribeKey{phantom}'=h'
