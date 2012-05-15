@@ -178,6 +178,7 @@
 % Any changes are only locally to the current group/environment.
 % Please see the descriptions of the options for any limitations.
 %
+%
 % \DescribeMacro\adjsetlength{<\textbackslash lengthmacro>}{<length expression>}
 % \DescribeMacro\adjaddtolength{<\textbackslash lengthmacro>}{<length expression>}
 % \DescribeMacro\adjsetcounter{<counter name>}{<integer expression>}
@@ -186,6 +187,13 @@
 % macros \Macro\setlength, \Macro\addtolength, \Macro\setcounter and \Macro\addtocounter.
 % However, these macros allow the use of algebraic expressions, like sums and multiplications, while 
 % the standard macros only await a single value.
+%
+%
+% \DescribeMacro\adjsetlengthdefault{<\textbackslash lengthmacro>}{<length expression with or without unit>}
+% This macro set the length macro but does also support length values without an explicit unit.
+% If no unit is used the default unit set by the \opt{defaultunit} option is used. The initial default unit
+% is `|bp|' (big points, i.e.\ PostScript/PDF points, 72bp=1inch).
+%
 %
 % \StopEventually{}
 % \clearpage
