@@ -210,16 +210,9 @@
 % \makeatother
 %
 % \begin{abstract}
-%  This package got inspired by the \pkg{graphicx} package and extends it sets of macros and generalises its key=value
-%  syntax for graphics to arbitray \TeX\ material.  Its main feature is the \Macro\adjustbox macro and the corresponding
-%  \env{adjustbox} environment which allow to adjust arbitrary \TeX\ material in a multitude of ways, similar like
-%  \Macro\includegraphics does it for image files. In addition to this a wide set of dedicated macros are provided to
-%  modify a box.  This startet with the two macros \Macro\trimbox and \Macro\clipbox which are missing in \pkg{graphics}
-%  but was extended over time.
-%
-%  The macros use the \pkg{collectbox} package to allow for verbatim content. Equivalent environments are also provided.
-%  The trim operation is now implemented in \TeX\ and the clip operation uses |pdftex| primitives if available.
-%  Otherwise the \pkg{pgf} package is used for clipping, which supports both DVI/PS and PDF output.
+%  This package allows to adjust general \LATeX\ material in several ways using a key=value interface.
+%  It got inspired by the interface of \Macro\includegraphics from the \pkg{graphicx} package.
+%  This package also loads the \pkg{trimclip} package which code was once included in this package.
 % \end{abstract}
 %
 % ^^A )))
@@ -237,19 +230,9 @@
 % Then a general \Macro\adjustbox macro which allows to combine many operations using a key=value syntax was added and
 % further extended until it represented the main feature of this package.  Newly added keys are also provided as
 % dedicated macros and corresponding environments.
-%
-% \subsection{Driver dependent clipping implementation} ^^A (((2
-% The clipping operation depends on the output driver used, because it must be implemented as part of the
-% output format, e.g.\ using PDF instructions for a PDF output file.
-% Clipping is achieved by trimming the content and discarding any overlap.
-% The trim operation is now implemented as driver independent \TeX\ code.
-% Clipping driver files for all common \LaTeX\ compilers are provided: |dvips| (DVI-mode `|latex|'), |pdftex| (includes
-% Lua\TeX) and |xetex|. A fall-back |pgf| driver is still included for other potential output formats.
-% It uses a \env{pgfpicture} environment from the \pkg{pgf} package, which supports both PS and PDF output and
-% comes which is own clipping drivers.
-% Because these driver files can also be useful for other packages they have been bundles together with the
-% corresponding user-level macros into an own package called \pkg{trimclip} which comes with \pkg{adjustbox}
-% and is automatically loaded by it.
+% The \Macro\clipbox and \Macro\trimbox macros were then moved together with the required output driver code to a
+% dedicated package \pkg{trimclip}. This allows documents and other packages to use these basic features without
+% loading the full \pkg{adjustbox} package.
 %
 %
 % ^^A )))2
