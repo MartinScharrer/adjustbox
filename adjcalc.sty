@@ -42,7 +42,14 @@
 \DeclareOptionX<adjcalc>{pgfmath}{\adjcalc@pgfmath}
 \DeclareOptionX<adjcalc>{etex}{\adjcalc@etex}
 \DeclareOptionX<adjcalc>{calc}{\adjcalc@calc}
-\DeclareOptionX<adjcalc>{none}{\let\adjcalc@atend\relax\def\adjsetlength{\setlength}\let\adjcalc@overwrite\relax}
+\DeclareOptionX<adjcalc>{none}{%
+    \let\adjcalc@atend\relax
+    \let\adjcalc@overwrite\relax
+    \def\adjsetlength{\setlength}%
+    \def\adjaddtolength{\addtolength}%
+    \def\adjsetcounter{\setcounter}%
+    \def\adjaddtocounter{\addtocounter}%
+}
 \DeclareOptionX<adjcalc>{overwrite}{\adjcalc@overwrite}
 \DeclareOptionX<adjcalc>{defaultunit}[bp]{%
     \begingroup
