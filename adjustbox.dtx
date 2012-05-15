@@ -582,64 +582,8 @@
 %
 % ^^A )))2
 % \subsection{Minimum and Maximum Size} ^^A (((2
-%
-% \DescribeMacro\minsizebox{<width>}{<height>}{<content>}
-% \DescribeMacro\minsizebox'*'{<width>}{<totalheight>}{<content>}
-% This macro is like \Macro\resizebox of the \pkg{graphics/x} package, but only resizes the content if its natural size is smaller
-% than the given \meta{width} or \meta{height}.
-% If only one value should be set the other one can be replaced by "!".
-% If required the content is scaled up so that the width and height is equal or larger than the given values, but does not change 
-% the aspect ratio. 
-% The star variant uses the total height instead of only the height.
-% This macro is used internally for the \Key{min width}, \Key{min height}, \Key{min totalheight} and \Key{min totalsize} options.
-%
-% \begin{examples}
-%   \begin{examplecode}
-%   \minsizebox{3cm}{2ex}{Some Text} which will be enlarged
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \minsizebox{!}{4ex}{\fbox{Some Text}} which will be enlarged
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \minsizebox*{!}{4ex}{\fbox{Some Text}} which will be enlarged
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \minsizebox{3cm}{!}{Some Text} which will be enlarged
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \minsizebox{1cm}{1ex}{Some Text}, already large enough
-%   \end{examplecode}
-% \end{examples}
-%
-%
-%
-% \DescribeMacro\maxsizebox{<width>}{<height>}{<content>}
-% \DescribeMacro\maxsizebox'*'{<width>}{<totalheight>}{<content>}
-% This macro is like \Macro\resizebox of the \pkg{graphics/x} package, but only resizes the content if its natural size is larger
-% than the given \meta{width} or \meta{height}.
-% If only one value should be set the other one can be replaced by "!".
-% If required the content is scaled down so that the width and height is equal or smaller than the given values, but does not change 
-% the aspect ratio.
-% The star variant uses the total height instead of only the height.
-% This macro is used internally for the \Key{max width}, \Key{max height}, \Key{max totalheight} and \Key{max totalsize} options.
-%
-% \begin{examples}
-%   \begin{examplecode}
-%   \maxsizebox{1cm}{1ex}{Some Text} which will be reduced
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \maxsizebox{!}{1ex}{\fbox{Some Text}} which will be reduced
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \maxsizebox*{!}{1ex}{\fbox{Some Text}} which will be reduced
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \maxsizebox{1cm}{!}{Some Text} which will be reduced
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \maxsizebox{3cm}{1cm}{Some Text}, already small enough
-%   \end{examplecode}
-% \end{examples}
+% The following keys allow to set a minimum or maximum size.
+% The content will be scaled down or up if required.
 %
 %
 % \DescribeKey{min width}'='<width>
@@ -663,15 +607,67 @@
 % which is more efficient than using the width and (total)height keys described earlier.
 %
 %
-% \subsubsection{Scaling}
 %
-% \DescribeMacro\scalebox{<h-factor>}[<v-factor>]{<content>}
-% With only the mandatory argument the content is evenly scaled accordantly to the given factor. With the optional argument
-% a different vertical scaling factor can be given.
-% This macro is provided by the loaded \pkg{graphicx} package and only mentioned here for the sake of completeness.
-% The content is read as normal macro argument and therefore can't hold verbatim or similar special material.
-% An alternative which boxes the content directly is provided by the author's other package \pkg{realboxes} as \Macro\Scalebox and
-% as \env{Scalebox} environment.
+% \DescribeMacro\minsizebox{<width>}{<height>}{<content>}
+% \DescribeMacro\minsizebox'*'{<width>}{<totalheight>}{<content>}
+% This macro is like \Macro\resizebox of the \pkg{graphics/x} package, but only resizes the content if its natural size is smaller
+% than the given \meta{width} or \meta{height}.
+% If only one value should be set the other one can be replaced by "!".
+% If required the content is scaled up so that the width and height is equal or larger than the given values, but does not change 
+% the aspect ratio. 
+% The star variant uses the total height instead of only the height.
+% This macro is used internally for the \Key{min width}, \Key{min height}, \Key{min totalheight} and \Key{min totalsize} keys.
+%
+% \begin{examples}
+%   \begin{examplecode}
+%   \minsizebox{3cm}{2ex}{Some Text} which will be enlarged
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \minsizebox{!}{4ex}{\fbox{Some Text}} which will be enlarged
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \minsizebox*{!}{4ex}{\fbox{Some Text}} which will be enlarged
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \minsizebox{3cm}{!}{Some Text} which will be enlarged
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \minsizebox{1cm}{1ex}{Some Text}, already large enough
+%   \end{examplecode}
+% \end{examples}
+%
+%
+% \DescribeMacro\maxsizebox{<width>}{<height>}{<content>}
+% \DescribeMacro\maxsizebox'*'{<width>}{<totalheight>}{<content>}
+% This macro is like \Macro\resizebox of the \pkg{graphics/x} package, but only resizes the content if its natural size is larger
+% than the given \meta{width} or \meta{height}.
+% If only one value should be set the other one can be replaced by "!".
+% If required the content is scaled down so that the width and height is equal or smaller than the given values, but does not change 
+% the aspect ratio.
+% The star variant uses the total height instead of only the height.
+% This macro is used internally for the \Key{max width}, \Key{max height}, \Key{max totalheight} and \Key{max totalsize} keys.
+%
+% \begin{examples}
+%   \begin{examplecode}
+%   \maxsizebox{1cm}{1ex}{Some Text} which will be reduced
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \maxsizebox{!}{1ex}{\fbox{Some Text}} which will be reduced
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \maxsizebox*{!}{1ex}{\fbox{Some Text}} which will be reduced
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \maxsizebox{1cm}{!}{Some Text} which will be reduced
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \maxsizebox{3cm}{1cm}{Some Text}, already small enough
+%   \end{examplecode}
+% \end{examples}
+%
+%
+% ^^A )))2
+% \subsection{Scaling} ^^A (((2
 %
 % \DescribeKey{scale}'='<factor>
 % \DescribeKey{scale}'='{<h-factor>}{<v-factor>}
@@ -687,17 +683,10 @@
 %   \end{examplecode}
 % \end{examples}
 %
-% \DescribeMacro\reflectbox{<content>}
-% Reflects the content like \Macro\scalebox{-1}[1] would do.
-% This macro is provided by the loaded \pkg{graphicx} package and only mentioned here for the sake of completeness.
-% The content is read as normal macro argument and therefore can't hold verbatim or similar special material.
-% An alternative which boxes the content directly is provided by the author's other package \pkg{realboxes} as \Macro\Reflectbox and
-% as \env{Reflectbox} environment.
 %
 % \DescribeKey{reflect}
-% This reflects the content by using \Macro\reflectbox internally, which is identical to \Macro\scalebox{-1}[1],
+% This key reflects the content by using \Macro\reflectbox internally, which is identical to \Macro\scalebox{-1}[1],
 % i.e.\ this key is identical to \Key{scale}'='{-1}{1}.
-%
 %
 % \begin{examples}
 %   \begin{examplecode}
@@ -706,7 +695,15 @@
 % \end{examples}
 %
 %
-% \subsubsection{Frame}
+% \DescribeMacro\scalebox{<h-factor>}[<v-factor>]{<content>}
+% \DescribeMacro\reflectbox{<content>}
+% These macros is provided by the loaded \pkg{graphicx} package and only mentioned here for the sake of completeness.
+% See the |grfguide| for more details.
+%
+%
+% ^^A )))2
+% \subsection{Frame} ^^A (((2
+% The following keys can be used to draw frames around the content.
 %
 % \DescribeKey{fbox}
 % \DescribeKey{fbox}'='<rule width>
@@ -737,6 +734,7 @@
 %   \end{examplecode}
 % \end{examples}
 %
+%
 % \DescribeKey{frame}
 % \DescribeKey{frame}'='<rule width>
 % \DescribeKey{frame}'='<rule width>~<sep>
@@ -751,6 +749,7 @@
 %   \end{examplecode}
 % \end{examples}
 %
+%
 % \DescribeKey{cfbox}'='<color>
 % \DescribeKey{cfbox}'='<color>~<rule width>
 % \DescribeKey{cfbox}'='<color>~<rule width>~<sep>
@@ -763,6 +762,7 @@
 %       {Like a blue \cs{fbox} with \cs{fboxrule}=1pt}
 %   \end{examplecode}
 % \end{example}
+%
 %
 % \DescribeKey{cframe}'='<color>
 % \DescribeKey{cframe}'='<color>~<rule width>
@@ -780,6 +780,7 @@
 %
 % ^^A )))2
 % \subsection{Vertical Alignment} ^^A (((2
+% The following keys can be used to adjust the vertical alignment and size of the content.
 %
 % \DescribeKey{valign}'='<letter>
 % This key allows to vertically align the content to the top, middle and bottom.  The uppercase letters |T|, |M| and |B|
@@ -906,6 +907,7 @@
 %
 % ^^A )))2
 % \subsection{Horizontal Alignment} ^^A (((2
+% The following keys can be used to adjust the horizontal alignment and size of the content.
 %
 % \DescribeKey{center}
 % \DescribeKey{center}'='<width>
@@ -980,8 +982,7 @@
 % If the content is wider than the available width it will stick into the outer inner without causing an overfull hbox warning.
 %
 %
-% ^^A )))2
-% \subsection{Lapping} ^^A (((2
+% \subsection*{Lapping} ^^A (((3
 % The following features can be used to make the content lap over its left or right boundary. This is basically the same 
 % as trimming, but provides a different, more dedicated interface.
 %
@@ -1085,7 +1086,9 @@
 %
 %
 %
-% \subsubsection{Background}
+% ^^A )))3
+% ^^A )))2
+% \subsection{Background} ^^A (((2
 %
 % \DescribeKey{bgcolor}'='<color>
 % \DescribeKey{bgcolor}'='{<model>}{<color>}
@@ -1130,7 +1133,13 @@
 % \DescribeMacro{\bgimagebox}[<key=value pairs>]{<image filename>}
 % Standalone version of the \Key{bgimage} key. Also available as \env{bgimagebox} environment.
 %
-% \subsubsection{Pixel size}
+%
+% ^^A )))2
+% \subsection{Density / Pixel size} ^^A (((2
+% The following keys allow to adjust the effective length of |pdftex| special |px| (pixel) unit.
+% This can be required for images which do not have the correct DPI meta-data included.
+%
+%
 % \DescribeKey{dpi}'='<number (dots per inch)>
 % The \Key{dpi} key provides a simple interface to set the pixel size to the given DPI (dots per inch) value.
 % For |pdflatex| the length unit |px| can be used to specify pixels. However, the equivalent dimension (length) of one pixel must be
@@ -1318,10 +1327,20 @@
 % \DescribeKey{Execute}'='<code>
 % Simply executes the code immediately. This is done in the key processing phase for inner environments (see \autoref{sec:inner}) and is intended mostly for debugging purposes.
 % Only previously used special keys for modifying the boxing of the content will have an effect yet.  % All other keys are not yet processed.
-% 
+%
 %
 % ^^A )))2
-% \subsection{Other macros} ^^A (((2
+% \subsection{Phantom} ^^A (((2
+%
+%
+% \DescribeKey{phantom}
+% \DescribeKey{phantom}'=h'
+% \DescribeKey{phantom}'=v'
+% This key replaces the content with an empty phantom box of the same dimension.
+% If the "h" or "v" value is used the box will only have the same horizontal size or vertical sizes (height and depth)
+% while using zero for the other dimension(s). For this the standard \LaTeX\ macros \Macro\phantom, \Macro\hphantom and
+% \Macro\vphantom are used internally.
+%
 %
 % \DescribeMacro\phantombox{<width>}{<height>}{<depth>}
 % This macro produces an empty box with the given width, height and depth.
