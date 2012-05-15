@@ -1996,8 +1996,20 @@
 %
 % ^^A )))
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsection{Other macros} ^^A (((
+% \subsection{Phantoms} ^^A (((
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \begin{key}{adjbox}{phantom}
+%    \begin{macrocode}
+\define@key\adjbox@fam{phantom}[]{%
+    \expandafter\ifx\csname #1phantom\endcsname\relax
+        \adjust@addcode{\phantom}{}%
+    \else
+        \expandafter\adjust@addcode\expandafter{\csname #1phantom\endcsname}{}%
+    \fi
+}
+%    \end{macrocode}
+% \end{key}
 %
 % \begin{macro}{\phantombox}[3]{width}{height}{depth}
 % Produces an empty box with the given width, height and depth.
