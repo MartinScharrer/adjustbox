@@ -274,9 +274,12 @@
 % \section{Argument Values}\label{sec:argval}
 % All macros of this package and their matching environments require four length values which are used to change the
 % left, bottom, right and top side of the content.  Because of the used \pkg{adjcalc} package complicated algebraic
-% expressions can be used to calculate these amounts.  Like the |trim| or |viewport| keys of \Macro\includegraphics
-% these length must be separated by spaces.  Note that if a previous length expression ends in a macro any trailing
-% spaces will be removed by \TeX.  Therefore it is required to wrap this \emph{complete} length expression in braces.
+% expressions can be used to calculate these amounts. The used math engine can be changed by loading \pkg{adjcalc}
+% with the appropriate option before loading \pkg{trimclip}. Please see the \pkg{adjcalc} manual for more details
+% on this.
+% Like with the |trim| or |viewport| keys of \Macro\includegraphics the length values must be separated by spaces.
+% Note that if a previous length expression ends in a macro any trailing spaces will be removed by \TeX.  Therefore it
+% is required to wrap this \emph{complete} length expression in braces.
 % Several examples of this are shown in the \emph{Usage} section.
 % It is also possible to only provide a single length which is used for all four
 % sides or only two lengths which are taken for the left/right as well as bottom/top side.  This simplifies symmetric
