@@ -283,7 +283,7 @@
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{Package Options}\label{sec:options} ^^A (((
-% This package accepts the following options.
+% This package accepts the following options:
 %
 % \begin{description}\def\oitem#1{\item[{\normalfont\opt{#1}}]}
 %   \oitem{export} Exports most keys of \Macro\adjustbox to \Macro\includegraphics so that they can be used with this
@@ -292,56 +292,30 @@
 %                  of all \Macro\adjustbox keys.
 %   \oitem{pgf} This option is passed to \pkg{trimclip} and makes it to use the \pkg{pgf} package for all clip operations.
 %               This overrides all automatically detected drivers.
-%   \oitem{PGF} This option will pass the \opt{pgf} to both \pkg{trimclip} and \pkg{adjcalc}, i.e.\ the \pkg{pgf}
-%               package is used for clip operations and the \pkg{pgfmath} macro is used to parse length arguments.
+%   \oitem{PGF} This option will pass the \opt{pgf} to \pkg{trimclip} and enable the \opt{pgfmath} option of
+%               \pkg{adjcalc}, i.e.\ the \pkg{pgf}
+%               package is used for clip operations and the \pkg{pgfmath} pacakge is used to parse length arguments.
+%   \oitem{minimal} Only load a minimal set of code, i.e.\ \pkg{trimclip} and \Macro\adjustbox/\env{adjustbox}
+%               but no additional keys and macros.
 %  \end{description}
 %
 % The following options define the way length values are processed by the provided macros.
-% They can be used either as package options and as keys for \Macro\adjustbox\relax (but not for \Macro\includegraphics
-% even if the \opt{export} option was used) to change the settings locally.
-% The only difference between these two usages is that they also load required packages when used as package options.
-% Therefore all keys used in the document should be loaded as package options first or the required packages must be loaded
-% manually. (It is also possible to disable the advanced parsing of lengths using the \opt{none} option, but this is not recommended.)
+% They are passed to the \Macro\adjcalcset macro of the \pkg{adjcalc} package and load any required packages.
+% These options can also be used as local keys on \Macro\adjustbox. See the \pkg{adjcalc} manual for more details on
+% them.
 %
 % \begin{description}\def\oitem#1{\item[{\normalfont\opt{#1}}]}
-%   \oitem{etex} Uses the $\epsilon$-\TeX\ primitive \Macro\glueexpr to parse length values. This allows for additions,
-%      subtractions as well as multiplications and devision by a numeric factor. See the official \pkg{etex\_man} document
-%      for more details. This setting is the default if $\epsilon$-\TeX\ is detected (which should be the case with all
-%      modern \LaTeX\ distributions).
-%   \oitem{calc} Uses the \pkg{calc} package to parse length values. It supports all operations mentioned for \opt{etex} and
-%      also some other operation like \Macro\widthof{<text>}.
-%      See the \pkg{calc} package manual for more details.
-%      This is the default setting if $\epsilon$-TeX is not detected.
-%   \oitem{pgfmath} Uses the \pkg{pgfmath} package of the \pkg{pgf} bundle to parse length values. It supports all basic
-%      numeric operations and also advanced mathematical functions.
-%      See the \pkg{pgf} manual for more details.
-%      Because the \pkg{pgfmath} package can't be loaded
-%      independently in the current version (v2.10) the whole \pkg{pgf} package will be loaded.
-% \end{description}
-%
-% One further option exists which can also be used as optional key for \Macro\adjustbox\relax (but not for
-% \Macro\includegraphics):
-% \begin{description}\def\oitem#1{\item[{\normalfont\opt{#1}}]}
+%   \oitem{etex} Uses the $\epsilon$-\TeX\ primitive \Macro\glueexpr to parse length values. 
+%   \oitem{calc} Uses the \pkg{calc} package to parse length values. 
+%   \oitem{pgfmath} Uses the \pkg{pgfmath} package of the \pkg{pgf} bundle to parse length values.
 %   \oitem{defaultunit}\MacroArgs!{\hspace*{-1ex}}!'='<unit>\relax
-%      This sets the default unit used for the values of \Macro\trimbox, \Macro\clipbox and \Macro\marginbox
-%      including there starred versions
-%      as well as all related keys like \Key{trim}, \Key{viewport}, \Key{margin}, \Key{trim}, \Key{viewport}, \Key{Clip} and \Key{Clip*}.
-%      The standard default unit is the same as for \Macro\includegraphics: "bp" (big points, PostScript points).
-%      However, for \LaTeX\ material \TeX\ normal unit "pt" (\TeX\ points) are better suited and will avoid rounding
-%      errors which otherwise get introduced by the internal conversion.
-%      The default unit is only used if the particular value is only a single number without unit,
-%      but not if any mathematical operations are used.
-%      If the special value |none| is used no default unit is applied and the internal check if the value is a single number
-%      is by-passed. This gives a small speed bonus and can be used to avoid potential issues with complex values.
-%      At this moment this setting will disable the default unit feature for the rest of the current group (i.e.\ all
-%      further \Macro\adjustbox keys or globally if used as a package option) and further usages of this option will
-%      have no affect. This might change in future versions of this package.
+%      This sets the default unit used for values which accept length without units, e.g.\ \Key{trim}.
 % \end{description}
 %
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{Main macros}^^A (((
-%
+% The following macros and environments represent the main functionality of this package.
 % Special care is taken so that the macros and the environments can have the same name.
 % For starred environments the star can be either part of the name or an optional argument.
 %

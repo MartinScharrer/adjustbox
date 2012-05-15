@@ -21,36 +21,32 @@
 % Declare normal options.
 %    \begin{macrocode}
 \def\adjbox@fam{adjbox}
-\DeclareOptionX<adjbox>{export}{\def\adjbox@fam{Gin}}
-\DeclareOptionX<adjbox>{Export}{\AtEndOfPackage{\let\includegraphics\adjincludegraphics}}
-\DeclareOptionX<adjbox>{patch}{%
+\DeclareOptionX<Adjbox>{export}{\def\adjbox@fam{Gin}}
+\DeclareOptionX<Adjbox>{Export}{\AtEndOfPackage{\let\includegraphics\adjincludegraphics}}
+\DeclareOptionX<Adjbox>{patch}{%
     \PackageWarning{adjustbox}{%
          The 'patch' option is now deprecated.\MessageBreak
          Use the new \string\adjustimage\space or \string\adjincludegraphics\space macros instead%
+         \@gobble
     }%
 }
-\DeclareOptionX<adjbox>{minimal}{%
-    \PackageWarning{adjustbox}{%
-         The 'minimal' option is now deprecated.\MessageBreak
-         Load the 'trimclip' package if only trim and clip\MessageBreak
-         macros are required\@gobble
-    }%
-    \let\adjustbox@minimal\endinput
-}
+\DeclareOptionX<Adjbox>{minimal}{\let\adjustbox@minimal\endinput}
 %    \end{macrocode}
 %
 % Declare the options which must be passed to \pkg{adjcalc} in a special form,
-% because they require extra packages. This must be this way becayse \pkg{adjcalc}
+% because they require extra packages. This must be this way because \pkg{adjcalc}
 % is already loaded.
 %    \begin{macrocode}
-\DeclareOptionX<adjbox>{pgfmath}{\AtEndOfPackage{\RequirePackage{pgf}\adjcalcset{pgfmath}}}
-\DeclareOptionX<adjbox>{calc}{\AtEndOfPackage{\RequirePackage{calc}\adjcalcset{calc}}}
+\DeclareOptionX<Adjbox>{pgfmath}{\AtEndOfPackage{\RequirePackage{pgf}\adjcalcset{pgfmath}}}
+\DeclareOptionX<Adjbox>{calc}{\AtEndOfPackage{\RequirePackage{calc}\adjcalcset{calc}}}
+\DeclareOptionX<Adjbox>{etex}{\AtEndOfPackage{\adjcalcset{etex}}}
+\DeclareOptionX<Adjbox>{defaultunit}{\AtEndOfPackage{\adjcalcset{defaultunit={#1}}}}
 %    \end{macrocode}
 %
 % Handle the special \opt{pgf} and \opt{PGF} options.
 %    \begin{macrocode}
-\DeclareOptionX<adjbox>{pgf}{\PassOptionsToPackage{pgf}{trimclip}}
-\DeclareOptionX<adjbox>{PGF}{\PassOptionsToPackage{pgf}{trimclip}\PassOptionsToPackage{pgf}{adjcalc}}
+\DeclareOptionX<Adjbox>{pgf}{\PassOptionsToPackage{pgf}{trimclip}}
+\DeclareOptionX<Adjbox>{PGF}{\PassOptionsToPackage{pgf}{trimclip}\AtEndOfPackage{\RequirePackage{pgf}\adjcalcset{pgfmath}}}
 %    \end{macrocode}
 %
 % Pass all other options to \pkg{graphicx}.
@@ -58,18 +54,9 @@
 \DeclareOptionX*{\PassOptionsToPackage\CurrentOption{graphicx}}
 %    \end{macrocode}
 %
-% Process all options. Unknown options are checked for \pkg{adjcalc} options.
+% Process all options.
 %    \begin{macrocode}
-\ProcessOptionsX*<adjbox,adjcalc>\relax
-%    \end{macrocode}
-%
-% Disable all at-package-loading options.
-% Delete the special wrapper options so that the real keys of \pkg{adjcalc} are used inside the document.
-% (The options can be reused as normal keys.)
-%    \begin{macrocode}
-\disable@keys{adjbox}{patch,export,PGF,minimal}
-\let\KV@adjbox@pgfmath\@undefined
-\let\KV@adjbox@calc\@undefined
+\ProcessOptionsX*<Adjbox>\relax
 %    \end{macrocode}
 %
 % Load the required packages.
@@ -77,7 +64,6 @@
 \RequirePackage{graphicx}[1999/02/16]
 \RequirePackage{collectbox}[2012/05/13]
 \RequirePackage{trimclip}
-{\csname adjustbox@minimal\endcsname}
 %    \end{macrocode}
 %
 % ^^A )))
@@ -283,7 +269,10 @@
 % \end{macro}
 %
 %
-%
+% End input of file if the \opt{minimal} option was used.
+%    \begin{macrocode}
+{\csname adjustbox@minimal\endcsname}
+%    \end{macrocode}
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsection{Keys for trimming, clipping, viewport and margin} ^^A (((
