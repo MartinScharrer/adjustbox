@@ -195,6 +195,7 @@
 %  \fontsize \sf@size \z@ \math@fontsfalse \selectfont A}\vss }}\kern -.15em)\TeX}{(La)TeX}}
 % \makeatother
 %
+% \vspace{-\baselineskip}
 % \begin{abstract}
 % This package extends the standard \pkg{graphicx} package by providing the missing \Macro\trimbox and \Macro\clipbox
 % macros to trim and clip arbitrary \TeX\ material.
@@ -215,6 +216,7 @@
 % However, the fundamental clip and trim macros and their driver files are now packed into this minimalistic package,
 % so that other packages can reuse its functionality without the need to load the ever-growing \pkg{adjustbox} package.
 %
+% \enlargethispage{\baselineskip}
 % The macros provided by this package differ in three aspects from the macros defined by \pkg{graphicx}.  The content
 % argument is actually read directly as a horizontal box and not as a macro argument, even when the syntax looks the
 % same.  This allows for arbitrary content including special things like verbatim material. It is allowed to replace the
