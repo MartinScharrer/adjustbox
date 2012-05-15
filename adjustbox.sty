@@ -49,9 +49,15 @@
 \DeclareOptionX<Adjbox>{PGF}{\PassOptionsToPackage{pgf}{trimclip}\AtEndOfPackage{\RequirePackage{pgf}\adjcalcset{pgfmath}}}
 %    \end{macrocode}
 %
-% Pass all other options to \pkg{graphicx}.
+% Pass all driver options to \pkg{trimclip} and all unknown options to \pkg{graphicx}.
 %    \begin{macrocode}
-\DeclareOptionX*{\PassOptionsToPackage\CurrentOption{graphicx}}
+\DeclareOptionX*{%
+    \IfFileExists{tc-\CurrentOption.def}{%
+        \PassOptionsToPackage\CurrentOption{trimclip}%
+    }{%
+        \PassOptionsToPackage\CurrentOption{graphicx}%
+    }%
+}
 %    \end{macrocode}
 %
 % Process all options.
@@ -61,9 +67,9 @@
 %
 % Load the required packages.
 %    \begin{macrocode}
+\RequirePackage{trimclip}
 \RequirePackage{graphicx}[1999/02/16]
 \RequirePackage{collectbox}[2012/05/13]
-\RequirePackage{trimclip}
 %    \end{macrocode}
 %
 % ^^A )))
