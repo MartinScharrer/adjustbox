@@ -237,12 +237,13 @@
 %
 % ^^A )))2
 % \subsection{Dependencies} ^^A (((2
-% The \pkg{adjustbox} package and its \pkg{trimclip} sub-package require the author's other package \pkg{collectbox}, as
+% The \pkg{adjustbox} package and its \pkg{trimclip} sub-package require the author's other packages
+% \pkg{adjcalc} (bundled with \pkg{adjustbox}) and \pkg{collectbox}, as
 % well as the packages \pkg{xkeyval}, \pkg{graphicx} and \pkg{ifpdf}.  The \pkg{varwidth} package is automatically
 % loaded if installed, otherwise the \Key{varwidth} and \Key{stack} keys are disables as well as
-% \Macro\stackbox/\env{stackbox}.  For features which use colors the \pkg{xcolor} package must also be loaded manually
+% \Macro\stackbox and the \env{stackbox} environment.  For features which use colors the \pkg{xcolor} package must also be loaded manually
 % (the \pkg{color} package is fine, too).  The experimental |split| and |pagebreak| features also require the
-% \pkg{storebox} package.
+% \pkg{storebox} package to be loaded manually.
 %
 % ^^A )))2
 % \subsection{Verbatim Support}\label{sec:verbatim} ^^A (((2
