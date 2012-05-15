@@ -986,6 +986,52 @@
 % The following features can be used to make the content lap over its left or right boundary. This is basically the same 
 % as trimming, but provides a different, more dedicated interface.
 %
+%
+% \DescribeKey{lap}'='<lap amount>
+% \DescribeKey{lap}'='{<length>}{<lap amount>}
+% This key will make the content lap over the surrounding elements to the right or left by the given amount..
+% A positive amount will make the content lap over to the right
+% and a negative one to the left. The optional \meta{length} argument allows to set the final width.
+% If not used the resulting width will be the original width minus the absolute lap amount.
+% This key internally uses \Macro\lapbox{<lap amount>}{\ldots} and \Macro\lapbox[<length>]{<lap amount>}{\ldots}, respectively.
+%
+% \begin{examples}
+%   \begin{examplecode}
+%   \adjustbox{lap=.5\width}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{lap=-.5\width}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{lap=\width}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{lap=-\width}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{lap={\width}{\width}}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{lap={\width}{-\width}}{Some content}
+%   \end{examplecode}
+% \end{examples}
+%
+%
+% \DescribeKey{rlap}
+% \DescribeKey{llap}
+% This makes the content to be officially 0pt wide and lap over to the right or left, respectively, like the \LaTeX\ macros \Macro\rlap and \Macro\llap do.
+% These are shortcuts for \Key{lap}'='\AlsoMacro\width and \Key{lap}'=-'\AlsoMacro\width, respectively. The values for these keys are ignored and should not be used.
+%
+% \begin{examples}
+%   \begin{examplecode}
+%   \adjustbox{rlap}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{llap}{Some content}
+%   \end{examplecode}
+% \end{examples}
+%
+%
 % \DescribeMacro\lapbox[<width>]{<lap amount>}{<content>}
 % This macro is a generalisation of the \LaTeX\ core macros \Macro\rlap{<content>} and \Macro\llap{<content>} which lap the
 % text to the right or left without taking any official space. The \Macro\lapbox macro can be used to only partially lap
@@ -1039,51 +1085,6 @@
 %   \end{examplecode}
 %
 % \end{examples}
-%
-%
-% \DescribeKey{lap}'='<lap amount>
-% \DescribeKey{lap}'='{<length>}{<lap amount>}
-% This wraps the content into a
-% \Macro\lapbox{<lap amount>}{\ldots} and
-% \Macro\lapbox[<length>]{<lap amount>}{\ldots}, respectively. Positive \meta{amounts} lap the content to the right
-% and negative to the left. The optional \meta{length} argument allows to set the final width.
-%
-% \begin{examples}
-%   \begin{examplecode}
-%   \adjustbox{lap=.5\width}{Some content}
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \adjustbox{lap=-.5\width}{Some content}
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \adjustbox{lap=\width}{Some content}
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \adjustbox{lap=-\width}{Some content}
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \adjustbox{lap={\width}{\width}}{Some content}
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \adjustbox{lap={\width}{-\width}}{Some content}
-%   \end{examplecode}
-% \end{examples}
-%
-% \DescribeKey{rlap}
-% \DescribeKey{llap}
-% This makes the content to be officially 0pt wide and lap over to the right or left, respectively, like the \LaTeX\ macros \Macro\rlap and \Macro\llap do.
-% These are shortcuts for \Key{lap}'='\AlsoMacro\width and \Key{lap}'=-'\AlsoMacro\width, respectively. The values for these keys are ignored and should not be used.
-%
-%
-% \begin{examples}
-%   \begin{examplecode}
-%   \adjustbox{rlap}{Some content}
-%   \end{examplecode}
-%   \begin{examplecode}
-%   \adjustbox{llap}{Some content}
-%   \end{examplecode}
-% \end{examples}
-%
 %
 %
 % ^^A )))3
