@@ -1297,7 +1297,7 @@
 %
 %
 % ^^A )))2
-% \subsection{Phantom} ^^A (((2
+% \subsection{Change or discard content} ^^A (((2
 % \vspace{-\baselineskip}
 %
 % \DescribeKey{phantom}
@@ -1318,6 +1318,54 @@
 %   Before \fbox{\phantombox{1cm}{2ex}{1ex}} After
 %   \end{examplecode}
 % \end{example}
+%
+%
+% \DescribeKey{gobble}
+% \DescribeKey{discard}
+% These two keys are aliases and will discard the content after it was fully processed.  Any keys used after one of this
+% keys will operate on an empty content.  These keys can be used in combination of the \Key{gstore ...} keys to only
+% measure but not typeset some content.
+%
+% \DescribeKey{content}'='<new content>
+% This key discards the current content completely after it was fully processed and all earlier keys were applied
+% and sets the content to the given \meta{new content}. This can be used to implement some draft box or censoring
+% features.
+%
+% \newlength\somelengtha
+% \newlength\somelengthb
+% \begin{example}
+%   \begin{examplecode}
+%   \adjustbox{frame,rotate=-30,gstore sizes=\somelengtha{}{}\somelengthb,
+%       content={Censored!},rotate=30,totalheight=\somelengtha,width=\somelengthb,frame}
+%           {The real content}
+%   \end{examplecode}
+% \end{example}
+%
+%
+%
+% ^^A )))2
+% \subsection{Store box content } ^^A (((2
+%
+% \DescribeKey{gstore}'='<\textbackslash boxregister>
+% \DescribeKey{gstore*}'='<\textbackslash boxregister>
+% These keys globally store the current content into the given box register.
+% With the normal version the content is still preserved and can be further adjusted.
+% With the starred version the content will be consumed and further keys will be applied to an empty content.
+%
+% \DescribeKey{gstore width}'='<\textbackslash lengthregister>
+% \DescribeKey{gstore height}'='<\textbackslash lengthregister>
+% \DescribeKey{gstore depth}'='<\textbackslash lengthregister>
+% \DescribeKey{gstore totalheight}'='<\textbackslash lengthregister>
+% These key globally store the width, height, depth and totalheight into a length register, respectively.
+% The content will not be altered by these keys. There are no starred versions like for \Key{gstore}.
+% If the content should only be measured but not typeset the \Key{gobble}/\Key{discard} key can be used afterwards.
+%
+% \DescribeKey{gstore sizes}'='<\textbackslash lengthregister><\textbackslash lengthregister><\textbackslash lengthregister><\textbackslash lengthregister>
+% Stores all four size values (width, height, depth and totalheight) of the content in the given length registers.
+% This key should be used if more than one dimension should be stored, because it is much more efficient than using
+% multiple of the above keys. 
+% If a dimension is not required it can be replaced by an empty argument, i.e.\ `|{}|'.
+% Trailing dimensions can be skipped altogether if they are not required.
 %
 %
 % ^^A )))2
