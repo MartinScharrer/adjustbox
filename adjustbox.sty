@@ -2025,6 +2025,26 @@
 % \end{macro}
 %
 %
+% \begin{key}{adjbox}{gobble}
+% Discards the content.
+%    \begin{macrocode}
+\define@key\adjbox@fam{gobble}[]{%
+    \let\adjustbox@noindent\relax
+    \adjbox@Gin@Add{\@collectbox{}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{discard}
+% Discards the content.
+%    \begin{macrocode}
+\define@key\adjbox@fam{discard}[]{%
+    \let\adjustbox@noindent\relax
+    \adjbox@Gin@Add{\@collectbox{}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
 %
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2032,8 +2052,18 @@
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \begin{key}{adjbox}{gstore}
+% Store the current content into a box without removing it.
 %    \begin{macrocode}
 \define@key\adjbox@fam{gstore}{%
+    \adjbox@Gin@Add{\global\@collectboxto{#1}{\BOXCONTENT}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{gstore*}
+% Store the content into a box only.
+%    \begin{macrocode}
+\define@key\adjbox@fam{gstore*}{%
     \adjbox@Gin@Add{\global\@collectboxto{#1}{}}%
 }
 %    \end{macrocode}
