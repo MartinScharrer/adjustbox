@@ -26,7 +26,7 @@
 %<*driver>
 \ProvidesFile{adjustbox.dtx}[%
 %<=*DATE>
-    2012/05/13
+    2012/05/16
 %<=/DATE>
 %<=*VERSION>
     v0.9
@@ -192,6 +192,42 @@
 %     Added \Key{varwidth} key as an alternative to \Key{minipage}.
 %     Added \stackbox and \Key{stack} key and \env{stackbox} environment (similar to \cs{shortstack})
 %     Added check for \pkg{xcolor} package.
+% }
+% \changes{v0.9}{2012/05/16}{
+%   Basic trim and clip macros and driver files are now placed in a dedicated minimal package 'trimclip'.
+%   Special thanks goes to Joseph Wright (LaTeX3 project) for his work on the driver files.
+%   Clipping drivers are provided for 'pdftex' (incl. LuaTeX), 'dvips' and 'xetex' as well as a PGF fall-back
+%   driver.
+%
+%   Packages:
+%       * New dedicated 'trimclip' package with own manual.
+%       * Better separation between 'adjcalc' and 'adjustbox' package.
+%       * Review of manuals
+%
+%   New adjustbox keys:
+%       * content
+%       * gstore
+%       * gstore*
+%       * gstore width/height/depth/totalheight/sizes
+%       * gobble/discard
+%       * phantom
+%       * warn width
+%       * float
+%       * nofloat
+%       * figure
+%       * label
+%       * caption
+%       * vspace
+%       * vspace*
+%       * padding  (alias of 'margin')
+%       * padding* (alias of 'margin*')
+%
+%   Fixes:
+%       * env key now works correctly
+%       * Fixed raise box code
+%
+%   Macro changes:
+%       * Added third optional argument to \stackbox.
 % }
 %
 % \GetFileInfo{adjustbox.dtx}
