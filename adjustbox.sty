@@ -279,7 +279,41 @@
 %    \begin{macrocode}
 {\csname adjustbox@minimal\endcsname}
 %    \end{macrocode}
+%
 % ^^A )))
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Internal code adding macros} ^^A (((
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \begin{macro}{\adjbox@Gin@add}
+%    \begin{macrocode}
+\def\adjbox@Gin@add#1{%
+    \def\@tempa{#1}%
+    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
+}
+\def\adjbox@Gin@Add{%
+    \Gin@esetsize
+    \@tempswatrue
+    \adjbox@Gin@add
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@Gin@sizeadd}
+% Checks if key-value is actually two arguments. If not it is doubled.
+% E.g.: \verb+min size=\A+ is the same as  \verb+min size={\A}{\A}+
+%    \begin{macrocode}
+\def\adjbox@Gin@sizeadd#1#2#3\relax{%
+    \ifx\@nnil#3\@nnil
+        \adjbox@Gin@add{#1{#2}{#2}}%
+    \else
+        \adjbox@Gin@add{#1{#2}{#3}}%
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsection{Keys for trimming, clipping, viewport and margin} ^^A (((
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1446,41 +1480,6 @@
 % \end{macro}
 %
 %
-% ^^A )))
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsection{Internal code adding macros} ^^A (((
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%
-% \begin{macro}{\adjbox@Gin@add}
-%    \begin{macrocode}
-\def\adjbox@Gin@add#1{%
-    \def\@tempa{#1}%
-    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\the\toks@}}%
-}
-\def\adjbox@Gin@Add{%
-    \Gin@esetsize
-    \@tempswatrue
-    \adjbox@Gin@add
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\adjbox@Gin@sizeadd}
-% Checks if key-value is actually two arguments. If not it is doubled.
-% E.g.: \verb+min size=\A+ is the same as  \verb+min size={\A}{\A}+
-%    \begin{macrocode}
-\def\adjbox@Gin@sizeadd#1#2#3\relax{%
-    \ifx\@nnil#3\@nnil
-        \adjbox@Gin@add{#1{#2}{#2}}%
-    \else
-        \adjbox@Gin@add{#1{#2}{#3}}%
-    \fi
-}
-%    \end{macrocode}
-% \end{macro}
-%
 %
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2021,6 +2020,81 @@
     \leavevmode
     \box\collectedbox
     \endgroup
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% ^^A )))
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Store box content and sizes} ^^A (((
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \begin{key}{adjbox}{gstore}
+%    \begin{macrocode}
+\define@key\adjbox@fam{gstore}{%
+    \adjbox@Gin@Add{\global\@collectboxto{#1}{}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{gstore width}
+%    \begin{macrocode}
+\define@key{adjbox}{gstore width}{%
+    \adjbox@Gin@Add{\@collectbox{\global#1=\width\BOXCONTENT}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{gstore depth}
+%    \begin{macrocode}
+\define@key{adjbox}{gstore depth}{%
+    \adjbox@Gin@Add{\@collectbox{\global#1=\depth\BOXCONTENT}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{gstore height}
+%    \begin{macrocode}
+\define@key{adjbox}{gstore height}{%
+    \adjbox@Gin@Add{\@collectbox{\global#1=\height\BOXCONTENT}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{gstore totalheight}
+%    \begin{macrocode}
+\define@key{adjbox}{gstore totalheight}{%
+    \adjbox@Gin@Add{\@collectbox{\global#1=\totalheight\BOXCONTENT}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{gstore sizes}
+%    \begin{macrocode}
+\define@key{adjbox}{gstore sizes}{%
+    \adjbox@Gin@Add{\@collectbox{\adjbox@gstore@sizes#1\relax\relax\relax\relax\@nnil\BOXCONTENT}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{macro}{\adjbox@gstore@sizes}[4]{width register}{height register}{depth register}{totalheight register}
+% Stores the width, height, depth and totalheight in the given registers if they are not empty (or \Macro\relax).
+%    \begin{macrocode}
+\def\adjbox@gstore@sizes#1#2#3#4#5\@nnil{%
+    \ifx\relax#1\relax\else
+        \global#1=\width
+    \fi
+    \ifx\relax#2\relax\else
+        \global#2=\height
+    \fi
+    \ifx\relax#3\relax\else
+        \global#3=\depth
+    \fi
+    \ifx\relax#4\relax\else
+        \global#4=\totalheight
+    \fi
 }
 %    \end{macrocode}
 % \end{macro}
