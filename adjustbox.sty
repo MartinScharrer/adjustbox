@@ -1990,7 +1990,7 @@
 %
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsection{Phantoms} ^^A (((
+% \subsection{Change or discard the content} ^^A (((
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \begin{key}{adjbox}{phantom}
@@ -2046,6 +2046,16 @@
 % \end{key}
 %
 %
+% \begin{key}{adjbox}{content}
+% Replaces the content. The old content is still processed completely before being replaced..
+%    \begin{macrocode}
+\define@key\adjbox@fam{content}{%
+    \adjbox@Gin@Add{\@collectbox{#1}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsection{Store box content and sizes} ^^A (((
@@ -2064,6 +2074,7 @@
 % Store the content into a box only.
 %    \begin{macrocode}
 \define@key\adjbox@fam{gstore*}{%
+    \let\adjustbox@noindent\relax
     \adjbox@Gin@Add{\global\@collectboxto{#1}{}}%
 }
 %    \end{macrocode}
