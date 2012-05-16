@@ -314,6 +314,18 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%
+% \begin{macro}{\adjbox@let@key}
+% Aliases one key to another.
+%    \begin{macrocode}
+\def\adjbox@let@key#1#2#3{%
+    \expandafter\let\csname KV@#1@#2\expandafter\endcsname\csname KV@#1@#2\endcsname
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsection{Keys for trimming, clipping, viewport and margin} ^^A (((
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -408,18 +420,14 @@
 % \begin{key}{adjbox}{padding}
 % Alias for \Key{margin}.
 %    \begin{macrocode}
-\define@key\adjbox@fam{padding}{%
-    \adjbox@Gin@Add{\marginbox@{#1}}%
-}
+\adjbox@let@key\adjbox@fam{padding}{margin}
 %    \end{macrocode}
 % \end{key}
 %
 % \begin{key}{adjbox}{padding*}
 % Alias for \Key{margin*}.
 %    \begin{macrocode}
-\define@key\adjbox@fam{padding*}{%
-    \adjbox@Gin@Add{\marginbox@s{#1}}%
-}
+\adjbox@let@key\adjbox@fam{padding*}{margin*}
 %    \end{macrocode}
 % \end{key}
 %
@@ -2036,12 +2044,9 @@
 % \end{key}
 %
 % \begin{key}{adjbox}{discard}
-% Discards the content.
+% Alias of \Key{gobble}.
 %    \begin{macrocode}
-\define@key\adjbox@fam{discard}[]{%
-    \let\adjustbox@noindent\relax
-    \adjbox@Gin@Add{\@collectbox{}}%
-}
+\adjbox@let@key\adjbox@fam{discard}{gobble}%
 %    \end{macrocode}
 % \end{key}
 %
@@ -2370,3 +2375,4 @@
 %
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% vim: foldenable foldmethod=marker foldmarker=(((,)))
