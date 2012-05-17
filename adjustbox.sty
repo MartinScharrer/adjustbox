@@ -72,6 +72,13 @@
 \RequirePackage{collectbox}[2012/05/17]
 %    \end{macrocode}
 %
+% Fall-back code for older \pkg{collectbox} versions:
+%    \begin{macrocode}
+\@ifpackagelater{collectbox}{2012/05/17}{}{%
+    \let\@Collectbox\@collectbox
+}
+%    \end{macrocode}
+%
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsection{Basic commands} ^^A (((
@@ -186,6 +193,7 @@
     \let\Depth\adjbox@Depth
     \let\Totalheight\adjbox@Totalheight
     \let\Gin@esetsize\adjbox@esetsize
+    \let\@collectbox\@Collectbox
     \@tempswatrue
     \toks@{{\adjustbox@content}}%
     \def\setlength{\adjsetlength}%
@@ -641,7 +649,7 @@
 % \begin{macro}{\adjbox@raisebox}[3]{raise amount}{height}{depth}
 %    \begin{macrocode}
 \def\adjbox@raisebox#1#2#3{%
-    \collectbox{\adjbox@@raisebox{#1}{#2}{#3}}%
+    \@collectbox{\adjbox@@raisebox{#1}{#2}{#3}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2080,7 +2088,7 @@
 %    \begin{macrocode}
 \define@key\adjbox@fam{gstore*}{%
     \let\adjustbox@noindent\relax
-    \adjbox@Gin@Add{\global\@collectboxto{#1}{}}%
+    \adjbox@Gin@Add{\global\sbox{#1}}%
 }
 %    \end{macrocode}
 % \end{key}
