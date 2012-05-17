@@ -69,7 +69,7 @@
 %    \begin{macrocode}
 \RequirePackage{trimclip}
 \RequirePackage{graphicx}[1999/02/16]
-\RequirePackage{collectbox}[2012/05/13]
+\RequirePackage{collectbox}[2012/05/17]
 %    \end{macrocode}
 %
 % ^^A )))
@@ -727,7 +727,7 @@
 % \begin{macro}{\adjbox@valign@c}
 %    \begin{macrocode}
 \def\adjbox@valign@c{%
-    \adjbox@Gin@Add{\@collectbox\adjbox@vcenter}%
+    \adjbox@Gin@Add{\@Collectbox\adjbox@vcenter}%
 }
 \def\adjbox@vcenter{%
     \leavevmode
@@ -921,7 +921,7 @@
 % \begin{key}{adjbox}{warn width}
 %    \begin{macrocode}
 \define@key\adjbox@fam{warn width}[\linewidth]{%
-    \adjust@addcode{\@collectbox{%
+    \adjust@addcode{\@Collectbox{%
         \@tempdima=#1\relax
         \ifdim\width>\@tempdima
             \advance\@tempdima by -\width
@@ -1114,7 +1114,7 @@
 %    \begin{macrocode}
 \def\adjbox@frame#1#2 #3 #4 #5\relax{%
     \adjbox@Gin@Add{%
-        \@collectbox{#1\adjbox@@frame{}{#2}{#3}{#4}}%
+        \@Collectbox{#1\adjbox@@frame{}{#2}{#3}{#4}}%
     }%
     \remove@to@nnil
 }
@@ -1144,7 +1144,7 @@
 %    \begin{macrocode}
 \def\adjbox@cframe#1#2 #3 #4 #5 #6\relax{%
     \adjbox@Gin@Add{%
-        \@collectbox{#1\adjbox@@frame{\color{#2}}{#3}{#4}{#5}}%
+        \@Collectbox{#1\adjbox@@frame{\color{#2}}{#3}{#4}{#5}}%
     }%
     \remove@to@nnil
 }
@@ -1393,9 +1393,9 @@
 %    \begin{macrocode}
 \def\adjbox@bgcolor#1#2#3\@nnil{%
     \ifx\@nnil#1\@nnil
-        \adjbox@Gin@add{\@collectbox{\adjbox@@bgcolor{\color{#2}}}}%
+        \adjbox@Gin@add{\@Collectbox{\adjbox@@bgcolor{\color{#2}}}}%
     \else
-        \adjbox@Gin@add{\@collectbox{\adjbox@@bgcolor{\color[#1]{#2}}}}%
+        \adjbox@Gin@add{\@Collectbox{\adjbox@@bgcolor{\color[#1]{#2}}}}%
     \fi
 }
 %    \end{macrocode}
@@ -1408,7 +1408,7 @@
 %    \begin{macrocode}
 \define@key\adjbox@fam{bgcolor*}{%
     \adjbox@checkcolor
-    \adjbox@Gin@add{\@collectbox{\adjbox@@bgcolor{#1}}}%
+    \adjbox@Gin@add{\@Collectbox{\adjbox@@bgcolor{#1}}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -1482,7 +1482,7 @@
 % \begin{macro}{\adjbox@bgimage}
 %    \begin{macrocode}
 \def\adjbox@bgimage#1#2#3\@nnil{%
-    \adjbox@Gin@add{\@collectbox{\@bgimagebox{#1}{#2}}}%
+    \adjbox@Gin@add{\@Collectbox{\@bgimagebox{#1}{#2}}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2038,7 +2038,7 @@
 %    \begin{macrocode}
 \define@key\adjbox@fam{gobble}[]{%
     \let\adjustbox@noindent\relax
-    \adjbox@Gin@Add{\@collectbox{}}%
+    \adjbox@Gin@Add{\@Collectbox{}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -2055,7 +2055,7 @@
 % Replaces the content. The old content is still processed completely before being replaced..
 %    \begin{macrocode}
 \define@key\adjbox@fam{content}{%
-    \adjbox@Gin@Add{\@collectbox{#1}}%
+    \adjbox@Gin@Add{\@Collectbox{#1}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -2088,7 +2088,7 @@
 % \begin{key}{adjbox}{gstore width}
 %    \begin{macrocode}
 \define@key{adjbox}{gstore width}{%
-    \adjbox@Gin@Add{\@collectbox{\global#1=\width\BOXCONTENT}}%
+    \adjbox@Gin@Add{\@Collectbox{\global#1=\width\BOXCONTENT}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -2096,7 +2096,7 @@
 % \begin{key}{adjbox}{gstore depth}
 %    \begin{macrocode}
 \define@key{adjbox}{gstore depth}{%
-    \adjbox@Gin@Add{\@collectbox{\global#1=\depth\BOXCONTENT}}%
+    \adjbox@Gin@Add{\@Collectbox{\global#1=\depth\BOXCONTENT}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -2104,7 +2104,7 @@
 % \begin{key}{adjbox}{gstore height}
 %    \begin{macrocode}
 \define@key{adjbox}{gstore height}{%
-    \adjbox@Gin@Add{\@collectbox{\global#1=\height\BOXCONTENT}}%
+    \adjbox@Gin@Add{\@Collectbox{\global#1=\height\BOXCONTENT}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -2112,7 +2112,7 @@
 % \begin{key}{adjbox}{gstore totalheight}
 %    \begin{macrocode}
 \define@key{adjbox}{gstore totalheight}{%
-    \adjbox@Gin@Add{\@collectbox{\global#1=\totalheight\BOXCONTENT}}%
+    \adjbox@Gin@Add{\@Collectbox{\global#1=\totalheight\BOXCONTENT}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -2120,7 +2120,7 @@
 % \begin{key}{adjbox}{gstore sizes}
 %    \begin{macrocode}
 \define@key{adjbox}{gstore sizes}{%
-    \adjbox@Gin@Add{\@collectbox{\adjbox@gstore@sizes#1\relax\relax\relax\relax\@nnil\BOXCONTENT}}%
+    \adjbox@Gin@Add{\@Collectbox{\adjbox@gstore@sizes#1\relax\relax\relax\relax\@nnil\BOXCONTENT}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -2169,7 +2169,7 @@
 % \begin{key}{adjbox}{split}
 %    \begin{macrocode}
 \define@key\adjbox@fam{split}{%
-    \adjbox@Gin@Add{\@collectbox{\@splitbox#1}}%
+    \adjbox@Gin@Add{\@Collectbox{\@splitbox#1}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -2305,7 +2305,7 @@
 % \begin{key}{adjbox}{pagebreak}
 %    \begin{macrocode}
 \define@key\adjbox@fam{pagebreak}[]{%
-    \adjbox@Gin@Add{\@collectbox{\@pagebreakbox}}%
+    \adjbox@Gin@Add{\@Collectbox{\@pagebreakbox}}%
 }
 %    \end{macrocode}
 % \end{key}
