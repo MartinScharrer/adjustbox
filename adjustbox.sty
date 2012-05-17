@@ -308,6 +308,104 @@
 % \end{macro}
 %
 %
+% \begin{macro}{\newadjustboxkey}
+%    \begin{macrocode}
+\newcommand\newadjustboxkey{%
+    \@ifstar
+        {\@adjustboxkey\adjustbox@newkey\adjbox@Gin@add}%
+        {\@adjustboxkey\adjustbox@newkey\adjbox@Gin@Add}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\renewadjustboxkey}
+%    \begin{macrocode}
+\newcommand\renewadjustboxkey{%
+    \@ifstar
+        {\@adjustboxkey\adjustbox@renewkey\adjbox@Gin@add}%
+        {\@adjustboxkey\adjustbox@renewkey\adjbox@Gin@Add}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\provideadjustboxkey}
+%    \begin{macrocode}
+\newcommand\provideadjustboxkey{%
+    \@ifstar
+        {\@adjustboxkey\adjustbox@providekey\adjbox@Gin@add}%
+        {\@adjustboxkey\adjustbox@providekey\adjbox@Gin@Add}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\defadjustboxkey}
+%    \begin{macrocode}
+\newcommand\defadjustboxkey{%
+    \@ifstar
+        {\@adjustboxkey\@secondoftwo\adjbox@Gin@add}%
+        {\@adjustboxkey\@secondoftwo\adjbox@Gin@Add}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@adjustboxkey}
+%    \begin{macrocode}
+\def\@adjustboxkey#1#2#3{%
+    \@ifnextchar{[}%
+        {\@@adjustboxkey#1#2{#3}}%
+        {\@@adjustboxkey#1#2{#3}[\@nnil]}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@adjustboxkey}
+%    \begin{macrocode}
+\def\@@adjustboxkey#1#2#3[#4]#5{%
+  #1{#3}{%
+  \ifx\@nnil#4\relax
+    \define@key\adjbox@fam{#3}{%
+        #2{\@Collectbox{#5}}%
+    }%
+  \else
+    \define@key\adjbox@fam{#3}[#4]{%
+        #2{\@Collectbox{#5}}%
+    }%
+  \fi
+  }{}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjustbox@newkey}
+%    \begin{macrocode}
+\def\adjustbox@newkey#1#2{%
+    \@ifundefined{KV@\adjbox@fam @#1}{#2}{%
+        \PackageError{adjustbox}{Key '#1' already defined}{}%
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjustbox@renewkey}
+%    \begin{macrocode}
+\def\adjustbox@renewkey#1{%
+    \@ifundefined{KV@\adjbox@fam @#1}{%
+        \PackageError{adjustbox}{Key '#1' undefined}{}%
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjustbox@providekey}
+%    \begin{macrocode}
+\def\adjustbox@providekey#1#2{%
+    \@ifundefined{KV@\adjbox@fam @#1}{#2}{}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
 % \begin{macro}{\adjbox@Gin@sizeadd}
 % Checks if key-value is actually two arguments. If not it is doubled.
 % E.g.: \verb+min size=\A+ is the same as  \verb+min size={\A}{\A}+
