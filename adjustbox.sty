@@ -663,41 +663,75 @@
 % \subsection{Horizontal alignment keys} ^^A (((
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+%
 % \begin{macro}{\adjbox@halign}
 %    \begin{macrocode}
 \def\adjbox@halign#1#2#3{%
-    \Gin@esetsize
-    \@tempswatrue
+    \@collectbox{\@adjbox@halign{#1}{#2}{#3}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@adjbox@halign}
+%    \begin{macrocode}
+\def\@adjbox@halign#1#2#3{%
+    \begingroup
     \adjsetlength\@tempdima{#1}%
-    \edef\@tempa{\leavevmode\hb@xt@\the\@tempdima}%
-    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\expandafter{\expandafter#2\the\toks@#3}}%
+    \leavevmode\hb@xt@\the\@tempdima{#2\BOXCONTENT#3}%
+    \endgroup
 }
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{key}{adjbox}{center}
 %    \begin{macrocode}
-\define@key\adjbox@fam{center}[\linewidth]{%
-    \adjbox@halign{#1}\hss\hss
-}
+\define@adjboxkey@defvalue{center}{\linewidth}{\adjbox@halign{#1}\hss\hss}
 %    \end{macrocode}
 % \end{key}
 %
 % \begin{key}{adjbox}{left}
 %    \begin{macrocode}
-\define@key\adjbox@fam{left}[\linewidth]{%
-    \adjbox@halign{#1}\relax\hss
-}
+\define@adjboxkey@defvalue{left}{\linewidth}{\adjbox@halign{#1}\relax\hss}
 %    \end{macrocode}
 % \end{key}
 %
 % \begin{key}{adjbox}{right}
 %    \begin{macrocode}
-\define@key\adjbox@fam{right}[\linewidth]{%
+\define@adjboxkey@defvalue{right}{\linewidth}{\adjbox@halign{#1}\hss\relax}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\centerbox}
+%    \begin{macrocode}
+\newcommand\centerbox[1][\linewidth]{%
+    \noindent
+    \adjbox@halign{#1}\hss\hss
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\leftalignbox}
+%    \begin{macrocode}
+\newcommand\leftalignbox[1][\linewidth]{%
+    \noindent
+    \adjbox@halign{#1}\relax\hss
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\rightalignbox}
+%    \begin{macrocode}
+\newcommand\rightalignbox[1][\linewidth]{%
+    \noindent
     \adjbox@halign{#1}\hss\relax
 }
 %    \end{macrocode}
-% \end{key}
+% \end{macro}
+%
 %
 % \begin{key}{adjbox}{outer}
 %    \begin{macrocode}
