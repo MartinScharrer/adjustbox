@@ -493,7 +493,8 @@
 % Aliases one key to another.
 %    \begin{macrocode}
 \def\adjbox@let@key#1#2#3{%
-    \expandafter\let\csname KV@#1@#2\expandafter\endcsname\csname KV@#1@#2\endcsname
+    \expandafter\let\csname KV@#1@#2\expandafter\endcsname\csname KV@#1@#3\endcsname
+    \expandafter\let\csname KV@#1@#2@default\expandafter\endcsname\csname KV@#1@#3@default\endcsname
 }
 %    \end{macrocode}
 % \end{macro}
@@ -524,9 +525,7 @@
 %
 % \begin{key}{adjbox}{Viewport}
 %    \begin{macrocode}
-\define@key\adjbox@fam{Viewport}{%
-    \adjbox@Gin@Add{\trimbox@s{#1}}%
-}
+\define@adjboxkey{Viewport}{\trimbox@s{#1}}%
 %    \end{macrocode}
 % \end{key}
 %
@@ -550,44 +549,34 @@
 %
 % \begin{key}{adjbox}{Trim}
 %    \begin{macrocode}
-\define@key\adjbox@fam{Trim}{%
-    \adjbox@Gin@Add{\trimbox@{#1}}%
-}
+\define@adjboxkey{Trim}{\trimbox@{#1}}%
 %    \end{macrocode}
 % \end{key}
 %
 %
 % \begin{key}{adjbox}{Clip}
 %    \begin{macrocode}
-\define@key\adjbox@fam{Clip}{%
-    \adjbox@Gin@Add{\clipbox@{#1}}%
-}
+\define@adjboxkey{Clip}{\clipbox@{#1}}
 %    \end{macrocode}
 % \end{key}
 %
 %
 % \begin{key}{adjbox}{Clip*}
 %    \begin{macrocode}
-\define@key\adjbox@fam{Clip*}{%
-    \adjbox@Gin@Add{\clipbox@s{#1}}%
-}
+\define@adjboxkey{Clip*}{\clipbox@s{#1}}
 %    \end{macrocode}
 % \end{key}
 %
 %
 % \begin{key}{adjbox}{margin}
 %    \begin{macrocode}
-\define@key\adjbox@fam{margin}{%
-    \adjbox@Gin@Add{\marginbox@{#1}}%
-}
+\define@adjboxkey{margin}{\marginbox@{#1}}
 %    \end{macrocode}
 % \end{key}
 %
 % \begin{key}{adjbox}{margin*}
 %    \begin{macrocode}
-\define@key\adjbox@fam{margin*}{%
-    \adjbox@Gin@Add{\marginbox@s{#1}}%
-}
+\define@adjboxkey{margin*}{\marginbox@s{#1}}
 %    \end{macrocode}
 % \end{key}
 %
@@ -803,14 +792,6 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{key}{adjbox}{valign}
-%    \begin{macrocode}
-\define@key\adjbox@fam{valign}{%
-    \csname adjbox@valign@#1\endcsname
-}
-%    \end{macrocode}
-% \end{key}
-%
 %
 % \begin{macro}{\adjbox@raisebox}[3]{raise amount}{height}{depth}
 %    \begin{macrocode}
@@ -843,6 +824,14 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%
+% \begin{key}{adjbox}{valign}
+%    \begin{macrocode}
+\define@key\adjbox@fam{valign}{%
+    \csname adjbox@valign@#1\endcsname
+}
+%    \end{macrocode}
+% \end{key}
 %
 %
 % \begin{macro}{\adjboxvtop}
@@ -938,18 +927,14 @@
 %
 % \begin{key}{adjbox}{set height}
 %    \begin{macrocode}
-\define@key\adjbox@fam{set height}{%
-    \adjbox@Gin@Add{\adjbox@raisebox{}{#1}{}}%
-}
+\define@adjboxkey{set height}{\adjbox@raisebox{}{#1}{}}
 %    \end{macrocode}
 % \end{key}
 %
 %
 % \begin{key}{adjbox}{set depth}
 %    \begin{macrocode}
-\define@key\adjbox@fam{set depth}{%
-    \adjbox@Gin@Add{\adjbox@raisebox{}{}{#1}}%
-}
+\define@adjboxkey{set depth}{\adjbox@raisebox{}{}{#1}}
 %    \end{macrocode}
 % \end{key}
 %
@@ -957,9 +942,7 @@
 % Uses the same code like \Key{raise} but with the raise value of 0pt,
 % i.e.\ only sets the height and depth.
 %    \begin{macrocode}
-\define@key\adjbox@fam{set vsize}{%
-    \adjbox@Gin@Add{\adjbox@raisebox{}#1}%
-}
+\define@adjboxkey{set vsize}{\adjbox@raisebox{}#1}
 %    \end{macrocode}
 % \end{key}
 %
@@ -1005,54 +988,42 @@
 %
 % \begin{key}{adjbox}{min width}
 %    \begin{macrocode}
-\define@key\adjbox@fam{min width}{%
-    \adjbox@Gin@Add{\@minsizebox\height{#1}!}%
-}
+\define@adjboxkey{min width}{\@minsizebox\height{#1}!}
 %    \end{macrocode}
 % \end{key}
 %
 %
 % \begin{key}{adjbox}{max width}
 %    \begin{macrocode}
-\define@key\adjbox@fam{max width}{%
-    \adjbox@Gin@Add{\@maxsizebox\height{#1}!}%
-}
+\define@adjboxkey{max width}{\@maxsizebox\height{#1}!}
 %    \end{macrocode}
 % \end{key}
 %
 %
 % \begin{key}{adjbox}{min height}
 %    \begin{macrocode}
-\define@key\adjbox@fam{min height}{%
-    \adjbox@Gin@Add{\@minsizebox\height!{#1}}%
-}
+\define@adjboxkey{min height}{\@minsizebox\height!{#1}}
 %    \end{macrocode}
 % \end{key}
 %
 %
 % \begin{key}{adjbox}{max height}
 %    \begin{macrocode}
-\define@key\adjbox@fam{max height}{%
-    \adjbox@Gin@Add{\@maxsizebox\height!{#1}}%
-}
+\define@adjboxkey{max height}{\@maxsizebox\height!{#1}}
 %    \end{macrocode}
 % \end{key}
 %
 %
 % \begin{key}{adjbox}{min totalheight}
 %    \begin{macrocode}
-\define@key\adjbox@fam{min totalheight}{%
-    \adjbox@Gin@Add{\@minsizebox\totalheight!{#1}}%
-}
+\define@adjboxkey{min totalheight}{\@minsizebox\totalheight!{#1}}
 %    \end{macrocode}
 % \end{key}
 %
 %
 % \begin{key}{adjbox}{max totalheight}
 %    \begin{macrocode}
-\define@key\adjbox@fam{max totalheight}{%
-    \adjbox@Gin@Add{\@maxsizebox\totalheight!{#1}}%
-}
+\define@adjboxkey{max totalheight}{\@maxsizebox\totalheight!{#1}}
 %    \end{macrocode}
 % \end{key}
 %
@@ -2210,7 +2181,8 @@
 % \begin{key}{adjbox}{gobble}
 % Discards the content.
 %    \begin{macrocode}
-\define@key\adjbox@fam{gobble}[]{%
+\define@key\adjbox@fam{gobble}[\@nil]{%
+    \adjbox@novalue{\XKV@tkey}{#1}%
     \let\adjustbox@noindent\relax
     \adjbox@Gin@Add{\@Collectbox{}}%
 }
@@ -2228,9 +2200,7 @@
 % \begin{key}{adjbox}{content}
 % Replaces the content. The old content is still processed completely before being replaced..
 %    \begin{macrocode}
-\define@key\adjbox@fam{content}{%
-    \adjbox@Gin@Add{\@Collectbox{#1}}%
-}
+\define@adjboxkey{content}{\@Collectbox{#1}}%
 %    \end{macrocode}
 % \end{key}
 %
@@ -2243,9 +2213,7 @@
 % \begin{key}{adjbox}{gstore}
 % Store the current content into a box without removing it.
 %    \begin{macrocode}
-\define@key\adjbox@fam{gstore}{%
-    \adjbox@Gin@Add{\global\@collectboxto{#1}{\BOXCONTENT}}%
-}
+\define@adjboxkey{gstore}{\global\@collectboxto{#1}{\BOXCONTENT}}
 %    \end{macrocode}
 % \end{key}
 %
@@ -2342,9 +2310,7 @@
 %
 % \begin{key}{adjbox}{split}
 %    \begin{macrocode}
-\define@key\adjbox@fam{split}{%
-    \adjbox@Gin@Add{\@Collectbox{\@splitbox#1}}%
-}
+\define@adjboxkey{split}{\@Collectbox{\@splitbox#1}}
 %    \end{macrocode}
 % \end{key}
 %
