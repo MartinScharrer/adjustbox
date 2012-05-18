@@ -732,72 +732,73 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%    \begin{macrocode}
+\RequirePackage{ifoddpage}
+%    \end{macrocode}
+%
 %
 % \begin{key}{adjbox}{outer}
 %    \begin{macrocode}
-\define@key\adjbox@fam{outer}[\linewidth]{%
-    \def\@tempa{\adjbox@halign{#1}}%
-    \if@twoside
-      \adjbox@ifoddpage
-        {\@tempa\hss\relax}%
-        {\@tempa\relax\hss}%
-    \else
-        \@tempa\hss\hss
-    \fi
+\define@adjboxkey@defvalue{outer}{\linewidth}{%
+    \outersidebox[{#1}]%
 }
 %    \end{macrocode}
 % \end{key}
+%
 %
 % \begin{key}{adjbox}{inner}
 %    \begin{macrocode}
-\define@key\adjbox@fam{inner}[\linewidth]{%
-    \def\@tempa{\adjbox@halign{#1}}%
-    \if@twoside
-      \adjbox@ifoddpage
-        {\@tempa\relax\hss}%
-        {\@tempa\hss\relax}%
-    \else
-        \@tempa\hss\hss
-    \fi
+\define@adjboxkey@defvalue{inner}{\linewidth}{%
+    \innersidebox[{#1}]%
 }
 %    \end{macrocode}
 % \end{key}
 %
-% \begin{macro}{\adjbox@ifoddpage}
+%
+% \begin{macro}{\outersidebox}
 %    \begin{macrocode}
-\def\adjbox@ifoddpage{%
-    \begingroup
-    \adjbox@checkoddpage
-    \expandafter\endgroup
-    \ifoddpage
-        \expandafter\@firstoftwo
-    \else
-        \expandafter\@secondoftwo
-    \fi
+\newcommand\outersidebox[1][\linewidth]{%
+    \adjustbox@noindent
+    \adjbox@halign{#1}{%
+        \checkoddpage
+        \ifoddpageoroneside
+            \hss
+        \else
+            \relax
+        \fi
+    }{%
+        \ifoddpageoroneside
+            \relax
+        \else
+            \hss
+        \fi
+    }%
 }
 %    \end{macrocode}
 % \end{macro}
 %
 %
-% \begin{macro}{\adjbox@checkoddpage}
+% \begin{macro}{\innersidebox}
 %    \begin{macrocode}
-\def\adjbox@checkoddpage{%
-    \ifodd\c@page
-        \oddpagetrue
-    \else
-        \oddpagefalse
-    \fi
-}%
+\newcommand\innersidebox[1][\linewidth]{%
+    \adjustbox@noindent
+    \adjbox@halign{#1}{%
+        \checkoddpage
+        \ifoddpageoroneside
+            \relax
+        \else
+            \hss
+        \fi
+    }{%
+        \ifoddpageoroneside
+            \hss
+        \else
+            \relax
+        \fi
+    }%
+}
 %    \end{macrocode}
 % \end{macro}
-%
-%    \begin{macrocode}
-\newif\ifoddpage
-\AtBeginDocument{%
-    \@ifpackageloaded{changepage}{\let\adjbox@checkoddpage\checkoddpage}%
-     {\@ifpackageloaded{chngpage}{\let\adjbox@checkoddpage\checkoddpage}{}}%
-}%
-%    \end{macrocode}
 %
 %
 % ^^A )))
