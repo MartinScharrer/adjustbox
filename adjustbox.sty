@@ -706,7 +706,7 @@
 % \begin{macro}{\centerbox}
 %    \begin{macrocode}
 \newcommand\centerbox[1][\linewidth]{%
-    \noindent
+    \adjustbox@noindent
     \adjbox@halign{#1}\hss\hss
 }
 %    \end{macrocode}
@@ -716,7 +716,7 @@
 % \begin{macro}{\leftalignbox}
 %    \begin{macrocode}
 \newcommand\leftalignbox[1][\linewidth]{%
-    \noindent
+    \adjustbox@noindent
     \adjbox@halign{#1}\relax\hss
 }
 %    \end{macrocode}
@@ -726,7 +726,7 @@
 % \begin{macro}{\rightalignbox}
 %    \begin{macrocode}
 \newcommand\rightalignbox[1][\linewidth]{%
-    \noindent
+    \adjustbox@noindent
     \adjbox@halign{#1}\hss\relax
 }
 %    \end{macrocode}
