@@ -732,10 +732,6 @@
 %    \end{macrocode}
 % \end{macro}
 %
-%    \begin{macrocode}
-\RequirePackage{ifoddpage}
-%    \end{macrocode}
-%
 %
 % \begin{key}{adjbox}{outer}
 %    \begin{macrocode}
@@ -800,6 +796,20 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%    \begin{macrocode}
+\IfFileExists{ifoddpage.sty}{%
+    \RequirePackage{ifoddpage}%
+}{%
+    \renewcommand\outersidebox[1][]{%
+        \PackageError{adjustbox}{%
+            The 'outer' and 'inner' keys as well as the\MessageBreak
+            \string\outersidebox\space and \string\innersidebox\space macros\MessageBreak
+            require the 'ifoddpage' package, which is not\MessageBreak
+            installed}{}%
+    }%
+    \let\innersidebox\outersidebox
+}%
+%    \end{macrocode}
 %
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
