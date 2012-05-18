@@ -396,6 +396,54 @@
 % \end{macro}
 %
 %
+% \begin{macro}{\define@adjboxkey}
+%    \begin{macrocode}
+\def\define@adjboxkey#1#2{%
+    \define@key\adjbox@fam{#1}{%
+        \adjbox@Gin@Add{#2}%
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\define@adjboxkey@defvalue}
+%    \begin{macrocode}
+\def\define@adjboxkey@defvalue#1#2#3{%
+    \define@key\adjbox@fam{#1}[{#2}]{%
+        \adjbox@Gin@Add{#3}%
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\define@adjboxkey@novalue}
+%    \begin{macrocode}
+\def\define@adjboxkey@novalue#1#2{%
+    \define@key\adjbox@fam{#1}[\@nil]{%
+        \adjbox@novalue{#1}{##1}%
+        \adjbox@Gin@Add{#2}%
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@novalue}
+%    \begin{macrocode}
+\def\adjbox@novalue#1#2{%
+    \ifx\@nil#1\else
+        \PackageWarning{adjustbox}{%
+            Key '#1' does not await a value.\MessageBreak
+            Given value will be ignored%
+        }%
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
 % \begin{macro}{\adjustbox@newkey}
 %    \begin{macrocode}
 \def\adjustbox@newkey#1#2{%
