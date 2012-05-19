@@ -874,7 +874,7 @@
 % \begin{key}{adjbox}{valign}
 %    \begin{macrocode}
 \define@key\adjbox@fam{valign}{%
-    \csname adjbox@valign@#1\endcsname
+    \expandafter\adjbox@Gin@Add\expandafter{\csname adjbox@valign@#1\endcsname}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -900,7 +900,7 @@
 % \begin{macro}{\adjbox@valign@t}
 %    \begin{macrocode}
 \def\adjbox@valign@t{%
-    \adjbox@Gin@Add{\adjbox@raisebox{-\height+\adjboxvtop}{}{}}%
+    \adjbox@raisebox{-\height+\adjboxvtop}{}{}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -909,7 +909,7 @@
 % \begin{macro}{\adjbox@valign@T}
 %    \begin{macrocode}
 \def\adjbox@valign@T{%
-    \adjbox@Gin@Add{\adjbox@raisebox{-\height}{}{}}%
+    \adjbox@raisebox{-\height}{}{}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -918,7 +918,7 @@
 % \begin{macro}{\adjbox@valign@M}
 %    \begin{macrocode}
 \def\adjbox@valign@M{%
-    \adjbox@Gin@Add{\adjbox@raisebox{.5\depth-.5\height}{}{}}%
+    \adjbox@raisebox{.5\depth-.5\height}{}{}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -927,7 +927,7 @@
 % \begin{macro}{\adjbox@valign@m}
 %    \begin{macrocode}
 \def\adjbox@valign@m{%
-    \adjbox@Gin@Add{\adjbox@raisebox{.5\depth-.5\height+\adjboxvcenter}{}{}}%
+    \adjbox@raisebox{.5\depth-.5\height+\adjboxvcenter}{}{}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -935,13 +935,10 @@
 %
 % \begin{macro}{\adjbox@valign@c}
 %    \begin{macrocode}
-\def\adjbox@valign@c{%
-    \adjbox@Gin@Add{\@Collectbox\adjbox@vcenter}%
-}
-\def\adjbox@vcenter{%
+\def\adjbox@valign@c#1{%
     \leavevmode
     \hbox{%
-        $\vcenter{\hbox{\BOXCONTENT}}\m@th$
+        $\vcenter{\hbox{#1}}\m@th$%
     }%
 }
 %    \end{macrocode}
@@ -951,7 +948,7 @@
 % \begin{macro}{\adjbox@valign@b}
 %    \begin{macrocode}
 \def\adjbox@valign@b{%
-    \adjbox@Gin@Add{\adjbox@raisebox{\depth+\adjboxvbottom}{}{}}%
+    \adjbox@raisebox{\depth+\adjboxvbottom}{}{}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -960,7 +957,7 @@
 % \begin{macro}{\adjbox@valign@B}
 %    \begin{macrocode}
 \def\adjbox@valign@B{%
-    \adjbox@Gin@Add{\adjbox@raisebox{\depth}{}{}}%
+    \adjbox@raisebox{\depth}{}{}%
 }
 %    \end{macrocode}
 % \end{macro}
