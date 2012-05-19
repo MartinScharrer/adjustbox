@@ -422,7 +422,7 @@
 %    \begin{macrocode}
 \def\define@adjboxkey@novalue#1#2{%
     \define@key\adjbox@fam{#1}[\@nil]{%
-        \adjbox@novalue{#1}{##1}%
+        \adjbox@novalue{##1}%
         \adjbox@Gin@Add{#2}%
     }%
 }
@@ -432,10 +432,10 @@
 %
 % \begin{macro}{\adjbox@novalue}
 %    \begin{macrocode}
-\def\adjbox@novalue#1#2{%
+\def\adjbox@novalue#1{%
     \ifx\@nil#1\else
         \PackageWarning{adjustbox}{%
-            Key '#1' does not await a value.\MessageBreak
+            Key '\XKV@tkey' does not await a value.\MessageBreak
             Given value will be ignored%
         }%
     \fi
@@ -2233,7 +2233,7 @@
 % Discards the content.
 %    \begin{macrocode}
 \define@key\adjbox@fam{gobble}[\@nil]{%
-    \adjbox@novalue{\XKV@tkey}{#1}%
+    \adjbox@novalue{#1}%
     \let\adjustbox@noindent\relax
     \adjbox@Gin@Add{\@Collectbox{}}%
 }
