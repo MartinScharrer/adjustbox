@@ -474,21 +474,6 @@
 %
 %
 %
-% \begin{macro}{\adjbox@Gin@sizeadd}
-% Checks if key-value is actually two arguments. If not it is doubled.
-% E.g.: \verb+min size=\A+ is the same as  \verb+min size={\A}{\A}+
-%    \begin{macrocode}
-\def\adjbox@Gin@sizeadd#1#2#3\relax{%
-    \ifx\@nnil#3\@nnil
-        \adjbox@Gin@add{#1{#2}{#2}}%
-    \else
-        \adjbox@Gin@add{#1{#2}{#3}}%
-    \fi
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
 % \begin{macro}{\adjbox@let@key}
 % Aliases one key to another.
 %    \begin{macrocode}
@@ -1071,10 +1056,28 @@
 % \end{key}
 %
 %
+%
+% \begin{macro}{\adjbox@Gin@sizeadd}
+% Checks if key-value is actually two arguments. If not it is doubled.
+% E.g.: \verb+min size=\A+ is the same as  \verb+min size={\A}{\A}+
+%    \begin{macrocode}
+\def\adjbox@Gin@sizeadd#1#2\@nnil{%
+    \@ifnextchar\bgroup{%
+        \adjbox@Gin@Add{#1#2}%
+        \remove@to@nnil
+    }{%
+        \adjbox@Gin@Add{#1{#2}{#2}}%
+        \remove@to@nnil
+    }#2\@nnil
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
 % \begin{key}{adjbox}{min size}
 %    \begin{macrocode}
 \define@key\adjbox@fam{min size}{%
-    \adjbox@Gin@sizeadd{\@minsizebox\height}#1\relax
+    \adjbox@Gin@sizeadd{\@minsizebox\height}#1\@nnil
 }
 %    \end{macrocode}
 % \end{key}
@@ -1083,7 +1086,7 @@
 % \begin{key}{adjbox}{max size}
 %    \begin{macrocode}
 \define@key\adjbox@fam{max size}{%
-    \adjbox@Gin@sizeadd{\@maxsizebox\height}#1\relax
+    \adjbox@Gin@sizeadd{\@maxsizebox\height}#1\@nnil
 }
 %    \end{macrocode}
 % \end{key}
@@ -1092,7 +1095,7 @@
 % \begin{key}{adjbox}{min totalsize}
 %    \begin{macrocode}
 \define@key\adjbox@fam{min totalsize}{%
-    \adjbox@Gin@sizeadd{\@minsizebox\totalheight}#1\relax
+    \adjbox@Gin@sizeadd{\@minsizebox\totalheight}#1\@nnil
 }
 %    \end{macrocode}
 % \end{key}
@@ -1101,7 +1104,7 @@
 % \begin{key}{adjbox}{max totalsize}
 %    \begin{macrocode}
 \define@key\adjbox@fam{max totalsize}{%
-    \adjbox@Gin@sizeadd{\@maxsizebox\totalheight}#1\relax
+    \adjbox@Gin@sizeadd{\@maxsizebox\totalheight}#1\@nnil
 }
 %    \end{macrocode}
 % \end{key}
