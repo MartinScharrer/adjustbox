@@ -1109,10 +1109,16 @@
 %    \end{macrocode}
 % \end{key}
 %
+%
 % \begin{key}{adjbox}{warn width}
 %    \begin{macrocode}
-\define@key\adjbox@fam{warn width}[\linewidth]{%
-    \adjust@addcode{\@Collectbox{%
+\define@adjboxkey@defvalue{warn width}{\linewidth}{\@Collectbox{\adjbox@warnwidth{#1}}}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{macro}{\adjbox@warnwidth}
+%    \begin{macrocode}
+\def\adjbox@warnwidth#1{%
         \@tempdima=#1\relax
         \ifdim\width>\@tempdima
             \advance\@tempdima by -\width
@@ -1126,10 +1132,9 @@
             }%
         \fi
         \BOXCONTENT
-    }}{}%
 }
 %    \end{macrocode}
-% \end{key}
+% \end{macro}
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
