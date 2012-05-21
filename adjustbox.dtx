@@ -334,7 +334,7 @@
 %
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section{Main macros}^^A (((
+% \section{Main Macros}^^A (((
 % The following macros and environments represent the main functionality of this package.
 % Special care is taken so that the macros and the environments can have the same name.
 % For starred environments the star can be either part of the name or an optional argument.
@@ -469,6 +469,7 @@
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{Adjustbox Keys} ^^A (((
 % This packages provides the following \Macro\adjustbox keys with matching macros and environments.
+%
 %
 % \subsection{Trimming and Clipping} ^^A (((2
 % The following keys allow content to be trimmed (i.e.\ the official size is made smaller, so the remaining material
@@ -1511,10 +1512,48 @@
 % The key version of \Macro\pagebreakbox. There should no be any further keys used afterwards, because they will interfere with the page breaks.
 %
 %
-%
 % ^^A )))2
-% \StopEventually{}
+% ^^A )))
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Defining own Keys} ^^A (((
+% The following macros can be used to define own keys or redefine existing ones.
 %
+% \DescribeMacro\newadjustboxkey{<key>}[<default value>]{<code>}
+% \DescribeMacro\newadjustboxkey*{<key>}[<default value>]{<code>}
+% Defines the new \env{adjustbox} key with the given default value if no value is provided.
+% The value can be accessed inside the code as |#1|
+% Without a default value an error is raised if the value is missing.
+% An error is raised if the key is already defined.
+%
+% The normal form will add the code to the internal token register just before the previous content which is
+% wrapped inside braces: \MacroArgs<code>{<previous content>}. Subsequent keys will receive this as content.
+% The code can therefore read the content as macro argument. If the dimension of the content need to be accessed
+% it should be boxed first using \Macro\collectbox{<code>}. Then the dimension are available using the usual
+% macros and the content can be typeset using \Macro\BOXCONTENT. See the \pkg{collectbox} for additional information.
+%
+% The starred form simply executes the given code in the internal group without changing the token register.
+% In this case the content is not directly accessible and all subsequent keys are not yet processed.
+% This form is useful to locally change settings for the current \Macro\adjustbox macro or \env{adjustbox} environment.
+%
+%
+% \DescribeMacro\renewadjustboxkey{<key>}[<default value>]{<code>}
+% \DescribeMacro\renewadjustboxkey*{<key>}[<default value>]{<code>}
+% Like \Macro\newadjustboxkey but will redefine an existing key.
+% An error is raised if the key is not already defined.
+%
+%
+% \DescribeMacro\provideadjustboxkey{<key>}[<default value>]{<code>}
+% \DescribeMacro\provideadjustboxkey*{<key>}[<default value>]{<code>}
+% Like \Macro\newadjustboxkey but will define the key only if it is not already defined.
+%
+%
+% \DescribeMacro\defadjustboxkey{<key>}[<default value>]{<code>}
+% \DescribeMacro\defadjustboxkey*{<key>}[<default value>]{<code>}
+% Like \Macro\newadjustboxkey but will always define the key independent if it is already defined or not.
+%
+%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \StopEventually{}
 % \clearpage
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
