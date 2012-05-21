@@ -739,6 +739,7 @@
 % \begin{macro}{\outersidebox}
 %    \begin{macrocode}
 \newcommand\outersidebox[1][\linewidth]{%
+    \collectboxcheckenv{outersidebox}%
     \adjustbox@noindent
     \adjbox@halign{#1}{%
         \checkoddpage
@@ -762,6 +763,7 @@
 % \begin{macro}{\innersidebox}
 %    \begin{macrocode}
 \newcommand\innersidebox[1][\linewidth]{%
+    \collectboxcheckenv{innersidebox}%
     \adjustbox@noindent
     \adjbox@halign{#1}{%
         \checkoddpage

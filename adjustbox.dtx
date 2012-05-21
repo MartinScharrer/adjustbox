@@ -55,7 +55,8 @@
 }{%
     \par
 }
-\optionaloff
+\global\optionaloff
+\let\optionalon\relax
 
 \lstdefinelanguage{none}{}%
 \lstdefinelanguage{adjustbox}{%
@@ -265,13 +266,14 @@
 %
 % ^^A )))2
 % \subsection{Dependencies} ^^A (((2
-% The \pkg{adjustbox} package and its \pkg{trimclip} sub-package require the author's other packages
-% \pkg{adjcalc} (bundled with \pkg{adjustbox}) and \pkg{collectbox}, as
-% well as the packages \pkg{xkeyval}, \pkg{graphicx} and \pkg{ifpdf}.  The \pkg{varwidth} package is automatically
-% loaded if installed, otherwise the \Key{varwidth} and \Key{stack} keys are disables as well as
-% \Macro\stackbox and the \env{stackbox} environment.  For features which use colors the \pkg{xcolor} package must also be loaded manually
-% (the \pkg{color} package is fine, too).  The experimental |split| and |pagebreak| features also require the
-% \pkg{storebox} package to be loaded manually.
+% The \pkg{adjustbox} package and its \pkg{trimclip} sub-package require the author's other packages \pkg{adjcalc}
+% (bundled with \pkg{adjustbox}) and \pkg{collectbox}, as well as the packages \pkg{xkeyval}, \pkg{graphicx} and \pkg{ifpdf}.
+% The \pkg{varwidth} package is automatically loaded if installed, otherwise the \Key{varwidth} and \Key{stack} keys are
+% disables as well as \Macro\stackbox and the \env{stackbox} environment.
+% The \pkg{ifoddpage} package is automatically loaded if installed, otherwise the \Key{outer} and \Key{inner} keys are
+% disables as well as \Macro\outersidebox and \Macro\innersidebox macros and corresponding environments.
+% For features which use colors the \pkg{xcolor} package must also be loaded manually (the \pkg{color} package is fine, too).
+% The experimental |split| and |pagebreak| features also require the \pkg{storebox} package to be loaded manually.
 %
 % ^^A )))2
 % \subsection{Verbatim Support}\label{sec:verbatim} ^^A (((2
@@ -962,7 +964,7 @@
 % places the content in a box with the given width (by default \Macro\linewidth) but aligns it towards the inner margin.
 % If the content is wider than the available width it will stick into the outer margin without causing an overfull hbox warning.
 % In |twoside| mode this key is equal to \Key{left} for odd pages and equal to \Key{right} for even pages.
-% For |oneside| mode it is always equal to \Key{center}, because there is no inner or outer margin.
+% For |oneside| mode it is equal to \Key{left}.
 % Note that the page-is-odd test might not always lead to correct results for some material close to a page boundary, because \TeX\
 % might not have decided on which page it will be placed. This can be improved by loading the \pkg{changepage} package with the 
 % \opt{strict} option, which uses a reference to determine the correct page number (and requires the usual additional compiler run).
@@ -971,7 +973,24 @@
 % \DescribeKey{outer}
 % \DescribeKey{outer}'='<width>
 % Identical to \Key{inner} but aligns the content towards the outer margin.
+% For |oneside| mode it is equal to \Key{right}.
 % If the content is wider than the available width it will stick into the outer inner without causing an overfull hbox warning.
+%
+%
+% \DescribeMacro\innersidebox[<width>]{<content>}
+% \vspace{-1.5\baselineskip}
+% \DescribeEnv[<content>]{innersidebox}[<width>]
+% Macro and environment version of the \Key{inner} key. The optional width argument defaults to \Macro\linewidth.
+% Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
+% placing a |\mbox{}| or the identical |\null| macro before it.
+%
+%
+% \DescribeMacro\outersidebox[<width>]{<content>}
+% \vspace{-1.5\baselineskip}
+% \DescribeEnv[<content>]{outersidebox}[<width>]
+% Macro and environment version of the \Key{outer} key. The optional width argument defaults to \Macro\linewidth.
+% Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
+% placing a |\mbox{}| or the identical |\null| macro before it.
 %
 %
 % \subsection*{Lapping} ^^A (((3
