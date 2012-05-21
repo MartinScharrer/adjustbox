@@ -1,8 +1,6 @@
 TODOs / Ideas:
 
- * Move trim and clip manual to trimclip package
  * Create test file without any other text for comparision between differnt compilers.
- * Redesign manual to put more emphasis on the adjustbox keys (half done).
  * Same for foreground: bgimage?
  * Might be generalised to allow overlays (\overlaybox{<background content>}{<foreground content>})
  * Finish & test: splitbox, pagebreakbox & keys
