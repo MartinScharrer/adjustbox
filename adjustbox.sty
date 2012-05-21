@@ -1119,12 +1119,13 @@
 % \end{key}
 %
 % \begin{macro}{\adjbox@warnwidth}
+% Warn if width is wider than the given width plus |\hfuzz|.
 %    \begin{macrocode}
 \def\adjbox@warnwidth#1{%
         \@tempdima=#1\relax
-        \ifdim\width>\@tempdima
-            \advance\@tempdima by -\width
-            \@tempdima=-\@tempdima
+        \advance\@tempdima by -\width
+        \@tempdima=-\@tempdima
+        \ifdim\@tempdima>\hfuzz
             \typeout{Overfull \string\hbox\space (\the\@tempdima\space too wide) in adjustbox at
                 \ifnum\adjbox@line=\inputlineno
                     line \adjbox@line

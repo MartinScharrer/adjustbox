@@ -663,6 +663,26 @@
 % \end{examples}
 %
 %
+% \DescribeKey{warn width}
+% \DescribeKey{warn width}=<max width>
+% If this key is used the current width of the content is measured and compared with the given maximum width (default is
+% \Macro\linewidth).
+% If the content is wider than this value by more than the \TeX\ length \Macro\hfuzz\relax (by default 0.1pt)
+% an \emph{Overfull hbox} warning is produced.
+% The warning will include the source code position and the information that it was an |adjustbox| not a normal
+% paragraph:
+% \par\smallskip\par
+% {\ttfamily Overfull |\hbox| (X.Ypt too wide) in adjustbox at line N}
+%
+% {\ttfamily Overfull |\hbox| (X.Ypt too wide) in adjustbox at lines N-M}
+% \par\smallskip\par\noindent
+% Note that this key is not able to take any horizontal space before the |adjustbox| 
+% into account. This includes a paragraph indention which might be present with \Macro\adjustbox.
+%
+% This key is useful to be used before the horizontal alignment keys which change the official width of the content
+% and prevent the normal \emph{Overfull} warnings to take affect.
+%
+%
 % ^^A )))2
 % \Needspace*{8\baselineskip}
 % \subsection{Scaling} ^^A (((2
