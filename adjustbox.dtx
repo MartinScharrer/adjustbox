@@ -1312,6 +1312,53 @@
 % \end{example}
 %
 % ^^A )))2
+% \subsection{Floats and non-float replacements} ^^A (((2
+% The following keys can be used to turn an adjusted box into a float or a non-floating replacement which also allows
+% for a caption. These keys must be used last and no other normal keys must be used afterwards, otherwise an error will
+% occur because the added floating environment is boxed again.
+%
+%
+% \DescribeKey{caption}=<caption text>
+% \DescribeKey{caption}=[<short caption>]{<long caption>}
+% Defines a caption which will be used by a following \Key{figure}, \Key{float} or \Key{nofloat} key.
+%
+%
+% \DescribeKey{label}=<label>
+% Defines a label which will be used by a following \Key{figure}, \Key{float} or \Key{nofloat} key.
+%
+%
+% \DescribeKey{figure}
+% \DescribeKey{figure}=<placement>
+% Turns the adjusted box into a \env{figure}.
+% A previously used \Key{caption} and \Key{label} will be added.
+% This is a specialised version of \Key{float}={figure}.
+%
+%
+% \DescribeKey{float}=<float type>
+% \DescribeKey{float}={<float type>}[<position>]
+% Turns the adjusted box into a float of the given type, i.e.\ |figure|, |table| or any other custom defined float.
+% A previously used \Key{caption} and \Key{label} will be added.
+%
+%
+% \DescribeKey{nofloat}=<float type>
+% This will add a non-floating replacement of the given float type (|figure|, |table|, etc.).
+% The will place the content always at the current
+% position which can lead to bad page-breaking. A caption will be in the same format as for real floats of the same
+% type.
+% A previously used \Key{caption} and \Key{label} will be added.
+%
+%
+% \DescribeEnv[<content>]{adjnofloat}{<float type>}
+% This environment is used internally by \Key{nofloat} to create a non-floating replacement of the given float type
+% (|figure|, |table|, etc.). It can also be used directly with other code or be redefined to change the
+% behavior of \Key{nofloat}. 
+% Any redefinition should include |\def\@captype{#1}| to set the caption type.
+% The environment will be used in plain form, i.e.\ \Macro\adjnofloat\ldots\Macro\endadjnofloat, so
+% if a group is required in a redefinition it should be added manually using \Macro\begingroup and \Macro\endgroup.
+%
+%
+%
+% ^^A )))2
 % \Needspace*{8\baselineskip}
 % \subsection{Adding own Code or Environments} ^^A (((2
 % \vspace{-\baselineskip}

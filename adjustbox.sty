@@ -2106,6 +2106,28 @@
 %    \end{macrocode}
 % \end{key}
 %
+%    \begin{macrocode}
+\chardef\adjbox@caption@pos=11
+%    \end{macrocode}
+%
+% \begin{key}{adjbox}{captionabove}
+%    \begin{macrocode}
+\define@key\adjbox@fam{captionabove}{%
+    \chardef\adjbox@caption@pos=1
+    \csname KV@\adjbox@fam @caption\endcsname{#1}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{captionbelow}
+%    \begin{macrocode}
+\define@key\adjbox@fam{captionbelow}{%
+    \chardef\adjbox@caption@pos=0
+    \csname KV@\adjbox@fam @caption\endcsname{#1}%
+}
+%    \end{macrocode}
+% \end{key}
+%
 % \begin{key}{adjbox}{caption}
 %    \begin{macrocode}
 \define@key\adjbox@fam{caption}{%
@@ -2129,20 +2151,12 @@
 % \begin{key}{adjbox}{figure}
 %    \begin{macrocode}
 \define@key\adjbox@fam{figure}[]{%
-    \Gin@esetsize
-    \@tempswafalse
     \let\adjustbox@noindent\relax
     \ifx\@nnil#1\@nnil
-        \expandafter\expandafter\expandafter\adjbox@figure
-        \expandafter\expandafter\expandafter{\expandafter\adjbox@caption\adjbox@label}{}%
+        \adjbox@addfloat{figure}{\begin{figure}}{}{\end{figure}}%
     \else
-        \expandafter\expandafter\expandafter\adjbox@figure
-        \expandafter\expandafter\expandafter{\expandafter\adjbox@caption\adjbox@label}{[#1]}%
+        \adjbox@addfloat{figure}{\begin{figure}}{[{#1}]}{\end{figure}}%
     \fi
-}
-\def\adjbox@figure#1#2{%
-    \def\@tempa{\begin{figure}#2}%
-    \toks@\expandafter\expandafter\expandafter{\expandafter\@tempa\the\toks@#1\end{figure}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -2154,16 +2168,12 @@
     \@ifnextchar\bgroup{%
         \adjbox@float
     }{%
-        \adjbox@float{#1}\@nnil
+        \adjbox@float{#1}{}\@nnil
         \remove@to@nnil
     }#1\@nnil
 }
-\def\adjbox@float{%
-    \expandafter\expandafter\expandafter\adjbox@@float
-    \expandafter\expandafter\expandafter{\expandafter\adjbox@caption\adjbox@label}%
-}
-\def\adjbox@@float#1#2#3\@nnil{%
-    \adjust@addcode{\begin{#2}#3}{#1\end{#2}}%
+\def\adjbox@float#1#2\@nnil{%
+    \adjbox@addfloat{#1}{\begin{#1}}{#2}{\end{#1}}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -2171,9 +2181,39 @@
 % \begin{key}{adjbox}{nofloat}
 %    \begin{macrocode}
 \define@key\adjbox@fam{nofloat}[figure]{%
-    \def\@tempa{\adjust@addcode{\adjnofloat{#1}}}%
-    \expandafter\expandafter\expandafter
-    \@tempa\expandafter\expandafter\expandafter{\expandafter\adjbox@caption\adjbox@label\endadjnofloat}%
+    \adjbox@addfloat{#1}{\adjnofloat}{{#1}}{\endadjnofloat}%
+}
+\def\adjbox@addfloat#1#2#3#4{%
+    \ifnum\adjbox@caption@pos>10
+        \chardef\adjbox@caption@pos=0\csname adjbox@caption@#1@pos\endcsname\relax
+    \fi
+    \ifcase\adjbox@caption@pos
+        \def\@tempa{\adjust@addcode{#2#3}}%
+        \expandafter\expandafter\expandafter\@tempa
+        \expandafter\expandafter\expandafter{\expandafter\adjbox@caption\adjbox@label#4}%
+    \else
+        \def\@tempa##1{\adjust@addcode{#2#3\adjbox@captionabove##1}}%
+        \expandafter\expandafter\expandafter\@tempa
+        \expandafter\expandafter\expandafter
+        {\expandafter\adjbox@caption\adjbox@label}{#4}%
+    \fi
+}
+\@ifpackageloaded{caption}{%
+    \let\adjbox@captionabove\relax
+}{%
+    \def\adjbox@captionabove{%
+        \begingroup
+        \edef\@tempa{\endgroup
+            \abovecaptionskip=\the\belowcaptionskip\relax
+            \belowcaptionskip=\the\abovecaptionskip\relax
+        }%
+        \@tempa
+    }%
+    \AtBeginDocument{%
+        \@ifpackageloaded{caption}{%
+            \global\let\adjbox@captionabove\relax
+        }{}%
+    }%
 }
 %    \end{macrocode}
 % \end{key}
@@ -2185,8 +2225,8 @@
 \newenvironment{adjnofloat}[1]{%
     \trivlist
     \def\@captype{#1}%
+    \parindent\z@
     \item\relax
-    \leavevmode
 }{%
     \endtrivlist
 }
