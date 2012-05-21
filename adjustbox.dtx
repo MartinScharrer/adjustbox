@@ -26,10 +26,10 @@
 %<*driver>
 \ProvidesFile{adjustbox.dtx}[%
 %<=*DATE>
-    2012/05/16
+    2012/05/21
 %<=/DATE>
 %<=*VERSION>
-    v0.9
+    v1.0
 %<=/VERSION>
     DTX file for the adjustbox package]
 \documentclass[a4paper]{ydoc}[2011/08/11]
@@ -147,7 +147,7 @@
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ^^A Title page (((
-% \CheckSum{0}
+% \CheckSum{2141}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -221,6 +221,18 @@
 %       * padding* (alias of 'margin*')
 %   Fixes: env key now works correctly; Fixed raise box code.
 %   Macro changes: Added third optional argument to \stackbox.
+% }
+% \changes{v1.0}{2012/05/21}{%^^A
+%       * Updated manual to contain all new keys and macro.
+%       * Code optimisations.
+%       * Improvements of (re-)boxing code.
+%       * Added user-level macros to define keys.
+%       * Changed horizontal alignment keys to box the content and added matching macros.
+%       * Changed horizontal inner/outer side keys to use 'ifodd' package and added matching macros.
+%       * Added missing \cs{leavevmode} for "raise" key.
+%       * Simplified code for "valign" key. Fixed spurious space for "valign=v".
+%       * Fixed min/max size keys to double a single value correctly.
+%       * Code cleanup with "warn width" key.
 % }
 %
 % \GetFileInfo{adjustbox.dtx}
