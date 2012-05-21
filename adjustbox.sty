@@ -2183,6 +2183,19 @@
 \define@key\adjbox@fam{nofloat}[figure]{%
     \adjbox@addfloat{#1}{\adjnofloat}{{#1}}{\endadjnofloat}%
 }
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\adjbox@caption@table@pos}
+%    \begin{macrocode}
+\def\adjbox@caption@table@pos{1}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@addfloat}
+%    \begin{macrocode}
 \def\adjbox@addfloat#1#2#3#4{%
     \ifnum\adjbox@caption@pos>10
         \chardef\adjbox@caption@pos=0\csname adjbox@caption@#1@pos\endcsname\relax
@@ -2198,6 +2211,11 @@
         {\expandafter\adjbox@caption\adjbox@label}{#4}%
     \fi
 }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjbox@captionabove}
+%    \begin{macrocode}
 \@ifpackageloaded{caption}{%
     \let\adjbox@captionabove\relax
 }{%
@@ -2216,7 +2234,8 @@
     }%
 }
 %    \end{macrocode}
-% \end{key}
+% \end{macro}
+%
 %
 %
 % \begin{environment}{adjnofloat}

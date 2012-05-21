@@ -1321,6 +1321,19 @@
 % \DescribeKey{caption}=<caption text>
 % \DescribeKey{caption}=[<short caption>]{<long caption>}
 % Defines a caption which will be used by a following \Key{figure}, \Key{float} or \Key{nofloat} key.
+% The position of the caption defaults to top for a |table| (non-)float and bottom for every other type.
+%
+% \DescribeKey{captionabove}=<caption text>
+% \DescribeKey{captionabove}=[<short caption>]{<long caption>}
+% Like the \Key{caption} key but forces the placement of the caption above the content.
+% The vertical skip above and below a normal below caption are reversed in this case to get proper
+% spacing. However, this is not done if the \pkg{caption} package is loaded.
+% It is recommended to load this package with the |tableposition=above| option.
+%
+%
+% \DescribeKey{captionbelow}=<caption text>
+% \DescribeKey{captionbelow}=[<short caption>]{<long caption>}
+% Like the \Key{caption} key but forces the placement of the caption below the content.
 %
 %
 % \DescribeKey{label}=<label>
