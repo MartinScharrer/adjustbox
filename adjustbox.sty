@@ -153,10 +153,7 @@
     \ifcollectboxenv\else
         \let\adjustbox@noindent\relax
     \fi
-    \begingroup
     \adjbox@setkeys{#1}%
-    \expandafter\expandafter\expandafter
-    \endgroup
     \expandafter
     \adjbox@collectbox\expandafter{\expandafter\adjustbox@\expandafter{\XKV@rm}}%
 }
@@ -1569,6 +1566,45 @@
 % \subsection{Background keys and macros} ^^A (((
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+% \begin{key}{ADJBOX}{color}
+% Sets the foreground color, i.e.\ the color used for the content.
+% |#1| are the argument to color, i.e. either \MacroArgs<color>
+% or \MacroArgs{<model>}{<color>}.
+%    \begin{macrocode}
+\define@key{ADJBOX}{color}{%
+    \adjbox@checkcolor
+    \@ifnextchar\bgroup{%
+        \adjbox@color
+    }{%
+        \adjbox@color{}{#1}%
+    }#1\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{macro}{\adjbox@color}
+% Check for the optional color argument.
+%    \begin{macrocode}
+\def\adjbox@color#1#2#3\@nnil{%
+    \ifx\@nnil#1\@nnil
+        \color{#2}%
+    \else
+        \color[{#1}]{#2}%
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{key}{ADJBOX}{color*}
+% Sets the color using a given color command.
+%    \begin{macrocode}
+\define@key{ADJBOX}{color*}{%
+    #1%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
 % \begin{key}{adjbox}{bgcolor}
 % Adds a colored box in the background.
 % |#1| are the argument to color, i.e. either \MacroArgs<color>
@@ -1585,7 +1621,6 @@
 %    \end{macrocode}
 % \end{key}
 %
-%
 % \begin{macro}{\adjbox@bgcolor}
 % Parses the two possible arguments and adds the background color macro
 % to the token register.
@@ -1599,6 +1634,7 @@
 }
 %    \end{macrocode}
 % \end{macro}
+%
 %
 %
 % \begin{key}{adjbox}{bgcolor*}
