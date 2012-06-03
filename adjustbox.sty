@@ -1906,9 +1906,9 @@
 %    \begin{macrocode}
 \def\adjbox@@page#1#2\@nnil{%
     \def\adjbox@collectbox##1{\collectbox@
-        {\adjbox@beforeinnerenv\adjbox@set\begin{#1}#2\adjbox@reset\adjbox@atbegininnerenv}
+        {\adjbox@beforeinnerenv\adjbox@set\begin{#1}#2\adjbox@reset\adjbox@atbegininnerenv\ignorespaces}%
         {##1}%
-        {\adjbox@atendinnerenv\end{#1}\adjbox@afterinnerenv}%
+        {\unskip\adjbox@atendinnerenv\end{#1}\adjbox@afterinnerenv}%
     }%
 }
 %    \end{macrocode}
@@ -1968,7 +1968,7 @@
 %    \begin{macrocode}
 \def\@@stackbox#1#2[#3]{%
     \collectbox@
-        {\begin{varwidth}[#2]{\linewidth}\csname adjbox@halign@#1\endcsname#3}
+        {\begin{varwidth}[#2]{\linewidth}\csname adjbox@halign@#1\endcsname#3\ignorespaces}
         \BOXCONTENT
         {\end{varwidth}}%
 }
@@ -2029,8 +2029,9 @@
             \begin{varwidth}[#2]{\linewidth}%
             \csname adjbox@halign@#1\endcsname#3%
             \adjbox@atbegininnerenv
+            \ignorespaces
         }{##1}%
-        {\adjbox@atendinnerenv\end{varwidth}\adjbox@afterinnerenv}%
+        {\unskip\adjbox@atendinnerenv\end{varwidth}\adjbox@afterinnerenv}%
     }%
 }
 %    \end{macrocode}
@@ -2179,11 +2180,17 @@
 % \end{macro}
 % \end{macro}
 %
+%
+% \begin{macro}{\adjbox@checkinnerenv}
+%    \begin{macrocode}
 \def\adjbox@checkinnerenv{%
     \ifnum\adjbox@innerlevel>\@ne
         \PackageWarning{adjustbox}{Multiple exclusive keys for inner environment given}%
     \fi
 }
+%    \end{macrocode}
+% \end{macro}
+%
 %
 % \begin{key}{ADJBOX}{innercode}
 %    \begin{macrocode}
