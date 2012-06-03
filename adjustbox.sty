@@ -157,7 +157,9 @@
     \expandafter
     \adjbox@collectbox\expandafter{\expandafter\adjustbox@\expandafter{\XKV@rm}}%
 }
-\def\adjbox@collectbox{\@collectbox}
+\let\adjbox@collectbox\@collectbox
+\let\adjbox@beforeinnerenv\@empty
+\let\adjbox@afterinnerenv\@empty
 \def\adjbox@setkeys@ba{%
     \expandafter\expandafter
     \expandafter\adjbox@@setkeys@ba
@@ -1605,6 +1607,51 @@
 % \end{key}
 %
 %
+% \begin{key}{adjbox}{fgcolor}
+% Changes the foreground color.
+% |#1| are the argument to color, i.e. either \MacroArgs<color>
+% or \MacroArgs{<model>}{<color>}.
+%    \begin{macrocode}
+\define@key{ADJBOX}{fgcolor}{%
+    \adjbox@checkcolor
+    \@ifnextchar\bgroup{%
+        \adjbox@fgcolor
+    }{%
+        \adjbox@fgcolor{}{#1}%
+    }#1\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{macro}{\adjbox@fgcolor}
+% Parses the two possible arguments and adds the color macro
+% to the token register.
+%    \begin{macrocode}
+\def\adjbox@fgcolor#1#2#3\@nnil{%
+    \ifx\@nnil#1\@nnil
+        \adjbox@innercode{\color{#2}}{}%
+    \else
+        \adjbox@innercode{\color[{#1}]{#2}}{}%
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \begin{key}{adjbox}{fgcolor*}
+% Adds a colored box in the background. It awaits a direct color macro,
+% which gives the user more flexibility.
+%    \begin{macrocode}
+\define@key\adjbox@fam{fgcolor*}{%
+    \adjbox@checkcolor
+    \adjbox@Gin@add{\@Collectbox{\adjbox@@fgcolor{#1}}}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+%
 % \begin{key}{adjbox}{bgcolor}
 % Adds a colored box in the background.
 % |#1| are the argument to color, i.e. either \MacroArgs<color>
@@ -1853,7 +1900,11 @@
 % The \Macro\setlength macro is change temporary for the \env{minipage} or \env{varwidth} environment.
 %    \begin{macrocode}
 \def\adjbox@@page#1#2\@nnil{%
-    \def\adjbox@collectbox##1{\collectbox@{\adjbox@set\begin{#1}#2\adjbox@reset}{##1}{\end{#1}}}%
+    \def\adjbox@collectbox##1{\collectbox@
+        {\adjbox@beforeinnerenv\adjbox@set\begin{#1}#2\adjbox@reset}
+        {##1}%
+        {\end{#1}\adjbox@afterinnerenv}%
+    }%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1967,9 +2018,11 @@
 \def\adjbox@@stack#1#2#3{%
     \def\adjbox@collectbox##1{%
         \collectbox@{%
+            \adjbox@beforeinnerenv
             \begin{varwidth}[#2]{\linewidth}%
             \csname adjbox@halign@#1\endcsname#3%
-        }{##1}{\end{varwidth}}%
+        }{##1}%
+        {\end{varwidth}\adjbox@afterinnerenv}%
     }%
 }
 %    \end{macrocode}
@@ -2017,7 +2070,7 @@
     \ifcollectboxenv
         \adjbox@innerenv{#1}{#2}\@nnil
     \else
-        \def\adjbox@collectbox##1{\collectbox@tab{#1}{#2}{}{##1}{}}%
+        \def\adjbox@collectbox##1{\collectbox@tab{#1}{#2}{\adjbox@beforeinnerenv}{##1}{\adjbox@afterinnerenv}}%
     \fi
 }
 %    \end{macrocode}
@@ -2051,9 +2104,9 @@
 %    \begin{macrocode}
 \def\adjbox@array#1\@nnil{%
     \ifcollectboxenv
-        \adjbox@innercode{\(\begin{array}#1}{\end{array}\)}%
+        \adjbox@innercode{\adjbox@beforeinnerenv\(\begin{array}#1}{\end{array}\)\adjbox@afterinnerenv}%
     \else
-        \def\adjbox@collectbox##1{\collectbox@tab{array}{#1}{\(}{##1}{\)}}%
+        \def\adjbox@collectbox##1{\collectbox@tab{array}{#1}{\adjbox@beforeinnerenv\(}{##1}{\)\adjbox@afterinnerenv}}%
     \fi
 }
 %    \end{macrocode}
@@ -2083,7 +2136,11 @@
 % \begin{macro}{\adjbox@innerenv}
 %    \begin{macrocode}
 \def\adjbox@innerenv#1#2\@nnil{%
-    \def\adjbox@collectbox##1{\collectbox@{\begin{#1}#2}{##1}{\end{#1}}}%
+    \def\adjbox@collectbox##1{\collectbox@
+        {\adjbox@beforeinnerenv\begin{#1}#2}
+            {##1}
+        {\end{#1}\adjbox@afterinnerenv}%
+    }%
 }%
 %    \end{macrocode}
 % \end{macro}
@@ -2121,12 +2178,17 @@
 % \begin{macro}{\adjbox@innercode}
 %    \begin{macrocode}
 \def\adjbox@innercode#1#2{%
-    \def\adjbox@collectbox##1{\collectbox@{#1}{##1}{#2}}%
+    \@temptokena\expandafter{\adjbox@beforeinnerenv#1}%
+    \edef\adjbox@beforeinnerenv{\the\@temptokena}%
+    \@temptokena{#2}%
+    \@temptokena\expandafter\expandafter\expandafter{\expandafter\the\expandafter\@temptokena\adjbox@afterinnerenv}%
+    \edef\adjbox@afterinnerenv{\the\@temptokena}%
+    \ifx\adjbox@collectbox\@collectbox
+        \def\adjbox@collectbox##1{\collectbox@{\adjbox@beforeinnerenv}{##1}{\adjbox@afterinnerenv}}%
+    \fi
 }%
 %    \end{macrocode}
 % \end{macro}
-%
-%
 %
 %
 % ^^A )))
