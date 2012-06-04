@@ -1776,6 +1776,58 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\fgimagebox}
+%    \begin{macrocode}
+\newcommand*\fgimagebox[2][]{%
+    \collectboxcheckenv{fgimagebox}%
+    \@collectbox{\@fgimagebox{#1}{#2}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@fgimagebox}
+%    \begin{macrocode}
+\def\@fgimagebox#1#2{%
+    \leavevmode
+    \hbox{%
+        \BOXCONTENT
+        \hskip-\width%
+        \lower\depth\hbox{%
+            \edef\@tempa{\noexpand\adjustimage
+                {#1,width=\the\width,totalheight=\the\totalheight}%
+                {#2}%
+            }%
+            \@tempa
+        }%
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{key}{adjbox}{fgimage}
+% One or two arguments, the first optional one are further \Macro\includegraphics keys.
+%    \begin{macrocode}
+\define@key{adjbox}{fgimage}{%
+    \@ifnextchar\bgroup{%
+        \adjbox@fgimage
+    }{%
+        \adjbox@fgimage{}{#1}%
+    }#1{}\@nnil
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\adjbox@fgimage}
+%    \begin{macrocode}
+\def\adjbox@fgimage#1#2#3\@nnil{%
+    \adjbox@Gin@Add{\@Collectbox{\@fgimagebox{#1}{#2}}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
 %
 %
 % ^^A )))
