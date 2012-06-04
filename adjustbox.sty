@@ -1740,11 +1740,13 @@
     \leavevmode
     \hbox{%
         \lower\depth\hbox{%
-            \edef\@tempa{\noexpand\adjustimage
-                {#1,width=\the\width,totalheight=\the\totalheight}%
+            \edef\pwidth{\dimexpr\the\width\relax}%
+            \edef\pheight{\dimexpr\the\height\relax}%
+            \edef\pdepth{\dimexpr\the\depth\relax}%
+            \edef\ptotalheight{\dimexpr\the\totalheight\relax}%
+            \adjustimage
+                {#1,width=\pwidth,totalheight=\ptotalheight}%
                 {#2}%
-            }%
-            \@tempa
         }%
         \hskip-\width%
         \BOXCONTENT
@@ -1794,11 +1796,13 @@
         \BOXCONTENT
         \hskip-\width%
         \lower\depth\hbox{%
-            \edef\@tempa{\noexpand\adjustimage
-                {#1,width=\the\width,totalheight=\the\totalheight}%
+            \edef\pwidth{\dimexpr\the\width\relax}%
+            \edef\pheight{\dimexpr\the\height\relax}%
+            \edef\pdepth{\dimexpr\the\depth\relax}%
+            \edef\ptotalheight{\dimexpr\the\totalheight\relax}%
+            \adjustimage
+                {#1,width=\pwidth,totalheight=\ptotalheight}%
                 {#2}%
-            }%
-            \@tempa
         }%
     }%
 }
