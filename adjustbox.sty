@@ -152,16 +152,16 @@
     \collectboxcheckenv{adjustbox}%
     \ifcollectboxenv\else
         \let\adjustbox@noindent\relax
+        \let\adjustbox@unskip\relax
+        \let\adjustbox@ignorespaces\relax
     \fi
     \adjbox@setkeys{#1}%
     \expandafter
     \adjbox@collectbox\expandafter{\expandafter\adjustbox@\expandafter{\XKV@rm}}%
 }
 \let\adjbox@collectbox\@collectbox
-\let\adjbox@beforeinnerenv\@empty
-\let\adjbox@afterinnerenv\@empty
-\let\adjbox@atbegininnerenv\@empty
-\let\adjbox@atendinnerenv\@empty
+\let\adjbox@begininnercode\@empty
+\let\adjbox@endinnercode\@empty
 \chardef\adjbox@innerlevel\z@
 \def\adjbox@setkeys@ba{%
     \expandafter\expandafter
@@ -177,6 +177,8 @@
     \setkeys*{ADJBOX}%
 }
 \let\adjustbox@noindent\noindent
+\let\adjustbox@unskip\unskip
+\let\adjustbox@ignorespaces\ignorespaces
 %    \end{macrocode}
 % \end{environment}
 %
@@ -1882,8 +1884,6 @@
 % otherwise assume that is a single length expression and add the required "{ }".
 %    \begin{macrocode}
 \def\adjbox@page#1#2{%
-    \adjbox@checkinnerenv
-    \chardef\adjbox@innerlevel\tw@
     \@ifnextchar[{%
         \adjbox@@page{#1}%
     }{%
@@ -1905,11 +1905,9 @@
 % The \Macro\setlength macro is change temporary for the \env{minipage} or \env{varwidth} environment.
 %    \begin{macrocode}
 \def\adjbox@@page#1#2\@nnil{%
-    \def\adjbox@collectbox##1{\collectbox@
-        {\adjbox@beforeinnerenv\adjbox@set\begin{#1}#2\adjbox@reset\adjbox@atbegininnerenv\ignorespaces}%
-        {##1}%
-        {\unskip\adjbox@atendinnerenv\end{#1}\adjbox@afterinnerenv}%
-    }%
+    \adjbox@innercode
+        {\adjbox@set\begin{#1}#2\adjbox@reset\ignorespaces}%
+        {\end{#1}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1996,7 +1994,6 @@
 % \begin{key}{ADJBOX}{stack}
 %    \begin{macrocode}
 \define@key{ADJBOX}{stack}[{}{}{}]{%
-    \adjbox@checkinnerenv
     \adjbox@stack#1{}{}{}\@nnil
 }
 %    \end{macrocode}
@@ -2022,16 +2019,12 @@
 % \begin{macro}{\adjbox@@stack}
 %    \begin{macrocode}
 \def\adjbox@@stack#1#2#3{%
-    \chardef\adjbox@innerlevel\tw@
-    \def\adjbox@collectbox##1{%
-        \collectbox@{%
-            \adjbox@beforeinnerenv
-            \begin{varwidth}[#2]{\linewidth}%
-            \csname adjbox@halign@#1\endcsname#3%
-            \adjbox@atbegininnerenv
-            \ignorespaces
-        }{##1}%
-        {\unskip\adjbox@atendinnerenv\end{varwidth}\adjbox@afterinnerenv}%
+    \adjbox@innercode{%
+        \begin{varwidth}[#2]{\linewidth}%
+        \csname adjbox@halign@#1\endcsname#3%
+        \ignorespaces
+    }{%
+        \end{varwidth}%
     }%
 }
 %    \end{macrocode}
@@ -2076,13 +2069,12 @@
 % \begin{macro}{\adjbox@tabular}
 %    \begin{macrocode}
 \def\adjbox@tabular#1#2\@nnil{%
-    \adjbox@checkinnerenv
     \ifcollectboxenv
         \adjbox@innerenv{#1}{#2}\@nnil
     \else
-        \def\adjbox@collectbox##1{\collectbox@tab{#1}{#2}{\adjbox@beforeinnerenv}{##1}{\adjbox@afterinnerenv}}%
+        \def\adjbox@collectbox##1{\collectbox@tab{#1}{#2}{\adjbox@begininnercode}{##1}{\adjbox@endinnercode}}%
     \fi
-    \chardef\adjbox@innerlevel\thr@@
+    \chardef\adjbox@innerlevel\tw@
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2114,13 +2106,12 @@
 % \begin{macro}{\adjbox@array}
 %    \begin{macrocode}
 \def\adjbox@array#1\@nnil{%
-    \adjbox@checkinnerenv
     \ifcollectboxenv
-        \adjbox@innercode{\adjbox@beforeinnerenv\(\begin{array}#1}{\end{array}\)\adjbox@afterinnerenv}%
+        \adjbox@innercode{\(\begin{array}#1}{\end{array}\)}%
     \else
-        \def\adjbox@collectbox##1{\collectbox@tab{array}{#1}{\adjbox@beforeinnerenv\(}{##1}{\)\adjbox@afterinnerenv}}%
+        \def\adjbox@collectbox##1{\collectbox@tab{array}{#1}{\adjbox@begininnercode\(}{##1}{\)\adjbox@endinnercode}}%
     \fi
-    \chardef\adjbox@innerlevel\thr@@
+    \chardef\adjbox@innerlevel\tw@
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2136,7 +2127,6 @@
 % \begin{key}{ADJBOX}{innerenv}
 %    \begin{macrocode}
 \define@key{ADJBOX}{innerenv}{%
-    \adjbox@checkinnerenv
     \@ifnextchar\bgroup{%
         \adjbox@@innerenv
     }{%
@@ -2150,12 +2140,9 @@
 % \begin{macro}{\adjbox@innerenv}
 %    \begin{macrocode}
 \def\adjbox@innerenv#1#2\@nnil{%
-    \chardef\adjbox@innerlevel\tw@
-    \def\adjbox@collectbox##1{\collectbox@
-        {\adjbox@beforeinnerenv\begin{#1}#2\adjbox@atbegininnerenv}
-            {##1}
-        {\adjbox@atendinnerenv\end{#1}\adjbox@afterinnerenv}%
-    }%
+    \adjbox@innercode
+        {\begin{#1}#2}%
+        {\end{#1}}%
 }%
 %    \end{macrocode}
 % \end{macro}
@@ -2181,61 +2168,46 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\adjbox@checkinnerenv}
-%    \begin{macrocode}
-\def\adjbox@checkinnerenv{%
-    \ifnum\adjbox@innerlevel>\@ne
-        \PackageWarning{adjustbox}{Multiple exclusive keys for inner environment given}%
-    \fi
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
 % \begin{key}{ADJBOX}{innercode}
 %    \begin{macrocode}
 \define@key{ADJBOX}{innercode}{%
-    \ifcase\adjbox@innerlevel
-    % 0: first inner code
-        \def\adjbox@collectbox##1{\collectbox@{\adjbox@beforeinnerenv}{##1}{\adjbox@afterinnerenv}}%
-        \chardef\adjbox@innerlevel\@ne
-        \expandafter\adjbox@innercode@i
-    \or% 1 append inner code, no inner env
-        \expandafter\adjbox@innercode@i
-    \or% 2 inner env exists, add inner code inside it
-        \expandafter\adjbox@innercode@ii
-    \else% 3 inner tabular exists, create warning and ignore content.
-        \PackageWarning{adjustbox}{Key "innercode" ignored after "tabular"-like key}%
-        \expandafter\@gobbletwo
-    \fi
-    #1{}{}%
+    \adjbox@innercode#1{}{}%
 }%
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\adjbox@innercode@i}
+%
+% \begin{macro}{\adjbox@innercode}
 %    \begin{macrocode}
-\long\def\adjbox@innercode@i#1#2{%
-    \@temptokena\expandafter{\adjbox@beforeinnerenv#1}%
-    \edef\adjbox@beforeinnerenv{\the\@temptokena}%
+\def\adjbox@innercode{%
+    \ifcase\adjbox@innerlevel
+    \relax% 0: first inner code
+        \def\adjbox@collectbox##1{\collectbox@{\adjbox@begininnercode\adjustbox@ignorespaces}{##1}{\adjustbox@unskip\adjbox@endinnercode}}%
+        \chardef\adjbox@innerlevel\@ne
+        \expandafter\adjbox@@innercode
+    \or% 1 append inner code, no inner env
+        \expandafter\adjbox@@innercode
+    \else% 2 inner tabular exists, create warning and ignore content.
+        \PackageWarning{adjustbox}{Further inner code or environment ignored\MessageBreak after "tabular"-like key}%
+        \expandafter\@gobbletwo
+    \fi
+}%
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjbox@@innercode}
+%    \begin{macrocode}
+\long\def\adjbox@@innercode#1#2{%
+    \@temptokena\expandafter{\adjbox@begininnercode#1}%
+    \edef\adjbox@begininnercode{\the\@temptokena}%
     \@temptokena{#2}%
-    \@temptokena\expandafter\expandafter\expandafter{\expandafter\the\expandafter\@temptokena\adjbox@afterinnerenv}%
-    \edef\adjbox@afterinnerenv{\the\@temptokena}%
+    \@temptokena\expandafter\expandafter\expandafter{\expandafter\the\expandafter\@temptokena\adjbox@endinnercode}%
+    \edef\adjbox@endinnercode{\the\@temptokena}%
 }
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\adjbox@innercode@ii}
-%    \begin{macrocode}
-\long\def\adjbox@innercode@ii#1#2{%
-    \@temptokena\expandafter{\adjbox@atbegininnerenv#1}%
-    \edef\adjbox@atbegininnerenv{\the\@temptokena}%
-    \@temptokena{#2}%
-    \@temptokena\expandafter\expandafter\expandafter{\expandafter\the\expandafter\@temptokena\adjbox@atendinnerenv}%
-    \edef\adjbox@atendinnerenv{\the\@temptokena}%
-}%
-%    \end{macrocode}
-% \end{macro}
 %
 %
 % ^^A )))
