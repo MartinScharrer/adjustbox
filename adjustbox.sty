@@ -1734,16 +1734,26 @@
 % \end{macro}
 %
 %
+% \begin{macro}{\adjbox@parentdims}
+% FIXME TODO: Make it work without eTeX
+%    \begin{macrocode}
+\def\adjbox@parentdims{%
+    \edef\pwidth{\dimexpr\the\width\relax}%
+    \edef\pheight{\dimexpr\the\height\relax}%
+    \edef\pdepth{\dimexpr\the\depth\relax}%
+    \edef\ptotalheight{\dimexpr\the\totalheight\relax}%
+}%
+%    \end{macrocode}
+% \end{macro}
+%
+%
 % \begin{macro}{\@bgimagebox}
 %    \begin{macrocode}
 \def\@bgimagebox#1#2{%
     \leavevmode
     \hbox{%
         \lower\depth\hbox{%
-            \edef\pwidth{\dimexpr\the\width\relax}%
-            \edef\pheight{\dimexpr\the\height\relax}%
-            \edef\pdepth{\dimexpr\the\depth\relax}%
-            \edef\ptotalheight{\dimexpr\the\totalheight\relax}%
+            \adjbox@parentdims
             \adjustimage
                 {#1,width=\pwidth,totalheight=\ptotalheight}%
                 {#2}%
@@ -1778,6 +1788,116 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%
+% \begin{key}{adjbox}{foreground}
+% One or two arguments, the first optional one are further \Macro\includegraphics keys.
+%    \begin{macrocode}
+\define@key{adjbox}{foreground}{%
+    \@ifnextchar\bgroup{%
+        \adjbox@foreground
+    }{%
+        \adjbox@foreground{}{#1}%
+    }#1{}{}\@nnil
+    {raise=\depth-\pdepth,width=\pwidth,totalheight=\ptotalheight}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{foreground*}
+% One or two arguments, the first optional one are further \Macro\includegraphics keys.
+%    \begin{macrocode}
+\define@key{adjbox}{foreground*}{%
+    \@ifnextchar\bgroup{%
+        \adjbox@foreground
+    }{%
+        \adjbox@foreground{}{#1}%
+    }#1{}{}\@nnil{}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\adjbox@foreground}
+%    \begin{macrocode}
+\def\adjbox@foreground#1#2#3\@nnil#4{%
+    \adjbox@Gin@Add{\@Collectbox{\@foregroundbox{#1,#4}{#2}}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@foregroundbox}
+%    \begin{macrocode}
+\def\@foregroundbox#1#2{%
+    \leavevmode
+    \hbox to \width{%
+        \BOXCONTENT
+        \hskip-\width
+        \hss
+        \adjbox@parentdims
+        \adjustbox{#1}{#2}%
+        \hss
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{key}{adjbox}{background}
+% One or two arguments, the first optional one are further \Macro\includegraphics keys.
+%    \begin{macrocode}
+\define@key{adjbox}{background}{%
+    \@ifnextchar\bgroup{%
+        \adjbox@background
+    }{%
+        \adjbox@background{}{#1}%
+    }#1{}{}\@nnil
+    {raise=\depth-\pdepth,width=\pwidth,totalheight=\ptotalheight}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{background*}
+% One or two arguments, the first optional one are further \Macro\includegraphics keys.
+%    \begin{macrocode}
+\define@key{adjbox}{background*}{%
+    \@ifnextchar\bgroup{%
+        \adjbox@background
+    }{%
+        \adjbox@background{}{#1}%
+    }#1{}{}\@nnil{}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\adjbox@background}
+%    \begin{macrocode}
+\def\adjbox@background#1#2#3\@nnil#4{%
+    \adjbox@Gin@Add{\@Collectbox{\@backgroundbox{#1,#4}{#2}}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@backgroundbox}
+%    \begin{macrocode}
+\def\@backgroundbox#1#2{%
+    \leavevmode
+    \hbox to \width{%
+        \hss
+        \adjbox@parentdims
+        \adjustbox{#1}{#2}%
+        \hss
+        \hskip-\width%
+        \BOXCONTENT
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
 % \begin{macro}{\fgimagebox}
 %    \begin{macrocode}
 \newcommand*\fgimagebox[2][]{%
@@ -1796,10 +1916,7 @@
         \BOXCONTENT
         \hskip-\width%
         \lower\depth\hbox{%
-            \edef\pwidth{\dimexpr\the\width\relax}%
-            \edef\pheight{\dimexpr\the\height\relax}%
-            \edef\pdepth{\dimexpr\the\depth\relax}%
-            \edef\ptotalheight{\dimexpr\the\totalheight\relax}%
+            \adjbox@parentdims
             \adjustimage
                 {#1,width=\pwidth,totalheight=\ptotalheight}%
                 {#2}%
