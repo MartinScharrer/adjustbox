@@ -1736,7 +1736,8 @@
 % \begin{macro}{\@bgimagebox}
 %    \begin{macrocode}
 \def\@bgimagebox#1#2{%
-    \mbox{%
+    \leavevmode
+    \hbox{%
         \lower\depth\hbox{%
             \edef\@tempa{\noexpand\adjustimage
                 {#1,width=\the\width,totalheight=\the\totalheight}%
@@ -2134,6 +2135,7 @@
         \remove@to@nnil
     }#1\@nnil
 }
+\adjbox@let@key{ADJBOX}{inner env}{innerenv}
 %    \end{macrocode}
 % \end{key}
 %
@@ -2173,6 +2175,7 @@
 \define@key{ADJBOX}{innercode}{%
     \adjbox@innercode#1{}{}%
 }%
+\adjbox@let@key{ADJBOX}{inner code}{innercode}
 %    \end{macrocode}
 % \end{macro}
 %
