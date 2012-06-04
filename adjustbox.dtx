@@ -1133,8 +1133,35 @@
 %
 % ^^A )))3
 % ^^A )))2
-% \subsection{Colors and Background Image} ^^A (((2
+% \subsection{Colors} ^^A (((2
 % \vspace{-\baselineskip}
+%
+% \DescribeKey{color}'='<color>
+% \DescribeKey{color}'='{<model>}{<color>}
+% This key sets the color for all material. Both the content and further material added by other keys will be affected.
+% The color change is immediate and will occur before basically every other key takes effect.
+% The order in which this key is used is therefore meaningless.
+% Using this key several times will cause several color changes with the last one be used for the remaining material.
+% Note that \Key{color} will not influence any \Key{fgcolor} or \Key{bgcolor} beside the fact that it changes the
+% \emph{current color} accessible using the special name `|.|'.
+%
+% \DescribeKey{color*}'='<color macro>
+% Like \Key{color} but awaits a full color macro as value. This allows to use other macros as \Macro\color like \Macro\blendcolors.
+% See the \pkg{xcolor} manual for more details. A \Macro\blendcolors will affect both \Key{fgcolor} and \Key{bgcolor}.
+%
+%
+% \DescribeKey{fgcolor}'='<color>
+% \DescribeKey{fgcolor}'='{<model>}{<color>}
+% This key sets the color for the content.
+% The value is passed to an internal \Macro\color macro.
+% This is done using \Key{innercode} because the color must be set before the content is boxed.
+% Further material added using keys, e.g.\ a \Key{frame}, is not affected by this key.
+% The \pkg{xcolor} package (or \pkg{color} or \pkg{xxcolor}) needs to be loaded otherwise an error will be raised.
+%
+% \DescribeKey{fgcolor*}'='<color macro>
+% Like \Key{fgcolor} but awaits a full color macro as value. This allows to use other macros as \Macro\color like \Macro\blendcolors.
+% See the \pkg{xcolor} manual for more details.
+%
 %
 % \DescribeKey{bgcolor}'='<color>
 % \DescribeKey{bgcolor}'='{<model>}{<color>}
@@ -1170,7 +1197,9 @@
 %   \end{examplecode}
 % \end{examples}
 %
-%
+% ^^A )))2
+% \subsection{Background Image} ^^A (((2
+% \vspace{-\baselineskip}
 % \DescribeKey{bgimage}'='<image filename>
 % \DescribeKey{bgimage}'='{<key=value pairs for image>}{<image filename>}
 % Adds a background image to the content. The image is stretched if required to fit exactly to the content.
@@ -1183,33 +1212,6 @@
 %
 % \DescribeMacro{\bgimagebox}[<key=value pairs>]{<image filename>}
 % Standalone version of the \Key{bgimage} key. Also available as \env{bgimagebox} environment.
-%
-%
-% \DescribeKey{fgcolor}'='<color>
-% \DescribeKey{fgcolor}'='{<model>}{<color>}
-% This key sets the color for the content.
-% The value is passed to an internal \Macro\color macro.
-% This is done using \Key{innercode} because the color must be set before the content is boxed.
-% Further material added using keys, e.g.\ a \Key{frame}, is not affected by this key.
-% The \pkg{xcolor} package (or \pkg{color} or \pkg{xxcolor}) needs to be loaded otherwise an error will be raised.
-%
-% \DescribeKey{fgcolor*}'='<color macro>
-% Like \Key{fgcolor} but awaits a full color macro as value. This allows to use other macros as \Macro\color like \Macro\blendcolors.
-% See the \pkg{xcolor} manual for more details.
-%
-%
-% \DescribeKey{color}'='<color>
-% \DescribeKey{color}'='{<model>}{<color>}
-% This key sets the color for all material. Both the content and further material added by other keys will be affected.
-% The color change is immediate and will occur before basically every other key takes effect.
-% The order in which this key is used is therefore meaningless.
-% Using this key several times will cause several color changes with the last one be used for the remaining material.
-% Note that \Key{color} will not influence any \Key{fgcolor} or \Key{bgcolor} beside the fact that it changes the
-% \emph{current color} accessible using the special name `|.|'.
-%
-% \DescribeKey{color*}'='<color macro>
-% Like \Key{color} but awaits a full color macro as value. This allows to use other macros as \Macro\color like \Macro\blendcolors.
-% See the \pkg{xcolor} manual for more details. A \Macro\blendcolors will affect both \Key{fgcolor} and \Key{bgcolor}.
 %
 %
 % ^^A )))2
