@@ -150,7 +150,15 @@
     \let\collectbox@mode\relax
     \let\collectbox@noindent\relax
     \collectboxcheckenv{adjustbox}%
-    \ifcollectboxenv\else
+    \let\adjbox@collectbox\@collectbox
+    \let\adjbox@begininnercode\@empty
+    \let\adjbox@endinnercode\@empty
+    \chardef\adjbox@innerlevel\z@
+    \ifcollectboxenv
+        \let\adjustbox@noindent\noindent
+        \let\adjustbox@unskip\unskip
+        \let\adjustbox@ignorespaces\ignorespaces
+    \else
         \let\adjustbox@noindent\relax
         \let\adjustbox@unskip\relax
         \let\adjustbox@ignorespaces\relax
@@ -159,10 +167,6 @@
     \expandafter
     \adjbox@collectbox\expandafter{\expandafter\adjustbox@\expandafter{\XKV@rm}}%
 }
-\let\adjbox@collectbox\@collectbox
-\let\adjbox@begininnercode\@empty
-\let\adjbox@endinnercode\@empty
-\chardef\adjbox@innerlevel\z@
 \def\adjbox@setkeys@ba{%
     \expandafter\expandafter
     \expandafter\adjbox@@setkeys@ba
@@ -176,9 +180,6 @@
 \def\adjbox@setkeys{%
     \setkeys*{ADJBOX}%
 }
-\let\adjustbox@noindent\noindent
-\let\adjustbox@unskip\unskip
-\let\adjustbox@ignorespaces\ignorespaces
 %    \end{macrocode}
 % \end{environment}
 %
@@ -1761,7 +1762,7 @@
         \adjbox@bgimage
     }{%
         \adjbox@bgimage{}{#1}%
-    }#1\@nnil
+    }#1{}\@nnil
 }
 %    \end{macrocode}
 % \end{key}
@@ -1770,7 +1771,7 @@
 % \begin{macro}{\adjbox@bgimage}
 %    \begin{macrocode}
 \def\adjbox@bgimage#1#2#3\@nnil{%
-    \adjbox@Gin@add{\@Collectbox{\@bgimagebox{#1}{#2}}}%
+    \adjbox@Gin@Add{\@Collectbox{\@bgimagebox{#1}{#2}}}%
 }
 %    \end{macrocode}
 % \end{macro}
