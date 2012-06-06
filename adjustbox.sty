@@ -163,6 +163,7 @@
         \let\adjustbox@unskip\relax
         \let\adjustbox@ignorespaces\relax
     \fi
+    \let\XKV@checksanitizea\adjbox@kvsanitize
     \adjbox@setkeys{#1}%
     \expandafter
     \adjbox@collectbox\expandafter{\expandafter\adjustbox@\expandafter{\XKV@rm}}%
@@ -210,6 +211,104 @@
 }
 %    \end{macrocode}
 % \end{macro}
+%
+%    \begin{macrocode}
+\begingroup
+\catcode`\, 3
+\catcode`\= 3
+\gdef\adjbox@comma@iii{,}%
+\gdef\adjbox@equal@iii{=}%
+\catcode`\, 4
+\catcode`\= 4
+\gdef\adjbox@comma@iv{,}%
+\gdef\adjbox@equal@iv{=}%
+\catcode`\, 7
+\catcode`\= 7
+\gdef\adjbox@comma@vii{,}%
+\gdef\adjbox@equal@vii{=}%
+\catcode`\, 8
+\catcode`\= 8
+\gdef\adjbox@comma@viii{,}%
+\gdef\adjbox@equal@viii{=}%
+\catcode`\, 10
+\catcode`\= 10
+\gdef\adjbox@comma@x{,}%
+\gdef\adjbox@equal@x{=}%
+\catcode`\, 11
+\catcode`\= 11
+\gdef\adjbox@comma@xi{,}%
+\gdef\adjbox@equal@xi{=}%
+\catcode`\, 13
+\catcode`\= 13
+\gdef\adjbox@comma@xiii{,}%
+\gdef\adjbox@equal@xiii{=}%
+\catcode`\, 12
+\catcode`\= 12
+\gdef\adjbox@comma@xii{,}%
+\gdef\adjbox@equal@xii{=}%
+% \end{macro}
+%
+% \begin{macro}{\adjbox@kvsanitize}
+%    \begin{macrocode}
+\gdef\adjbox@kvsanitize#1#2{%
+    \def\@tempa{\expandafter\noexpand\adjbox@comma@xiii}%
+    \def\@tempb{}%
+    \ifnum\catcode`\,=12 \else
+        \ifnum\catcode`\,=13 \else
+            \@ifundefined{adjbox@comma@\romannumeral\catcode`\,}{%
+                \PackageError{adjustbox}
+                {Invalid comma catcode \the\catcode`\,}{}%
+            }{}%
+            \edef\@tempb{\csname adjbox@comma@\romannumeral\the\catcode`\,\endcsname}%
+        \fi
+    \fi
+    \edef\@tempa{\@tempa\@tempb}%
+    \XKV@tempa@toks{#1}%
+    \expandafter\adjbox@replacecatcodes\expandafter,\@tempa\@nnil
+    \def\@tempa{\expandafter\noexpand\adjbox@equal@xiii}%
+    \def\@tempb{}%
+    \ifnum\catcode`\==12 \else
+        \ifnum\catcode`\==13 \else
+            \@ifundefined{adjbox@equal@\romannumeral\catcode`\=}{%
+                \PackageError{adjustbox}
+                {Invalid equal sign catcode \the\catcode`\=}{}%
+            }{}%
+            \def\@tempb{\@tempa\csname adjbox@equal@\romannumeral\the\catcode`\,\endcsname}%
+        \fi
+    \fi
+    \edef\@tempa{\@tempa\@tempb}%
+    \expandafter\adjbox@replacecatcodes\expandafter=\@tempa\@nnil
+    \edef#2{\the\XKV@tempa@toks}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\adjbox@replacecatcodes}
+%    \begin{macrocode}
+\gdef\adjbox@replacecatcodes#1#2{%
+    \ifx\@nnil#2\relax\else
+        \def\@tempa##1#2{%
+            \ifx\@nnil##1\relax\else
+                \XKV@tempa@toks{##1}%
+                \expandafter\@tempb
+            \fi
+        }%
+        \def\@tempb##1#2{%
+            \ifx\@nnil##1\relax\else
+                \XKV@tempa@toks\expandafter{\the\XKV@tempa@toks#1##1}%
+                \expandafter\@tempb
+            \fi
+        }%
+        \expandafter\@tempa\the\XKV@tempa@toks#2\@nnil#2\relax
+        \expandafter\adjbox@replacecatcodes\expandafter#1%
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+\endgroup
+%    \end{macrocode}
 %
 %
 % \begin{macro}{\adjustbox@content}
