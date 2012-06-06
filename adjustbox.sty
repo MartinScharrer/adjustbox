@@ -338,6 +338,22 @@
 % \end{macro}
 % \end{macro}
 %
+% \begin{macro}{\adjbox@pwidth}
+% \begin{macro}{\adjbox@pheight}
+% \begin{macro}{\adjbox@pdepth}
+% \begin{macro}{\adjbox@ptotalheight}
+% Dimension registers for parent sizes; used for keys which use an internal adjustbox.
+%    \begin{macrocode}
+\newdimen\adjbox@pwidth
+\newdimen\adjbox@pheight
+\newdimen\adjbox@pdepth
+\newdimen\adjbox@ptotalheight
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
 %
 % \begin{macro}{\adjbox@esetsize}
 % Replacement of \Macro\Gin@esetsize.
@@ -1837,10 +1853,14 @@
 % FIXME TODO: Make it work without eTeX
 %    \begin{macrocode}
 \def\adjbox@parentdims{%
-    \edef\pwidth{\dimexpr\the\width\relax}%
-    \edef\pheight{\dimexpr\the\height\relax}%
-    \edef\pdepth{\dimexpr\the\depth\relax}%
-    \edef\ptotalheight{\dimexpr\the\totalheight\relax}%
+    \let\pwidth\adjbox@pwidth
+    \let\pheight\adjbox@pheight
+    \let\pdepth\adjbox@pdepth
+    \let\ptotalheight\adjbox@ptotalheight
+    \pwidth\width
+    \pheight\height
+    \pdepth\depth
+    \ptotalheight\totalheight
 }%
 %    \end{macrocode}
 % \end{macro}
