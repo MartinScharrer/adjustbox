@@ -1868,13 +1868,6 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\adjbox@afterfi}
-%    \begin{macrocode}
-\long\def\adjbox@afterfi#1#2\fi{#1}
-%    \end{macrocode}
-% \end{macro}
-%
-%
 % \begin{macro}{\bgcolorbox@}
 %    \begin{macrocode}
 \newcommand\bgcolorbox@[2][\@nnil]{%
@@ -1917,7 +1910,7 @@
 %    \begin{macrocode}
 \newcommand\fgimagebox@[2][]{%
     \collectboxcheckenv{fgimagebox}%
-    \@collectbox{\@fgimagebox{#1,raise=-\pdepth,width=\pwidth,totalheight=\ptotalheight}{#2}}%
+    \@collectbox{\@fgimagebox{#1,width=\pwidth,totalheight=\ptotalheight,raise=-\pdepth}{#2}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1958,7 +1951,7 @@
     }{%
         \adjbox@fgimage{}{#1}%
     }#1{}\@nnil
-    {,width=\pwidth,totalheight=\ptotalheight}%
+    {,width=\pwidth,totalheight=\ptotalheight,raise=-\pdepth}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -2002,7 +1995,7 @@
 %    \begin{macrocode}
 \newcommand\bgimagebox@[2][]{%
     \collectboxcheckenv{bgimagebox}%
-    \@collectbox{\@bgimagebox{#1,raise=-\pdepth,width=\pwidth,totalheight=\ptotalheight}{#2}}%
+    \@collectbox{\@bgimagebox{#1,width=\pwidth,totalheight=\ptotalheight,raise=-\pdepth}{#2}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2043,7 +2036,7 @@
     }{%
         \adjbox@bgimage{}{#1}%
     }#1{}\@nnil
-    {,width=\pwidth,totalheight=\ptotalheight}%
+    {,width=\pwidth,totalheight=\ptotalheight,raise=-\pdepth}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -2081,7 +2074,7 @@
     }{%
         \adjbox@foreground{}{#1}%
     }#1{}{}\@nnil
-    {,raise=\depth-\pdepth,width=\pwidth,totalheight=\ptotalheight}%
+    {,width=\pwidth,totalheight=\ptotalheight,raise=\depth-\pdepth}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -2137,7 +2130,7 @@
     }{%
         \adjbox@background{}{#1}%
     }#1{}{}\@nnil
-    {,raise=\depth-\pdepth,width=\pwidth,totalheight=\ptotalheight}%
+    {,width=\pwidth,totalheight=\ptotalheight,raise=\depth-\pdepth}%
 }
 %    \end{macrocode}
 % \end{key}
