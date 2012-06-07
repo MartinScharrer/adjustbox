@@ -1,0 +1,230 @@
+\documentclass{article}
+\usepackage{adjustbox}
+\usepackage{xcolor}
+
+\parindent=0pt
+\begin{document}
+\begingroup
+
+\begin{adjustbox}{bgcolor=blue}
+    Text Xy
+\end{adjustbox}
+
+\begin{adjustbox}{bgcolor*=\color{blue}}
+    Text Xy
+\end{adjustbox}
+
+\bgcolorbox{blue}{Text Xy}
+
+\bgcolorbox[rgb]{0,0,1}{Text Xy}
+
+\bgcolorbox*{\color{blue}}{Text Xy}
+
+\begin{bgcolorbox}{blue}
+    Text Xy
+\end{bgcolorbox}
+
+\begin{bgcolorbox}[rgb]{0,0,1}
+    Text Xy
+\end{bgcolorbox}
+
+\begin{bgcolorbox*}{\color{blue}}
+    Text Xy
+\end{bgcolorbox*}
+
+\begin{adjustbox}{fgcolor=blue}
+    Text Xy
+\end{adjustbox}
+
+\begin{adjustbox}{fgcolor*=\color{blue}}
+    Text Xy
+\end{adjustbox}
+
+\clearpage
+
+\begin{minipage}{1.5cm}
+\begin{adjustbox}{bgimage=example-image}
+    Text Xy
+\end{adjustbox}
+
+\begin{adjustbox}{bgimage={clip,trim=10 10 10 10,rotate=45}{example-image}}
+    Text Xy
+\end{adjustbox}
+
+\begin{adjustbox}{bgimage*={width=.5\pwidth,center=\pwidth}{example-image}}
+    Text Xy
+\end{adjustbox}
+
+\begin{adjustbox}{bgimage*={clip,trim=10 10 10 10,rotate=45,width=.5\pwidth,right=\pwidth}{example-image}}
+    Text Xy
+\end{adjustbox}
+
+\begin{adjustbox}{fgimage=example-image}
+    Text Xy
+\end{adjustbox}
+
+\begin{adjustbox}{fgimage={clip,trim=10 10 10 10,rotate=45}{example-image}}
+    Text Xy
+\end{adjustbox}
+
+\begin{adjustbox}{fgimage*={width=.5\pwidth,center=\pwidth}{example-image}}
+    Text Xy
+\end{adjustbox}
+
+\begin{adjustbox}{fgimage*={clip,trim=10 10 10 10,rotate=45,width=.5\pwidth,right=\pwidth}{example-image}}
+    Text Xy
+\end{adjustbox}
+
+\end{minipage}
+\hspace{1mm}
+\begin{minipage}{1.5cm}
+
+\begin{bgimagebox}{example-image}
+    Text Xy
+\end{bgimagebox}
+
+\begin{bgimagebox}[clip,trim=10 10 10 10,rotate=45]{example-image}
+    Text Xy
+\end{bgimagebox}
+
+\begin{bgimagebox*}[width=.5\pwidth,center=\pwidth]{example-image}
+    Text Xy
+\end{bgimagebox*}
+
+\begin{bgimagebox*}[clip,trim=10 10 10 10,rotate=45,width=.5\pwidth,right=\pwidth]{example-image}
+    Text Xy
+\end{bgimagebox*}
+
+\begin{fgimagebox}{example-image}
+    Text Xy
+\end{fgimagebox}
+
+\begin{fgimagebox}[clip,trim=10 10 10 10,rotate=45]{example-image}
+    Text Xy
+\end{fgimagebox}
+
+\begin{fgimagebox*}[width=.5\pwidth,center=\pwidth]{example-image}
+    Text Xy
+\end{fgimagebox*}
+
+\begin{fgimagebox*}[clip,trim=10 10 10 10,rotate=45,width=.5\pwidth,right=\pwidth]{example-image}
+    Text Xy
+\end{fgimagebox*}
+\end{minipage}
+\hspace{1mm}
+\begin{minipage}{1.5cm}
+
+\bgimagebox{example-image}{Text Xy}
+
+\bgimagebox[clip,trim=10 10 10 10,rotate=45]{example-image}{Text Xy}
+
+\bgimagebox*[width=.5\pwidth,center=\pwidth]{example-image}{Text Xy}
+
+\bgimagebox*[clip,trim=10 10 10 10,rotate=45,width=.5\pwidth,right=\pwidth]{example-image}{Text Xy}
+
+\fgimagebox{example-image}{Text Xy}
+
+\fgimagebox[clip,trim=10 10 10 10,rotate=45]{example-image}{Text Xy}
+
+\fgimagebox*[width=.5\pwidth,center=\pwidth]{example-image}{Text Xy}
+
+\fgimagebox*[clip,trim=10 10 10 10,rotate=45,width=.5\pwidth,right=\pwidth]{example-image}{Text Xy}
+
+\end{minipage}
+
+\clearpage
+\begin{minipage}{1.5cm}
+
+\begin{adjustbox}{background={\color{gray}XXXX}}
+    Text Xy
+\end{adjustbox}
+
+\begin{adjustbox}{background={angle=30}{\color{gray}XXXX}}
+    Text Xy
+\end{adjustbox}
+
+\begin{adjustbox}{background*={\color{gray}XXXX}}
+    Text Xy
+\end{adjustbox}
+
+\begin{adjustbox}{background*={angle=30}{\color{gray}XXXX}}
+    Text Xy
+\end{adjustbox}
+
+\begin{adjustbox}{foreground={\color{gray}XXXX}}
+    Text Xy
+\end{adjustbox}
+
+\begin{adjustbox}{foreground={angle=30,clip}{\color{gray}XXXX}}
+    Text Xy
+\end{adjustbox}
+
+\begin{adjustbox}{foreground*={\color{gray}XXXX}}
+    Text Xy
+\end{adjustbox}
+
+\begin{adjustbox}{foreground*={angle=30,clip}{\color{gray}XXXX}}
+    Text Xy
+\end{adjustbox}
+
+\end{minipage}
+\hspace{1mm}
+\begin{minipage}{1.5cm}
+
+\begin{backgroundbox}{\color{gray}XXXX}
+    Text Xy
+\end{backgroundbox}
+
+\begin{backgroundbox}[angle=30,clip]{\color{gray}XXXX}
+    Text Xy
+\end{backgroundbox}
+
+\begin{backgroundbox*}{\color{gray}XXXX}
+    Text Xy
+\end{backgroundbox*}
+
+\begin{backgroundbox*}[angle=30]{\color{gray}XXXX}
+    Text Xy
+\end{backgroundbox*}
+
+\begin{foregroundbox}{\color{gray}XXXX}
+    Text Xy
+\end{foregroundbox}
+
+\begin{foregroundbox}[angle=30,clip]{\color{gray}XXXX}
+    Text Xy
+\end{foregroundbox}
+
+\begin{foregroundbox*}{\color{gray}XXXX}
+    Text Xy
+\end{foregroundbox*}
+
+\begin{foregroundbox*}[angle=30]{\color{gray}XXXX}
+    Text Xy
+\end{foregroundbox*}
+
+\end{minipage}
+\hspace{1mm}
+\begin{minipage}{1.5cm}
+
+\backgroundbox{\color{gray}XXXX}{Text Xy}
+
+\backgroundbox[angle=30,clip]{\color{gray}XXXX}{Text Xy}
+
+\backgroundbox*{\color{gray}XXXX}{Text Xy}
+
+\backgroundbox*[angle=30]{\color{gray}XXXX}{Text Xy}
+
+\foregroundbox{\color{gray}XXXX}{Text Xy}
+
+\foregroundbox[angle=30,clip]{\color{gray}XXXX}{Text Xy}
+
+\foregroundbox*{\color{gray}XXXX}{Text Xy}
+
+\foregroundbox*[angle=30]{\color{gray}XXXX}{Text Xy}
+
+\end{minipage}
+
+\endgroup
+\end{document}
+
