@@ -1781,7 +1781,7 @@
 %    \begin{macrocode}
 \define@key\adjbox@fam{fgcolor*}{%
     \adjbox@checkcolor
-    \adjbox@Gin@add{\@Collectbox{\adjbox@@fgcolor{#1}}}%
+    \adjbox@innercode{#1}{}%
 }
 %    \end{macrocode}
 % \end{key}
