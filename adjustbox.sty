@@ -1910,7 +1910,7 @@
 %    \begin{macrocode}
 \newcommand\fgimagebox@[2][]{%
     \collectboxcheckenv{fgimagebox}%
-    \@collectbox{\@fgimagebox{#1,width=\pwidth,totalheight=\ptotalheight,raise=-\pdepth}{#2}}%
+    \@collectbox{\@foregroundbox\adjustimage{#1,width=\pwidth,totalheight=\ptotalheight,raise=-\pdepth}{#2}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1919,27 +1919,11 @@
 %    \begin{macrocode}
 \expandafter\newcommand\csname fgimagebox*\endcsname[2][]{%
     \collectboxcheckenv{fgimagebox*}%
-    \@collectbox{\@fgimagebox{#1}{#2}}%
+    \@collectbox{\@foregroundbox\adjustimage{#1}{#2}}%
 }
 %    \end{macrocode}
 % \end{macro}
 %
-%
-% \begin{macro}{\@fgimagebox}
-%    \begin{macrocode}
-\def\@fgimagebox#1#2{%
-    \leavevmode
-    \hbox{%
-        \BOXCONTENT
-        \hskip-\width%
-        \hbox{%
-            \adjbox@parentdims
-            \adjustimage{#1}{#2}%
-        }%
-    }%
-}
-%    \end{macrocode}
-% \end{macro}
 %
 %
 % \begin{key}{adjbox}{fgimage}
@@ -1973,7 +1957,7 @@
 % \begin{macro}{\adjbox@fgimage}
 %    \begin{macrocode}
 \def\adjbox@fgimage#1#2#3\@nnil#4{%
-    \adjbox@Gin@Add{\@Collectbox{\@fgimagebox{#1#4}{#2}}}%
+    \adjbox@Gin@Add{\@Collectbox{\@foregroundbox\adjustimage{#1#4}{#2}}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1995,7 +1979,7 @@
 %    \begin{macrocode}
 \newcommand\bgimagebox@[2][]{%
     \collectboxcheckenv{bgimagebox}%
-    \@collectbox{\@bgimagebox{#1,width=\pwidth,totalheight=\ptotalheight,raise=-\pdepth}{#2}}%
+    \@collectbox{\@backgroundbox\adjustimage{#1,width=\pwidth,totalheight=\ptotalheight,raise=-\pdepth}{#2}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2004,27 +1988,11 @@
 %    \begin{macrocode}
 \expandafter\newcommand\csname bgimagebox*\endcsname[2][]{%
     \collectboxcheckenv{bgimagebox*}%
-    \@collectbox{\@bgimagebox{#1}{#2}}%
+    \@collectbox{\@backgroundbox\adjustimage{#1}{#2}}%
 }
 %    \end{macrocode}
 % \end{macro}
 %
-%
-% \begin{macro}{\@bgimagebox}
-%    \begin{macrocode}
-\def\@bgimagebox#1#2{%
-    \leavevmode
-    \hbox{%
-        \hbox{%
-            \adjbox@parentdims
-            \adjustimage{#1}{#2}%
-        }%
-        \hskip-\width%
-        \BOXCONTENT
-    }%
-}
-%    \end{macrocode}
-% \end{macro}
 %
 %
 % \begin{key}{adjbox}{bgimage}
@@ -2058,7 +2026,7 @@
 % \begin{macro}{\adjbox@bgimage}
 %    \begin{macrocode}
 \def\adjbox@bgimage#1#2#3\@nnil#4{%
-    \adjbox@Gin@Add{\@Collectbox{\@bgimagebox{#1#4}{#2}}}%
+    \adjbox@Gin@Add{\@Collectbox{\@backgroundbox\adjustimage{#1#4}{#2}}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2097,7 +2065,7 @@
 % \begin{macro}{\adjbox@foreground}
 %    \begin{macrocode}
 \def\adjbox@foreground#1#2#3\@nnil#4{%
-    \adjbox@Gin@Add{\@Collectbox{\@foregroundbox{#1#4}{#2}}}%
+    \adjbox@Gin@Add{\@Collectbox{\@foregroundbox\adjustbox{#1#4}{#2}}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2105,16 +2073,45 @@
 %
 % \begin{macro}{\@foregroundbox}
 %    \begin{macrocode}
-\def\@foregroundbox#1#2{%
+\def\@foregroundbox#1#2#3{%
     \leavevmode
     \hbox to \width{%
         \BOXCONTENT
         \hskip-\width
         \hss
         \adjbox@parentdims
-        \adjustbox{#1}{#2}%
+        #1{#2}{#3}%
         \hss
     }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\foregroundbox}
+%    \begin{macrocode}
+\expandafter\newcommand\expandafter\foregroundbox\expandafter{%
+    \expandafter
+    \@ifstar
+        \csname foregroundbox*\endcsname
+        \foregroundbox@
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\foregroundbox@}
+%    \begin{macrocode}
+\newcommand\foregroundbox@[2][]{%
+    \collectboxcheckenv{foregroundbox}%
+    \@collectbox{\@foregroundbox\adjustbox{#1,width=\pwidth,totalheight=\ptotalheight,raise=-\pdepth}{#2}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{foregroundbox*}
+%    \begin{macrocode}
+\expandafter\newcommand\csname foregroundbox*\endcsname[2][]{%
+    \collectboxcheckenv{foregroundbox*}%
+    \@collectbox{\@foregroundbox\adjustbox{#1}{#2}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2152,7 +2149,7 @@
 % \begin{macro}{\adjbox@background}
 %    \begin{macrocode}
 \def\adjbox@background#1#2#3\@nnil#4{%
-    \adjbox@Gin@Add{\@Collectbox{\@backgroundbox{#1#4}{#2}}}%
+    \adjbox@Gin@Add{\@Collectbox{\@backgroundbox\adjustbox{#1#4}{#2}}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2160,12 +2157,12 @@
 %
 % \begin{macro}{\@backgroundbox}
 %    \begin{macrocode}
-\def\@backgroundbox#1#2{%
+\def\@backgroundbox#1#2#3{%
     \leavevmode
     \hbox to \width{%
         \hss
         \adjbox@parentdims
-        \adjustbox{#1}{#2}%
+        #1{#2}{#3}%
         \hss
         \hskip-\width%
         \BOXCONTENT
@@ -2173,6 +2170,36 @@
 }
 %    \end{macrocode}
 % \end{macro}
+%
+% \begin{macro}{\backgroundbox}
+%    \begin{macrocode}
+\expandafter\newcommand\expandafter\backgroundbox\expandafter{%
+    \expandafter
+    \@ifstar
+        \csname backgroundbox*\endcsname
+        \backgroundbox@
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\backgroundbox@}
+%    \begin{macrocode}
+\newcommand\backgroundbox@[2][]{%
+    \collectboxcheckenv{backgroundbox}%
+    \@collectbox{\@backgroundbox\adjustbox{#1,width=\pwidth,totalheight=\ptotalheight,raise=-\pdepth}{#2}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{backgroundbox*}
+%    \begin{macrocode}
+\expandafter\newcommand\csname backgroundbox*\endcsname[2][]{%
+    \collectboxcheckenv{backgroundbox*}%
+    \@collectbox{\@backgroundbox\adjustbox{#1}{#2}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
 %
 %
 % ^^A )))
