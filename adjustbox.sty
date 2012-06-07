@@ -1742,6 +1742,7 @@
 %    \end{macrocode}
 % \end{key}
 %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \begin{key}{adjbox}{fgcolor}
 % Changes the foreground color.
@@ -1779,14 +1780,14 @@
 % Adds a colored box in the background. It awaits a direct color macro,
 % which gives the user more flexibility.
 %    \begin{macrocode}
-\define@key\adjbox@fam{fgcolor*}{%
+\define@key{ADJBOX}{fgcolor*}{%
     \adjbox@checkcolor
     \adjbox@innercode{#1}{}%
 }
 %    \end{macrocode}
 % \end{key}
 %
-%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \begin{key}{adjbox}{bgcolor}
 % Adds a colored box in the background.
@@ -1804,20 +1805,20 @@
 %    \end{macrocode}
 % \end{key}
 %
+%
 % \begin{macro}{\adjbox@bgcolor}
 % Parses the two possible arguments and adds the background color macro
 % to the token register.
 %    \begin{macrocode}
 \def\adjbox@bgcolor#1#2#3\@nnil{%
     \ifx\@nnil#1\@nnil
-        \adjbox@Gin@add{\@Collectbox{\adjbox@@bgcolor{\color{#2}}}}%
+        \adjbox@Gin@add{\@Collectbox{\@bgcolorbox{\color{#2}}}}%
     \else
-        \adjbox@Gin@add{\@Collectbox{\adjbox@@bgcolor{\color[#1]{#2}}}}%
+        \adjbox@Gin@add{\@Collectbox{\@bgcolorbox{\color[#1]{#2}}}}%
     \fi
 }
 %    \end{macrocode}
 % \end{macro}
-%
 %
 %
 % \begin{key}{adjbox}{bgcolor*}
@@ -1826,13 +1827,13 @@
 %    \begin{macrocode}
 \define@key\adjbox@fam{bgcolor*}{%
     \adjbox@checkcolor
-    \adjbox@Gin@add{\@Collectbox{\adjbox@@bgcolor{#1}}}%
+    \adjbox@Gin@add{\@Collectbox{\@bgcolorbox{#1}}}%
 }
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{macro}{\adjbox@@bgcolor}
+% \begin{macro}{\@bgcolorbox}
 % This places a colored box (vrule) with the same dimensions than
 % the content, then compensates for the horizontal shift and places
 % the content. This is simpler and more direct than using \Macro\rlap
@@ -1840,8 +1841,9 @@
 %
 % The argument contains the color macro, e.g.\ \Macro\color{<color>}.
 %    \begin{macrocode}
-\def\adjbox@@bgcolor#1{%
-    \mbox{%
+\def\@bgcolorbox#1{%
+    \leavevmode
+    \hbox{%
         \hbox{%
             #1%
             \vrule\@width\width\@height\height\@depth\depth%
@@ -1854,15 +1856,165 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\bgimagebox}
+% \begin{macro}{\bgcolorbox}
 %    \begin{macrocode}
-\newcommand*\bgimagebox[2][]{%
-    \collectboxcheckenv{bgimagebox}%
-    \@collectbox{\@bgimagebox{#1}{#2}}%
+\expandafter\newcommand\expandafter\bgcolorbox\expandafter{%
+    \expandafter
+    \@ifstar
+        \csname bgcolorbox*\endcsname
+        \bgcolorbox@
 }
 %    \end{macrocode}
 % \end{macro}
 %
+%
+% \begin{macro}{\adjbox@afterfi}
+%    \begin{macrocode}
+\long\def\adjbox@afterfi#1#2\fi{#1}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\bgcolorbox@}
+%    \begin{macrocode}
+\newcommand\bgcolorbox@[2][\@nnil]{%
+    \collectboxcheckenv{bgcolorbox}%
+    \ifx\@nnil#1\relax
+        \expandafter\@firstoftwo
+    \else
+        \expandafter\@secondoftwo
+    \fi
+    {\@collectbox{\@bgcolorbox{\color{#2}}}}%
+    {\@collectbox{\@bgcolorbox{\color[#1]{#2}}}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{bgcolorbox*}
+%    \begin{macrocode}
+\@namedef{bgcolorbox*}#1{%
+    \collectboxcheckenv{bgcolorbox*}%
+    \@collectbox{\@bgcolorbox{#1}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \begin{macro}{\fgimagebox}
+%    \begin{macrocode}
+\expandafter\newcommand\expandafter\fgimagebox\expandafter{%
+    \expandafter
+    \@ifstar
+        \csname fgimagebox*\endcsname
+        \fgimagebox@
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fgimagebox@}
+%    \begin{macrocode}
+\newcommand\fgimagebox@[2][]{%
+    \collectboxcheckenv{fgimagebox}%
+    \@collectbox{\@fgimagebox{#1,raise=-\pdepth,width=\pwidth,totalheight=\ptotalheight}{#2}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{fgimagebox*}
+%    \begin{macrocode}
+\expandafter\newcommand\csname fgimagebox*\endcsname[2][]{%
+    \collectboxcheckenv{fgimagebox*}%
+    \@collectbox{\@fgimagebox{#1}{#2}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@fgimagebox}
+%    \begin{macrocode}
+\def\@fgimagebox#1#2{%
+    \leavevmode
+    \hbox{%
+        \BOXCONTENT
+        \hskip-\width%
+        \hbox{%
+            \adjbox@parentdims
+            \adjustimage{#1}{#2}%
+        }%
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{key}{adjbox}{fgimage}
+% One or two arguments, the first optional one are further \Macro\includegraphics keys.
+%    \begin{macrocode}
+\define@key{adjbox}{fgimage}{%
+    \@ifnextchar\bgroup{%
+        \adjbox@fgimage
+    }{%
+        \adjbox@fgimage{}{#1}%
+    }#1{}\@nnil
+    {,width=\pwidth,totalheight=\ptotalheight}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{fgimage*}
+% One or two arguments, the first optional one are further \Macro\includegraphics keys.
+%    \begin{macrocode}
+\define@key{adjbox}{fgimage*}{%
+    \@ifnextchar\bgroup{%
+        \adjbox@fgimage
+    }{%
+        \adjbox@fgimage{}{#1}%
+    }#1{}\@nnil{}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\adjbox@fgimage}
+%    \begin{macrocode}
+\def\adjbox@fgimage#1#2#3\@nnil#4{%
+    \adjbox@Gin@Add{\@Collectbox{\@fgimagebox{#1#4}{#2}}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \begin{macro}{\bgimagebox}
+%    \begin{macrocode}
+\expandafter\newcommand\expandafter\bgimagebox\expandafter{%
+    \expandafter
+    \@ifstar
+        \csname bgimagebox*\endcsname
+        \bgimagebox@
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\bgimagebox@}
+%    \begin{macrocode}
+\newcommand\bgimagebox@[2][]{%
+    \collectboxcheckenv{bgimagebox}%
+    \@collectbox{\@bgimagebox{#1,raise=-\pdepth,width=\pwidth,totalheight=\ptotalheight}{#2}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{bgimagebox*}
+%    \begin{macrocode}
+\expandafter\newcommand\csname bgimagebox*\endcsname[2][]{%
+    \collectboxcheckenv{bgimagebox*}%
+    \@collectbox{\@bgimagebox{#1}{#2}}%
+}
+%    \end{macrocode}
+% \end{macro}
 %
 %
 % \begin{macro}{\@bgimagebox}
@@ -1870,11 +2022,9 @@
 \def\@bgimagebox#1#2{%
     \leavevmode
     \hbox{%
-        \lower\depth\hbox{%
+        \hbox{%
             \adjbox@parentdims
-            \adjustimage
-                {#1,width=\pwidth,totalheight=\ptotalheight}%
-                {#2}%
+            \adjustimage{#1}{#2}%
         }%
         \hskip-\width%
         \BOXCONTENT
@@ -1893,6 +2043,20 @@
     }{%
         \adjbox@bgimage{}{#1}%
     }#1{}\@nnil
+    {,width=\pwidth,totalheight=\ptotalheight}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+% \begin{key}{adjbox}{bgimage*}
+% One or two arguments, the first optional one are further \Macro\includegraphics keys.
+%    \begin{macrocode}
+\define@key{adjbox}{bgimage*}{%
+    \@ifnextchar\bgroup{%
+        \adjbox@bgimage
+    }{%
+        \adjbox@bgimage{}{#1}%
+    }#1{}\@nnil{}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -1900,12 +2064,13 @@
 %
 % \begin{macro}{\adjbox@bgimage}
 %    \begin{macrocode}
-\def\adjbox@bgimage#1#2#3\@nnil{%
-    \adjbox@Gin@Add{\@Collectbox{\@bgimagebox{#1}{#2}}}%
+\def\adjbox@bgimage#1#2#3\@nnil#4{%
+    \adjbox@Gin@Add{\@Collectbox{\@bgimagebox{#1#4}{#2}}}%
 }
 %    \end{macrocode}
 % \end{macro}
 %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \begin{key}{adjbox}{foreground}
 % One or two arguments, the first optional one are further \Macro\includegraphics keys.
@@ -1916,7 +2081,7 @@
     }{%
         \adjbox@foreground{}{#1}%
     }#1{}{}\@nnil
-    {raise=\depth-\pdepth,width=\pwidth,totalheight=\ptotalheight}%
+    {,raise=\depth-\pdepth,width=\pwidth,totalheight=\ptotalheight}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -1939,7 +2104,7 @@
 % \begin{macro}{\adjbox@foreground}
 %    \begin{macrocode}
 \def\adjbox@foreground#1#2#3\@nnil#4{%
-    \adjbox@Gin@Add{\@Collectbox{\@foregroundbox{#1,#4}{#2}}}%
+    \adjbox@Gin@Add{\@Collectbox{\@foregroundbox{#1#4}{#2}}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -1961,6 +2126,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \begin{key}{adjbox}{background}
 % One or two arguments, the first optional one are further \Macro\includegraphics keys.
@@ -1971,7 +2137,7 @@
     }{%
         \adjbox@background{}{#1}%
     }#1{}{}\@nnil
-    {raise=\depth-\pdepth,width=\pwidth,totalheight=\ptotalheight}%
+    {,raise=\depth-\pdepth,width=\pwidth,totalheight=\ptotalheight}%
 }
 %    \end{macrocode}
 % \end{key}
@@ -1993,7 +2159,7 @@
 % \begin{macro}{\adjbox@background}
 %    \begin{macrocode}
 \def\adjbox@background#1#2#3\@nnil#4{%
-    \adjbox@Gin@Add{\@Collectbox{\@backgroundbox{#1,#4}{#2}}}%
+    \adjbox@Gin@Add{\@Collectbox{\@backgroundbox{#1#4}{#2}}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2014,59 +2180,6 @@
 }
 %    \end{macrocode}
 % \end{macro}
-%
-%
-% \begin{macro}{\fgimagebox}
-%    \begin{macrocode}
-\newcommand*\fgimagebox[2][]{%
-    \collectboxcheckenv{fgimagebox}%
-    \@collectbox{\@fgimagebox{#1}{#2}}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\@fgimagebox}
-%    \begin{macrocode}
-\def\@fgimagebox#1#2{%
-    \leavevmode
-    \hbox{%
-        \BOXCONTENT
-        \hskip-\width%
-        \lower\depth\hbox{%
-            \adjbox@parentdims
-            \adjustimage
-                {#1,width=\pwidth,totalheight=\ptotalheight}%
-                {#2}%
-        }%
-    }%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{key}{adjbox}{fgimage}
-% One or two arguments, the first optional one are further \Macro\includegraphics keys.
-%    \begin{macrocode}
-\define@key{adjbox}{fgimage}{%
-    \@ifnextchar\bgroup{%
-        \adjbox@fgimage
-    }{%
-        \adjbox@fgimage{}{#1}%
-    }#1{}\@nnil
-}
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{macro}{\adjbox@fgimage}
-%    \begin{macrocode}
-\def\adjbox@fgimage#1#2#3\@nnil{%
-    \adjbox@Gin@Add{\@Collectbox{\@fgimagebox{#1}{#2}}}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
 %
 %
 % ^^A )))
