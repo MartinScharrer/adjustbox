@@ -354,6 +354,21 @@
 % \end{macro}
 % \end{macro}
 %
+% \begin{macro}{\adjbox@parentdims}
+%    \begin{macrocode}
+\def\adjbox@parentdims{%
+    \let\pwidth\adjbox@pwidth
+    \let\pheight\adjbox@pheight
+    \let\pdepth\adjbox@pdepth
+    \let\ptotalheight\adjbox@ptotalheight
+    \pwidth\width
+    \pheight\height
+    \pdepth\depth
+    \ptotalheight\totalheight
+}%
+%    \end{macrocode}
+% \end{macro}
+%
 %
 % \begin{macro}{\adjbox@esetsize}
 % Replacement of \Macro\Gin@esetsize.
@@ -1848,22 +1863,6 @@
 %    \end{macrocode}
 % \end{macro}
 %
-%
-% \begin{macro}{\adjbox@parentdims}
-% FIXME TODO: Make it work without eTeX
-%    \begin{macrocode}
-\def\adjbox@parentdims{%
-    \let\pwidth\adjbox@pwidth
-    \let\pheight\adjbox@pheight
-    \let\pdepth\adjbox@pdepth
-    \let\ptotalheight\adjbox@ptotalheight
-    \pwidth\width
-    \pheight\height
-    \pdepth\depth
-    \ptotalheight\totalheight
-}%
-%    \end{macrocode}
-% \end{macro}
 %
 %
 % \begin{macro}{\@bgimagebox}
