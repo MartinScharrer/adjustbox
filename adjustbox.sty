@@ -144,12 +144,15 @@
 % the saved options are activated and the final size is set.
 % The typesetting of the content is finally done by executing the token register.
 %    \begin{macrocode}
-\newcommand\adjustbox[1]{%
+\newcommand\adjustbox{%
     \begingroup
+    \collectboxcheckenv{adjustbox}%
+    \@adjustbox
+}
+\long\def\@adjustbox#1{%
     \edef\adjbox@line{\the\inputlineno}%
     \let\collectbox@mode\relax
     \let\collectbox@noindent\relax
-    \collectboxcheckenv{adjustbox}%
     \let\adjbox@collectbox\@collectbox
     \let\adjbox@begininnercode\@empty
     \let\adjbox@endinnercode\@empty
@@ -422,6 +425,109 @@
 %    \begin{macrocode}
 {\csname adjustbox@minimal\endcsname}
 %    \end{macrocode}
+%
+%
+% ^^A )))
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Macros to define new adjustbox environments/macros} ^^A (((
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \begin{macro}{\newadjustboxenv}
+%    \begin{macrocode}
+\newcommand*\newadjustboxenv{%
+    \begingroup
+    \@ifstar
+        {\let\@@@newadjustboxenv\@@@newadjustboxenv@\newadjustboxenv@}%
+        {\newadjustboxenv@}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\newadjustboxcmd}
+%    \begin{macrocode}
+\newcommand*\newadjustboxcmd{%
+    \begingroup
+    \let\@@@newadjustboxenv\@@@newadjustboxcmd
+    \newadjustboxenv@
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\newadjustboxenv@}
+%    \begin{macrocode}
+\def\newadjustboxenv@#1{%
+    \@ifnextchar{[}%
+        {\@newadjustboxenv{#1}}%
+        {\@@@newadjustboxenv{#1}{[0]}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@newadjustboxenv}
+%    \begin{macrocode}
+\def\@newadjustboxenv#1[#2]{%
+    \@ifnextchar{[}%
+        {\@@newadjustboxenv{#1}{#2}}%
+        {\@@@newadjustboxenv{#1}{[#2]}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@@newadjustboxenv}
+%    \begin{macrocode}
+\def\@@newadjustboxenv#1#2[#3]{%
+    \@@@newadjustboxenv{#1}{[#2][#3]}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@@@newadjustboxenv@}
+%    \begin{macrocode}
+\def\@@@newadjustboxenv@#1#2#3{%
+    \endgroup
+    \newenvironment{#1}#2{%
+        \begingroup
+        \@collectboxisenv{#1}%
+        \@adjustbox{#3}%
+    }{%
+        \collectboxenvend
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@@@newadjustboxenv}
+%    \begin{macrocode}
+\def\@@@newadjustboxenv#1#2#3{%
+    \endgroup
+    \expandafter\newcommand\csname #1\endcsname#2{%
+        \begingroup
+        \collectboxcheckenv{#1}%
+        \@adjustbox{#3}%
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@@@newadjustboxcmd}
+%    \begin{macrocode}
+\def\@@@newadjustboxcmd#1#2#3{%
+    \endgroup
+    \newcommand{#1}#2{%
+        \begingroup
+        \@adjustbox{#3}%
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
 %
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
