@@ -392,7 +392,49 @@
 % It is possible to redefine \Macro\includegraphics to \Macro\adjincludegraphics and this is done by
 % the \opt{Export} option (not to be confused with the \opt{export} option).
 %
+% ^^A )))2
+% \subsection{Defining custom environments and macros} ^^A (((2
+% After \pkg{adjustbox} is used to define custom environments to format specific content.
+% If an environment contains other environments these are often written in the plain form \Macro\foo \ldots
+% \Macro\endfoo to avoid the overhead of \Macro\begin and \Macro\end and to keep the outer environment name for
+% meaningful error messages. As mentioned, the dual nature of \Macro\adjustbox which will detect if it is used
+% as environment of macro does not permit this plain form, which can be a pitfall for custom environment definitions.
+% Instead the macro form \Macro\adjustbox{<key=value>}\AlsoMacro\bgroup \ldots \Macro\egroup should be used.
+% To simplify custom environment definitions based on \Macro\adjustbox/\env{adjustbox} the following macros are
+% provided.
 %
+%
+% \DescribeMacro\newadjustboxenv{<name>}[<num>][<default>]{<key=value,\ldots>}
+% This declaration defines an environment and macro with the given name which will apply the given \pkg{adjustbox} keys
+% to its content. The environment/macro can also posses arguments, including one leading optional argument, which can be
+% used inside the key=value pairs. It is recommended to wrap the arguments into braces, e.g.\ use `|{#1}|' instead of
+% `|#1|' etc., to avoid issues with potentially included commas and equal signs.
+% The number and type of arguments are defined using two optional arguments in the same
+% way as for \Macro\newcommand and \Macro\newenvironment.
+%
+%
+% \DescribeMacro\newadjustboxenv*{<name>}[<num>][<default>]{<key=value,\ldots>}
+% This declaration works similar to the unstarred version but only defines an environment.
+% This environment can therefore be used like any other normal \LaTeX\ environment, including in its plain
+% form {\macrodescstyle\textbackslash\meta{name}} \ldots {\macrodescstyle{\textbackslash end\meta{name}}}.
+%
+%
+% \DescribeMacro\newadjustboxcmd{<\textbackslash macro>}[<num>][<default>]{<key=value,\ldots>}
+% This declaration defines a macro which applies the given \pkg{adjustbox} keys to its content.
+% As with \Macro\adjustbox the content is read as box, not as macro argument.
+% The macro arguments (if any) are defined in the same way as with \Macro\newcommand.
+% The arguments can then be used inside the key=value pairs. The number of arguments does not
+% include the content.
+% This declaration is intended if no environment form is required and is more efficient than the dual declaration.
+%
+% \begin{example}
+%   \begin{examplecode}
+%   \newadjustboxcmd{\frotate}[1]{rotate={#1},fbox}%
+%   \frotate{30}{Text}
+%   \end{examplecode}
+% \end{example}
+%
+% ^^A )))2
 % \subsection{Setting keys globally} ^^A (((2
 % \vskip-\lastskip
 % \DescribeMacro\adjustboxset{<global keys to be executed \emph{before} local keys>}
