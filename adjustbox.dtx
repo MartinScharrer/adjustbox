@@ -1198,16 +1198,18 @@
 % \end{examples}
 %
 % ^^A )))2
-% \subsection{Foreground and Background Image} ^^A (((2
-% \vspace{-\baselineskip}
-% \DescribeKey{fgimage}'='<image filename>
-% \DescribeKey{fgimage}'='{<key=value pairs for image>}{<image filename>}
-% Adds a foreground image to the content. The image is stretched if required to fit exactly to the content.
-% It is also possible to provide \Macro\adjustbox or \Macro\includegraphics keys to modify the image (before the resizing is done).
+% \subsection{Background and Forground Images and Text} ^^A (((2
+% The following keys, macros and environment allow to add background and foreground layers.
+% These layers are placed on the baseline of the original content and are horizontally centered, but can be adjusted
+% using own \Macro\adjustbox or \Macro\includegraphics keys.
+% The following dimension registers can be used to refer to the dimensions of the original content.
 %
-% \DescribeMacro{\fgimagebox}[<key=value pairs>]{<image filename>}
-% Standalone version of the \Key{fgimage} key. Also available as \env{fgimagebox} environment.
-%
+% \DescribeMacros
+%    \hbox{\Macro\pwidth~~~\Macro\pheight~~~\Macro\pdepth~~~\Macro\ptotalheight}%
+% \endDescribeMacros
+% These dimension registers hold the width, height, depth and total height (height+depth) of the parent box and can be used
+% to resize a background or foreground layer accordantly. They are only defined inside the key=value arguments of the
+% following keys, macros and environments.
 %
 % \DescribeKey{bgimage}'='<image filename>
 % \DescribeKey{bgimage}'='{<key=value pairs for image>}{<image filename>}
@@ -1219,8 +1221,85 @@
 %   \end{examplecode}
 % \end{examples}
 %
+% \DescribeKey{bgimage*}'='<image filename>
+% \DescribeKey{bgimage*}'='{<key=value pairs for image>}{<image filename>}
+% Adds a background image to the content like \Key{bgimage} but the image is not stretched to fit the content.
+% Instead it is added in its natural size but can be adjusted using \Macro\adjustbox or \Macro\includegraphics keys.
+% The image is placed on the baseline of the content and horizontally centered. It can be lowered to the lower edge of 
+% the content using \Key{raise}'=-'\AlsoMacro\pdepth and left aligned using \Key{left}'='\AlsoMacro\pwidth etc.
+%
 % \DescribeMacro{\bgimagebox}[<key=value pairs>]{<image filename>}
-% Standalone version of the \Key{bgimage} key. Also available as \env{bgimagebox} environment.
+% \DescribeMacro{\bgimagebox}*[<key=value pairs>]{<image filename>}
+% \DescribeEnv[<content>]{bgimagebox}[<key=value pairs>]{<image filename>}
+% \DescribeEnv[<content>]{bgimagebox*}[<key=value pairs>]{<image filename>}
+% Standalone macro and environment versions of the \Key{bgimage} and \Key{bgimage*} keys.
+%
+%
+% \DescribeKey{fgimage}'='<image filename>
+% \DescribeKey{fgimage}'='{<key=value pairs for image>}{<image filename>}
+% Adds a foreground image to the content. The image is stretched to fit exactly to the content.
+% It is also possible to provide \Macro\adjustbox or \Macro\includegraphics keys to modify the image (before the resizing is done).
+% The image is assumed to have transparent elements, otherwise the existing content is fully covered.
+%
+% \DescribeKey{fgimage*}'='<image filename>
+% \DescribeKey{fgimage*}'='{<key=value pairs for image>}{<image filename>}
+% Adds a foreground image to the content like \Key{fgimage} but the image is not stretched to fit the content.
+% Instead it is added in its natural size but can be adjusted using \Macro\adjustbox or \Macro\includegraphics keys.
+% The image is placed on the baseline of the content and horizontally centered.
+%
+% \DescribeMacro{\fgimagebox}[<key=value pairs>]{<image filename>}
+% \DescribeMacro{\fgimagebox}*[<key=value pairs>]{<image filename>}
+% \DescribeEnv[<content>]{fgimagebox}[<key=value pairs>]{<image filename>}
+% \DescribeEnv[<content>]{fgimagebox*}[<key=value pairs>]{<image filename>}
+% Standalone macro and environment versions of the \Key{fgimage} and \Key{fgimage*} keys.
+%
+%
+%
+% \DescribeKey{background}'='<background content>
+% \DescribeKey{background}'='{<key=value pairs for image>}{<background content>}
+% Adds the given content as background layer to the main content. The background content is stretched to fit the size of
+% the main content.  It is also possible to provide \Macro\adjustbox or \Macro\includegraphics keys to modify the
+% background content (before the resizing is done).
+% \begin{examples}
+%   \begin{examplecode}
+%   \adjustbox{background={\color{red}xxx}}{Some text}
+%   \end{examplecode}
+% \end{examples}
+%
+% \DescribeKey{background*}'='<background content>
+% \DescribeKey{background*}'='{<key=value pairs for image>}{<background content>}
+% Like \Key{background} but does not resizes the background content.
+% Instead it is added in its natural size but can be adjusted using \Macro\adjustbox or \Macro\includegraphics keys.
+%
+% \DescribeMacro{\backgroundbox}[<key=value pairs>]{<background content>}
+% \DescribeMacro{\backgroundbox}*[<key=value pairs>]{<background content>}
+% \DescribeEnv[<content>]{backgroundbox}[<key=value pairs>]{<background content>}
+% \DescribeEnv[<content>]{backgroundbox*}[<key=value pairs>]{<background content>}
+% Standalone macro and environment versions of the \Key{background} and \Key{background*} keys.
+%
+%
+% \DescribeKey{foreground}'='<foreground content>
+% \DescribeKey{foreground}'='{<key=value pairs for image>}{<foreground content>}
+% Adds the given content as foreground layer to the main content. The foreground content is stretched to fit the size of
+% the main content.  It is also possible to provide \Macro\adjustbox or \Macro\includegraphics keys to modify the
+% foreground content (before the resizing is done).
+% \begin{examples}
+%   \begin{examplecode}
+%   \adjustbox{foreground={\color{red}xxx}}{Some text}
+%   \end{examplecode}
+% \end{examples}
+%
+% \DescribeKey{foreground*}'='<foreground content>
+% \DescribeKey{foreground*}'='{<key=value pairs for image>}{<foreground content>}
+% Like \Key{foreground} but does not resizes the foreground content.
+% Instead it is added in its natural size but can be adjusted using \Macro\adjustbox or \Macro\includegraphics keys.
+%
+% \DescribeMacro{\foregroundbox}[<key=value pairs>]{<foreground content>}
+% \DescribeMacro{\foregroundbox}*[<key=value pairs>]{<foreground content>}
+% \DescribeEnv[<content>]{foregroundbox}[<key=value pairs>]{<foreground content>}
+% \DescribeEnv[<content>]{foregroundbox*}[<key=value pairs>]{<foreground content>}
+% Standalone macro and environment versions of the \Key{foreground} and \Key{foreground*} keys.
+%
 %
 %
 % ^^A )))2
