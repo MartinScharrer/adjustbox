@@ -436,9 +436,14 @@
 %    \begin{macrocode}
 \newcommand*\newadjustboxenv{%
     \begingroup
-    \@ifstar
-        {\let\@@@newadjustboxenv\@@@newadjustboxenv@\newadjustboxenv@}%
-        {\newadjustboxenv@}%
+    \@ifstar{%
+        \let\@@@newadjustboxenv\@@@newadjustboxenv@
+        \def\new@adjustbox{\newenvironment}%
+        \newadjustboxenv@
+    }{%
+        \def\new@adjustbox{\newcommand}%
+        \newadjustboxenv@
+    }%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -449,7 +454,54 @@
 \newcommand*\newadjustboxcmd{%
     \begingroup
     \let\@@@newadjustboxenv\@@@newadjustboxcmd
+    \def\new@adjustbox{\newcommand}%
     \newadjustboxenv@
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\newadjustboxenv}
+%    \begin{macrocode}
+\newcommand*\renewadjustboxenv{%
+    \begingroup
+    \@ifstar{%
+        \let\@@@newadjustboxenv\@@@newadjustboxenv@
+        \def\new@adjustbox{\renewenvironment}%
+        \newadjustboxenv@
+    }{%
+        \def\new@adjustbox{\renewcommand}%
+        \newadjustboxenv@
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\renewadjustboxcmd}
+%    \begin{macrocode}
+\newcommand*\renewadjustboxcmd{%
+    \begingroup
+    \let\@@@newadjustboxenv\@@@newadjustboxcmd
+    \def\new@adjustbox{\renewcommand}%
+    \newadjustboxenv@
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\newadjustboxenv}
+%    \begin{macrocode}
+\newcommand*\provideadjustboxenv{%
+    \begingroup
+    \@ifstar{%
+        \let\@@@newadjustboxenv\@@@newadjustboxenv@
+        \def\new@adjustbox{\provideenvironment}%
+        \newadjustboxenv@
+    }{%
+        \def\new@adjustbox{\providecommand}%
+        \newadjustboxenv@
+    }%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -489,8 +541,9 @@
 % \begin{macro}{\@@@newadjustboxenv@}
 %    \begin{macrocode}
 \def\@@@newadjustboxenv@#1#2#3{%
+    \expandafter
     \endgroup
-    \newenvironment{#1}#2{%
+    \new@adjustbox{#1}#2{%
         \begingroup
         \@collectboxisenv{#1}%
         \@adjustbox{#3}%
@@ -505,8 +558,10 @@
 % \begin{macro}{\@@@newadjustboxenv}
 %    \begin{macrocode}
 \def\@@@newadjustboxenv#1#2#3{%
+    \expandafter
     \endgroup
-    \expandafter\newcommand\csname #1\endcsname#2{%
+    \expandafter
+    \expandafter\new@adjustbox\csname #1\endcsname#2{%
         \begingroup
         \collectboxcheckenv{#1}%
         \@adjustbox{#3}%
@@ -519,8 +574,9 @@
 % \begin{macro}{\@@@newadjustboxcmd}
 %    \begin{macrocode}
 \def\@@@newadjustboxcmd#1#2#3{%
+    \expandafter
     \endgroup
-    \newcommand{#1}#2{%
+    \new@adjustbox{#1}#2{%
         \begingroup
         \@adjustbox{#3}%
     }%
