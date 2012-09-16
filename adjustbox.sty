@@ -496,12 +496,45 @@
     \begingroup
     \@ifstar{%
         \let\@@@newadjustboxenv\@@@newadjustboxenv@
-        \def\new@adjustbox{\provideenvironment}%
+        \def\new@adjustbox{\@star@or@long\adjustbox@provideenvironment}%
         \newadjustboxenv@
     }{%
         \def\new@adjustbox{\providecommand}%
         \newadjustboxenv@
     }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjustbox@provideenvironment}
+% Tests if the environment already exists and calls the internal
+% macro of \Macro\newenvironment if not. Otherwise, the two optional
+% and two mandatory arguments are gobbled.
+%    \begin{macrocode}
+\def\adjustbox@provideenvironment#1{%
+    \@ifundefined{#1}%
+        {\new@environment{#1}}%
+        {\adjustbox@gobble@oomm}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjustbox@gobble@oomm}
+% Gobbles the first optional argument.
+%    \begin{macrocode}
+\newcommand*\adjustbox@gobble@oomm[1][]{%
+    \adjustbox@gobble@@oomm
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\adjustbox@gobble@@oomm}
+% Gobbles the second optional and two mandatory arguments.
+%    \begin{macrocode}
+\newcommand*\adjustbox@gobble@@oomm[3][]{%
 }
 %    \end{macrocode}
 % \end{macro}
