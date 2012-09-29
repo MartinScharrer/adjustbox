@@ -815,6 +815,21 @@
 % \end{macro}
 %
 %
+% \begin{macro}{\adjbox@copy@key}
+% Aliases one key to another.
+%    \begin{macrocode}
+\def\adjbox@copy@key#1{%
+    \expandafter\let
+    \csname KV@ADJBOX@#1\expandafter\endcsname
+    \csname KV@Gin@#1\endcsname
+    \expandafter\let
+    \csname KV@ADJBOX@#1@default\expandafter\endcsname
+    \csname KV@Gin@#1@default\endcsname
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsection{Keys for trimming, clipping, viewport and margin} ^^A (((
@@ -908,6 +923,29 @@
 \adjbox@let@key\adjbox@fam{padding*}{margin*}
 %    \end{macrocode}
 % \end{key}
+%
+%
+%    \begin{macrocode}
+\adjbox@copy@key{bbllx}
+\adjbox@copy@key{bblly}
+\adjbox@copy@key{bburx}
+\adjbox@copy@key{bbury}
+\adjbox@copy@key{decodearray}
+\adjbox@copy@key{intent}
+\adjbox@copy@key{interpolate}
+\adjbox@copy@key{maskarray}
+\adjbox@copy@key{natheight}
+\adjbox@copy@key{natwidth}
+\adjbox@copy@key{ocobjnum}
+\adjbox@copy@key{ocobjref}
+\adjbox@copy@key{page}
+\adjbox@copy@key{pagebox}
+\adjbox@copy@key{print}
+\adjbox@copy@key{quiet}
+\adjbox@copy@key{resetcolor}
+\adjbox@copy@key{resolution}
+\adjbox@copy@key{xmpfile}
+%    \end{macrocode}
 %
 %
 %
