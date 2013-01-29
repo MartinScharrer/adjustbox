@@ -2976,6 +2976,8 @@
 % \begin{macro}{\adjbox@addfloat}
 %    \begin{macrocode}
 \def\adjbox@addfloat#1#2#3#4{%
+    \Gin@esetsize
+    \@tempswatrue
     \ifnum\adjbox@caption@pos>10
         \chardef\adjbox@caption@pos=0\csname adjbox@caption@#1@pos\endcsname\relax
     \fi
