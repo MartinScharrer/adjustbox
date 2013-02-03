@@ -227,7 +227,7 @@
    \let\reset@color\reset@color@nostack
   \fi
 }
-% 
+%
 % use \noXeTeXcolorstack to turn off the color-stack
 % mechanism; use it within the preamble only.
 % This may be useful with some packages
@@ -254,7 +254,7 @@
     }\x
   }{\expandafter\endgroup\the\toks@}
 
-% rotating graphics is supported, but 
+% rotating graphics is supported, but
 % rotation of arbitrary material is not supported yet
 %
 \def\GXT@erotate#1#2{\Grot@setangle{#1}\hbox{#2}}%
@@ -264,10 +264,10 @@
 \expandafter\ifx\csname XeTeXpicfile\endcsname\relax
  \let\picfile@cmd\picfile
  \let\pdffile@cmd\pdffile
-\else 
+\else
  \let\picfile@cmd\XeTeXpicfile
  \let\pdffile@cmd\XeTeXpdffile
-\fi 
+\fi
 
 % all graphics are handled by Apple's QuickTime
 %
@@ -360,33 +360,33 @@
   \GXT@clipbox\@tempboxa
   \box\@tempboxa
 }
-% Clipping support added by Martin Scharrer and Joseph Wright, Nov 2011 
-% under the LPPL v1.0 or later. 
-\def\GXT@clipbox#1{% 
-  \setbox#1=\hbox{% 
-    \Gin@defaultbp\WIDTH{\wd#1}% 
-    \Gin@defaultbp\DEPTH{\dp#1}% 
-    \@tempdima\ht#1% 
-    \advance\@tempdima\dp#1% 
-    \Gin@defaultbp\TOTALHEIGHT{\@tempdima}% 
-    \special{pdf:content q }% 
-      \special{% 
-        pdf:literal direct 
-            0 -\DEPTH\space \WIDTH\space \TOTALHEIGHT\space re 
-      }% 
-      \special{pdf:literal direct W }% 
-      \special{pdf:literal direct n }% 
-        \special{pdf:literal direct -1 0 0 -1 0 0 cm }% 
-          \special{pdf:content q }% 
-            \special{pdf:literal direct -1 0 0 -1 0 0 cm }% 
-              \box#1% 
-          \special{pdf:literal direct Q }% 
-    \special{pdf:literal direct Q }% 
-  }% 
-} 
-% End of clipping code 
-  
-% 
+% Clipping support added by Martin Scharrer and Joseph Wright, Nov 2011
+% under the LPPL v1.0 or later.
+\def\GXT@clipbox#1{%
+  \setbox#1=\hbox{%
+    \Gin@defaultbp\WIDTH{\wd#1}%
+    \Gin@defaultbp\DEPTH{\dp#1}%
+    \@tempdima\ht#1%
+    \advance\@tempdima\dp#1%
+    \Gin@defaultbp\TOTALHEIGHT{\@tempdima}%
+    \special{pdf:content q }%
+      \special{%
+        pdf:literal direct
+            0 -\DEPTH\space \WIDTH\space \TOTALHEIGHT\space re
+      }%
+      \special{pdf:literal direct W }%
+      \special{pdf:literal direct n }%
+        \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
+          \special{pdf:content q }%
+            \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
+              \box#1%
+          \special{pdf:literal direct Q }%
+    \special{pdf:literal direct Q }%
+  }%
+}
+% End of clipping code
+
+%
 \def\Gread@QTm#1{\IfFileExists{\Gin@base.bb}%
    {\Gread@eps{\Gin@base.bb}}%
    {\G@measure@QTm{\Gin@base}{\Gin@ext}}%
@@ -404,7 +404,7 @@
       \edef\piccommand{\noexpand\pdffile@cmd
          \XeTeXquote#1#2\XeTeXquote\space\picpage}%
      \else
-      \edef\piccommand{\noexpand\picfile@cmd 
+      \edef\piccommand{\noexpand\picfile@cmd
          \XeTeXquote#1#2\XeTeXquote\space}%
      \fi
      \piccommand
@@ -421,7 +421,7 @@
 %  \typeout{XeTeX: HiRes BoundingBox = (0,0)\space x (\Gin@urx,\Gin@ury) }%
   \Gin@nat@width=\Gin@urx\p@
   \Gin@nat@height=\Gin@ury\p@
-  % these emulate  \@begin@tempboxa 
+  % these emulate  \@begin@tempboxa
   \edef\width{\the\Gin@nat@width}%
   \edef\height{\the\Gin@nat@height}%
   \def\depth{0pt}%
@@ -486,7 +486,7 @@
 %  supported from xetex v0.6 onwards
 %
 
-\def\Grot@start{\wd\z@\z@ 
+\def\Grot@start{\wd\z@\z@
   \special{x:gsave}\special{x:rotate \Grot@angle}}
 \def\Grot@end{\special{x:grestore}}
 
