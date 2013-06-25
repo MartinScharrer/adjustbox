@@ -15,7 +15,7 @@
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %    \begin{macrocode}
 \def\tc@driver{tc-\Gin@driver}
-\DeclareOption{pgf}{\def\tc@driver{tc-pgf.def}}
+\DeclareOption{pgf}{\def\tc@driver{tc-pgf.def}\AtEndOfPackage{\RequirePackage{pgf}}}
 \DeclareOption{pdftex}{\def\tc@driver{tc-pdftex.def}\PassOptionsToPackage{pdftex}{graphicx}}
 \DeclareOption{xetex}{\def\tc@driver{tc-xetex.def}\PassOptionsToPackage{xetex}{graphicx}}
 \DeclareOption{dvips}{\def\tc@driver{tc-dvips.def}\PassOptionsToPackage{dvips}{graphicx}}
@@ -150,6 +150,18 @@
 }
 \def\clipbox@s#1{%
     \collectbox{\@trimclip\@clipvpbox{#1}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\clipbox}
+%    \begin{macrocode}
+\newcommand\clipboxcorners{%
+    \collectboxcheckenv{clipboxcorners}%
+    \clipboxcorners@
+}
+\def\clipboxcorners@#1{%
+    \collectbox{\@trimclip\@clipcornersofbox{#1}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -387,6 +399,7 @@
 }
 %    \end{macrocode}
 % \end{macro}
+%
 %
 %
 % \begin{macro}{\@clipvpbox}

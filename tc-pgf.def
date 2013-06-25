@@ -26,4 +26,28 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\@cliptoboxdim}
+% Clips to official box dimension.
+%    \begin{macrocode}
+\def\@clipcornersofbox#1#2#3#4#5{%
+    \setbox#1\hbox{\begin{pgfpicture}%
+        \pgfpathmoveto{\pgfpoint{\z@}{\ht#1-#2}}%
+        \pgfpatharc{180}{90}{#2}%
+        \pgfpathlineto{\pgfpoint{\wd#1-#3}{\ht#1}}%
+        \pgfpatharc{90}{0}{#3}%
+        \pgfpathlineto{\pgfpoint{\wd#1}{#4-\dp#1}}%
+        \pgfpatharc{0}{-90}{#4}%
+        \pgfpathlineto{\pgfpoint{#5}{-\dp#1}}%
+        \pgfpatharc{270}{180}{#5}%
+        \pgfpathlineto{\pgfpoint{\z@}{\ht#1-#2}}%
+        \pgfpathclose
+        \pgfusepathqclip
+        \pgfset{inner sep=\z@,outer sep=\z@,minimum size=\z@}%
+        \pgfnode{rectangle}{base west}{\usebox#1}{}{}%
+        \pgfsetbaselinepointnow{\pgfpoint\z@\z@}%
+    \end{pgfpicture}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
 %^^A vim: ft=tex
