@@ -27,7 +27,7 @@
 % \end{macro}
 %
 % \begin{macro}{\@cliptoboxdim}
-% Clips to official box dimension.
+% Clips round corners off.
 %    \begin{macrocode}
 \def\@clipcornersofbox#1#2#3#4#5{%
     \setbox#1\hbox{\begin{pgfpicture}%

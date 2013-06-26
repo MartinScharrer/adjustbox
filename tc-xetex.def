@@ -31,4 +31,60 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%
+% \begin{macro}{\@cliptoboxdim}
+% Clips round corners off.
+%    \begin{macrocode}
+\def\@clipcornersofbox#1#2#3#4#5{%
+    \setbox#1=\hbox{%
+        \def\calcbp##1##2{%
+            \adjsetlength\@tempdima{##2}%
+            \Gin@defaultbp##1\@tempdima%
+        }%
+        \calcbp\TOTALHEIGHT{\ht#1+\dp#1}%
+        \Gin@defaultbp\HEIGHT{\ht#1}%
+        \Gin@defaultbp\DEPTH{-\dp#1}%
+        \Gin@defaultbp\WIDTH{\wd#1}%
+        \Gin@defaultbp\RADIUSTL{#2}%
+        \Gin@defaultbp\RADIUSTR{#3}%
+        \Gin@defaultbp\RADIUSBR{#4}%
+        \Gin@defaultbp\RADIUSBL{#5}%
+        \def\bezfac{0.55228475}%
+        \def\bezfacn{0.44771525}%
+        \Gin@defaultbp\RADIUSTLb{\bezfacn#2}%
+        %
+        \calcbp\HEIGHTmRADIUSTL{\ht#1-#2}%
+        \calcbp\HEIGHTmRADIUSTLb{\ht#1-\bezfacn#2}%
+        \calcbp\HEIGHTmRADIUSTR{\ht#1-#3}%
+        \calcbp\HEIGHTmRADIUSTRb{\ht#1-\bezfacn#3}%
+        \calcbp\WIDTHmRADIUSTR{\wd#1-#3}%
+        \calcbp\WIDTHmRADIUSTRb{\wd#1-\bezfacn#3}%
+        \calcbp\RADIUSBRmDEPTH{#4-\dp#1}%
+        \calcbp\RADIUSBRmDEPTHb{\bezfacn#4-\dp#1}%
+        \calcbp\WIDTHmRADIUSBR{\wd#1-#4}%
+        \calcbp\WIDTHmRADIUSBRb{\wd#1-\bezfacn#4}%
+        \calcbp\RADIUSBLmDEPTH{#5-\dp#1}%
+        \calcbp\RADIUSBLmDEPTHb{\bezfacn#5-\dp#1}%
+        \calcbp\RADIUSBLb{\bezfacn#5}%
+        \special{pdf:bcontent }%
+              \special{pdf:literal direct 0 \HEIGHTmRADIUSTL\space m }%
+              \special{pdf:literal direct 0 \HEIGHTmRADIUSTLb\space \RADIUSTLb\space \HEIGHT\space \RADIUSTL\space \HEIGHT\space c }%
+              \special{pdf:literal direct \WIDTHmRADIUSTR\space \HEIGHT\space l }%
+              \special{pdf:literal direct \WIDTHmRADIUSTRb\space \HEIGHT\space \WIDTH\space \HEIGHTmRADIUSTRb\space \WIDTH\space \HEIGHTmRADIUSTR\space c }%
+              \special{pdf:literal direct \WIDTH\space \RADIUSBRmDEPTH\space l }%
+              \special{pdf:literal direct \WIDTH\space \RADIUSBRmDEPTHb\space \WIDTHmRADIUSBRb\space \DEPTH\space \WIDTHmRADIUSBR\space \DEPTH\space c }%
+              \special{pdf:literal direct \RADIUSBL\space \DEPTH\space l }%
+              \special{pdf:literal direct \RADIUSBLb\space \DEPTH\space 0 \RADIUSBLmDEPTHb\space 0 \RADIUSBLmDEPTH\space c }%
+              \special{pdf:literal direct 0 \RADIUSBLmDEPTH\space l }%
+              \special{pdf:literal direct h }%
+              \special{pdf:literal direct W }%
+              \special{pdf:literal direct n }%
+            \box#1%
+        \special{pdf:econtent }%
+        \hskip \wd#1
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
 %^^A vim: ft=tex

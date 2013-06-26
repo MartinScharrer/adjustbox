@@ -31,6 +31,7 @@
         \box#1%
         \special{ps: grestore }%
     }%
+}
 %
 %    \end{macrocode}
 % \end{macro}
@@ -41,44 +42,44 @@
 \def\@clipcornersofbox#1#2#3#4#5{%
     \setbox#1=\hbox{%
         \adjsetlength\@tempdima{\ht#1+\dp#1}%
-        \edef\TOTALHEIGHT{-\strip@pt\@tempdima\space}%
-        \edef\HEIGHT{-\strip@pt\ht#1\space}%
-        \edef\DEPTH{\strip@pt\dp#1\space}%
-        \edef\WIDTH{\strip@pt\wd#1\space}%
-        \edef\RADIUSTL{\strip@pt#2\space}%
-        \edef\RADIUSTR{\strip@pt#3\space}%
-        \edef\RADIUSBR{\strip@pt#4\space}%
-        \edef\RADIUSBL{\strip@pt#5\space}%
+        \Gin@defaultbp\TOTALHEIGHT{-\@tempdima}%
+        \Gin@defaultbp\HEIGHT{-\ht#1}%
+        \Gin@defaultbp\DEPTH{\dp#1}%
+        \Gin@defaultbp\WIDTH{\wd#1}%
+        \Gin@defaultbp\RADIUSTL{#2}%
+        \Gin@defaultbp\RADIUSTR{#3}%
+        \Gin@defaultbp\RADIUSBR{#4}%
+        \Gin@defaultbp\RADIUSBL{#5}%
         \adjsetlength\@tempdima{#2-\ht#1}%
-        \edef\RADIUSTLmHEIGHT{\strip@pt\@tempdima\space}%
+        \Gin@defaultbp\RADIUSTLmHEIGHT\@tempdima
         \adjsetlength\@tempdima{#3-\ht#1}%
-        \edef\RADIUSTRmHEIGHT{\strip@pt\@tempdima\space}%
+        \Gin@defaultbp\RADIUSTRmHEIGHT\@tempdima
         \adjsetlength\@tempdima{\wd#1-#3}%
-        \edef\WIDTHmRADIUSTR{\strip@pt\@tempdima\space}%
+        \Gin@defaultbp\WIDTHmRADIUSTR\@tempdima
         \adjsetlength\@tempdima{\dp#1-#4}%
-        \edef\DEPTHmRADIUSBR{\strip@pt\@tempdima\space}%
+        \Gin@defaultbp\DEPTHmRADIUSBR\@tempdima
         \adjsetlength\@tempdima{\wd#1-#4}%
-        \edef\WIDTHmRADIUSBR{\strip@pt\@tempdima\space}%
+        \Gin@defaultbp\WIDTHmRADIUSBR\@tempdima
         \adjsetlength\@tempdima{\dp#1-#5}%
-        \edef\DEPTHmRADIUSBL{\strip@pt\@tempdima\space}%
+        \Gin@defaultbp\DEPTHmRADIUSBL\@tempdima
         \special{%
             ps:
               /mtrxc matrix currentmatrix def 
               currentpoint gsave
               translate
-              Resolution 72.27 div VResolution 72.27 div
+              Resolution 72 div VResolution 72 div
               scale
               newpath
               %0 \DEPTH neg translate
               %0 \DEPTH \WIDTH \TOTALHEIGHT rectclip
-              0 \RADIUSTLmHEIGHT moveto
-              \RADIUSTL \RADIUSTLmHEIGHT \RADIUSTL 180 -90 arc
-              \WIDTHmRADIUSTR \HEIGHT lineto
-              \WIDTHmRADIUSTR \RADIUSTRmHEIGHT \RADIUSTR -90 0 arc
-              \WIDTH \DEPTHmRADIUSBR lineto
-              \WIDTHmRADIUSBR \DEPTHmRADIUSBR \RADIUSBR 0 90 arc
-              \RADIUSBL \DEPTH lineto
-              \RADIUSBL \DEPTHmRADIUSBL \RADIUSBL -270 -180 arc
+              0 \RADIUSTLmHEIGHT\space moveto
+              \RADIUSTL\space \RADIUSTLmHEIGHT\space \RADIUSTL\space 180 -90 arc
+              \WIDTHmRADIUSTR\space \HEIGHT\space lineto
+              \WIDTHmRADIUSTR\space \RADIUSTRmHEIGHT\space \RADIUSTR\space -90 0 arc
+              \WIDTH\space \DEPTHmRADIUSBR\space lineto
+              \WIDTHmRADIUSBR\space \DEPTHmRADIUSBR\space \RADIUSBR\space 0 90 arc
+              \RADIUSBL\space \DEPTH\space lineto
+              \RADIUSBL\space \DEPTHmRADIUSBL\space \RADIUSBL\space -270 -180 arc
               closepath
               %gsave 0.5 0 0 setrgbcolor stroke grestore
               clip
