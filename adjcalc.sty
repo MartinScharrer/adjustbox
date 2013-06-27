@@ -186,6 +186,19 @@
 % \end{macro}
 %
 %
+% \begin{macro}{\adjbox@settobp}
+%    \begin{macrocode}
+\def\adjcalc@settobp#1#2{%
+    \begingroup
+    \adjsetlength\@tempdima{#2}%
+    \@tempdima=0.99626\@tempdima
+    \edef\@tempa{\endgroup\def\noexpand#1{\strip@pt\@tempdima}}%
+    \@tempa
+}%
+%    \end{macrocode}
+% \end{macro}
+%
+%
 % \begin{macro}{\adjcalc@overwrite}
 %    \begin{macrocode}
 \def\adjcalc@overwrite{%
