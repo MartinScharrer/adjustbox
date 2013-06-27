@@ -12,10 +12,11 @@
 %    \begin{macrocode}
 \def\@cliptoboxdim#1{%
     \setbox#1=\hbox{%
-        \adjsetlength\@tempdima{\ht#1+\dp#1}%
-        \edef\TOTALHEIGHT{-\strip@pt\@tempdima\space}%
-        \edef\DEPTH{\strip@pt\dp#1\space}%
-        \edef\WIDTH{\strip@pt\wd#1\space}%
+        \adjcalc@settobp\WIDTH{\wd#1}%
+        \adjcalc@settobp\DEPTH{\dp#1}%
+        \adjcalc@settobp\TOTALHEIGHT{-\ht#1-\dp#1}%
+        \edef\A{wd=\WIDTH, dp=\DEPTH, th=\TOTALHEIGHT}%
+        \message{\A}%
         \special{%
             ps:
               /mtrxc matrix currentmatrix def 
@@ -24,12 +25,13 @@
               Resolution 72 div VResolution 72 div
               scale
               newpath
-              0 \DEPTH \WIDTH \TOTALHEIGHT rectclip
+              0 \DEPTH\space \WIDTH\space \TOTALHEIGHT\space rectclip
               newpath
               mtrxc setmatrix 
         }%
-        \box#1%
+        \hbox to 0pt{\copy#1\hss}%
         \special{ps: grestore }%
+        \hskip \wd#1
     }%
 }
 %
