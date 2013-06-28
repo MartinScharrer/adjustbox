@@ -26,8 +26,8 @@
         \special{pdf:content q }%
         \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
         \hbox to 0 pt{\copy#1\hss}%
-        \special{pdf:content Q }%
-        \special{pdf:content Q }%
+        \special{pdf:literal direct Q }%
+        \special{pdf:literal direct Q }%
         \hskip\wd#1%
     }%
 }
@@ -73,24 +73,26 @@
         \calcbp\RADIUSBLb{\bezfacn#5}%
 
         \special{pdf:content q }%
-              \special{pdf:code 0 \HEIGHTmRADIUSTL\space m }%
-              \special{pdf:code 0 \HEIGHTmRADIUSTLb\space \RADIUSTLb\space \HEIGHT\space \RADIUSTL\space \HEIGHT\space c }%
-              \special{pdf:code \WIDTHmRADIUSTR\space \HEIGHT\space l }%
-              \special{pdf:code \WIDTHmRADIUSTRb\space \HEIGHT\space \WIDTH\space \HEIGHTmRADIUSTRb\space \WIDTH\space \HEIGHTmRADIUSTR\space c }%
-              \special{pdf:code \WIDTH\space \RADIUSBRmDEPTH\space l }%
-              \special{pdf:code \WIDTH\space \RADIUSBRmDEPTHb\space \WIDTHmRADIUSBRb\space \DEPTH\space \WIDTHmRADIUSBR\space \DEPTH\space c }%
-              \special{pdf:code \RADIUSBL\space \DEPTH\space l }%
-              \special{pdf:code \RADIUSBLb\space \DEPTH\space 0 \RADIUSBLmDEPTHb\space 0 \RADIUSBLmDEPTH\space c }%
-              \special{pdf:code 0 \RADIUSBLmDEPTH\space l }%
-              \special{pdf:code h }%
-              \special{pdf:code W }%
-              \special{pdf:code n }%
+        \special{pdf:literal direct
+            0 \HEIGHTmRADIUSTL\space m
+            0 \HEIGHTmRADIUSTLb\space \RADIUSTLb\space \HEIGHT\space \RADIUSTL\space \HEIGHT\space c
+            \WIDTHmRADIUSTR\space \HEIGHT\space l
+            \WIDTHmRADIUSTRb\space \HEIGHT\space \WIDTH\space \HEIGHTmRADIUSTRb\space \WIDTH\space \HEIGHTmRADIUSTR\space c
+            \WIDTH\space \RADIUSBRmDEPTH\space l
+            \WIDTH\space \RADIUSBRmDEPTHb\space \WIDTHmRADIUSBRb\space \DEPTH\space \WIDTHmRADIUSBR\space \DEPTH\space c
+            \RADIUSBL\space \DEPTH\space l
+            \RADIUSBLb\space \DEPTH\space 0 \RADIUSBLmDEPTHb\space 0 \RADIUSBLmDEPTH\space c
+            0 \RADIUSBLmDEPTH\space l
+            h
+            W
+            n
+        }%
         \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
         \special{pdf:content q }%
         \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
         \hbox to 0 pt{\copy#1\hss}%
-        \special{pdf:content Q }%
-        \special{pdf:content Q }%
+        \special{pdf:literal direct Q }%
+        \special{pdf:literal direct Q }%
         \hskip\wd#1%
     }%
 }
