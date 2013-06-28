@@ -18,24 +18,21 @@
         \advance\@tempdima\dp#1%
         \Gin@defaultbp\TOTALHEIGHT{\@tempdima}%
         \special{pdf:content q }%
-          \special{pdf:literal direct q }%
-            \special{%
-                pdf:literal direct
-                 0 -\DEPTH\space \WIDTH\space \TOTALHEIGHT\space re
-              }%
-            \special{pdf:literal direct W }%
-            \special{pdf:literal direct n }%
-            \special{pdf:literal direct q }%
-              \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
-                \special{pdf:content q }%
-                  \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
-                    \hbox{\box#1}%
-                \special{pdf:literal direct Q }%
-            \special{pdf:literal direct Q }%
-          \special{pdf:literal direct Q }%
-        \special{pdf:literal direct Q }%
+        \special{%
+            pdf:code
+                0 -\DEPTH\space \WIDTH\space \TOTALHEIGHT\space re W n
+        }%
+        \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
+        \special{pdf:content q }%
+        \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
+        \hbox to 0 pt{\copy#1\hss}%
+        \special{pdf:content Q }%
+        \special{pdf:content Q }%
+        \hskip\wd#1%
     }%
 }
+
+
 %    \end{macrocode}
 % \end{macro}
 %
@@ -74,29 +71,27 @@
         \calcbp\RADIUSBLmDEPTH{#5-\dp#1}%
         \calcbp\RADIUSBLmDEPTHb{\bezfacn#5-\dp#1}%
         \calcbp\RADIUSBLb{\bezfacn#5}%
+
         \special{pdf:content q }%
-          \special{pdf:literal direct q }%
-              \special{pdf:literal direct 0 \HEIGHTmRADIUSTL\space m }%
-              \special{pdf:literal direct 0 \HEIGHTmRADIUSTLb\space \RADIUSTLb\space \HEIGHT\space \RADIUSTL\space \HEIGHT\space c }%
-              \special{pdf:literal direct \WIDTHmRADIUSTR\space \HEIGHT\space l }%
-              \special{pdf:literal direct \WIDTHmRADIUSTRb\space \HEIGHT\space \WIDTH\space \HEIGHTmRADIUSTRb\space \WIDTH\space \HEIGHTmRADIUSTR\space c }%
-              \special{pdf:literal direct \WIDTH\space \RADIUSBRmDEPTH\space l }%
-              \special{pdf:literal direct \WIDTH\space \RADIUSBRmDEPTHb\space \WIDTHmRADIUSBRb\space \DEPTH\space \WIDTHmRADIUSBR\space \DEPTH\space c }%
-              \special{pdf:literal direct \RADIUSBL\space \DEPTH\space l }%
-              \special{pdf:literal direct \RADIUSBLb\space \DEPTH\space 0 \RADIUSBLmDEPTHb\space 0 \RADIUSBLmDEPTH\space c }%
-              \special{pdf:literal direct 0 \RADIUSBLmDEPTH\space l }%
-              \special{pdf:literal direct h }%
-              \special{pdf:literal direct W }%
-              \special{pdf:literal direct n }%
-            \special{pdf:literal direct q }%
-              \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
-                \special{pdf:content q }%
-                  \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
-                    \hbox{\box#1}%
-                \special{pdf:literal direct Q }%
-            \special{pdf:literal direct Q }%
-          \special{pdf:literal direct Q }%
-        \special{pdf:literal direct Q }%
+              \special{pdf:code 0 \HEIGHTmRADIUSTL\space m }%
+              \special{pdf:code 0 \HEIGHTmRADIUSTLb\space \RADIUSTLb\space \HEIGHT\space \RADIUSTL\space \HEIGHT\space c }%
+              \special{pdf:code \WIDTHmRADIUSTR\space \HEIGHT\space l }%
+              \special{pdf:code \WIDTHmRADIUSTRb\space \HEIGHT\space \WIDTH\space \HEIGHTmRADIUSTRb\space \WIDTH\space \HEIGHTmRADIUSTR\space c }%
+              \special{pdf:code \WIDTH\space \RADIUSBRmDEPTH\space l }%
+              \special{pdf:code \WIDTH\space \RADIUSBRmDEPTHb\space \WIDTHmRADIUSBRb\space \DEPTH\space \WIDTHmRADIUSBR\space \DEPTH\space c }%
+              \special{pdf:code \RADIUSBL\space \DEPTH\space l }%
+              \special{pdf:code \RADIUSBLb\space \DEPTH\space 0 \RADIUSBLmDEPTHb\space 0 \RADIUSBLmDEPTH\space c }%
+              \special{pdf:code 0 \RADIUSBLmDEPTH\space l }%
+              \special{pdf:code h }%
+              \special{pdf:code W }%
+              \special{pdf:code n }%
+        \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
+        \special{pdf:content q }%
+        \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
+        \hbox to 0 pt{\copy#1\hss}%
+        \special{pdf:content Q }%
+        \special{pdf:content Q }%
+        \hskip\wd#1%
     }%
 }
 %    \end{macrocode}
