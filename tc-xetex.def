@@ -90,7 +90,7 @@
         \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
         \special{pdf:content q }%
         \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
-        \hbox to 0 pt{\copy#1\hss}%
+        \hbox to 0pt{\copy#1\hss}%
         \special{pdf:literal direct Q }%
         \special{pdf:literal direct Q }%
         \hskip\wd#1%
