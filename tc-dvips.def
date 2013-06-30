@@ -88,8 +88,9 @@
               newpath
               mtrxc setmatrix 
         }%
-        \box#1%
+        \hbox to 0pt{\copy#1\hss}%
         \special{ps: grestore }%
+        \hskip \wd#1%
     }%
 }
 %    \end{macrocode}
