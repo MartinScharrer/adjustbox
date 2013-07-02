@@ -580,6 +580,16 @@
 % The starred version will use the given coordinates as \Key{viewport}.
 % These keys work by wrapping the content internally in a \Macro\clipbox or \Macro\clipbox*\relax macro.
 %
+% \DescribeKey{rcorners}'='<radius for all four corners>
+% \DescribeKey{rcorners}'='<upper left>~<upper right>~<lower right>~<lower left>
+% This key produces round corners by clipping the content. This is done using the same way as the 
+% above clipping keys but instead of a rectangle clipping path one with quarter circles is used.
+% The radius of the every round corner can be given separatly if wanted. If only one value is given
+% it is used for all four corners. A value of 0pt will produce a normal rectangular corner.
+% No radius should be larger than half the smallest side (minimum of \Macro\width and \Macro\totalheight).
+%
+% Please see also the related keys \Key{fbox} and \Key{rframe}, which allow to add a rounded frame around the content as well.
+%
 %
 %
 % ^^A )))2
@@ -843,6 +853,32 @@
 %   \begin{examplecode}
 %   \adjustbox{cfbox=blue!50!green}
 %       {Like a blue and green \cs{frame}}
+%   \end{examplecode}
+% \end{example}
+%
+%
+% \DescribeKey{rframe}'='<all sites>
+% \DescribeKey{rframe}'='<left/right>~<top/bottom>
+% \DescribeKey{rframe}'='<llx>~<lly>~<urx>~<ury>
+% \DescribeKey{rframe}'='{<options>}{<all sites>}
+% \DescribeKey{rframe}'='{<options>}{<left/right>~<top/bottom>}
+% \DescribeKey{rframe}'='{<options>}{<llx>~<lly>~<urx>~<ury>}
+%
+% \begingroup
+% \colorlet{keydesc}{keydesc!50!green}
+% \DescribeKey{color}'='{<color>}
+% \DescribeKey{color*}'='{<color command>}
+% \DescribeKey{width}'='{<rule width>}
+% \DescribeKey{sep}'='{<rule separation>}
+%
+% \DescribeKey{clip}
+% \DescribeKey{clip}'='true|false
+% \endgroup
+%
+% \begin{example}
+%   \begin{examplecode}
+%   \adjustbox{scale=3,bgcolor=gray,rframe={15pt}{color=red,width=2\fboxwidth,sep=2\fboxsep,clip}}
+%       \Huge XXXXX
 %   \end{examplecode}
 % \end{example}
 %
