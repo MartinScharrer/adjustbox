@@ -178,6 +178,18 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\rfboxbox}
+%    \begin{macrocode}
+\newcommand\rfboxbox{%
+    \collectboxcheckenv{rfboxbox}%
+    \rfboxbox@
+}
+\def\rfboxbox@#1{%
+    \collectbox{\@trimclip\@rframearoundbox{#1}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
 %
 % \begin{environment}{clipbox*}
 %    \begin{macrocode}
@@ -433,6 +445,16 @@
 % The clipping support is output driver dependent. The driver selected by \pkg{graphics} is used and a definition file
 % is used if its exists. Otherwise either the default \texttt{pdftex} implementation or the \pkg{pgf} fall-back driver
 % is used.
+%
+%
+%
+% \begin{macro}{\tc@bezfacn}
+% The Bezier factor required to draw rounded corners in same drivers.
+%    \begin{macrocode}
+\def\tc@bezfacn{0.44771525}%
+%    \end{macrocode}
+% \end{macro}
+%
 %    \begin{macrocode}
 \InputIfFileExists{\tc@driver}{%
     {\let\on@line\@gobble

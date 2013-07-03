@@ -1,6 +1,6 @@
 %    \begin{macrocode}
 %<!COPYRIGHT>
-\ProvidesFile{tc-xetex.def}[2012/05/13 v1.0 Clipping driver for xetex]
+\ProvidesFile{tc-xetex.def}[2013/07/02 v2.0 Clipping driver for xetex]
 %    \end{macrocode}
 %
 % \begin{macro}{\@cliptoboxdim}
@@ -14,14 +14,9 @@
     \setbox#1=\hbox{%
         \adjcalc@settobp\WIDTH{\wd#1}%
         \adjcalc@settobp\DEPTH{\dp#1}%
-        \@tempdima\ht#1%
-        \advance\@tempdima\dp#1%
-        \adjcalc@settobp\TOTALHEIGHT{\@tempdima}%
+        \adjcalc@settobp\TOTALHEIGHT{\ht#1+\dp#1}%
         \special{pdf:content q }%
-        \special{%
-            pdf:code
-                0 -\DEPTH\space \WIDTH\space \TOTALHEIGHT\space re W n
-        }%
+        \special{pdf:code  0 -\DEPTH \WIDTH \TOTALHEIGHT re W n }%
         \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
         \special{pdf:content q }%
         \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
@@ -31,8 +26,6 @@
         \hskip\wd#1%
     }%
 }
-
-
 %    \end{macrocode}
 % \end{macro}
 %
@@ -50,35 +43,33 @@
         \adjcalc@settobp\RADIUSTR{#3}%
         \adjcalc@settobp\RADIUSBR{#4}%
         \adjcalc@settobp\RADIUSBL{#5}%
-        \def\bezfac{0.55228475}%
-        \def\bezfacn{0.44771525}%
-        \adjcalc@settobp\RADIUSTLb{\bezfacn#2}%
+        \adjcalc@settobp\RADIUSTLb{\tc@bezfacn#2}%
         %
         \adjcalc@settobp\HEIGHTmRADIUSTL{\ht#1-#2}%
-        \adjcalc@settobp\HEIGHTmRADIUSTLb{\ht#1-\bezfacn#2}%
+        \adjcalc@settobp\HEIGHTmRADIUSTLb{\ht#1-\tc@bezfacn#2}%
         \adjcalc@settobp\HEIGHTmRADIUSTR{\ht#1-#3}%
-        \adjcalc@settobp\HEIGHTmRADIUSTRb{\ht#1-\bezfacn#3}%
+        \adjcalc@settobp\HEIGHTmRADIUSTRb{\ht#1-\tc@bezfacn#3}%
         \adjcalc@settobp\WIDTHmRADIUSTR{\wd#1-#3}%
-        \adjcalc@settobp\WIDTHmRADIUSTRb{\wd#1-\bezfacn#3}%
+        \adjcalc@settobp\WIDTHmRADIUSTRb{\wd#1-\tc@bezfacn#3}%
         \adjcalc@settobp\RADIUSBRmDEPTH{#4-\dp#1}%
-        \adjcalc@settobp\RADIUSBRmDEPTHb{\bezfacn#4-\dp#1}%
+        \adjcalc@settobp\RADIUSBRmDEPTHb{\tc@bezfacn#4-\dp#1}%
         \adjcalc@settobp\WIDTHmRADIUSBR{\wd#1-#4}%
-        \adjcalc@settobp\WIDTHmRADIUSBRb{\wd#1-\bezfacn#4}%
+        \adjcalc@settobp\WIDTHmRADIUSBRb{\wd#1-\tc@bezfacn#4}%
         \adjcalc@settobp\RADIUSBLmDEPTH{#5-\dp#1}%
-        \adjcalc@settobp\RADIUSBLmDEPTHb{\bezfacn#5-\dp#1}%
-        \adjcalc@settobp\RADIUSBLb{\bezfacn#5}%
-
+        \adjcalc@settobp\RADIUSBLmDEPTHb{\tc@bezfacn#5-\dp#1}%
+        \adjcalc@settobp\RADIUSBLb{\tc@bezfacn#5}%
+        %
         \special{pdf:content q }%
         \special{pdf:literal direct
-            0 \HEIGHTmRADIUSTL\space m
-            0 \HEIGHTmRADIUSTLb\space \RADIUSTLb\space \HEIGHT\space \RADIUSTL\space \HEIGHT\space c
-            \WIDTHmRADIUSTR\space \HEIGHT\space l
-            \WIDTHmRADIUSTRb\space \HEIGHT\space \WIDTH\space \HEIGHTmRADIUSTRb\space \WIDTH\space \HEIGHTmRADIUSTR\space c
-            \WIDTH\space \RADIUSBRmDEPTH\space l
-            \WIDTH\space \RADIUSBRmDEPTHb\space \WIDTHmRADIUSBRb\space \DEPTH\space \WIDTHmRADIUSBR\space \DEPTH\space c
-            \RADIUSBL\space \DEPTH\space l
-            \RADIUSBLb\space \DEPTH\space 0 \RADIUSBLmDEPTHb\space 0 \RADIUSBLmDEPTH\space c
-            0 \RADIUSBLmDEPTH\space l
+            0 \HEIGHTmRADIUSTL m
+            0 \HEIGHTmRADIUSTLb \RADIUSTLb \HEIGHT \RADIUSTL \HEIGHT c
+            \WIDTHmRADIUSTR \HEIGHT l
+            \WIDTHmRADIUSTRb \HEIGHT \WIDTH \HEIGHTmRADIUSTRb \WIDTH \HEIGHTmRADIUSTR c
+            \WIDTH \RADIUSBRmDEPTH l
+            \WIDTH \RADIUSBRmDEPTHb \WIDTHmRADIUSBRb \DEPTH \WIDTHmRADIUSBR \DEPTH c
+            \RADIUSBL \DEPTH l
+            \RADIUSBLb \DEPTH 0 \RADIUSBLmDEPTHb 0 \RADIUSBLmDEPTH c
+            0 \RADIUSBLmDEPTH l
             h W n
         }%
         \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
@@ -93,31 +84,14 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@rframebox}
-% Round frame around a box.
-%    \begin{macrocode}
-\def\@rframebox#1#2#3#4#5#6#7#8{%
-    %\@clipcornersofbox{#4}{#5}{#6}{#7}{#8}%
-    \adjsetlength\@tempdima{(#1)+(#2)/2}%
-    \advance#5\@tempdima
-    \advance#6\@tempdima
-    \advance#7\@tempdima
-    \advance#8\@tempdima
-    \@marginraisebox{#4}\@tempdima\@tempdima\@tempdima\@tempdima
-    \@rframebox@{#4}{#5}{#6}{#7}{#8}{#2}%
-    \adjsetlength\@tempdima{#3}%
-    \@marginraisebox{#4}\@tempdima\@tempdima\@tempdima\@tempdima
-}
-%    \end{macrocode}
-% \end{macro}
 %
 % \begin{macro}{\@rframebox@}
 % Round frame around a box.
 %    \begin{macrocode}
 \def\@rframearoundbox#1#2#3#4#5{%
-    \adjsetlength\@tempdima{\fboxsep+.5\fboxrule}%
-    \@marginbox#1\@tempdima\@tempdima\@tempdima\@tempdima%
     \setbox#1=\hbox{%
+        \adjsetlength\@tempdima{\fboxsep+.5\fboxrule}%
+        \@marginbox#1\@tempdima\@tempdima\@tempdima\@tempdima%
         \adjcalc@settobp\TOTALHEIGHT{\ht#1+\dp#1}%
         \adjcalc@settobp\HEIGHT{\ht#1}%
         \adjcalc@settobp\DEPTH{-\dp#1}%
@@ -126,50 +100,49 @@
         \adjcalc@settobp\RADIUSTR{#3}%
         \adjcalc@settobp\RADIUSBR{#4}%
         \adjcalc@settobp\RADIUSBL{#5}%
-        \def\bezfac{0.55228475}%
-        \def\bezfacn{0.44771525}%
-        \adjcalc@settobp\RADIUSTLb{\bezfacn#2}%
+        \adjcalc@settobp\RADIUSTLb{\tc@bezfacn#2}%
         %
         \adjcalc@settobp\HEIGHTmRADIUSTL{\ht#1-#2}%
-        \adjcalc@settobp\HEIGHTmRADIUSTLb{\ht#1-\bezfacn#2}%
+        \adjcalc@settobp\HEIGHTmRADIUSTLb{\ht#1-\tc@bezfacn#2}%
         \adjcalc@settobp\HEIGHTmRADIUSTR{\ht#1-#3}%
-        \adjcalc@settobp\HEIGHTmRADIUSTRb{\ht#1-\bezfacn#3}%
+        \adjcalc@settobp\HEIGHTmRADIUSTRb{\ht#1-\tc@bezfacn#3}%
         \adjcalc@settobp\WIDTHmRADIUSTR{\wd#1-#3}%
-        \adjcalc@settobp\WIDTHmRADIUSTRb{\wd#1-\bezfacn#3}%
+        \adjcalc@settobp\WIDTHmRADIUSTRb{\wd#1-\tc@bezfacn#3}%
         \adjcalc@settobp\RADIUSBRmDEPTH{#4-\dp#1}%
-        \adjcalc@settobp\RADIUSBRmDEPTHb{\bezfacn#4-\dp#1}%
+        \adjcalc@settobp\RADIUSBRmDEPTHb{\tc@bezfacn#4-\dp#1}%
         \adjcalc@settobp\WIDTHmRADIUSBR{\wd#1-#4}%
-        \adjcalc@settobp\WIDTHmRADIUSBRb{\wd#1-\bezfacn#4}%
+        \adjcalc@settobp\WIDTHmRADIUSBRb{\wd#1-\tc@bezfacn#4}%
         \adjcalc@settobp\RADIUSBLmDEPTH{#5-\dp#1}%
-        \adjcalc@settobp\RADIUSBLmDEPTHb{\bezfacn#5-\dp#1}%
-        \adjcalc@settobp\RADIUSBLb{\bezfacn#5}%
+        \adjcalc@settobp\RADIUSBLmDEPTHb{\tc@bezfacn#5-\dp#1}%
+        \adjcalc@settobp\RADIUSBLb{\tc@bezfacn#5}%
         \adjcalc@settobp\LINEWIDTH{\fboxrule}%
         %
         \hbox to 0pt{\copy#1\hss}%
         \hbox to 0pt{%
-        \special{pdf:content q }%
-        \special{pdf:literal direct
-            \LINEWIDTH\space w
-            0 \HEIGHTmRADIUSTL\space m
-            0 \HEIGHTmRADIUSTLb\space \RADIUSTLb\space \HEIGHT\space \RADIUSTL\space \HEIGHT\space c
-            \WIDTHmRADIUSTR\space \HEIGHT\space l
-            \WIDTHmRADIUSTRb\space \HEIGHT\space \WIDTH\space \HEIGHTmRADIUSTRb\space \WIDTH\space \HEIGHTmRADIUSTR\space c
-            \WIDTH\space \RADIUSBRmDEPTH\space l
-            \WIDTH\space \RADIUSBRmDEPTHb\space \WIDTHmRADIUSBRb\space \DEPTH\space \WIDTHmRADIUSBR\space \DEPTH\space c
-            \RADIUSBL\space \DEPTH\space l
-            \RADIUSBLb\space \DEPTH\space 0 \RADIUSBLmDEPTHb\space 0 \RADIUSBLmDEPTH\space c
-            0 \RADIUSBLmDEPTH\space l
-            h
-            s
-        }%
-        \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
-        \special{pdf:content q }%
-        \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
-        \special{pdf:literal direct Q }%
-        \special{pdf:literal direct Q }%
+            \special{pdf:content q }%
+            \special{pdf:literal direct
+                \LINEWIDTH w
+                0 \HEIGHTmRADIUSTL m
+                0 \HEIGHTmRADIUSTLb \RADIUSTLb \HEIGHT \RADIUSTL \HEIGHT c
+                \WIDTHmRADIUSTR \HEIGHT l
+                \WIDTHmRADIUSTRb \HEIGHT \WIDTH \HEIGHTmRADIUSTRb \WIDTH \HEIGHTmRADIUSTR c
+                \WIDTH \RADIUSBRmDEPTH l
+                \WIDTH \RADIUSBRmDEPTHb \WIDTHmRADIUSBRb \DEPTH \WIDTHmRADIUSBR \DEPTH c
+                \RADIUSBL \DEPTH l
+                \RADIUSBLb \DEPTH 0 \RADIUSBLmDEPTHb 0 \RADIUSBLmDEPTH c
+                0 \RADIUSBLmDEPTH l
+                h s
+            }%
+            \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
+            \special{pdf:content q }%
+            \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
+            \special{pdf:literal direct Q }%
+            \special{pdf:literal direct Q }%
         }%
         \hskip\wd#1%
     }%
+    \adjsetlength\@tempdima{.5\fboxrule}%
+    \@marginbox#1\@tempdima\@tempdima\@tempdima\@tempdima%
 }
 %    \end{macrocode}
 % \end{macro}
