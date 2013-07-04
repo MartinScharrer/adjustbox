@@ -154,42 +154,6 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\rcornersbox}
-%    \begin{macrocode}
-\newcommand\rcornersbox{%
-    \collectboxcheckenv{rcornersbox}%
-    \rcornersbox@
-}
-\def\rcornersbox@#1{%
-    \collectbox{\@trimclip\@clipcornersofbox{#1}}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\rframebox}
-%    \begin{macrocode}
-\newcommand\rframebox{%
-    \collectboxcheckenv{rframebox}%
-    \rframebox@
-}
-\def\rframebox@#1{%
-    \collectbox{\@trimclip\@rframearoundbox{#1}}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\rfboxbox}
-%    \begin{macrocode}
-\newcommand\rfboxbox{%
-    \collectboxcheckenv{rfboxbox}%
-    \rfboxbox@
-}
-\def\rfboxbox@#1{%
-    \collectbox{\@trimclip\@rframearoundbox{#1}}%
-}
-%    \end{macrocode}
-% \end{macro}
-%
 %
 % \begin{environment}{clipbox*}
 %    \begin{macrocode}

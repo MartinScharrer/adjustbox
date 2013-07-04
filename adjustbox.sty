@@ -325,6 +325,34 @@
 % \end{macro}
 %
 %
+% \begin{macro}{\smallestside}
+%    \begin{macrocode}
+\def\smallestside{\ifdim\width<\totalheight \width\else\totalheight\fi}%
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\largestside}
+%    \begin{macrocode}
+\def\largestside{\ifdim\width>\totalheight \width\else\totalheight\fi}%
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\Smallestside}
+%    \begin{macrocode}
+\def\Smallestside{\ifdim\Width<\Totalheight \Width\else\Totalheight\fi}%
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\Largestside}
+%    \begin{macrocode}
+\def\Largestside{\ifdim\Width>\Totalheight \Width\else\Totalheight\fi}%
+%    \end{macrocode}
+% \end{macro}
+%
+%
 % \begin{macro}{\adjbox@Width}
 % \begin{macro}{\adjbox@Height}
 % \begin{macro}{\adjbox@Depth}
@@ -890,21 +918,37 @@
 %    \end{macrocode}
 % \end{key}
 %
-% \begin{key}{adjbox}{rcorners}
+% \begin{key}{adjbox}{rndcorners}
 %    \begin{macrocode}
-\define@adjboxkey{rcorners}{\rcornersbox@{#1}}
+\define@adjboxkey{rndcorners}{\rndcornersbox@{#1}}
 %    \end{macrocode}
 % \end{key}
 %
-% \begin{key}{adjbox}{rframe}
+% \begin{key}{adjbox}{rndframe}
 %    \begin{macrocode}
-\define@adjboxkey{rframe}{\rframebox@{#1}}
+\define@adjboxkey{rndframe}{%
+    \@ifnextchar\bgroup{%
+        \adjbox@rndframe{sep=\z@}%
+    }{%
+        \adjbox@rndframe{sep=\z@}{}%
+    }#1\@nnil
+}
 %    \end{macrocode}
 % \end{key}
 %
-% \begin{key}{adjbox}{rfbox}
+% \begin{key}{adjbox}{rndfbox}
 %    \begin{macrocode}
-\define@adjboxkey{rfbox}{\rframebox@{#1}}
+\define@adjboxkey{rndfbox}{%
+    \@ifnextchar\bgroup{%
+        \adjbox@rndframe{}%
+    }{%
+        \adjbox@rndframe{}{}%
+    }#1\@nnil
+}
+
+\def\adjbox@rndframe#1#2#3\@nnil{%
+    \rndfbox[{#1,#2}]{#3}%
+}
 %    \end{macrocode}
 % \end{key}
 %
@@ -966,6 +1010,77 @@
 %    \end{macrocode}
 %
 %
+% ^^A )))
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Round corners} ^^A (((
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \begin{macro}{\rndcornersbox}
+%    \begin{macrocode}
+\newcommand\rndcornersbox{%
+    \collectboxcheckenv{rndcornersbox}%
+    \rndcornersbox@
+}
+\def\rndcornersbox@#1{%
+    \collectbox{\@trimclip\@clipcornersofbox{#1}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\rndframebox}
+%    \begin{macrocode}
+\newcommand\rndframebox{%
+    \collectboxcheckenv{rndframebox}%
+    \rndframebox@
+}
+\newcommand*\rndframebox@[2][]{%
+    \collectbox{\@trimclip{\rndframearoundbox@{sep=\z@,#1}}{#2}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\rndfbox}
+%    \begin{macrocode}
+\newcommand\rndfbox{%
+    \collectboxcheckenv{rndfbox}%
+    \rndfbox@
+}
+\newcommand*\rndfbox@[2][]{%
+    \collectbox{\@trimclip{\rndframearoundbox@{#1}}{#2}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\rndframearoundbox@}
+%    \begin{macrocode}
+\def\rndframearoundbox@#1{%
+    \setkeys{adjbox@rndframe}{#1}%
+    \@rndframearoundbox
+}
+\define@key{adjbox@rndframe}{width}{%
+    \adjsetlength\fboxrule{#1}%
+}
+\define@key{adjbox@rndframe}{sep}{%
+    \adjsetlength\fboxsep{#1}%
+}
+\define@key{adjbox@rndframe}{color}{%
+    \def\adjbox@rndframe@color{\color{#1}}%
+}
+\define@key{adjbox@rndframe}{color*}{%
+    \def\adjbox@rndframe@color{#1}%
+}
+\let\adjbox@rndframe@color\relax
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%    \begin{macrocode}
+% \DescribeKey{color}'='{<color>}
+% \DescribeKey{color*}'='{<color command>}
+% \DescribeKey{width}'='{<rule width>}
+% \DescribeKey{sep}'='{<rule separation>}
+%    \end{macrocode}
 %
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

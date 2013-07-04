@@ -1,6 +1,6 @@
 %    \begin{macrocode}
 %<!COPYRIGHT>
-\ProvidesFile{tc-xetex.def}[2013/07/02 v2.0 Clipping driver for xetex]
+\ProvidesFile{tc-xetex.def}[2013/07/04 v2.0 Clipping driver for xetex]
 %    \end{macrocode}
 %
 % \begin{macro}{\@cliptoboxdim}
@@ -78,7 +78,8 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@cliptoboxdim}
+%
+% \begin{macro}{\@clipcornersofbox}
 % Clips round corners off.
 %    \begin{macrocode}
 \def\@clipcornersofbox#1#2#3#4#5{%
@@ -102,10 +103,11 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@rframebox@}
+%
+% \begin{macro}{\@rndframearoundbox}
 % Round frame around a box.
 %    \begin{macrocode}
-\def\@rframearoundbox#1#2#3#4#5{%
+\def\@rndframearoundbox#1#2#3#4#5{%
     \setbox#1=\hbox{%
         \adjsetlength\@tempdima{\fboxsep+.5\fboxrule}%
         \@marginbox#1\@tempdima\@tempdima\@tempdima\@tempdima%
@@ -113,6 +115,8 @@
         %
         \hbox to 0pt{\copy#1\hss}%
         \hbox to 0pt{%
+            \color@setgroup
+            \adjbox@rndframe@color
             \special{pdf:content q }%
             \special{pdf:literal direct
                 \LINEWIDTH w
@@ -124,6 +128,7 @@
             \special{pdf:literal direct -1 0 0 -1 0 0 cm }%
             \special{pdf:literal direct Q }%
             \special{pdf:literal direct Q }%
+            \color@endgroup
         }%
         \hskip\wd#1%
     }%

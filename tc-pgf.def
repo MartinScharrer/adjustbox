@@ -1,6 +1,6 @@
 %    \begin{macrocode}
 %<!COPYRIGHT>
-\ProvidesFile{tc-pgf.def}[2012/05/13 v1.0 trimclip fall-back clipping driver using PGF]
+\ProvidesFile{tc-pgf.def}[2013/07/04 v2.0 trimclip fall-back clipping driver using PGF]
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -26,7 +26,8 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@cliptoboxdim}
+%
+% \begin{macro}{\@clipcornersofbox}
 % Clips round corners off.
 %    \begin{macrocode}
 \def\@clipcornersofbox#1#2#3#4#5{%
@@ -44,6 +45,35 @@
         \pgfusepathqclip
         \pgfset{inner sep=\z@,outer sep=\z@,minimum size=\z@}%
         \pgfnode{rectangle}{base west}{\usebox#1}{}{}%
+        \pgfsetbaselinepointnow{\pgfpoint\z@\z@}%
+    \end{pgfpicture}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@rndframearoundbox}
+% Round frame around a box.
+%    \begin{macrocode}
+\def\@rndframearoundbox#1#2#3#4#5{%
+    \setbox#1\hbox{\begin{pgfpicture}%
+        \adjsetlength\@tempdima{\fboxsep+.5\fboxrule}%
+        \@marginbox#1\@tempdima\@tempdima\@tempdima\@tempdima%
+        \pgfset{inner sep=\z@,outer sep=\z@,minimum size=\z@}%
+        \pgfnode{rectangle}{base west}{\usebox#1}{}{}%
+        \pgfusepath{}%
+        \adjbox@rndframe@color
+        \pgfpathmoveto{\pgfpoint{\z@}{\ht#1-#2}}%
+        \pgfpatharc{180}{90}{#2}%
+        \pgfpathlineto{\pgfpoint{\wd#1-#3}{\ht#1}}%
+        \pgfpatharc{90}{0}{#3}%
+        \pgfpathlineto{\pgfpoint{\wd#1}{#4-\dp#1}}%
+        \pgfpatharc{0}{-90}{#4}%
+        \pgfpathlineto{\pgfpoint{#5}{-\dp#1}}%
+        \pgfpatharc{270}{180}{#5}%
+        \pgfpathlineto{\pgfpoint{\z@}{\ht#1-#2}}%
+        \pgfpathclose
+        \pgfusepath{stroke}%
         \pgfsetbaselinepointnow{\pgfpoint\z@\z@}%
     \end{pgfpicture}}%
 }
