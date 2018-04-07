@@ -80,7 +80,7 @@
     emph={viewport, trim, Trim, Viewport, Clip, Clip*, frame, fbox, cframe, cfbox, reflect, lap, margin, margin*, dpi,
     pxdim, execute, raise, valign, bgcolor, set, height, depth, vsize, width, totalheight, center, left, right, outer, inner, min, max,
     size, totalsize,
-    minipage, innerenv, innercode, env, Addcode, addcode, precode, Precode, appcode, angle, scale, height, width, totalheight, resolution,
+    minipage, varwidth, innerenv, innercode, env, Addcode, addcode, precode, Precode, appcode, angle, scale, height, width, totalheight, resolution,
     },
     emphstyle=\keydescstyle,
 }
@@ -1459,6 +1459,14 @@
 %   \end{adjustbox} After
 %   \end{examplecode}
 % \end{examples}
+%
+%
+% \DescribeKey{varwidth}'='<width>
+% Adds a \env{varwidth} environment from the \pkg{varwidth} package around the content. This is similar to the
+% \env{minipage} environment but the final width of the content will be as large as the widest line in the content up to
+% the maximum amount given by the width argument.
+% This environment key is vert useful if the content produces some paragraph material which can't be stored in an
+% horizontal box directly.
 %
 %
 % \DescribeKey{tabular}'='[<position>]{<column specification>}

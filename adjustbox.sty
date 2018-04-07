@@ -1706,6 +1706,12 @@
 \newcommand*\@minmaxsizebox[4]{%
     \edef\@tempa{#3}%
     \edef\@tempb{#4}%
+    \ifx\@tempa\Gin@exclamation\else
+        \adjsetlength\@tempdima{#3}%
+    \fi
+    \ifx\@tempb\Gin@exclamation\else
+        \adjsetlength\@tempdimb{#4}%
+    \fi
     \ifcase0%
 %    \end{macrocode}
 % Do nothing if both values are `|!|', otherwise use case 1 if the height is to large/small (|#1|)
@@ -1714,7 +1720,7 @@
     \ifx\@tempa\Gin@exclamation
         \ifx\@tempb\Gin@exclamation
         \else
-            \ifdim\@tempb#1#2%
+            \ifdim\@tempdimb#1#2%
                 1%
             \fi
         \fi
@@ -1723,7 +1729,7 @@
 % If the width is given, but not the height, use case 2 if the width is to large/small (|#1|) than the native \Macro\width.
 %    \begin{macrocode}
         \ifx\@tempb\Gin@exclamation
-            \ifdim\@tempa#1\width
+            \ifdim\@tempdima#1\width
                 2%
             \fi
         \else
@@ -1731,14 +1737,14 @@
 % If both values are given.
 % Use case 0-3 depending if the width and/or height is to large/small.
 %    \begin{macrocode}
-            \ifdim\@tempa#1\width
-                \ifdim\@tempb#1#2%
+            \ifdim\@tempdima#1\width
+                \ifdim\@tempdimb#1#2%
                     3%
                 \else
                     2%
                 \fi
             \else
-                \ifdim\@tempb#1#2%
+                \ifdim\@tempdimb#1#2%
                     1%
                 \fi
             \fi
@@ -1753,14 +1759,12 @@
 %  Case 1: height needs scaling. Calculate factor and scale the content with it.
 %    \begin{macrocode}
     \or
-        \adjsetlength\@tempdima\@tempb
-        \Gscale@div\@tempa\@tempdima#2%
+        \Gscale@div\@tempa\@tempdimb#2%
         \Gscale@box\@tempa[\@tempa]\BOXCONTENT
 %    \end{macrocode}
 %  Case 2: width needs scaling. Calculate factor and scale the content with it.
 %    \begin{macrocode}
     \or
-        \adjsetlength\@tempdima\@tempa
         \Gscale@div\@tempa\@tempdima\width
         \Gscale@box\@tempa[\@tempa]\BOXCONTENT
 %    \end{macrocode}
@@ -1768,10 +1772,8 @@
 %  Both scale factors are calculated and the more extreme value is used.
 %    \begin{macrocode}
     \or
-        \adjsetlength\@tempdima\@tempa
         \Gscale@div\@tempa\@tempdima\width
-        \adjsetlength\@tempdima\@tempb
-        \Gscale@div\@tempb\@tempdima#2%
+        \Gscale@div\@tempb\@tempdimb#2%
         \ifdim\@tempa\p@#1\@tempb\p@
             \let\@tempb\@tempa
         \else
