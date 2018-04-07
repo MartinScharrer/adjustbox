@@ -1192,7 +1192,8 @@
 % \begin{macro}{\centerbox}
 %    \begin{macrocode}
 \newcommand\centerbox[1][\linewidth]{%
-    \adjustbox@noindent
+    \collectboxcheckenv{centerbox}%
+    \noindent
     \adjbox@halign{#1}\hss\hss
 }
 %    \end{macrocode}
@@ -1202,7 +1203,8 @@
 % \begin{macro}{\leftalignbox}
 %    \begin{macrocode}
 \newcommand\leftalignbox[1][\linewidth]{%
-    \adjustbox@noindent
+    \collectboxcheckenv{leftalignbox}%
+    \noindent
     \adjbox@halign{#1}\relax\hss
 }
 %    \end{macrocode}
@@ -1212,7 +1214,8 @@
 % \begin{macro}{\rightalignbox}
 %    \begin{macrocode}
 \newcommand\rightalignbox[1][\linewidth]{%
-    \adjustbox@noindent
+    \collectboxcheckenv{rightalignbox}%
+    \noindent
     \adjbox@halign{#1}\hss\relax
 }
 %    \end{macrocode}
@@ -1241,7 +1244,7 @@
 %    \begin{macrocode}
 \newcommand\outersidebox[1][\linewidth]{%
     \collectboxcheckenv{outersidebox}%
-    \adjustbox@noindent
+    \noindent
     \adjbox@halign{#1}{%
         \checkoddpage
         \ifoddpageoroneside
@@ -1265,7 +1268,7 @@
 %    \begin{macrocode}
 \newcommand\innersidebox[1][\linewidth]{%
     \collectboxcheckenv{innersidebox}%
-    \adjustbox@noindent
+    \noindent
     \adjbox@halign{#1}{%
         \checkoddpage
         \ifoddpageoroneside
