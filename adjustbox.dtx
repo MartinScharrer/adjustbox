@@ -255,12 +255,11 @@
 %  It got inspired by the interface of \Macro\includegraphics from the \pkg{graphicx} package.
 %  This package also loads the \pkg{trimclip} package which code was once included in this package.
 % \end{abstract}
-%
-% \tableofcontents
+% \clearpage% \tableofcontents
 %
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section{Introduction} ^^A (((
+% \clearpage\section{Introduction} ^^A (((
 % The standard \LaTeX{} package \pkg{graphicx} (the extended version of \pkg{graphics}) provides the macro
 % \Macro\includegraphics[<options>]{<file name>} which can be used to include graphic files. Several options can be used
 % to scale, resize, rotate, trim and/or clip the graphic.
@@ -310,7 +309,7 @@
 % ^^A )))2
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section{Package Options}\label{sec:options} ^^A (((
+% \clearpage\section{Package Options}\label{sec:options} ^^A (((
 % This package accepts the following options:
 %
 % \begin{description}\def\oitem#1{\item[{\normalfont\opt{#1}}]}
@@ -348,7 +347,7 @@
 %
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section{Main Macros}^^A (((
+% \clearpage\section{Main Macros}^^A (((
 % The following macros and environments represent the main functionality of this package.
 % Special care is taken so that the macros and the environments can have the same name.
 % For starred environments the star can be either part of the name or an optional argument.
@@ -370,7 +369,7 @@
 % to suppress paragraph indention.
 %
 % \Needspace*{5\baselineskip}
-% \subsection{Adjust Images}
+% \clearpage\subsection{Adjust Images}
 % \vskip-\lastskip
 % \DescribeMacro\adjustimage{<key=value, \ldots>}{<image filename>}
 % This macro can be used as an extension of \Macro\includegraphics.
@@ -395,7 +394,7 @@
 % the \opt{Export} option (not to be confused with the \opt{export} option).
 %
 % ^^A )))2
-% \subsection{Defining custom environments and macros} ^^A (((2
+% \clearpage\subsection{Defining custom environments and macros} ^^A (((2
 % After \pkg{adjustbox} is used to define custom environments to format specific content.
 % If an environment contains other environments these are often written in the plain form \Macro\foo \ldots
 % \Macro\endfoo to avoid the overhead of \Macro\begin and \Macro\end and to keep the outer environment name for
@@ -437,7 +436,7 @@
 % \end{example}
 %
 % ^^A )))2
-% \subsection{Setting keys globally} ^^A (((2
+% \clearpage\subsection{Setting keys globally} ^^A (((2
 % \vskip-\lastskip
 % \DescribeMacro\adjustboxset{<global keys to be executed \emph{before} local keys>}
 % \DescribeMacro\adjustboxset*{<global keys to be executed \emph{after} local keys>}
@@ -482,7 +481,7 @@
 % \end{examples}
 %
 % ^^A )))2
-% \subsection{Argument Values}\label{sec:argval} ^^A (((2
+% \clearpage\subsection{Argument Values}\label{sec:argval} ^^A (((2
 % All length values given in the arguments of all macros and keys provided by this package are parsed
 % by and advanced version of \Macro\setlength\relax (called \Macro\adjsetlength) which uses either $\epsilon$-\TeX\
 % expressions (default), the \pkg{calc} package (default fall-back) or the \Macro\pgfmathparse of the \pkg{pgf} package.
@@ -523,7 +522,7 @@
 % ^^A )))2
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section{Adjustbox Keys} ^^A (((
+% \clearpage\section{Adjustbox Keys} ^^A (((
 % This packages provides the following \Macro\adjustbox keys with matching macros and environments.
 %
 %
@@ -595,7 +594,7 @@
 %
 %
 % ^^A )))2
-% \subsection{Margins and Vertical Spacing} ^^A (((2
+% \clearpage\subsection{Margins and Vertical Spacing} ^^A (((2
 % \vspace{-\baselineskip}
 %
 % \DescribeKey{margin}'='<all sites>
@@ -644,7 +643,7 @@
 %
 %
 % ^^A )))2
-% \subsection{Minimum and Maximum Size} ^^A (((2
+% \clearpage\subsection{Minimum and Maximum Size} ^^A (((2
 % The following keys allow to set a minimum or maximum size.
 % The content will be scaled down or up if required.
 %
@@ -751,7 +750,7 @@
 %
 % ^^A )))2
 % \Needspace*{8\baselineskip}
-% \subsection{Scaling} ^^A (((2
+% \clearpage\subsection{Scaling} ^^A (((2
 % \vspace{-\baselineskip}
 %
 % \DescribeKey{scale}'='<factor>
@@ -787,7 +786,7 @@
 %
 %
 % ^^A )))2
-% \subsection{Frame} ^^A (((2
+% \clearpage\subsection{Frame} ^^A (((2
 % The following keys can be used to draw frames around the content.
 %
 % \DescribeKey{fbox}
@@ -886,7 +885,7 @@
 %
 %
 % ^^A )))2
-% \subsection{Vertical Alignment} ^^A (((2
+% \clearpage\subsection{Vertical Alignment} ^^A (((2
 % The following keys can be used to adjust the vertical alignment and size of the content.
 %
 % \DescribeKey{valign}'='<letter>
@@ -1013,7 +1012,7 @@
 % 
 %
 % ^^A )))2
-% \subsection{Horizontal Alignment} ^^A (((2
+% \clearpage\subsection{Horizontal Alignment} ^^A (((2
 % The following keys can be used to adjust the horizontal alignment and size of the content.
 %
 % \DescribeKey{center}
@@ -1090,6 +1089,30 @@
 % If the content is wider than the available width it will stick into the outer inner without causing an overfull hbox warning.
 %
 %
+% \DescribeMacro\centerbox[<width>]{<content>}
+% \vspace{-1.5\baselineskip}
+% \DescribeEnv[<content>]{centerbox}[<width>]
+% Macro and environment version of the \Key{center} key. The optional width argument defaults to \Macro\linewidth.
+% Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
+% placing a |\mbox{}| or the identical |\null| macro before it.
+%
+%
+% \DescribeMacro\leftalignbox[<width>]{<content>}
+% \vspace{-1.5\baselineskip}
+% \DescribeEnv[<content>]{leftalignbox}[<width>]
+% Macro and environment version of the \Key{left} key. The optional width argument defaults to \Macro\linewidth.
+% Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
+% placing a |\mbox{}| or the identical |\null| macro before it.
+%
+%
+% \DescribeMacro\rightalignbox[<width>]{<content>}
+% \vspace{-1.5\baselineskip}
+% \DescribeEnv[<content>]{rightalignbox}[<width>]
+% Macro and environment version of the \Key{rightalign} key. The optional width argument defaults to \Macro\linewidth.
+% Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
+% placing a |\mbox{}| or the identical |\null| macro before it.
+%
+%
 % \DescribeMacro\innersidebox[<width>]{<content>}
 % \vspace{-1.5\baselineskip}
 % \DescribeEnv[<content>]{innersidebox}[<width>]
@@ -1106,7 +1129,7 @@
 % placing a |\mbox{}| or the identical |\null| macro before it.
 %
 %
-% \subsection*{Lapping} ^^A (((3
+% \clearpage\subsection*{Lapping} ^^A (((3
 % The following features can be used to make the content lap over its left or right boundary. This is basically the same 
 % as trimming, but provides a different, more dedicated interface.
 %
@@ -1213,7 +1236,7 @@
 %
 % ^^A )))3
 % ^^A )))2
-% \subsection{Colors} ^^A (((2
+% \clearpage\subsection{Colors} ^^A (((2
 % \vspace{-\baselineskip}
 %
 % \DescribeKey{color}'='<color>
@@ -1278,7 +1301,7 @@
 % \end{examples}
 %
 % ^^A )))2
-% \subsection{Background and Forground Images and Text} ^^A (((2
+% \clearpage\subsection{Background and Forground Images and Text} ^^A (((2
 % The following keys, macros and environment allow to add background and foreground layers.
 % These layers are placed on the baseline of the original content and are horizontally centered, but can be adjusted
 % using own \Macro\adjustbox or \Macro\includegraphics keys.
@@ -1383,7 +1406,7 @@
 %
 %
 % ^^A )))2
-% \subsection{Density / Pixel size} ^^A (((2
+% \clearpage\subsection{Density / Pixel size} ^^A (((2
 % The following keys allow to adjust the effective length of |pdftex| special |px| (pixel) unit.
 % This can be required for images which do not have the correct DPI meta-data included.
 %
@@ -1420,7 +1443,7 @@
 %
 %
 % ^^A )))2
-% \subsection{Minipage or other inner environments which change the processing of the content}\label{sec:inner} ^^A (((2
+% \clearpage\subsection{Minipage or other inner environments which change the processing of the content}\label{sec:inner} ^^A (((2
 % The following keys set the way the content is processed before it is stored it in a box.
 % These keys will overwrite each other and only the latest used key will take effect.
 % Because they affect the inner content directly their order relative to other, normal keys is not meaningful.
@@ -1555,7 +1578,7 @@
 % \end{example}
 %
 % ^^A )))2
-% \subsection{Floats and non-float replacements} ^^A (((2
+% \clearpage\subsection{Floats and non-float replacements} ^^A (((2
 % The following keys can be used to turn an adjusted box into a float or a non-floating replacement which also allows
 % for a caption. These keys must be used last and no other normal keys must be used afterwards, otherwise an error will
 % occur because the added floating environment is boxed again.
@@ -1616,7 +1639,7 @@
 %
 % ^^A )))2
 % \Needspace*{8\baselineskip}
-% \subsection{Adding own Code or Environments} ^^A (((2
+% \clearpage\subsection{Adding own Code or Environments} ^^A (((2
 % \vspace{-\baselineskip}
 %
 % \DescribeKey{env}'='<environment name>
@@ -1648,7 +1671,7 @@
 %
 %
 % ^^A )))2
-% \subsection{Change or discard content} ^^A (((2
+% \clearpage\subsection{Change or discard content} ^^A (((2
 % \vspace{-\baselineskip}
 %
 % \DescribeKey{phantom}
@@ -1695,7 +1718,7 @@
 %
 %
 % ^^A )))2
-% \subsection{Store box content } ^^A (((2
+% \clearpage\subsection{Store box content } ^^A (((2
 %
 % \DescribeKey{gstore}'='<\textbackslash boxregister>
 % \DescribeKey{gstore*}'='<\textbackslash boxregister>
@@ -1720,7 +1743,7 @@
 %
 %
 % ^^A )))2
-% \subsection{Experimental Keys} ^^A (((2
+% \clearpage\subsection{Experimental Keys} ^^A (((2
 % The following features are experimental and may not work correctly yet.
 % At the moment the \pkg{storebox} package must be loaded manually for this keys.
 %
@@ -1757,7 +1780,7 @@
 % ^^A )))2
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section{Defining own Keys} ^^A (((
+% \clearpage\section{Defining own Keys} ^^A (((
 % The following macros can be used to define own keys or redefine existing ones.
 %
 % \DescribeMacro\newadjustboxkey{<key>}[<default value>]{<code>}
@@ -1796,10 +1819,9 @@
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \StopEventually{}
-% \clearpage
-% ^^A )))
+% \clearpage% ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section{Implementation} ^^A (((
+% \clearpage\section{Implementation} ^^A (((
 % \setcounter{lstnumber}{1}
 %
 % \iffalse
