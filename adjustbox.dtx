@@ -509,6 +509,20 @@
 % useful if the size of the content is modified by several keys, but further keys should still work relative to the
 % original content.
 %
+%
+% \DescribeMacro\smallestside
+% This macro expands to either \Macro\width or \Macro\totalheight whatever is smaller.
+%
+% \DescribeMacro\largestside
+% This macro expands to either \Macro\width or \Macro\totalheight whatever is larger.
+%
+% \DescribeMacro\Smallestside
+% This macro expands to either \Macro\Width or \Macro\Totalheight whatever is smaller.
+% 
+% \DescribeMacro\Largestside
+% This macro expands to either \Macro\Width or \Macro\Totalheight whatever is larger.
+%
+%
 % \subsubsection*{Default unit}
 % If no unit is provided for of the bounding box coordinates (llx, lly, urx, ury) in the trim and clip features then
 % PostScript points (\emph{big points}, bp, $72\,\text{bp}=1\,\text{inch}$) are used, as it is the default behaviour of
@@ -1688,7 +1702,13 @@
 % \DescribeKey{addcode}'='{<code before>}{<code afters>}
 % Adds some \meta{code before} and some \meta{code after} the content and the 
 % already existing code around it which was added by other keys beforehand.
-% At this stage the content is already boxed and format macros won't have any effect on any included text.
+% At this stage the content is already boxed and format macros won't have any effect on any included text. 
+% This key sets
+% the size of the content before adding the code, i.e.\ keys like \Key{width} or \Key{scale} are executed on the content
+% beforehand.
+%
+% \DescribeKey{Addcode}'='{<code before>}{<code afters>}
+% Identical to \Key{addcode} but does not sets the size of the content first.
 %
 % \DescribeKey{appcode}'='<code afterwards>
 % Appends come \meta{code after} the content and the already existing code around it which was added by other keys beforehand.
@@ -1697,6 +1717,13 @@
 % \DescribeKey{precode}'='<code before>
 % Prepends come \meta{code afterwards} the content and the already existing code around it which was added by other keys beforehand.
 % More complex code should be enclosed in braces.
+% This key sets
+% the size of the content before adding the code, i.e.\ keys like \Key{width} or \Key{scale} are executed on the content
+% beforehand.
+%
+% \DescribeKey{Precode}'='{<code before>}
+% Identical to \Key{precode} but does not sets the size of the content first.
+%
 %
 % \DescribeKey{execute}'='<code>
 % Simply executes the code immediately. This is done in the key processing phase and is intended mostly for debugging purposes.
