@@ -420,6 +420,18 @@
 % form {\macrodescstyle\textbackslash\meta{name}} \ldots {\macrodescstyle{\textbackslash end\meta{name}}}.
 %
 %
+% \DescribeMacro\renewadjustboxenv{<name>}[<num>][<default>]{<key=value,\ldots>}
+% \DescribeMacro\renewadjustboxenv*{<name>}[<num>][<default>]{<key=value,\ldots>}
+% Like \Macro\newadjustboxenv and \Macro\newadjustboxenv* but will redefine an existing macro/environment and cause an
+% error if it was not yet defined.
+%
+%
+% \DescribeMacro\provideadjustboxenv{<name>}[<num>][<default>]{<key=value,\ldots>}
+% \DescribeMacro\provideadjustboxenv*{<name>}[<num>][<default>]{<key=value,\ldots>}
+% Like \Macro\newadjustboxenv and \Macro\newadjustboxenv* but will define a macro/environment only if it does not exists
+% yet.
+%
+%
 % \DescribeMacro\newadjustboxcmd{<\textbackslash macro>}[<num>][<default>]{<key=value,\ldots>}
 % This declaration defines a macro which applies the given \pkg{adjustbox} keys to its content.
 % As with \Macro\adjustbox the content is read as box, not as macro argument.
@@ -434,6 +446,11 @@
 %   \frotate{30}{Text}
 %   \end{examplecode}
 % \end{example}
+%
+%
+% \DescribeMacro\renewadjustboxcmd{<\textbackslash macro>}[<num>][<default>]{<key=value,\ldots>}
+% Like \Macro\newadjustboxcmd but will redefine an existing macro and cause an
+% error if it was not yet defined.
 %
 % ^^A )))2
 % \clearpage\subsection{Setting keys globally} ^^A (((2
@@ -897,6 +914,20 @@
 %   \end{examplecode}
 % \end{example}
 %
+% \DescribeKey{rndcornersbox}
+% Like \Key{rndframe} (see argument list there) but only clips the corners without drawing a frame.
+%
+% \DescribeKey{rndfbox}
+% Like \Key{rndframe} (see argument list there) but with preset
+% \begingroup
+% \colorlet{keydesc}{keydesc!50!green}
+% \Key{sep}'='0pt.
+% \endgroup
+%
+% \DescribeMacro\rndcornersbox
+% \DescribeMacro\rndframebox
+% \DescribeMacro\rndfbox
+% Standlone macro versions of the corresponding keys. See there for the list of arguments.
 %
 % ^^A )))2
 % \clearpage\subsection{Vertical Alignment} ^^A (((2
