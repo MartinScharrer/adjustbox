@@ -1287,6 +1287,16 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\centerpagebox}
+%    \begin{macrocode}
+\newcommand\centerpagebox[1][\linewidth]{%
+    \collectboxcheckenv{centerpagebox}%
+    \noindent\checkoddpage
+    \@collectbox{\@lapbox{#1}{-1in-\hoffset-\ifoddpage\oddsidemargin\else\evensidemargin\fi+.5\paperwidth-.5\width-\@totalleftmargin}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
 %    \begin{macrocode}
 \IfFileExists{ifoddpage.sty}{%
     \RequirePackage{ifoddpage}%
