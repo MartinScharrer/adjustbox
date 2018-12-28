@@ -1138,6 +1138,18 @@
 % If the content is wider than the available width it will stick into the outer inner without causing an overfull hbox warning.
 %
 %
+% \DescribeKey{centerpage}
+% \DescribeKey{centerpage}'='<width>
+% This key centers the content relative to the page and not to the text area. Afterwards the content has the same distance to the 
+% left and right page borders. It differs from the \Key{center} key of the left and right margins are different which is the case in 
+% |twoside| documents. Note that the content will look misalign to the text paragraphs before and afterwards and is therefore only 
+% pleasing for overwide images or similar content. 
+%
+% The optional width defaults to \Macro\linewidth and determines the official width of the content. If a smaller value is selected 
+% following material will be placed on the same line while maybe overlapping the content. 
+% Larger values will cause an |Overfull \hbox| warning.
+%
+%
 % \DescribeMacro\centerbox[<width>]{<content>}
 % \vspace{-1.5\baselineskip}
 % \DescribeEnv[<content>]{centerbox}[<width>]
@@ -1174,6 +1186,14 @@
 % \vspace{-1.5\baselineskip}
 % \DescribeEnv[<content>]{outersidebox}[<width>]
 % Macro and environment version of the \Key{outer} key. The optional width argument defaults to \Macro\linewidth.
+% Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
+% placing a |\mbox{}| or the identical |\null| macro before it.
+%
+%
+% \DescribeMacro\centerpagebox[<width>]{<content>}
+% \vspace{-1.5\baselineskip}
+% \DescribeEnv[<content>]{centerpagebox}[<width>]
+% Macro and environment version of the \Key{centerpage} key. The optional width argument defaults to \Macro\linewidth.
 % Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
 % placing a |\mbox{}| or the identical |\null| macro before it.
 %

@@ -1240,6 +1240,15 @@
 % \end{key}
 %
 %
+% \begin{key}{adjbox}{centerpage}
+%    \begin{macrocode}
+\define@adjboxkey@defvalue{centerpage}{\linewidth}{%
+    \centerpagebox[{#1}]%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
 % \begin{macro}{\outersidebox}
 %    \begin{macrocode}
 \newcommand\outersidebox[1][\linewidth]{%
@@ -1303,10 +1312,10 @@
 }{%
     \renewcommand\outersidebox[1][]{%
         \PackageError{adjustbox}{%
-            The 'outer' and 'inner' keys as well as the\MessageBreak
-            \string\outersidebox\space and \string\innersidebox\space macros\MessageBreak
-            require the 'ifoddpage' package, which is not\MessageBreak
-            installed}{}%
+            The 'outer', 'inner' and 'centerpage' keys as well as the\MessageBreak
+            \string\outersidebox, \string\innersidebox\space and \MessageBreak
+            \string\centerpagebox\space macros require the \MessageBreak
+            'ifoddpage' package, which is not installed}{}%
     }%
     \let\innersidebox\outersidebox
 }%
