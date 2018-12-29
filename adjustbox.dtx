@@ -545,7 +545,7 @@
 %
 %
 % \subsubsection*{Default unit}
-% If no unit is provided for of the bounding box coordinates (llx, lly, urx, ury) in the trim and clip features then
+% If no unit is provided for of the bounding box coordinates (left, bottom, right, top) in the trim and clip features then
 % PostScript points (\emph{big points}, bp, $72\,\text{bp}=1\,\text{inch}$) are used, as it is the default behaviour of
 % the \Key{trim} and \Key{viewport} options of \pkg{graphicx}'s \Macro\includegraphics. Note that \pkg{graphicx}
 % converts all values, independent if a unit is provided or not, internally to bp, because graphics where traditionally
@@ -569,19 +569,17 @@
 % and environments (\env{trimbox}, \env{clipbox}, etc.) are included in the 
 % accompanying \pkg{trimclip} package and are explained in its manual.
 %
-% \DescribeKey{trim}'='<llx>~<lly>~<urx>~<ury>
 % \DescribeKey{trim}'='<all sites>
 % \DescribeKey{trim}'='<left/right>~<top/bottom>
+% \DescribeKey{trim}'='<left>~<bottom>~<right>~<top>
 % This key represents the original \Key{trim} key of \Macro\includegraphics but accepts its value in different forms.
 % Unlike most other keys it always acts on the original content independent in which order it is used with other keys.
-% The key trims the given amounts from the lower left (ll) and the upper right (ur) corner of the box. This means that
-% the amount \meta{llx} is trimmed from the left side, \meta{lly} from the bottom and \meta{urx} and \meta{ury} from the
-% right and top of the box, respectively.
 % If only one value is given it will be used for all four sites.
-% If only two values are given the first one will be used for the left and right side (llx, urx) and the second for the
-% bottom and top side (lly, ury).
+% If only two values are given, seperated by a space, the first one will be used for the left and right side and the second for the
+% bottom and top side. 
+% 
 %
-% \DescribeKey{viewport}'='<llx>~<lly>~<urx>~<ury>
+% \DescribeKey{viewport}'='<left>~<bottom>~<right>~<top>
 % This key represents the original \Key{viewport} key of \Macro\includegraphics.
 % It always trims the original content to the given view port independent from its position.
 %
@@ -594,10 +592,10 @@
 % bad idea.
 %
 %
-% \DescribeKey{Trim}'='<llx>~<lly>~<urx>~<ury>
 % \DescribeKey{Trim}'='<all sites>
 % \DescribeKey{Trim}'='<left/right>~<top/bottom>
-% \DescribeKey{Viewport}'='<llx>~<lly>~<urx>~<ury>
+% \DescribeKey{Trim}'='<left>~<bottom>~<right>~<top>
+% \DescribeKey{Viewport}'='<left>~<bottom>~<right>~<top>
 % The normal \Key{trim} and \Key{viewport} keys are applied on the original content before any resizing or (most) other
 % keys take effect.  This is because for \Macro\includegraphics the trimming is done by the internal graphic driver,
 % while the effects can be applied later (but can also be driver dependent).
@@ -608,10 +606,10 @@
 % has no effect on them.
 %
 %
-% \DescribeKey{Clip}'='<llx>~<lly>~<urx>~<ury>
 % \DescribeKey{Clip}'='<all sites>
 % \DescribeKey{Clip}'='<left/right>~<top/bottom>
-% \DescribeKey{Clip*}'='<llx>~<lly>~<urx>~<ury>
+% \DescribeKey{Clip}'='<left>~<bottom>~<right>~<top>
+% \DescribeKey{Clip*}'='<left>~<bottom>~<right>~<top>
 % The \Key{Clip} key will clip the given amounts from the current content and can be used several times if required.
 % The starred version will use the given coordinates as \Key{viewport}.
 % These keys work by wrapping the content internally in a \Macro\clipbox or \Macro\clipbox*\relax macro.
@@ -634,9 +632,9 @@
 %
 % \DescribeKey{margin}'='<all sites>
 % \DescribeKey{margin}'='<left/right>~<top/bottom>
-% \DescribeKey{margin}'='<llx>~<lly>~<urx>~<ury>
+% \DescribeKey{margin}'='<left>~<bottom>~<right>~<top>
 % This key can be used to add a margin (white space) around the content. It can be seen as the opposite of \Key{Trim}.
-% The original baseline of the content is preserved because \meta{lly} is added to the depth.
+% The original baseline of the content is preserved because \meta{bottom} is added to the depth.
 % It is also available under the alternative name \Key{padding}, which can be used to more visually distinguish an inner
 % margin from an outer margin e.g.\ if a frame is added.
 %
@@ -648,8 +646,8 @@
 %
 % \DescribeKey{margin*}'='<all sites>
 % \DescribeKey{margin*}'='<left/right>~<top/bottom>
-% \DescribeKey{margin*}'='<llx>~<lly>~<urx>~<ury>
-% This starred version is almost identical to the normal \Key{margin} key, but also raises the content by the \MacroArgs<lly>
+% \DescribeKey{margin*}'='<left>~<bottom>~<right>~<top>
+% This starred version is almost identical to the normal \Key{margin} key, but also raises the content by the \MacroArgs<bottom>
 % amount, so that the original depth is preserved instead of the original baseline.
 % Note that while \Key{margin} is basically the opposite of \Key{Trim}, \Key{margin*} is not the opposite of \Key{Trim*}.
 % Instead it also takes the same values as the unstarred key and not viewport values like \Key{Trim*}.
@@ -895,10 +893,10 @@
 %
 % \DescribeKey{rndframe}'='<all sites>
 % \DescribeKey{rndframe}'='<left/right>~<top/bottom>
-% \DescribeKey{rndframe}'='<llx>~<lly>~<urx>~<ury>
+% \DescribeKey{rndframe}'='<left>~<bottom>~<right>~<top>
 % \DescribeKey{rndframe}'='{<options>}{<all sites>}
 % \DescribeKey{rndframe}'='{<options>}{<left/right>~<top/bottom>}
-% \DescribeKey{rndframe}'='{<options>}{<llx>~<lly>~<urx>~<ury>}
+% \DescribeKey{rndframe}'='{<options>}{<left>~<bottom>~<right>~<top>}
 %
 % \begingroup
 % \colorlet{keydesc}{keydesc!50!green}
