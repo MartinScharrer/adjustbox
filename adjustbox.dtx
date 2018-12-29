@@ -1764,15 +1764,19 @@
 % Identical to \Key{addcode} but does not sets the size of the content first.
 %
 % \DescribeKey{appcode}'='<code afterwards>
-% Appends come \meta{code after} the content and the already existing code around it which was added by other keys beforehand.
-% More complex code should be enclosed in braces.
+% Appends the given \LaTeX\ code after the currently accumulated content. Note that this is the original content of the adjusted box \emph{and} all code
+% added by the previous keys. 
+%
+% It is recommended to wrap complex code into braces.
 %
 % \DescribeKey{precode}'='<code before>
-% Prepends come \meta{code afterwards} the content and the already existing code around it which was added by other keys beforehand.
-% More complex code should be enclosed in braces.
-% This key sets
-% the size of the content before adding the code, i.e.\ keys like \Key{width} or \Key{scale} are executed on the content
+% Prepends the given \LaTeX\ code before the currently accumulated content. Note that this is the original content of the adjusted box \emph{and} all code
+% added by the previous keys. The content is wrapped into curly braces, so the given code can use it as a macro argument.
+% This key sets the size of the content before adding the code, i.e.\ keys like \Key{width} or \Key{scale} are executed on the content
 % beforehand.
+%
+% It is recommended to wrap complex code into braces.
+%
 %
 % \DescribeKey{Precode}'='{<code before>}
 % Identical to \Key{precode} but does not sets the size of the content first.
