@@ -317,8 +317,10 @@
 % This package accepts the following options:
 %
 % \begin{description}\def\oitem#1{\item[{\normalfont\opt{#1}}]}
-%   \oitem{export} Exports most keys of \Macro\adjustbox to \Macro\includegraphics so that they can be used with this
-%                  macro as well.
+%   \oitem{export} Exports the keys of \Macro\adjustbox to \Macro\includegraphics so that they can be used with this
+%                  macro as well. Note that not all keys will works properly with \Macro\includegraphics as its internal 
+%                  code does not support all features. If problems occur the \option{Export} should be used.
+%                  For new documents it is recommended to use the macro \Macro\adjustimage{<keys>}{<filename>} instead. 
 %   \oitem{Export} Sets \Macro\includegraphics to be identical to \Macro\adjincludegraphics, which also allows the usage
 %                  of all \Macro\adjustbox keys.
 %   \oitem{pgf} This option is passed to \pkg{trimclip} and makes it to use the \pkg{pgf} package for all clip operations.
