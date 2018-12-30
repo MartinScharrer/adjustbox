@@ -1733,6 +1733,19 @@
 % A previously used \Key{caption} and \Key{label} will be added.
 %
 %
+% \DescribeKey{nofloat env}=<environment name>
+% Defines the surrounding environment used by \Key{nofloat}, which is by default |minipage|. This key is provided 
+% for fine adjustments, but care must be taken as not all environment can handle e.g.\ the caption code.
+% Note that the environment must accept a single argument which is the requested width.
+% When used must be placed \emph{before} \Key{nofloat} in order to take effect.
+%
+%
+% \DescribeKey{nofloat width}=<length expression>
+% Defines the requested width of a \Key{nofloat}. The environment defined by Key{nofloat env} 
+% will receive the given expression as only argument. 
+% When used must be placed \emph{before} \Key{nofloat} in order to take effect.
+%
+%
 % \DescribeEnv[<content>]{adjnofloat}{<float type>}
 % This environment is used internally by \Key{nofloat} to create a non-floating replacement of the given float type
 % (|figure|, |table|, etc.). It can also be used directly with other code or be redefined to change the
