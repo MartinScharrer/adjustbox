@@ -55,10 +55,14 @@
 % \begin{macro}{\@rndframearoundbox}
 % Round frame around a box.
 %    \begin{macrocode}
-\def\@rndframearoundbox#1#2#3#4#5{%
+\def\@rndframearoundbox#1#2#3#4#5#6{%
     \setbox#1\hbox{\begin{pgfpicture}%
         \adjsetlength\@tempdima{\fboxsep+.5\fboxrule}%
         \@marginbox#1\@tempdima\@tempdima\@tempdima\@tempdima%
+        \edef\@tempa{#6}%
+        \ifx\@empty\@tempa\else
+            \@clipcornersofbox{#1}{#2}{#3}{#4}{#5}%
+        \fi           
         \pgfset{inner sep=\z@,outer sep=\z@,minimum size=\z@}%
         \pgfnode{rectangle}{base west}{\usebox#1}{}{}%
         \pgfusepath{}%

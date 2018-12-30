@@ -94,7 +94,7 @@
 % \begin{macro}{\@rndframearoundbox}
 % Clips round corners off.
 %    \begin{macrocode}
-\def\@rndframearoundbox#1#2#3#4#5{%
+\def\@rndframearoundbox#1#2#3#4#5#6{%
     \setbox#1=\hbox{%
         \adjsetlength\@tempdima{\fboxsep+.5\fboxrule}%
         \@marginbox#1\@tempdima\@tempdima\@tempdima\@tempdima%
@@ -113,6 +113,10 @@
         \adjcalc@settobp\WIDTHmRADIUSBR{\wd#1-#4}%
         \adjcalc@settobp\DEPTHmRADIUSBL{\dp#1-#5}%
         \adjcalc@settobp\LINEWIDTH{\fboxrule}%
+        \edef\@tempa{#6}%
+        \ifx\@empty\@tempa\else
+            \@clipcornersofbox{#1}{#2}{#3}{#4}{#5}%
+        \fi        
         %
         \hbox to 0pt{\copy#1\hss}%
         \hbox to 0pt{%
