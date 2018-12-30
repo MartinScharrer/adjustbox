@@ -3180,43 +3180,29 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\adjbox@nofloatwidth}
-%    \begin{macrocode}
-\def\adjbox@nofloatwidth{\linewidth}
-%    \end{macrocode}
-% \end{macro}%
-%
-% \begin{key}{adjbox}{nofloat env}
-%    \begin{macrocode}
-\define@key\adjbox@fam{nofloat env}{%
-    \def\adjbox@nofloatenv{#1}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{key}{adjbox}{nofloat width}
-%    \begin{macrocode}
-\define@key\adjbox@fam{nofloat width}{%
-    \def\adjbox@nofloatwidth{#1}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-% \begin{environment}{adjnofloat}
-% Environment used for non-floats. 
+% \begin{macro}{\adjbox@nofloatcaptionsetup}
 % Calls \Macro\captionsetup from the \pkg{caption} package if defined, otherwise sets \Macro\@captype directly.
 % Calls \Macro\capstart from the \pkg{hypcap} package if defined. Both are done to ensure correct hypertargets on top
 % of the content and not at the caption position.
 %    \begin{macrocode}
-\newenvironment{adjnofloat}[1]{%
-    \par\noindent
-    \csname\adjbox@nofloatenv\endcsname{\adjbox@nofloatwidth}%
+\def\adjbox@nofloatcaptionsetup#1{%
     \@ifundefined{captionsetup}%
     	{\def\@captype{#1}}%
     	{\captionsetup{type={#1}}}%
 	\csname capstart\endcsname
+}
+%    \end{macrocode}
+% \end{macro}%
+%
+% \begin{environment}{adjnofloat}
+% Environment used for non-floats. 
+%    \begin{macrocode}
+\newenvironment{adjnofloat}[1]{%
+    \par\noindent
+    \minipage{\linewidth}%
+    \adjbox@nofloatcaptionsetup{#1}%
 }{%
-    \csname end\adjbox@nofloatenv\endcsname\par
+    \endminipage\par
 }
 %    \end{macrocode}
 % \end{environment}
