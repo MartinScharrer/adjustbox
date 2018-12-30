@@ -27,7 +27,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@clipcornersofbox}
+% \begin{macro}{\@clipcornersofbox}[5]{<box register}{<upper left>}{<upper right>}{<lower left>}{<lower right>}
 % Clips round corners off.
 %    \begin{macrocode}
 \def\@clipcornersofbox#1#2#3#4#5{%
@@ -36,10 +36,10 @@
         \pgfpatharc{180}{90}{#2}%
         \pgfpathlineto{\pgfpoint{\wd#1-#3}{\ht#1}}%
         \pgfpatharc{90}{0}{#3}%
-        \pgfpathlineto{\pgfpoint{\wd#1}{#4-\dp#1}}%
-        \pgfpatharc{0}{-90}{#4}%
-        \pgfpathlineto{\pgfpoint{#5}{-\dp#1}}%
-        \pgfpatharc{270}{180}{#5}%
+        \pgfpathlineto{\pgfpoint{\wd#1}{#5-\dp#1}}%
+        \pgfpatharc{0}{-90}{#5}%
+        \pgfpathlineto{\pgfpoint{#4}{-\dp#1}}%
+        \pgfpatharc{270}{180}{#4}%
         \pgfpathlineto{\pgfpoint{\z@}{\ht#1-#2}}%
         \pgfpathclose
         \pgfusepathqclip
@@ -52,7 +52,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@rndframearoundbox}
+% \begin{macro}{\@rndframearoundbox}[6]{<box register}{<upper left>}{<upper right>}{<lower left>}{<lower right>}{<clip>}
 % Round frame around a box.
 %    \begin{macrocode}
 \def\@rndframearoundbox#1#2#3#4#5#6{%
@@ -71,10 +71,10 @@
         \pgfpatharc{180}{90}{#2}%
         \pgfpathlineto{\pgfpoint{\wd#1-#3}{\ht#1}}%
         \pgfpatharc{90}{0}{#3}%
-        \pgfpathlineto{\pgfpoint{\wd#1}{#4-\dp#1}}%
-        \pgfpatharc{0}{-90}{#4}%
-        \pgfpathlineto{\pgfpoint{#5}{-\dp#1}}%
-        \pgfpatharc{270}{180}{#5}%
+        \pgfpathlineto{\pgfpoint{\wd#1}{#5-\dp#1}}%
+        \pgfpatharc{0}{-90}{#5}%
+        \pgfpathlineto{\pgfpoint{#4}{-\dp#1}}%
+        \pgfpatharc{270}{180}{#4}%
         \pgfpathlineto{\pgfpoint{\z@}{\ht#1-#2}}%
         \pgfpathclose
         \pgfusepath{stroke}%

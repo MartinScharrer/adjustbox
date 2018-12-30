@@ -30,7 +30,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@clip@bpdimens}
+% \begin{macro}{\@clip@bpdimens}[5]{<box register}{<upper left>}{<upper right>}{<lower left>}{<lower right>}
 %    \begin{macrocode}
 \def\@clip@bpdimens#1#2#3#4#5{%
     \adjcalc@settobp\TOTALHEIGHT{\ht#1+\dp#1}%
@@ -39,8 +39,8 @@
     \adjcalc@settobp\WIDTH{\wd#1}%
     \adjcalc@settobp\RADIUSTL{#2}%
     \adjcalc@settobp\RADIUSTR{#3}%
-    \adjcalc@settobp\RADIUSBR{#4}%
-    \adjcalc@settobp\RADIUSBL{#5}%
+    \adjcalc@settobp\RADIUSBL{#4}%
+    \adjcalc@settobp\RADIUSBR{#5}%
     \adjcalc@settobp\RADIUSTLb{\tc@bezfacn#2}%
     \adjcalc@settobp\HEIGHTmRADIUSTL{\ht#1-#2}%
     \adjcalc@settobp\HEIGHTmRADIUSTLb{\ht#1-\tc@bezfacn#2}%
@@ -48,13 +48,13 @@
     \adjcalc@settobp\HEIGHTmRADIUSTRb{\ht#1-\tc@bezfacn#3}%
     \adjcalc@settobp\WIDTHmRADIUSTR{\wd#1-#3}%
     \adjcalc@settobp\WIDTHmRADIUSTRb{\wd#1-\tc@bezfacn#3}%
-    \adjcalc@settobp\RADIUSBRmDEPTH{#4-\dp#1}%
-    \adjcalc@settobp\RADIUSBRmDEPTHb{\tc@bezfacn#4-\dp#1}%
-    \adjcalc@settobp\WIDTHmRADIUSBR{\wd#1-#4}%
-    \adjcalc@settobp\WIDTHmRADIUSBRb{\wd#1-\tc@bezfacn#4}%
-    \adjcalc@settobp\RADIUSBLmDEPTH{#5-\dp#1}%
-    \adjcalc@settobp\RADIUSBLmDEPTHb{\tc@bezfacn#5-\dp#1}%
-    \adjcalc@settobp\RADIUSBLb{\tc@bezfacn#5}%
+    \adjcalc@settobp\RADIUSBRmDEPTH{#5-\dp#1}%
+    \adjcalc@settobp\RADIUSBRmDEPTHb{\tc@bezfacn#5-\dp#1}%
+    \adjcalc@settobp\WIDTHmRADIUSBR{\wd#1-#5}%
+    \adjcalc@settobp\WIDTHmRADIUSBRb{\wd#1-\tc@bezfacn#5}%
+    \adjcalc@settobp\RADIUSBLmDEPTH{#4-\dp#1}%
+    \adjcalc@settobp\RADIUSBLmDEPTHb{\tc@bezfacn#4-\dp#1}%
+    \adjcalc@settobp\RADIUSBLb{\tc@bezfacn#4}%
     \adjcalc@settobp\LINEWIDTH{\fboxrule}%
 }
 %    \end{macrocode}
@@ -79,7 +79,7 @@
 %
 %
 %
-% \begin{macro}{\@clipcornersofbox}
+% \begin{macro}{\@clipcornersofbox}[5]{<box register}{<upper left>}{<upper right>}{<lower left>}{<lower right>}
 % Clips round corners off.
 %    \begin{macrocode}
 \def\@clipcornersofbox#1#2#3#4#5{%
@@ -104,7 +104,7 @@
 %
 %
 %
-% \begin{macro}{\@rndframearoundbox}
+% \begin{macro}{\@rndframearoundbox}[6]{<box register}{<upper left>}{<upper right>}{<lower left>}{<lower right>}{<clip>}
 % Round frame around a box.
 %    \begin{macrocode}
 \def\@rndframearoundbox#1#2#3#4#5#6{%

@@ -616,16 +616,18 @@
 % The starred version will use the given coordinates as \Key{viewport}.
 % These keys work by wrapping the content internally in a \Macro\clipbox or \Macro\clipbox*\relax macro.
 %
+%
 % \DescribeKey{rndcorners}'='<radius for all four corners>
-% \DescribeKey{rndcorners}'='<upper left>~<upper right>~<lower right>~<lower left>
+% \DescribeKey{rndcorners}'='<left corners>~<right corners>
+% \DescribeKey{rndcorners}'='<upper left>~<upper right>~<lower left>~<lower right>
 % This key produces round corners by clipping the content. This is done using the same way as the 
 % above clipping keys but instead of a rectangle clipping path one with quarter circles is used.
-% The radius of the every round corner can be given separatly if wanted. If only one value is given
-% it is used for all four corners. A value of 0pt will produce a normal rectangular corner.
+% The radius of the every round corner can be given separately if wanted. If only one value is given
+% it is used for all four corners. If only two values are given they will be used for the left and right side, respectively.
+% A value of 0pt will produce a normal rectangular corner.
 % No radius should be larger than half the smallest side (minimum of \Macro\width and \Macro\totalheight).
 %
-% Please see also the related keys \Key{fbox} and \Key{rndframe}, which allow to add a rounded frame around the content as well.
-%
+% Please see also the related keys \Key{rndfbox} and \Key{rndframe}, which allow to add a rounded frame around the content as well.
 %
 %
 % ^^A )))2
@@ -893,12 +895,12 @@
 % \end{example}
 %
 %
-% \DescribeKey{rndframe}'='<all sites>
-% \DescribeKey{rndframe}'='<left/right>~<top/bottom>
-% \DescribeKey{rndframe}'='<left>~<bottom>~<right>~<top>
-% \DescribeKey{rndframe}'='{<options>}{<all sites>}
-% \DescribeKey{rndframe}'='{<options>}{<left/right>~<top/bottom>}
-% \DescribeKey{rndframe}'='{<options>}{<left>~<bottom>~<right>~<top>}
+% \DescribeKey{rndframe}'='<radius for all four corners>
+% \DescribeKey{rndframe}'='<left corners>~<right corners>
+% \DescribeKey{rndframe}'='<upper left>~<upper right>~<lower left>~<lower right>
+% \DescribeKey{rndframe}'='{<options>}{<radius for all four corners>}
+% \DescribeKey{rndframe}'='{<options>}{<left corners>~<right corners>}
+% \DescribeKey{rndframe}'='{<options>}{<upper left>~<upper right>~<lower left>~<lower right>}
 %
 % \begingroup
 % \colorlet{keydesc}{keydesc!50!green}
@@ -931,7 +933,7 @@
 % \DescribeMacro\rndcornersbox
 % \DescribeMacro\rndframebox
 % \DescribeMacro\rndfbox
-% Standlone macro versions of the corresponding keys. See there for the list of arguments.
+% Standalone macro versions of the corresponding keys. See there for the list of arguments.
 %
 % ^^A )))2
 % \clearpage\subsection{Vertical Alignment} ^^A (((2
