@@ -94,7 +94,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\adjbox@addkeysbefore}
+% \begin{macro}{\adjbox@addkeysbefore}[1]{<keys>}
 %    \begin{macrocode}
 \def\adjbox@addkeysbefore#1{%
     \ifx\@nnil#1\@nnil
@@ -108,7 +108,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\adjbox@addkeysafter}
+% \begin{macro}{\adjbox@addkeysafter}[1]{<keys>}
 %    \begin{macrocode}
 \def\adjbox@addkeysafter#1{%
     \begingroup
@@ -134,7 +134,7 @@
 %
 %
 %
-% \begin{macro}{\adjustbox}
+% \begin{macro}{\adjustbox}[1]{<keys>}
 % Now processes the keys before the box is read to allow for parbox or similar modes.
 %
 % This code was originally adapted from the \Macro\Gin@ii macro from the |graphicx| package.
@@ -188,7 +188,7 @@
 % \end{environment}
 %
 %
-% \begin{macro}{\adjustbox@}
+% \begin{macro}{\adjustbox@}[1]{<keys>}
 % Second part of \Macro\adjustbox, after the content has been boxed.
 % This sets the dimension macros, processes the keys and finally typesets the content.
 %    \begin{macrocode}
@@ -438,7 +438,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\adjincludegraphics}
+% \begin{macro}{\adjincludegraphics}[2]{<keys>}{<filename>}
 % Simple wrapper to use \Macro\adjustbox for images in the same format of \Macro\includegraphics.
 % This allows to simply do |\let\includegraphics\adjincludegraphics|, which is done by the \opt{Export} option.
 %    \begin{macrocode}
@@ -535,7 +535,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\adjustbox@provideenvironment}
+% \begin{macro}{\adjustbox@provideenvironment}[1]{<environment name>}
 % Tests if the environment already exists and calls the internal
 % macro of \Macro\newenvironment if not. Otherwise, the two optional
 % and two mandatory arguments are gobbled.
@@ -568,7 +568,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\newadjustboxenv@}
+% \begin{macro}{\newadjustboxenv@}[1]{<environment name>}
 %    \begin{macrocode}
 \def\newadjustboxenv@#1{%
     \@ifnextchar{[}%
@@ -579,7 +579,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@newadjustboxenv}
+% \begin{macro}{\@newadjustboxenv}[2]{<environment name>}{<optional argument>}
 %    \begin{macrocode}
 \def\@newadjustboxenv#1[#2]{%
     \@ifnextchar{[}%
@@ -590,7 +590,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@@newadjustboxenv}
+% \begin{macro}{\@@newadjustboxenv}[3]{<environment name>}{<previous optional argument>}{<optional argument>}
 %    \begin{macrocode}
 \def\@@newadjustboxenv#1#2[#3]{%
     \@@@newadjustboxenv{#1}{[#2][#3]}%
@@ -599,7 +599,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@@@newadjustboxenv@}
+% \begin{macro}{\@@@newadjustboxenv@}[3]{<environment name>}{<optional arguments in brackets>}{<keys>}
 %    \begin{macrocode}
 \def\@@@newadjustboxenv@#1#2#3{%
     \expandafter
@@ -616,7 +616,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@@@newadjustboxenv}
+% \begin{macro}{\@@@newadjustboxenv}[3]{<environment name>}{<optional arguments in brackets>}{<keys>}
 %    \begin{macrocode}
 \def\@@@newadjustboxenv#1#2#3{%
     \expandafter
@@ -632,7 +632,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@@@newadjustboxcmd}
+% \begin{macro}{\@@@newadjustboxcmd}[3]{<environment name>}{<optional arguments in brackets>}{<keys>}
 %    \begin{macrocode}
 \def\@@@newadjustboxcmd#1#2#3{%
     \expandafter
@@ -651,7 +651,7 @@
 % \subsection{Internal code adding macros} ^^A (((
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% \begin{macro}{\adjbox@Gin@add}
+% \begin{macro}{\adjbox@Gin@add}[1]{<code>}
 %    \begin{macrocode}
 \def\adjbox@Gin@add#1{%
     \def\@tempa{#1}%
@@ -702,7 +702,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@adjustboxkey}
+% \begin{macro}{\@adjustboxkey}[1]{<key name>}
 %    \begin{macrocode}
 \def\@adjustboxkey#1{%
     \@ifstar
