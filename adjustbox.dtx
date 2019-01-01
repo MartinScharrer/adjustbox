@@ -1206,6 +1206,17 @@
 % Larger values will cause an |Overfull \hbox| warning.
 %
 %
+% \DescribeKey{centertextarea}
+% \DescribeKey{centertextarea}'='<width>
+% This key centers the content on the text area (the box with size \Macro\textwidth$\times$\Macro\textheight containing the text on a page)
+% even if the box is inside an indending environment like \env{enumerate}. For this it is assumed that the adjusted box is on the start
+% of a line or paragraph. If this is not the case the content will be overlapping the material on its left side.
+%
+% The optional width defaults to \Macro\linewidth and determines the official width of the content. If a smaller value is selected 
+% following material will be placed on the same line while maybe overlapping the content. 
+% Larger values will cause an |Overfull \hbox| warning.%
+%
+%
 % \DescribeKey{noindent}
 % This key will issue an \Macro\noindent for the \Macro\adjustbox to avoid a paragraph indention if it starts a paragraph.
 % It does not expect a value and will ignore it if provided.

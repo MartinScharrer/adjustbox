@@ -1427,9 +1427,20 @@
 %
 % \begin{key}{adjbox}{centerpage}
 %    \begin{macrocode}
-\define@adjboxkey@defvalue{centerpage}{\linewidth}{%
-    \centerpagebox[{#1}]%
-}
+\define@key\adjbox@fam{centerpage}[\linewidth]{%
+    \noindent\leavevmode
+    \adjbox@Gin@Add{\centerpagebox[{#1}]}%
+}%
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{centertextarea}
+%    \begin{macrocode}
+\define@key\adjbox@fam{centertextarea}[\linewidth]{%
+    \noindent\leavevmode
+    \adjbox@Gin@Add{\centertextareabox[{#1}]}%
+}%
 %    \end{macrocode}
 % \end{key}
 %
@@ -1481,15 +1492,50 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%
 % \begin{macro}{\centerpagebox}
 %    \begin{macrocode}
 \newcommand\centerpagebox[1][\linewidth]{%
     \collectboxcheckenv{centerpagebox}%
-    \noindent\checkoddpage
-    \@collectbox{\@lapbox{#1}{-1in-\hoffset-\ifoddpage\oddsidemargin\else\evensidemargin\fi+.5\paperwidth-.5\width-\@totalleftmargin}}%
+    \noindent\leavevmode\checkoddpage
+    \@collectbox{\@centerpagebox{#1}{-1in-\hoffset-\ifoddpage\oddsidemargin\else\evensidemargin\fi+.5\paperwidth-.5\@tempdimc-\@totalleftmargin}}%
 }
 %    \end{macrocode}
 % \end{macro}
+%
+% \begin{macro}{\@centerpagebox}
+%    \begin{macrocode}
+\def\@centerpagebox#1#2{%
+    \adjsetlength\@tempdimc{#1}%
+    \ifdim\@tempdimc<\z@
+        \@tempdimc=\z@
+    \fi
+    \adjsetlength\@tempdima{#2}%
+    \ifdim\@tempdima<\z@
+        \@tempdimb=-\@tempdima
+    \else
+        \@tempdimb=\@tempdima
+    \fi
+    \ifdim\@tempdima<\z@
+        \hb@xt@\@tempdimc{\hss\hb@xt@\@tempdimb{\hb@xt@\@tempdimc{\hss\usebox\collectedbox\hss}\hss}\hskip\@tempdimc}%
+    \else
+        \hb@xt@\@tempdimc{\hskip\@tempdimc\hb@xt@\@tempdimb{\hss\hb@xt@\@tempdimc{\hss\usebox\collectedbox\hss}}\hss}%
+    \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\centertextarea}
+%    \begin{macrocode}
+\newcommand\centertextareabox[1][\linewidth]{%
+    \collectboxcheckenv{centertextareabox}%
+    \noindent\leavevmode
+    \@collectbox{\@centerpagebox{#1}{-\@totalleftmargin+.5\textwidth-.5\linewidth}}%
+}
+%    \end{macrocode}
+% \end{macro}%
+%
 %
 %    \begin{macrocode}
 \IfFileExists{ifoddpage.sty}{%
@@ -1497,10 +1543,12 @@
 }{%
     \renewcommand\outersidebox[1][]{%
         \PackageError{adjustbox}{%
-            The 'outer', 'inner' and 'centerpage' keys as well as the\MessageBreak
-            \string\outersidebox, \string\innersidebox\space and \MessageBreak
-            \string\centerpagebox\space macros require the \MessageBreak
-            'ifoddpage' package, which is not installed}{}%
+            The 'outer', 'inner', 'centerpage' and 'centertextarea'\MessageBreak 
+            keys as well as the \MessageBreak
+            \string\outersidebox, \string\innersidebox, \MessageBreak
+            \string\centerpagebox\space and \string\centertextarea\space macros \MessageBreak 
+            require the 'ifoddpage' package, \MessageBreak
+            which is not installed}{}%
     }%
     \let\innersidebox\outersidebox
 }%
