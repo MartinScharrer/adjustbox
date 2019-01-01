@@ -438,6 +438,11 @@
 % yet.
 %
 %
+% \DescribeMacro\declareadjustboxenv{<name>}[<num>][<default>]{<key=value,\ldots>}
+% \DescribeMacro\declareadjustboxenv*{<name>}[<num>][<default>]{<key=value,\ldots>}
+% Like \Macro\newadjustboxenv and \Macro\newadjustboxenv* but will always define a macro/environment even if it does already exist.
+%
+%
 % \DescribeMacro\newadjustboxcmd{<\textbackslash macro>}[<num>][<default>]{<key=value,\ldots>}
 % This declaration defines a macro which applies the given \pkg{adjustbox} keys to its content.
 % As with \Macro\adjustbox the content is read as box, not as macro argument.
@@ -483,6 +488,9 @@
 %   \myimage[blue]{2cm}{example-image}
 %   \end{examplecode}
 % \end{example}
+%
+% \DescribeMacro\declareadjustimage{<\textbackslash macro>}[<num>][<default>]{<key=value,\ldots>}
+% Like \Macro\newadjustimage but will not cause an error if the macro is already defined.
 %
 %
 % \DescribeMacro\NewAdjustImage{<\textbackslash macro>}{<xparse argument specification>}{<key=value,\ldots>}

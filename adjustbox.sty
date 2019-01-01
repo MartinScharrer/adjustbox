@@ -477,19 +477,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\newadjustboxcmd}
-%    \begin{macrocode}
-\newcommand*\newadjustboxcmd{%
-    \begingroup
-    \let\@@@newadjustboxenv\@@@newadjustboxcmd
-    \def\new@adjustbox{\newcommand}%
-    \newadjustboxenv@
-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{macro}{\newadjustboxenv}
+% \begin{macro}{\renewadjustboxenv}
 %    \begin{macrocode}
 \newcommand*\renewadjustboxenv{%
     \begingroup
@@ -501,6 +489,58 @@
         \def\new@adjustbox{\renewcommand}%
         \newadjustboxenv@
     }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\provideadjustboxenv}
+%    \begin{macrocode}
+\newcommand*\provideadjustboxenv{%
+    \begingroup
+    \@ifstar{%
+        \let\@@@newadjustboxenv\@@@newadjustboxenv@
+        \def\new@adjustbox{\@star@or@long\adjustbox@provideenvironment}%
+        \newadjustboxenv@
+    }{%
+        \def\new@adjustbox{\providecommand}%
+        \newadjustboxenv@
+    }%
+}
+%    \end{macrocode}
+% \end{macro}%
+%
+%
+% \begin{macro}{\declareadjustboxenv}
+%    \begin{macrocode}
+\newcommand*\declareadjustboxenv{%
+    \begingroup
+    \@ifstar{%
+        \let\@@@newadjustboxenv\@@@newadjustboxenv@
+        \def\new@adjustbox##1{%
+            \expandafter\let\csname ##1\endcsname\@undefined
+            \newenvironment{##1}%
+        }%
+        \newadjustboxenv@
+    }{%
+        \def\new@adjustbox##1{%
+            \let##1\@undefined
+            \newcommand{##1}%
+        }%
+        \newadjustboxenv@
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\newadjustboxcmd}
+%    \begin{macrocode}
+\newcommand*\newadjustboxcmd{%
+    \begingroup
+    \let\@@@newadjustboxenv\@@@newadjustboxcmd
+    \def\new@adjustbox{\newcommand}%
+    \newadjustboxenv@
 }
 %    \end{macrocode}
 % \end{macro}
@@ -518,21 +558,28 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\newadjustboxenv}
+% \begin{macro}{\provideadjustboxcmd}
 %    \begin{macrocode}
-\newcommand*\provideadjustboxenv{%
+\newcommand*\provideadjustboxcmd{%
     \begingroup
-    \@ifstar{%
-        \let\@@@newadjustboxenv\@@@newadjustboxenv@
-        \def\new@adjustbox{\@star@or@long\adjustbox@provideenvironment}%
-        \newadjustboxenv@
-    }{%
-        \def\new@adjustbox{\providecommand}%
-        \newadjustboxenv@
-    }%
+    \let\@@@newadjustboxenv\@@@newadjustboxcmd
+    \def\new@adjustbox{\providecommand}%
+    \newadjustboxenv@
 }
 %    \end{macrocode}
-% \end{macro}
+% \end{macro}%
+%
+%
+% \begin{macro}{\provideadjustboxcmd}
+%    \begin{macrocode}
+\newcommand*\declareadjustboxcmd{%
+    \begingroup
+    \let\@@@newadjustboxenv\@@@newadjustboxcmd
+    \def\new@adjustbox##1{\let##1\@undefined\newcommand{##1}}%
+    \newadjustboxenv@
+}
+%    \end{macrocode}
+% \end{macro}%
 %
 %
 % \begin{macro}{\adjustbox@provideenvironment}[1]{<environment name>}
@@ -673,6 +720,17 @@
     \begingroup
     \let\@@@newadjustboxenv\@@@newadjustimage
     \def\new@adjustbox{\providecommand}%
+    \newadjustboxenv@
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\declareadjustimage}
+%    \begin{macrocode}
+\newcommand*\declareadjustimage{%
+    \begingroup
+    \let\@@@newadjustboxenv\@@@newadjustimage
+    \def\new@adjustbox##1{\let##1\@undefined\newcommand{##1}}%
     \newadjustboxenv@
 }
 %    \end{macrocode}
