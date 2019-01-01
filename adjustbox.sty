@@ -645,6 +645,129 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\newadjustimage}
+%    \begin{macrocode}
+\newcommand*\newadjustimage{%
+    \begingroup
+    \let\@@@newadjustboxenv\@@@newadjustimage
+    \def\new@adjustbox{\newcommand}%
+    \newadjustboxenv@
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\renewadjustimage}
+%    \begin{macrocode}
+\newcommand*\renewadjustimage{%
+    \begingroup
+    \let\@@@newadjustboxenv\@@@newadjustimage
+    \def\new@adjustbox{\renewcommand}%
+    \newadjustboxenv@
+}
+%    \end{macrocode}
+% \end{macro}%
+%
+% \begin{macro}{\provideadjustimage}
+%    \begin{macrocode}
+\newcommand*\provideadjustimage{%
+    \begingroup
+    \let\@@@newadjustboxenv\@@@newadjustimage
+    \def\new@adjustbox{\providecommand}%
+    \newadjustboxenv@
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@@newadjustimage}[3]{<macro name>}{<optional arguments in brackets>}{<keys>}
+%    \begin{macrocode}
+\def\@@@newadjustimage#1#2#3{%
+    \expandafter
+    \endgroup
+    \new@adjustbox{#1}#2{%
+        \begingroup
+        \def\@tempa####1{%
+            \def\IMAGEFILENAME{####1}%
+            \@adjustbox{#3}{\Gin@clipfalse\expandafter\Gin@i\expandafter{\IMAGEFILENAME}}%
+        }%
+        \@tempa
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\NewAdjustImage}
+%    \begin{macrocode}
+\newcommand*\adjustbox@NewAdjustImage[4]{%
+    \adjustbox@checkforxparse
+    #1{#2}{#3}{%
+        \begingroup
+        \def\@tempa####1{%
+            \def\IMAGEFILENAME{####1}%
+            \@adjustbox{#4}{\Gin@clipfalse\expandafter\Gin@i\expandafter{\IMAGEFILENAME}}%
+        }%
+        \@tempa
+    }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\NewAdjustImage}
+%    \begin{macrocode}
+\newcommand*\NewAdjustImage{%
+    \adjustbox@NewAdjustImage\NewDocumentCommand
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\RenewDocumentCommand}
+%    \begin{macrocode}
+\newcommand*\RenewAdjustImage{%
+    \adjustbox@NewAdjustImage\RenewDocumentCommand
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\ProvideAdjustImage}
+%    \begin{macrocode}
+\newcommand*\ProvideAdjustImage{%
+    \adjustbox@NewAdjustImage\ProvideDocumentCommand
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\DeclareAdjustImage}
+%    \begin{macrocode}
+\newcommand*\DeclareAdjustImage{%
+    \adjustbox@NewAdjustImage\ProvideDocumentCommand
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\NewAdjustImage}
+%    \begin{macrocode}
+\def\adjustbox@checkforxparse{%
+    \begingroup
+    \expandafter\ifx\csname ver@xparse.sty\endcsname\relax
+        \PackageError{adjustbox}{%
+            The 'xparse' package must be loaded separately in\MessageBreak
+            order to use the following macros: \MessageBreak
+             \string\NewAdjustImage,
+             \string\RenewAdjustImage, \MessageBreak
+             \string\ProvideAdjustImage,
+             \string\DeclareAdjustImage}{}
+    \fi
+    \endgroup
+    \let\adjustbox@checkforxparse\relax
+}
+%    \end{macrocode}
+% \end{macro}
+%
 %
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

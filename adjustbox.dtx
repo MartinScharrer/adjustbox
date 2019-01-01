@@ -453,10 +453,56 @@
 %   \end{examplecode}
 % \end{example}
 %
-%
 % \DescribeMacro\renewadjustboxcmd{<\textbackslash macro>}[<num>][<default>]{<key=value,\ldots>}
 % Like \Macro\newadjustboxcmd but will redefine an existing macro and cause an
 % error if it was not yet defined.
+%
+%
+% \DescribeMacro\provideadjustboxcmd{<\textbackslash macro>}[<num>][<default>]{<key=value,\ldots>}
+% Like \Macro\newadjustboxcmd but will define the macro only if it does not exist yet.
+%
+%
+% \DescribeMacro\newadjustimage{<\textbackslash macro>}[<num>][<default>]{<key=value,\ldots>}
+% \DescribeMacro\renewadjustimage{<\textbackslash macro>}[<num>][<default>]{<key=value,\ldots>}
+% \DescribeMacro\provideadjustimage{<\textbackslash macro>}[<num>][<default>]{<key=value,\ldots>}
+% These macros allow to define new versions of \Macro\adjustimage with predefined key lists.
+% The new define image macros can also have arguments which can be used in the predefined key list to
+% substitude values or one or multiple keys.
+%
+% They work like \Macro\newcommand, \Macro\renewcommand and \Macro\providecommand, respectively, where
+% \Meta<num> is the number of arguments and \Meta<default> provides a default value for the then optional
+% first argument. However, instead of a macro content a \Meta<key=value> list must be present, which can 
+% contain the arguments (|#1|, |#2|, etc). If arguments are used as values they should be wrapped in braces.
+% If there are only part of a value the whole value should be wrapped in braces. This is to avoid causes commas
+% inside the arguments to cause issues with the key=value list.
+%
+% \begin{example}
+%   \begin{examplecode}
+%   \newadjustimage{\myimage}[2][red]{width={#2},cfbox={#1}}%
+%   \myimage{2cm}{example-image}
+%   \myimage[blue]{2cm}{example-image}
+%   \end{examplecode}
+% \end{example}
+%
+%
+% \DescribeMacro\NewAdjustImage{<\textbackslash macro>}{<xparse argument specification>}{<key=value,\ldots>}
+% \DescribeMacro\RenewAdjustImage{<\textbackslash macro>}{<xparse argument specification>}{<key=value,\ldots>}
+% \DescribeMacro\ProvideAdjustImage{<\textbackslash macro>}{<xparse argument specification>}{<key=value,\ldots>}
+% \DescribeMacro\DeclareAdjustImage{<\textbackslash macro>}{<xparse argument specification>}{<key=value,\ldots>}
+% These macros also allow to define new versions of \Macro\adjustimage with predefined key lists, but use 
+% the \pkg{xparse} package (which must be loaded separately!) and its macros \Macro\NewDocumentCommand, \Macro\RenewDocumentCommand,
+% \Macro\ProvideDocumentCommand and \Macro\DeclareDocumentCommand instead of the standard \LaTeX\ macro creation 
+% macros. This allows a larger variety of optional and mandatory arguments. Please see the \pkg{xparse} manual
+% for more details.
+%
+% \begin{example}
+%   \begin{examplecode}
+%   \NewAdjustImage{\myimage}{O{red}m}{width={#2},cfbox={#1}}%
+%   \myimage{2cm}{example-image}
+%   \myimage[blue]{2cm}{example-image}
+%   \end{examplecode}
+% \end{example}
+%
 %
 % ^^A )))2
 % \clearpage\subsection{Setting keys globally} ^^A (((2
