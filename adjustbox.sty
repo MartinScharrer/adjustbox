@@ -1335,7 +1335,7 @@
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
-% \begin{macro}{\adjbox@halign}
+% \begin{macro}{\adjbox@halign}[3]{<official width>}{<aligner left>}{<aligner right>}
 %    \begin{macrocode}
 \def\adjbox@halign#1#2#3{%
     \@collectbox{\@adjbox@halign{#1}{#2}{#3}}%
@@ -1344,7 +1344,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@adjbox@halign}
+% \begin{macro}{\@adjbox@halign}[3]{<official width>}{<aligner left>}{<aligner right>}
 %    \begin{macrocode}
 \def\@adjbox@halign#1#2#3{%
     \begingroup
@@ -1355,26 +1355,26 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{key}{adjbox}{center}
+% \begin{key}{adjbox}{center}[1]{<official width>}
 %    \begin{macrocode}
 \define@adjboxkey@defvalue{center}{\linewidth}{\adjbox@halign{#1}\hss\hss}
 %    \end{macrocode}
 % \end{key}
 %
-% \begin{key}{adjbox}{left}
+% \begin{key}{adjbox}{left}[1]{<official width>}
 %    \begin{macrocode}
 \define@adjboxkey@defvalue{left}{\linewidth}{\adjbox@halign{#1}\relax\hss}
 %    \end{macrocode}
 % \end{key}
 %
-% \begin{key}{adjbox}{right}
+% \begin{key}{adjbox}{right}[1]{<official width>}
 %    \begin{macrocode}
 \define@adjboxkey@defvalue{right}{\linewidth}{\adjbox@halign{#1}\hss\relax}
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{macro}{\centerbox}
+% \begin{macro}{\centerbox}[1]{<official width>}
 %    \begin{macrocode}
 \newcommand\centerbox[1][\linewidth]{%
     \collectboxcheckenv{centerbox}%
@@ -1385,7 +1385,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\leftalignbox}
+% \begin{macro}{\leftalignbox}[1]{<official width>}
 %    \begin{macrocode}
 \newcommand\leftalignbox[1][\linewidth]{%
     \collectboxcheckenv{leftalignbox}%
@@ -1396,7 +1396,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\rightalignbox}
+% \begin{macro}{\rightalignbox}[1]{<official width>}
 %    \begin{macrocode}
 \newcommand\rightalignbox[1][\linewidth]{%
     \collectboxcheckenv{rightalignbox}%
@@ -1407,7 +1407,7 @@
 % \end{macro}
 %
 %
-% \begin{key}{adjbox}{outer}
+% \begin{key}{adjbox}{outer}[1]{<official width>}
 %    \begin{macrocode}
 \define@adjboxkey@defvalue{outer}{\linewidth}{%
     \outersidebox[{#1}]%
@@ -1416,7 +1416,7 @@
 % \end{key}
 %
 %
-% \begin{key}{adjbox}{inner}
+% \begin{key}{adjbox}{inner}[1]{<official width>}
 %    \begin{macrocode}
 \define@adjboxkey@defvalue{inner}{\linewidth}{%
     \innersidebox[{#1}]%
@@ -1425,27 +1425,67 @@
 % \end{key}
 %
 %
-% \begin{key}{adjbox}{centerpage}
+% \begin{key}{adjbox}{pagecenter}[1]{<official width>}
 %    \begin{macrocode}
-\define@key\adjbox@fam{centerpage}[\linewidth]{%
+\define@key\adjbox@fam{pagecenter}[\linewidth]{%
     \noindent\leavevmode
-    \adjbox@Gin@Add{\centerpagebox[{#1}]}%
+    \adjbox@Gin@Add{\pagecenterbox[{#1}]}%
 }%
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{key}{adjbox}{centertextarea}
+% \begin{key}{adjbox}{pageleftalign}[1]{<official width>}
 %    \begin{macrocode}
-\define@key\adjbox@fam{centertextarea}[\linewidth]{%
+\define@key\adjbox@fam{pageleftalign}[\linewidth]{%
     \noindent\leavevmode
-    \adjbox@Gin@Add{\centertextareabox[{#1}]}%
+    \adjbox@Gin@Add{\pageleftalignbox[{#1}]}%
 }%
 %    \end{macrocode}
 % \end{key}
 %
 %
-% \begin{macro}{\outersidebox}
+% \begin{key}{adjbox}{pagerightalign}[1]{<official width>}
+%    \begin{macrocode}
+\define@key\adjbox@fam{pagerightalign}[\linewidth]{%
+    \noindent\leavevmode
+    \adjbox@Gin@Add{\pagerightalignbox[{#1}]}%
+}%
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{textareacenter}[1]{<official width>}
+%    \begin{macrocode}
+\define@key\adjbox@fam{textareacenter}[\linewidth]{%
+    \noindent\leavevmode
+    \adjbox@Gin@Add{\textareacenterbox[{#1}]}%
+}%
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{textarealeftalign}[1]{<official width>}
+%    \begin{macrocode}
+\define@key\adjbox@fam{textarealeftalign}[\linewidth]{%
+    \noindent\leavevmode
+    \adjbox@Gin@Add{\textarealeftalignbox[{#1}]}%
+}%
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{textarearightalign}[1]{<official width>}
+%    \begin{macrocode}
+\define@key\adjbox@fam{textarearightalign}[\linewidth]{%
+    \noindent\leavevmode
+    \adjbox@Gin@Add{\textarearightalignbox[{#1}]}%
+}%
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{macro}{\outersidebox}[1]{<official width>}
 %    \begin{macrocode}
 \newcommand\outersidebox[1][\linewidth]{%
     \collectboxcheckenv{outersidebox}%
@@ -1469,7 +1509,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\innersidebox}
+% \begin{macro}{\innersidebox}[1]{<official width>}
 %    \begin{macrocode}
 \newcommand\innersidebox[1][\linewidth]{%
     \collectboxcheckenv{innersidebox}%
@@ -1493,19 +1533,20 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\centerpagebox}
+% \begin{macro}{\pagecenterbox}[1]{<official width>}
 %    \begin{macrocode}
-\newcommand\centerpagebox[1][\linewidth]{%
-    \collectboxcheckenv{centerpagebox}%
+\newcommand\pagecenterbox[1][\linewidth]{%
+    \collectboxcheckenv{pagecenterbox}%
     \noindent\leavevmode\checkoddpage
-    \@collectbox{\@centerpagebox{#1}{-1in-\hoffset-\ifoddpage\oddsidemargin\else\evensidemargin\fi+.5\paperwidth-.5\@tempdimc-\@totalleftmargin}}%
+    \@collectbox{\@pagecenterbox{#1}{-1in-\hoffset-\ifoddpage\oddsidemargin\else\evensidemargin\fi+.5\paperwidth-.5\@tempdimc-\@totalleftmargin}}%
 }
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@centerpagebox}
+%
+% \begin{macro}{\@pagecenterbox}[2]{<official width>}{<lap amount>}
 %    \begin{macrocode}
-\def\@centerpagebox#1#2{%
+\def\@pagecenterbox#1#2{%
     \adjsetlength\@tempdimc{#1}%
     \ifdim\@tempdimc<\z@
         \@tempdimc=\z@
@@ -1526,12 +1567,80 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\centertextarea}
+% \begin{macro}{\centertextarea}[1]{<official width>}
 %    \begin{macrocode}
-\newcommand\centertextareabox[1][\linewidth]{%
-    \collectboxcheckenv{centertextareabox}%
+\newcommand\textareacenterbox[1][\linewidth]{%
+    \collectboxcheckenv{textareacenterbox}%
     \noindent\leavevmode
-    \@collectbox{\@centerpagebox{#1}{-\@totalleftmargin+.5\textwidth-.5\linewidth}}%
+    \@collectbox{\@pagecenterbox{#1}{-\@totalleftmargin+.5\textwidth-.5\linewidth}}%
+}
+%    \end{macrocode}
+% \end{macro}%
+%
+%
+% \begin{macro}{\pageleftbox}[1]{<official width>}
+%    \begin{macrocode}
+\newcommand\pageleftalignbox[1][\linewidth]{%
+    \collectboxcheckenv{pageleftalignbox}%
+    \noindent\leavevmode\checkoddpage
+    \@collectbox{\@lapbox{#1}{-1in-\hoffset-\ifoddpage\oddsidemargin\else\evensidemargin\fi-\@totalleftmargin}}%
+}
+%    \end{macrocode}
+% \end{macro}%
+%
+%
+% \begin{macro}{\pagerightalignbox}[1]{<official width>}
+% Note: \Macro\@tempdimc holds the official width inside \Macro\@lapbox.
+%    \begin{macrocode}
+\newcommand\pagerightalignbox[1][\linewidth]{%
+    \collectboxcheckenv{pagerightalignbox}%
+    \noindent\leavevmode\checkoddpage
+    \@collectbox{\@lapbox{#1}{-1in-\hoffset-\ifoddpage\oddsidemargin\else\evensidemargin\fi-\@totalleftmargin+\paperwidth-(#1)}}%
+}
+%    \end{macrocode}
+% \end{macro}%
+%
+%
+% \begin{macro}{\textarealeftalignbox}[1]{<official width>}
+%    \begin{macrocode}
+\newcommand\textarealeftalignbox[1][\linewidth]{%
+    \collectboxcheckenv{textarealeftalignbox}%
+    \noindent\leavevmode\checkoddpage
+    \@collectbox{\@textarealeftalignbox{#1}}%
+}
+
+\def\@textarealeftalignbox#1{%
+    \adjsetlength\@tempdima{\@totalleftmargin}%
+    \adjsetlength\@tempdimc{#1}%
+    \ifdim\@tempdimc<\z@
+        \@tempdimc=\z@
+    \fi    
+    \leavevmode
+    \hb@xt@\@tempdimc{\hss\hb@xt@\@tempdima{\usebox\collectedbox\hss}\hskip\@tempdimc}%
+}
+%    \end{macrocode}
+% \end{macro}%
+%
+%
+% \begin{macro}{\textarearightalignbox}[1]{<official width>}
+%    \begin{macrocode}
+\newcommand\textarearightalignbox[1][\linewidth]{%
+    \collectboxcheckenv{textarearightalignbox}%
+    \noindent\leavevmode\checkoddpage
+    \@collectbox{\@textarearightalignbox{#1}{+\textwidth}}%
+}
+
+\def\@textarearightalignbox#1#2{%
+    \adjsetlength\@tempdimc{#1}%
+    \ifdim\@tempdimc<\z@
+        \@tempdimc=\z@
+    \fi    
+    \adjsetlength\@tempdima{-\@totalleftmargin+\textwidth-\@tempdimc}%
+    \ifdim\@tempdima<\z@
+        \@tempdima=-\@tempdima
+    \fi   
+    \leavevmode
+    \hb@xt@\@tempdimc{\hskip\@tempdimc\hb@xt@\@tempdima{\hss\usebox\collectedbox}\hss}%
 }
 %    \end{macrocode}
 % \end{macro}%
@@ -1541,16 +1650,11 @@
 \IfFileExists{ifoddpage.sty}{%
     \RequirePackage{ifoddpage}%
 }{%
-    \renewcommand\outersidebox[1][]{%
+    \def\checkoddpage{%
         \PackageError{adjustbox}{%
-            The 'outer', 'inner', 'centerpage' and 'centertextarea'\MessageBreak 
-            keys as well as the \MessageBreak
-            \string\outersidebox, \string\innersidebox, \MessageBreak
-            \string\centerpagebox\space and \string\centertextarea\space macros \MessageBreak 
-            require the 'ifoddpage' package, \MessageBreak
-            which is not installed}{}%
-    }%
-    \let\innersidebox\outersidebox
+                The used key, macro or environment requires \MessageBreak 
+                the 'ifoddpage' package which is not installed!}{}%
+    }
 }%
 %    \end{macrocode}
 %
