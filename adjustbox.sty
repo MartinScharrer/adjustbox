@@ -1425,161 +1425,6 @@
 % \end{key}
 %
 %
-% \begin{key}{adjbox}{pagecenter}[1]{<official width>}
-%    \begin{macrocode}
-\define@key\adjbox@fam{pagecenter}[\linewidth]{%
-    \noindent\leavevmode
-    \adjbox@Gin@Add{\pagecenterbox[{#1}]}%
-}%
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{key}{adjbox}{pageleftalign}[1]{<official width>}
-%    \begin{macrocode}
-\define@key\adjbox@fam{pageleftalign}[\linewidth]{%
-    \noindent\leavevmode
-    \adjbox@Gin@Add{\pageleftalignbox[{#1}]}%
-}%
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{key}{adjbox}{pagerightalign}[1]{<official width>}
-%    \begin{macrocode}
-\define@key\adjbox@fam{pagerightalign}[\linewidth]{%
-    \noindent\leavevmode
-    \adjbox@Gin@Add{\pagerightalignbox[{#1}]}%
-}%
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{key}{adjbox}{pageinner}[1]{<official width>}
-%    \begin{macrocode}
-\define@key\adjbox@fam{pageinner}[\linewidth]{%
-    \noindent\leavevmode
-    \adjbox@Gin@Add{\pageinnerbox[{#1}]}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{macro}{pageouterbox}
-%    \begin{macrocode}
-\newcommand\pageinnerbox{%
-    \noindent\leavevmode\checkoddpage
-    \ifoddpage
-        \expandafter\pageleftalignbox
-    \else
-        \expandafter\pagerightalignbox
-    \fi
-}%
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{key}{adjbox}{pageouter}[1]{<official width>}
-%    \begin{macrocode}
-\define@key\adjbox@fam{pageouter}[\linewidth]{%
-    \noindent\leavevmode
-    \adjbox@Gin@Add{\pageouterbox[{#1}]}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{macro}{pageouterbox}
-%    \begin{macrocode}
-\newcommand\pageouterbox{%
-    \noindent\leavevmode\checkoddpage
-    \ifoddpage
-        \expandafter\pagerightalignbox 
-    \else
-        \expandafter\pageleftalignbox
-    \fi
-}%
-%    \end{macrocode}
-% \end{macro}%
-%
-% \begin{key}{adjbox}{textareacenter}[1]{<official width>}
-%    \begin{macrocode}
-\define@key\adjbox@fam{textareacenter}[\linewidth]{%
-    \noindent\leavevmode
-    \adjbox@Gin@Add{\textareacenterbox[{#1}]}%
-}%
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{key}{adjbox}{textarealeftalign}[1]{<official width>}
-%    \begin{macrocode}
-\define@key\adjbox@fam{textarealeftalign}[\linewidth]{%
-    \noindent\leavevmode
-    \adjbox@Gin@Add{\textarealeftalignbox[{#1}]}%
-}%
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{key}{adjbox}{textarearightalign}[1]{<official width>}
-%    \begin{macrocode}
-\define@key\adjbox@fam{textarearightalign}[\linewidth]{%
-    \noindent\leavevmode
-    \adjbox@Gin@Add{\textarearightalignbox[{#1}]}%
-}%
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{key}{adjbox}{textareainner}[1]{<official width>}
-%    \begin{macrocode}
-\define@key\adjbox@fam{textareainner}[\linewidth]{%
-    \noindent\leavevmode
-    \adjbox@Gin@Add{\textareainnerbox[{#1}]}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{macro}{textareaouterbox}
-%    \begin{macrocode}
-\newcommand\textareainnerbox{%
-    \noindent\leavevmode\checkoddpage
-    \ifoddpage
-        \expandafter\textarealeftalignbox
-    \else
-        \expandafter\textarearightalignbox
-    \fi
-}%
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \begin{key}{adjbox}{textareaouter}[1]{<official width>}
-%    \begin{macrocode}
-\define@key\adjbox@fam{textareaouter}[\linewidth]{%
-    \noindent\leavevmode
-    \adjbox@Gin@Add{\textareaouterbox[{#1}]}%
-}
-%    \end{macrocode}
-% \end{key}
-%
-%
-% \begin{macro}{textareaouterbox}
-%    \begin{macrocode}
-\newcommand\textareaouterbox{%
-    \noindent\leavevmode\checkoddpage
-    \ifoddpage
-        \expandafter\textarearightalignbox 
-    \else
-        \expandafter\textarealeftalignbox
-    \fi
-}%
-%    \end{macrocode}
-% \end{macro}%
-%
-%
 % \begin{macro}{\outersidebox}[1]{<official width>}
 %    \begin{macrocode}
 \newcommand\outersidebox[1][\linewidth]{%
@@ -1628,6 +1473,106 @@
 % \end{macro}
 %
 %
+% \begin{key}{adjbox}{pagecenter}[1]{<official width>}
+%    \begin{macrocode}
+\define@key\adjbox@fam{pagecenter}[\linewidth]{%
+    \noindent\leavevmode
+    \adjbox@Gin@Add{\pagecenterbox[{#1}]}%
+}%
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{pageleftalign}[1]{<official width>}
+%    \begin{macrocode}
+\define@key\adjbox@fam{pageleftalign}[\linewidth]{%
+    \noindent\leavevmode
+    \adjbox@Gin@Add{\pageleftalignbox[{#1}]}%
+}%
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{pagerightalign}[1]{<official width>}
+%    \begin{macrocode}
+\define@key\adjbox@fam{pagerightalign}[\linewidth]{%
+    \noindent\leavevmode
+    \adjbox@Gin@Add{\pagerightalignbox[{#1}]}%
+}%
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{pageinner}[1]{<official width>}
+%    \begin{macrocode}
+\define@key\adjbox@fam{pageinner}[\linewidth]{%
+    \noindent\leavevmode
+    \adjbox@Gin@Add{\pageinnerbox[{#1}]}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{pageouter}[1]{<official width>}
+%    \begin{macrocode}
+\define@key\adjbox@fam{pageouter}[\linewidth]{%
+    \noindent\leavevmode
+    \adjbox@Gin@Add{\pageouterbox[{#1}]}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{textareacenter}[1]{<official width>}
+%    \begin{macrocode}
+\define@key\adjbox@fam{textareacenter}[\linewidth]{%
+    \noindent\leavevmode
+    \adjbox@Gin@Add{\textareacenterbox[{#1}]}%
+}%
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{textarealeftalign}[1]{<official width>}
+%    \begin{macrocode}
+\define@key\adjbox@fam{textarealeftalign}[\linewidth]{%
+    \noindent\leavevmode
+    \adjbox@Gin@Add{\textarealeftalignbox[{#1}]}%
+}%
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{textarearightalign}[1]{<official width>}
+%    \begin{macrocode}
+\define@key\adjbox@fam{textarearightalign}[\linewidth]{%
+    \noindent\leavevmode
+    \adjbox@Gin@Add{\textarearightalignbox[{#1}]}%
+}%
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{textareainner}[1]{<official width>}
+%    \begin{macrocode}
+\define@key\adjbox@fam{textareainner}[\linewidth]{%
+    \noindent\leavevmode
+    \adjbox@Gin@Add{\textareainnerbox[{#1}]}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
+% \begin{key}{adjbox}{textareaouter}[1]{<official width>}
+%    \begin{macrocode}
+\define@key\adjbox@fam{textareaouter}[\linewidth]{%
+    \noindent\leavevmode
+    \adjbox@Gin@Add{\textareaouterbox[{#1}]}%
+}
+%    \end{macrocode}
+% \end{key}
+%
+%
 % \begin{macro}{\pagecenterbox}[1]{<official width>}
 %    \begin{macrocode}
 \newcommand\pagecenterbox[1][\linewidth]{%
@@ -1662,7 +1607,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\centertextarea}[1]{<official width>}
+% \begin{macro}{\textareacenterbox}[1]{<official width>}
 %    \begin{macrocode}
 \newcommand\textareacenterbox[1][\linewidth]{%
     \collectboxcheckenv{textareacenterbox}%
@@ -1673,7 +1618,7 @@
 % \end{macro}%
 %
 %
-% \begin{macro}{\pageleftbox}[1]{<official width>}
+% \begin{macro}{\pageleftalignbox}[1]{<official width>}
 %    \begin{macrocode}
 \newcommand\pageleftalignbox[1][\linewidth]{%
     \collectboxcheckenv{pageleftalignbox}%
@@ -1703,7 +1648,12 @@
     \noindent\leavevmode\checkoddpage
     \@collectbox{\@textarealeftalignbox{#1}}%
 }
-
+%    \end{macrocode}
+% \end{macro}%
+%
+%
+% \begin{macro}{\@textarealeftalignbox}[1]{<official width>}
+%    \begin{macrocode}
 \def\@textarealeftalignbox#1{%
     \adjsetlength\@tempdima{\@totalleftmargin}%
     \adjsetlength\@tempdimc{#1}%
@@ -1724,7 +1674,12 @@
     \noindent\leavevmode\checkoddpage
     \@collectbox{\@textarearightalignbox{#1}{+\textwidth}}%
 }
-
+%    \end{macrocode}
+% \end{macro}%
+%
+%
+% \begin{macro}{\@textarearightalignbox}[1]{<official width>}
+%    \begin{macrocode}
 \def\@textarearightalignbox#1#2{%
     \adjsetlength\@tempdimc{#1}%
     \ifdim\@tempdimc<\z@
@@ -1737,6 +1692,62 @@
     \leavevmode
     \hb@xt@\@tempdimc{\hskip\@tempdimc\hb@xt@\@tempdima{\hss\usebox\collectedbox}\hss}%
 }
+%    \end{macrocode}
+% \end{macro}%
+%
+%
+% \begin{macro}{pageinnerbox}
+%    \begin{macrocode}
+\newcommand\pageinnerbox{%
+    \noindent\leavevmode\checkoddpage
+    \ifoddpage
+        \expandafter\pageleftalignbox
+    \else
+        \expandafter\pagerightalignbox
+    \fi
+}%
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{pageouterbox}
+%    \begin{macrocode}
+\newcommand\pageouterbox{%
+    \noindent\leavevmode\checkoddpage
+    \ifoddpage
+        \expandafter\pagerightalignbox 
+    \else
+        \expandafter\pageleftalignbox
+    \fi
+}%
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{textareaouterbox}
+%    \begin{macrocode}
+\newcommand\textareainnerbox{%
+    \noindent\leavevmode\checkoddpage
+    \ifoddpage
+        \expandafter\textarealeftalignbox
+    \else
+        \expandafter\textarearightalignbox
+    \fi
+}%
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{textareaouterbox}
+%    \begin{macrocode}
+\newcommand\textareaouterbox{%
+    \noindent\leavevmode\checkoddpage
+    \ifoddpage
+        \expandafter\textarearightalignbox 
+    \else
+        \expandafter\textarealeftalignbox
+    \fi
+}%
 %    \end{macrocode}
 % \end{macro}%
 %
