@@ -1700,7 +1700,7 @@
 %    \begin{macrocode}
 \newcommand\pageinnerbox{%
     \noindent\leavevmode\checkoddpage
-    \ifoddpage
+    \ifoddpageoroneside
         \expandafter\pageleftalignbox
     \else
         \expandafter\pagerightalignbox
@@ -1714,7 +1714,7 @@
 %    \begin{macrocode}
 \newcommand\pageouterbox{%
     \noindent\leavevmode\checkoddpage
-    \ifoddpage
+    \ifoddpageoroneside
         \expandafter\pagerightalignbox 
     \else
         \expandafter\pageleftalignbox
@@ -1728,7 +1728,7 @@
 %    \begin{macrocode}
 \newcommand\textareainnerbox{%
     \noindent\leavevmode\checkoddpage
-    \ifoddpage
+    \ifoddpageoroneside
         \expandafter\textarealeftalignbox
     \else
         \expandafter\textarearightalignbox
@@ -1742,7 +1742,7 @@
 %    \begin{macrocode}
 \newcommand\textareaouterbox{%
     \noindent\leavevmode\checkoddpage
-    \ifoddpage
+    \ifoddpageoroneside
         \expandafter\textarearightalignbox 
     \else
         \expandafter\textarealeftalignbox
