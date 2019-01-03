@@ -38,6 +38,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{fourier}
 \usepackage{newverbs}
+\usepackage{xparse}
 \MakeSpecialShortVerb\qverb\"
 %\AtBeginDocument{\MakeShortMacroArgs\`\relax}
 %\AtEndDocument{\DeleteShortVerb\`}
@@ -147,7 +148,7 @@
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ^^A Title page (((
-% \CheckSum{2141}
+% \CheckSum{3447}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -319,7 +320,7 @@
 % \begin{description}\def\oitem#1{\item[{\normalfont\opt{#1}}]}
 %   \oitem{export} Exports the keys of \Macro\adjustbox to \Macro\includegraphics so that they can be used with this
 %                  macro as well. Note that not all keys will works properly with \Macro\includegraphics as its internal 
-%                  code does not support all features. If problems occur the \option{Export} should be used.
+%                  code does not support all features. If problems occur the option |Export| should be used.
 %                  For new documents it is recommended to use the macro \Macro\adjustimage{<keys>}{<filename>} instead. 
 %   \oitem{Export} Sets \Macro\includegraphics to be identical to \Macro\adjincludegraphics, which also allows the usage
 %                  of all \Macro\adjustbox keys.
@@ -475,8 +476,8 @@
 % substitude values or one or multiple keys.
 %
 % They work like \Macro\newcommand, \Macro\renewcommand and \Macro\providecommand, respectively, where
-% \Meta<num> is the number of arguments and \Meta<default> provides a default value for the then optional
-% first argument. However, instead of a macro content a \Meta<key=value> list must be present, which can 
+% \meta{num} is the number of arguments and \meta{default} provides a default value for the then optional
+% first argument. However, instead of a macro content a \meta{key=value} list must be present, which can 
 % contain the arguments (|#1|, |#2|, etc). If arguments are used as values they should be wrapped in braces.
 % If there are only part of a value the whole value should be wrapped in braces. This is to avoid causes commas
 % inside the arguments to cause issues with the key=value list.
