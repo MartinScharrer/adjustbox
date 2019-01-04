@@ -1,6 +1,6 @@
 LaTeX bundle `adjustbox`
-=========================
-Copyright (c) 2011-2018 by Martin Scharrer <martin@scharrer-online.de>  
+========================
+Copyright (c) 2011-2019 by Martin Scharrer <martin@scharrer-online.de>  
 WWW: <https://bitbucket.org/martin_scharrer/adjustbox> (incl. bug tracker)
 
 This bundle contains the the `adjustbox` package and its auxiliary packages `trimclip` and `adjcalc`.

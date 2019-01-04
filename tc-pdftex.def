@@ -1,6 +1,6 @@
 %    \begin{macrocode}
 %<!COPYRIGHT>
-\ProvidesFile{tc-pdftex.def}[2018/04/08 v2.1 Clipping driver for pdftex]
+\ProvidesFile{tc-pdftex.def}[2019/01/04 v2.2 Clipping driver for pdftex]
 %    \end{macrocode}
 %
 % \begin{macro}{\@cliptoboxdim}
