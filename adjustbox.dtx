@@ -1197,9 +1197,11 @@
 %
 % \DescribeKey{pagecenter}
 % \DescribeKey{pagecenter}'='<width>
-% This key centers the content relative to the page and not to the text area. Afterwards the content has the same distance to the 
-% left and right page borders. It differs from the \Key{center} key of the left and right margins are different which is the case in 
-% |twoside| documents. Note that the content will look misalign to the text paragraphs before and afterwards and is therefore only 
+% This key centers the content relative to the page and independent from the text area. Afterwards the content has the same distance to the 
+% left and right page borders. It differs from the \Key{center} key when the left and right page margins are different which is the case in 
+% |twoside| documents or in environments which change the margins. 
+%
+% Note that the content will look misalign to the text paragraphs before and afterwards and is therefore only 
 % pleasing for overwide images or similar content. 
 %
 % The optional width defaults to \Macro\linewidth and determines the official width of the content. If a smaller value is selected 
@@ -1208,7 +1210,7 @@
 %
 % \DescribeKey{pageleftalign}
 % \DescribeKey{pageleftalign}'='<width>
-% Similar to \Key{pagecenter} (see remarks there) but aligns the content on the left side of the page instead of centering it.
+% Similar to \Key{pagecenter}\relax{} (see remarks there) but aligns the content on the left side of the page instead of centering it.
 %
 % \DescribeKey{pagerightalign}
 % \DescribeKey{pagerightalign}'='<width>
@@ -1216,13 +1218,13 @@
 %
 % \DescribeKey{pageinner}
 % \DescribeKey{pageinner}'='<width>
-% Similar to \Key{pagecenter} (see remarks there) but aligns the content on the inner side of the page instead of centering it.
+% Similar to \Key{pagecenter}\relax{} (see remarks there) but aligns the content on the inner side of the page instead of centering it.
 % This assumes that the document is compiled in |twoside| mode.
 % In |oneside| mode the macro is identical to \Key{pageleftalign}, i.e. always aligns to the left of the page.
 %
 % \DescribeKey{pageouter}
 % \DescribeKey{pageouter}'='<width>
-% Similar to \Key{pagecenter} (see remarks there) but aligns the content on the outer side of the page instead of centering it.
+% Similar to \Key{pagecenter}\relax{} (see remarks there) but aligns the content on the outer side of the page instead of centering it.
 % This assumes that the document is compiled in |twoside| mode.
 % In |oneside| mode the macro is identical to \Key{pagerightalign}, i.e. always aligns to the right of the page.
 %
@@ -1240,21 +1242,21 @@
 %
 % \DescribeKey{textareatalign}
 % \DescribeKey{textareatalign}'='<width>
-% Similar to \Key{textareacenter} (see remarks there) but aligns the content on the left side of the text area instead of centering it.
+% Similar to \Key{textareacenter}\relax{} (see remarks there) but aligns the content on the left side of the text area instead of centering it.
 %
 % \DescribeKey{textareatalign}
 % \DescribeKey{textareatalign}'='<width>
-% Similar to \Key{textareacenter} (see remarks there) but aligns the content on the left side of the text area instead of centering it.
+% Similar to \Key{textareacenter}\relax{} (see remarks there) but aligns the content on the left side of the text area instead of centering it.
 %
 % \DescribeKey{textareainner}
 % \DescribeKey{textareainner}'='<width>
-% Similar to \Key{textareacenter} (see remarks there) but aligns the content on the inner side of the text area instead of centering it.
+% Similar to \Key{textareacenter}\relax{} (see remarks there) but aligns the content on the inner side of the text area instead of centering it.
 % This assumes that the document is compiled in |twoside| mode.
 % In |oneside| mode the macro is identical to \Key{pageleftalign}, i.e. always aligns to the left of the text area.
 %
 % \DescribeKey{textareaouter}
 % \DescribeKey{textareaouter}'='<width>
-% Similar to \Key{textareacenter} (see remarks there) but aligns the content on the outer side of the text area instead of centering it.
+% Similar to \Key{textareacenter}\relax{} (see remarks there) but aligns the content on the outer side of the text area instead of centering it.
 % This assumes that the document is compiled in |twoside| mode.
 % In |oneside| mode the macro is identical to \Key{pagerightalign}, i.e. always aligns to the right of the text area.
 %
@@ -1266,7 +1268,7 @@
 %
 %
 % \DescribeMacro\centerbox[<width>]{<content>}
-% \vspace{-1.5\baselineskip}
+% \vspace{-1.5\baselineskip}\nopagebreak
 % \DescribeEnv[<content>]{centerbox}[<width>]
 % Macro and environment version of the \Key{center} key. The optional width argument defaults to \Macro\linewidth.
 % Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
@@ -1274,7 +1276,7 @@
 %
 %
 % \DescribeMacro\leftalignbox[<width>]{<content>}
-% \vspace{-1.5\baselineskip}
+% \vspace{-1.5\baselineskip}\nopagebreak
 % \DescribeEnv[<content>]{leftalignbox}[<width>]
 % Macro and environment version of the \Key{left} key. The optional width argument defaults to \Macro\linewidth.
 % Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
@@ -1282,7 +1284,7 @@
 %
 %
 % \DescribeMacro\rightalignbox[<width>]{<content>}
-% \vspace{-1.5\baselineskip}
+% \vspace{-1.5\baselineskip}\nopagebreak
 % \DescribeEnv[<content>]{rightalignbox}[<width>]
 % Macro and environment version of the \Key{rightalign} key. The optional width argument defaults to \Macro\linewidth.
 % Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
@@ -1290,7 +1292,7 @@
 %
 %
 % \DescribeMacro\innersidebox[<width>]{<content>}
-% \vspace{-1.5\baselineskip}
+% \vspace{-1.5\baselineskip}\nopagebreak
 % \DescribeEnv[<content>]{innersidebox}[<width>]
 % Macro and environment version of the \Key{inner} key. The optional width argument defaults to \Macro\linewidth.
 % Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
@@ -1298,7 +1300,7 @@
 %
 %
 % \DescribeMacro\outersidebox[<width>]{<content>}
-% \vspace{-1.5\baselineskip}
+% \vspace{-1.5\baselineskip}\nopagebreak
 % \DescribeEnv[<content>]{outersidebox}[<width>]
 % Macro and environment version of the \Key{outer} key. The optional width argument defaults to \Macro\linewidth.
 % Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
@@ -1306,7 +1308,7 @@
 %
 %
 % \DescribeMacro\centerpagebox[<width>]{<content>}
-% \vspace{-1.5\baselineskip}
+% \vspace{-1.5\baselineskip}\nopagebreak
 % \DescribeEnv[<content>]{centerpagebox}[<width>]
 % Macro and environment version of the \Key{centerpage} key. The optional width argument defaults to \Macro\linewidth.
 % Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
@@ -1314,70 +1316,70 @@
 %
 %
 % \DescribeMacro\pagecenterbox[<width>]{<content>}
-% \vspace{-1.5\baselineskip}
+% \vspace{-1.5\baselineskip}\nopagebreak
 % \DescribeEnv[<content>]{pagecenterbox}[<width>]
 % Macro and environment version of the \Key{pagecenterbox} key. The optional width argument defaults to \Macro\linewidth.
 % Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
 % placing a |\mbox{}| or the identical |\null| macro before it.
 %
 % \DescribeMacro\pageleftalignbox[<width>]{<content>}
-% \vspace{-1.5\baselineskip}
+% \vspace{-1.5\baselineskip}\nopagebreak
 % \DescribeEnv[<content>]{pageleftalignbox}[<width>]
 % Macro and environment version of the \Key{pageleftalignbox} key. The optional width argument defaults to \Macro\linewidth.
 % Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
 % placing a |\mbox{}| or the identical |\null| macro before it.
 %
 % \DescribeMacro\pagerightalignbox[<width>]{<content>}
-% \vspace{-1.5\baselineskip}
+% \vspace{-1.5\baselineskip}\nopagebreak
 % \DescribeEnv[<content>]{pagerightalignbox}[<width>]
 % Macro and environment version of the \Key{pagerightalignbox} key. The optional width argument defaults to \Macro\linewidth.
 % Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
 % placing a |\mbox{}| or the identical |\null| macro before it.
 %
 % \DescribeMacro\pageinnerbox[<width>]{<content>}
-% \vspace{-1.5\baselineskip}
+% \vspace{-1.5\baselineskip}\nopagebreak
 % \DescribeEnv[<content>]{pageinnerbox}[<width>]
 % Macro and environment version of the \Key{pageinnerbox} key. The optional width argument defaults to \Macro\linewidth.
 % Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
 % placing a |\mbox{}| or the identical |\null| macro before it.
 %
 % \DescribeMacro\pageouterbox[<width>]{<content>}
-% \vspace{-1.5\baselineskip}
+% \vspace{-1.5\baselineskip}\nopagebreak
 % \DescribeEnv[<content>]{pageouterbox}[<width>]
 % Macro and environment version of the \Key{pageouterbox} key. The optional width argument defaults to \Macro\linewidth.
 % Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
 % placing a |\mbox{}| or the identical |\null| macro before it.
 %
 % \DescribeMacro\textareacenterbox[<width>]{<content>}
-% \vspace{-1.5\baselineskip}
+% \vspace{-1.5\baselineskip}\nopagebreak
 % \DescribeEnv[<content>]{textareacenterbox}[<width>]
 % Macro and environment version of the \Key{textareacenterbox} key. The optional width argument defaults to \Macro\linewidth.
 % Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
 % placing a |\mbox{}| or the identical |\null| macro before it.
 %
 % \DescribeMacro\textareatalignbox[<width>]{<content>}
-% \vspace{-1.5\baselineskip}
+% \vspace{-1.5\baselineskip}\nopagebreak
 % \DescribeEnv[<content>]{textareatalignbox}[<width>]
 % Macro and environment version of the \Key{textareatalignbox} key. The optional width argument defaults to \Macro\linewidth.
 % Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
 % placing a |\mbox{}| or the identical |\null| macro before it.
 %
 % \DescribeMacro\textareatalignbox[<width>]{<content>}
-% \vspace{-1.5\baselineskip}
+% \vspace{-1.5\baselineskip}\nopagebreak
 % \DescribeEnv[<content>]{textareatalignbox}[<width>]
 % Macro and environment version of the \Key{textareatalignbox} key. The optional width argument defaults to \Macro\linewidth.
 % Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
 % placing a |\mbox{}| or the identical |\null| macro before it.
 %
 % \DescribeMacro\textareainnerbox[<width>]{<content>}
-% \vspace{-1.5\baselineskip}
+% \vspace{-1.5\baselineskip}\nopagebreak
 % \DescribeEnv[<content>]{textareainnerbox}[<width>]
 % Macro and environment version of the \Key{textareainnerbox} key. The optional width argument defaults to \Macro\linewidth.
 % Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
 % placing a |\mbox{}| or the identical |\null| macro before it.
 %
 % \DescribeMacro\textareaouterbox[<width>]{<content>}
-% \vspace{-1.5\baselineskip}
+% \vspace{-1.5\baselineskip}\nopagebreak
 % \DescribeEnv[<content>]{textareaouterbox}[<width>]
 % Macro and environment version of the \Key{textareaouterbox} key. The optional width argument defaults to \Macro\linewidth.
 % Both include a \Macro\noindent to avoid paragraph indention. If an paragraph indention is wanted it can be created by
@@ -1583,9 +1585,9 @@
 %
 % \DescribeMacro{\bgcolorbox}[<model>]{<color>}
 % \DescribeMacro{\bgcolorbox}*{<color macro>}
-% \vspace{-1.5\baselineskip}
+% \vspace{-1.5\baselineskip}\nopagebreak
 % \DescribeEnv[<content>]{bgcolorbox}[<model>]{<color>}
-% \vspace{-1.5\baselineskip}
+% \vspace{-1.5\baselineskip}\nopagebreak
 % \DescribeEnv[<content>]{bgcolorbox*}{<color macro>}
 % Standalone macro and environment versions of the \Key{bgcolorbox} and \Key{bgcolorbox*} keys.
 %
