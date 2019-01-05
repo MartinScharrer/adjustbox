@@ -49,6 +49,16 @@
 \DeclareOptionX<Adjbox>{PGF}{\PassOptionsToPackage{pgf}{trimclip}\AtEndOfPackage{\RequirePackage{pgf}\adjcalcset{pgfmath}}}
 %    \end{macrocode}
 %
+% Pass |pkg{graphicx} options down.
+%    \begin{macrocode}
+\DeclareOptionX<Adjbox>{draft}{\PassOptionsToPackage{draft}{graphicx}}
+\DeclareOptionX<Adjbox>{final}{\PassOptionsToPackage{final}{graphicx}}
+\DeclareOptionX<Adjbox>{hiderotate}{\PassOptionsToPackage{hiderotate}{graphicx}}
+\DeclareOptionX<Adjbox>{hidescale}{\PassOptionsToPackage{hidescale}{graphicx}}
+\DeclareOptionX<Adjbox>{hiresbb}{\PassOptionsToPackage{hiresbb}{graphicx}}
+\DeclareOptionX<Adjbox>{demo}{\PassOptionsToPackage{demo}{graphicx}}
+%    \end{macrocode}
+%
 % Pass all driver options to \pkg{trimclip} and all unknown options to \pkg{graphicx}.
 %    \begin{macrocode}
 \DeclareOptionX*{%
@@ -1173,7 +1183,11 @@
 \adjbox@copy@key{bblly}
 \adjbox@copy@key{bburx}
 \adjbox@copy@key{bbury}
+\adjbox@copy@key{bb}
+\adjbox@copy@key{command}
 \adjbox@copy@key{decodearray}
+\adjbox@copy@key{draft}
+\adjbox@copy@key{ext}
 \adjbox@copy@key{intent}
 \adjbox@copy@key{interpolate}
 \adjbox@copy@key{maskarray}
@@ -1181,12 +1195,15 @@
 \adjbox@copy@key{natwidth}
 \adjbox@copy@key{ocobjnum}
 \adjbox@copy@key{ocobjref}
-\adjbox@copy@key{page}
+\adjbox@copy@key{origin}
 \adjbox@copy@key{pagebox}
+\adjbox@copy@key{page}
 \adjbox@copy@key{print}
 \adjbox@copy@key{quiet}
+\adjbox@copy@key{read}
 \adjbox@copy@key{resetcolor}
 \adjbox@copy@key{resolution}
+\adjbox@copy@key{type}
 \adjbox@copy@key{xmpfile}
 %    \end{macrocode}
 %
