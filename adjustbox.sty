@@ -2367,6 +2367,7 @@
 % \begin{macro}{\adjbox@@frame}[4]{content}{rule width}{separation}{margin}
 %    \begin{macrocode}
 \def\adjbox@@frame#1#2#3#4{%
+    \leavevmode
     \ifx\@nnil#2\@nnil\else
         \adjsetlength\fboxrule{#2}%
     \fi
