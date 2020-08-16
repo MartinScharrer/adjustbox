@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %<=*COPYRIGHT>
-%% Copyright (C) 2011-2018 by Martin Scharrer <martin@scharrer-online.de>
+%% Copyright (C) 2011-2020 by Martin Scharrer <martin@scharrer-online.de>
 %% ----------------------------------------------------------------------
 %% This work may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either version 1.3
@@ -16,7 +16,7 @@
 %%
 %% This work consists of the files trimclip.dtx, adjustbox.ins
 %% and the derived files trimclip.sty,
-%% tc-dvips.def, tc-pdftex.def, tc-pgf.def and tc-xetex.def.
+%% tc-dvips.def, tc-pdftex.def, tc-luatex.def, tc-pgf.def and tc-xetex.def.
 %% Further author information are located in the .def files.
 %%
 %<=/COPYRIGHT>
@@ -26,10 +26,10 @@
 %<*driver>
 \ProvidesFile{trimclip.dtx}[%
 %<=*DATE>
-    2018/04/08
+    2020/08/16
 %<=/DATE>
 %<=*VERSION>
-    v1.1
+    v1.2
 %<=/VERSION>
     DTX file for the trimclip package]
 \documentclass[a4paper]{ydoc}[2011/11/16]
@@ -261,8 +261,9 @@
 %
 % \begin{description}
 %   \def\Option#1{\item[{{\normalfont\opt{#1}}}]}%
-%   \Option{pdftex} Use the |pdftex| driver. This driver is automatically selected for |pdflatex| and |lualatex|
-%                   and should not be used for any other \LaTeX\ compilers.
+%   \Option{pdftex} Use the |pdftex| driver. This driver is automatically selected for |pdflatex|.
+%   \Option{luatex} Use the |luatex| driver, which uses the |pdftex| driver internally.
+%                   This driver is automatically selected for |lualatex|.
 %   \Option{dvips} Use the |dvips| driver. This driver is automatically selected for |latex|.
 %   \Option{xetex} Use the |xetex| driver. This driver is automatically selected for |xelatex|.
 %   \Option{dvipdfm} Use the |xetex| driver which is also compatible with |dvipdfm|.
@@ -528,6 +529,11 @@
 % \subsubsection{pdftex driver}
 % \iffalse
 %<@tc-pdftex.def>
+% \fi
+%
+% \subsubsection{luatex driver}
+% \iffalse
+%<@tc-luatex.def>
 % \fi
 %
 % \subsubsection{dvips driver}

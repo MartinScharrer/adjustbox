@@ -17,6 +17,7 @@
 \def\tc@driver{tc-\Gin@driver}
 \DeclareOption{pgf}{\def\tc@driver{tc-pgf.def}\AtEndOfPackage{\RequirePackage{pgf}}}
 \DeclareOption{pdftex}{\def\tc@driver{tc-pdftex.def}\PassOptionsToPackage{pdftex}{graphicx}}
+\DeclareOption{luatex}{\def\tc@driver{tc-luatex.def}\PassOptionsToPackage{luatex}{graphicx}}
 \DeclareOption{xetex}{\def\tc@driver{tc-xetex.def}\PassOptionsToPackage{xetex}{graphicx}}
 \DeclareOption{dvips}{\def\tc@driver{tc-dvips.def}\PassOptionsToPackage{dvips}{graphicx}}
 \DeclareOption{dvipdfm}{\def\tc@driver{tc-xetex.def}\PassOptionsToPackage{xetex}{graphicx}}

@@ -1,0 +1,5 @@
+%    \begin{macrocode}
+%<!COPYRIGHT>
+\ProvidesFile{tc-luatex.def}[2020/08/16 v1.0 Clipping driver for luatex]
+\input{tc-pdftex.def}
+%    \end{macrocode}
