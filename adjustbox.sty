@@ -1798,6 +1798,17 @@
 %    \end{macrocode}
 % \end{key}%
 %
+% \begin{macro}{\adjbox@fam}{process}
+%    \begin{macrocode}
+\define@key\adjbox@fam{process}[]{%
+    \sbox\collectedbox{\adjbox@esetsize\the\toks@}%
+    \collectbox@setdims
+    \def\adjustbox@content{\usebox\collectedbox}%
+    \toks@{{\adjustbox@content}}
+}
+%    \end{macrocode}
+% \end{key}
+%
 % ^^A )))
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsection{Vertical alignment keys} ^^A (((
