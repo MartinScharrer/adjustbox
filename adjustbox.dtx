@@ -1447,8 +1447,10 @@
 %
 % \DescribeKey{rlap}
 % \DescribeKey{llap}
-% This makes the content to be officially 0pt wide and lap over to the right or left, respectively, like the \LaTeX\ macros \Macro\rlap and \Macro\llap do.
-% These are shortcuts for \Key{lap}'='\AlsoMacro\width and \Key{lap}'=-'\AlsoMacro\width, respectively. The values for these keys are ignored and should not be used.
+% \DescribeKey{clap}
+% This makes the content to be officially 0pt wide and lap over to the right or left, respectively, like the \LaTeX\ macros \Macro\rlap, \Macro\llap and \Macro\clap do.
+% These are shortcuts for \Key{lap}'='\AlsoMacro\width, \Key{lap}'=-'\AlsoMacro\width and \Key{lap}'={0pt}{-0.5'\AlsoMacro\width'}', respectively. 
+% The values for these keys are ignored and should not be used.
 %
 % \begin{examples}
 %   \begin{examplecode}
@@ -1456,6 +1458,9 @@
 %   \end{examplecode}
 %   \begin{examplecode}
 %   \adjustbox{llap}{Some content}
+%   \end{examplecode}
+%   \begin{examplecode}
+%   \adjustbox{clap}{Some content}
 %   \end{examplecode}
 % \end{examples}
 %
