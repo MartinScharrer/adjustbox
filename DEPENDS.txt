@@ -1,0 +1,8 @@
+hard xkeyval
+hard collectbox
+hard graphicx
+soft pgf
+soft tikz
+soft calc
+soft ifoddpage
+soft storebox
