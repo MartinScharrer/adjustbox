@@ -1,5 +1,3 @@
-syntax: glob
-.hgignore
 .svn
 *.aux
 *.bbl
@@ -32,6 +30,7 @@ syntax: glob
 *.tar.bz
 ?.tex
 ?
-build
-tds
+/build
+/tds
 README
+/adjustbox
