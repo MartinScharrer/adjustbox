@@ -1,19 +1,19 @@
 CONTRIBUTION  = adjustbox
 NAME          = Martin Scharrer
-EMAIL         = martin@scharrer-online.de
+EMAIL         = martin.scharrer@web.de
 DIRECTORY     = /macros/latex/contrib/${CONTRIBUTION}
 LICENSE       = free
 FREEVERSION   = lppl
 CTAN_FILE     = ${CONTRIBUTION}.zip
 export CONTRIBUTION VERSION NAME EMAIL SUMMARY DIRECTORY DONOTANNOUNCE ANNOUNCE NOTES LICENSE FREEVERSION CTAN_FILE
 
-
+README 		  = README.txt
 MAINDTXS      = adjustbox.dtx adjcalc.dtx trimclip.dtx
 MAINPDFS      = $(subst .dtx,.pdf,${MAINDTXS})
 DTXFILES      = ${MAINDTXS}
 INSFILES      = ${CONTRIBUTION}.ins
 LTXFILES      = adjustbox.sty trimclip.sty tc-pgf.def tc-dvips.def tc-xetex.def tc-pdftex.def adjcalc.sty
-LTXDOCFILES   = ${MAINPDFS} README
+LTXDOCFILES   = ${MAINPDFS} ${README}
 LTXSRCFILES   = ${DTXFILES} ${INSFILES} 
 PLAINFILES    = #${CONTRIBUTION}.tex
 PLAINDOCFILES = #${CONTRIBUTION}.?
@@ -28,7 +28,7 @@ ALLFILES      = ${DTXFILES} ${INSFILES} ${LTXFILES} ${LTXDOCFILES} ${LTXSRCFILES
 				${GENERICFILES} ${GENDOCFILES} ${GENSRCFILES} \
 				${SCRIPTFILES} ${SCRDOCFILES}
 MAINFILES     = ${DTXFILES} ${INSFILES} ${LTXFILES}
-CTANFILES     = ${DTXFILES} ${INSFILES} ${LTXDOCFILES} ${PLAINDOCFILES} ${GENDOCFILES} ${SCRDOCFILES}
+CTANFILES     = ${DTXFILES} ${INSFILES} ${LTXDOCFILES} ${PLAINDOCFILES} ${GENDOCFILES} ${SCRDOCFILES} DEPENDS.txt
 
 TDSZIP      = ${CONTRIBUTION}.tds.zip
 
@@ -67,10 +67,10 @@ all: doc
 
 doc: ${MAINPDFS}
 
-README: README.md
+${README}: README.md
 	sed 's/`//g' $< > $@
 
-${MAINPDFS}: ${DTXFILES} README ${INSFILES} ${LTXFILES}
+${MAINPDFS}: ${DTXFILES} ${README} ${INSFILES} ${LTXFILES}
 	${MAKE} --no-print-directory build
 	cp "${BUILDDIR}/$@" "$@"
 
@@ -78,9 +78,9 @@ ifneq (${BUILDDIR},build)
 build: ${BUILDDIR}
 endif
 
-${BUILDDIR}: ${MAINFILES} README
+${BUILDDIR}: ${MAINFILES} ${README}
 	-mkdir ${BUILDDIR} 2>/dev/null || true
-	cp ${LTXSRCFILES} README ${BUILDDIR}/
+	cp ${LTXSRCFILES} ${README} DEPENDS.txt ${BUILDDIR}/
 	$(foreach DTX,${DTXFILES}, tex '\input ydocincl\relax\includefiles{${DTX}}{${BUILDDIR}/${DTX}}' && rm -f ydocincl.log;)
 	cd ${BUILDDIR}; $(foreach INS, ${INSFILES}, tex ${INS};)
 	cd ${BUILDDIR}; $(foreach DTX, ${MAINDTXS}, ${LATEXMK} ${DTX};)
@@ -92,7 +92,7 @@ $(addprefix ${BUILDDIR}/,$(sort ${TDSFILES} ${CTANFILES})): ${MAINFILES}
 clean:
 	latexmk -C ${CONTRIBUTION}.dtx
 	${RM} ${CLEANFILES}
-	${RM} -r ${BUILDDIR} ${TDSDIR} ${TDSZIP} ${CTAN_FILE}
+	${RM} -r ${BUILDDIR} ${TDSDIR} ${TDSZIP} ${CTAN_FILE} ${CONTRIBUTION}/
 
 
 distclean:
