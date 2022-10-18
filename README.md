@@ -26,3 +26,6 @@ macro argument. This allows for all forms of content including special material 
 A special feature of `collectbox` is used to provide matching environments with the identical names as the
 macros.
 
+![CTAN](https://img.shields.io/ctan/l/adjustbox)
+![CTAN](https://img.shields.io/ctan/v/adjustbox)
+![GitHub issues](https://img.shields.io/github/issues/MartinScharrer/adjustbox)
