@@ -1,5 +1,9 @@
 %    \begin{macrocode}
 %<!COPYRIGHT>
-\ProvidesFile{tc-luatex.def}[2020/08/16 v1.0 Clipping driver for luatex]
+\ProvidesFile{tc-luatex.def}[2025/02/26 v1.1 Clipping driver for luatex]
+\protected\def\clip@pdfliteral{\pdfextension literal}
+\protected\def\clip@pdfsave{\pdfextension save\relax}
+\protected\def\clip@pdfrestore{\pdfextension restore\relax}
 \input{tc-pdftex.def}
 %    \end{macrocode}
+%

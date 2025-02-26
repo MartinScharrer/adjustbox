@@ -1,6 +1,12 @@
 %    \begin{macrocode}
 %<!COPYRIGHT>
-\ProvidesFile{tc-pdftex.def}[2019/01/04 v2.2 Clipping driver for pdftex]
+\ProvidesFile{tc-pdftex.def}[2025/02/26 v2.3 Clipping driver for pdftex]
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\@ifundefined{clip@pdfliteral}{\let\clip@pdfliteral\pdfliteral}{}
+\@ifundefined{clip@pdfsave}{\let\clip@pdfsave\pdfsave}{}
+\@ifundefined{clip@pdfrestore}{\let\clip@pdfrestore\pdfrestore}{}
 %    \end{macrocode}
 %
 % \begin{macro}{\@cliptoboxdim}
@@ -14,12 +20,12 @@
         \adjcalc@settobp\WIDTH{\wd#1}%
         \adjcalc@settobp\DEPTH{\dp#1}%
         \adjcalc@settobp\TOTALHEIGHT{\ht#1+\dp#1}%
-        \pdfsave
-        \pdfliteral direct {%
+        \clip@pdfsave
+        \clip@pdfliteral direct {%
             0 -\DEPTH\space \WIDTH\space \TOTALHEIGHT\space re W n
         }%
         \hbox to 0pt{\copy#1\hss}%
-        \pdfrestore
+        \clip@pdfrestore
         \hskip\wd#1
     }%
 }
@@ -82,13 +88,13 @@
 \def\@clipcornersofbox#1#2#3#4#5{%
     \setbox#1=\hbox{%
         \@clip@bpdimens{#1}{#2}{#3}{#4}{#5}%
-        \pdfsave
-        \pdfliteral direct {%
+        \clip@pdfsave
+        \clip@pdfliteral direct {%
             \@clip@roundedboxpath@pdfcode
             h W n
         }%
         \hbox to 0pt{\copy#1\hss}%
-        \pdfrestore
+        \clip@pdfrestore
         \hskip\wd#1%
     }%
 }
@@ -111,18 +117,18 @@
         \fi
         %
         \hbox to 0pt{\copy#1\hss}%
-        \pdfsave
+        \clip@pdfsave
         \hbox to 0pt{%
             \color@setgroup
             \adjbox@rndframe@color
-            \pdfliteral direct {%
+            \clip@pdfliteral direct {%
                 \LINEWIDTH w
                 \@clip@roundedboxpath@pdfcode
                 h s
             }%
             \color@endgroup
         }%
-        \pdfrestore
+        \clip@pdfrestore
         \hskip\wd#1%
     }%
     \adjsetlength\@tempdima{.5\fboxrule}%
